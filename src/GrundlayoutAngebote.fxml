@@ -30,8 +30,8 @@
                            <children>
                               <TableView fx:id="table" layoutX="131.0" layoutY="-14.0" prefHeight="487.0" prefWidth="634.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn prefWidth="108.5" text="Auftragsnummer" />
-                                  <TableColumn prefWidth="117.0" text="Auftragsdatum" />
+                                  <TableColumn prefWidth="108.5" text="Angebotsnummer" />
+                                  <TableColumn prefWidth="117.0" text="Angebotsdatum" />
                                     <TableColumn minWidth="0.0" prefWidth="0.0" text="Auftragsstatus" />
                                     <TableColumn prefWidth="75.0" text="Kd-Gruppe" />
                                     <TableColumn prefWidth="75.0" text="Name" />
@@ -49,10 +49,7 @@
                               <HBox layoutX="236.0" layoutY="15.0" spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="14.0">
                                  <children>
                                     <HBox />
-                                    <Button fx:id="print" mnemonicParsing="false" onAction="#printcontract" style="-fx-background-radius: 15;" text="Drucken" />
-                                    <Button fx:id="send" mnemonicParsing="false" onAction="#sendmail" style="-fx-background-radius: 15;" stylesheets="@application/application.css" text="Versenden" />
-                                    <Button fx:id="change" mnemonicParsing="false" onAction="#changestatus" style="-fx-background-radius: 15;" styleClass="roundedButton" stylesheets="@application/application.css" text="Auftragsstatus ändern" />
-                                    <Button fx:id="createbill" defaultButton="true" mnemonicParsing="false" onAction="#bill" style="-fx-background-radius: 15;" text="Rechnung erstellen">
+                                    <Button fx:id="createbill" defaultButton="true" mnemonicParsing="false" onAction="#bill" style="-fx-background-radius: 15;" text="Auftrag erstellen">
                                        <effect>
                                           <InnerShadow />
                                        </effect>
@@ -72,7 +69,7 @@
             <Image url="@../../../myflight.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="222.0" layoutY="8.0" text="Übersicht Aufträge">
+      <Label layoutX="222.0" layoutY="8.0" text="Übersicht Angebote">
          <font>
             <Font name="High Tower Text" size="24.0" />
          </font>

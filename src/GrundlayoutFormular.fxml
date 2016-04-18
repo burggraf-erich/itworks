@@ -10,6 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.effect.SepiaTone?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -28,36 +29,36 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <SplitPane dividerPositions="0.8942953020134228" orientation="VERTICAL" prefHeight="598.0" prefWidth="686.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane dividerPositions="0.9124087591240876" orientation="VERTICAL" prefHeight="598.0" prefWidth="686.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
                               <Label layoutX="14.0" layoutY="36.0" text="(Firmen)name" />
                               <Label layoutX="161.0" layoutY="36.0" text="Vorname" />
-                              <ChoiceBox layoutX="421.0" layoutY="429.0" prefWidth="150.0" />
-                              <Text layoutX="14.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kundendaten">
+                              <ChoiceBox layoutX="370.0" layoutY="466.0" prefWidth="150.0" />
+                              <Text fill="#28a30f" layoutX="14.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kundendaten">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="387.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Art des Chartergeschäfts">
+                              <Text fill="#28a306" layoutX="387.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Art des Chartergeschäfts">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Text>
                               <HBox layoutX="15.0" layoutY="144.0" />
-                              <Separator layoutX="11.0" layoutY="94.0" prefHeight="2.0" prefWidth="562.0" />
-                              <Text layoutX="14.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Typ Luftfahrzeug">
+                              <Separator layoutX="11.0" layoutY="94.0" prefHeight="2.0" prefWidth="600.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="-26.0" />
+                              <Text fill="#28a306" layoutX="14.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Luftfahrzeug">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <ImageView fitHeight="74.0" fitWidth="348.0" layoutX="12.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="74.0" fitWidth="348.0" layoutX="12.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../Bild1.png" />
                                  </image>
                               </ImageView>
-                              <HBox layoutX="14.0" layoutY="62.0" prefHeight="25.0" prefWidth="296.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="279.0">
+                              <HBox layoutX="14.0" layoutY="62.0" prefHeight="25.0" prefWidth="296.0">
                                  <children>
                                     <TextField editable="false" prefHeight="25.0" prefWidth="140.0" text="Burggraf">
                                        <HBox.margin>
@@ -71,17 +72,17 @@
                                     </TextField>
                                  </children>
                               </HBox>
-                              <Text layoutX="387.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kennzeichen">
+                              <Text layoutX="416.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kennzeichen">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <Label layoutX="387.0" layoutY="159.0" text="EBE-BH-Z64">
+                              <Label layoutX="442.0" layoutY="156.0" text="EBE-BH-Z64">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="386.0" layoutY="61.0" text="Fixpreis" textFill="#dd2c0c">
+                              <Label layoutX="454.0" layoutY="61.0" text="Fixpreis" textFill="#dd2c0c">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -90,46 +91,79 @@
                               <Text layoutX="208.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ende" />
                               <DatePicker layoutX="18.0" layoutY="257.0" />
                               <DatePicker layoutX="201.0" layoutY="257.0" />
-                              <Separator layoutX="20.0" layoutY="207.0" prefHeight="3.0" prefWidth="562.0" />
-                              <Text layoutX="18.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reisedaten">
+                              <Separator layoutX="20.0" layoutY="207.0" prefHeight="3.0" prefWidth="600.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="12.0" />
+                              <Text fill="#28a306f7" layoutX="16.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reisedaten">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Text>
                               <Text layoutX="23.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Abflugort" />
                               <Text layoutX="209.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zielort" />
-                              <TextField editable="false" layoutX="20.0" layoutY="305.0" prefHeight="25.0" prefWidth="140.0" text="München" />
-                              <TextField editable="false" layoutX="201.0" layoutY="305.0" prefHeight="25.0" prefWidth="140.0" text="New York" />
-                              <Text layoutX="23.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charterdauer..............................................................................">
+                              <TextField editable="false" layoutX="18.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="München" />
+                              <TextField editable="false" layoutX="201.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="New York" />
+                              <Text layoutX="436.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charterdauer" />
+                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="432.0" layoutY="252.0" prefHeight="25.0" prefWidth="87.0" text="48 h">
                                  <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Text>
-                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="484.0" layoutY="324.0" prefHeight="25.0" prefWidth="87.0" text="48 h">
-                                 <font>
-                                    <Font size="18.0" />
+                                    <Font size="14.0" />
                                  </font>
                               </TextField>
-                              <Text layoutX="26.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Flugzeit....................................................................................">
+                              <Text layoutX="388.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Flugzeit" />
+                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="387.0" layoutY="302.0" prefHeight="20.0" prefWidth="134.0" text="23:15 hh:mm">
                                  <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Text>
-                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="437.0" layoutY="372.0" prefHeight="39.0" prefWidth="134.0" text="23:15 hh:mm">
-                                 <font>
-                                    <Font size="18.0" />
+                                    <Font size="14.0" />
                                  </font>
                               </TextField>
-                              <Text layoutX="26.0" layoutY="455.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status Auftrag.......................................................................">
+                              <Text fill="#28a306" layoutX="15.0" layoutY="487.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status Auftrag.........................................................">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Text>
+                              <Text fill="#28a306" layoutX="15.0" layoutY="364.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Preisdaten">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="381.0" layoutY="354.0" prefHeight="31.0" prefWidth="140.0" text="3.450,-- EUR">
+                                 <font>
+                                    <Font name="Courier New" size="16.0" />
+                                 </font>
+                              </TextField>
+                              <Separator layoutX="15.0" layoutY="343.0" prefHeight="3.0" prefWidth="600.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="12.0" />
+                              <Separator layoutX="369.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="212.0" prefWidth="0.0" />
+                              <Text layoutX="15.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Preis netto:....................................................................">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="16.0" layoutY="421.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MwSt:...................................................................................................................">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="382.0" layoutY="388.0" prefHeight="31.0" prefWidth="139.0" text="  655,50 EUR">
+                                 <font>
+                                    <Font name="Courier New" size="16.0" />
+                                 </font>
+                              </TextField>
+                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="381.0" layoutY="426.0" prefHeight="31.0" prefWidth="140.0" text="4.105,50 EUR">
+                                 <font>
+                                    <Font name="Courier New" size="16.0" />
+                                 </font>
+                                 <effect>
+                                    <SepiaTone />
+                                 </effect>
+                              </TextField>
+                              <Text layoutX="16.0" layoutY="453.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Preis brutto:..................................................................">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <Separator layoutX="-4.0" layoutY="458.0" prefHeight="3.0" prefWidth="600.0" AnchorPane.leftAnchor="-4.0" AnchorPane.rightAnchor="-7.0" />
                            </children>
                         </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="26.0" prefWidth="589.0">
                            <children>
-                              <HBox layoutX="236.0" layoutY="15.0" spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="14.0">
+                              <HBox layoutX="402.0" layoutY="10.0" spacing="15.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="14.0">
                                  <children>
                                     <HBox />
                                     <Button fx:id="change" mnemonicParsing="false" onAction="#changestatus" style="-fx-background-radius: 15;" styleClass="roundedButton" stylesheets="@application/application.css" text="Abbrechen" />
