@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@application/application.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <SplitPane dividerPositions="0.2556390977443609" layoutX="37.0" layoutY="48.0" prefHeight="552.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="48.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TreeView prefHeight="550.0" prefWidth="201.0" styleClass="tree" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <SplitPane dividerPositions="0.8942953020134228" orientation="VERTICAL" prefHeight="598.0" prefWidth="686.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="36.0" text="(Firmen)name" />
+                              <Label layoutX="161.0" layoutY="36.0" text="Vorname" />
+                              <ChoiceBox layoutX="421.0" layoutY="429.0" prefWidth="150.0" />
+                              <Text layoutX="14.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kundendaten">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="387.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Art des Chartergeschäfts">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <HBox layoutX="15.0" layoutY="144.0" />
+                              <Separator layoutX="11.0" layoutY="94.0" prefHeight="2.0" prefWidth="562.0" />
+                              <Text layoutX="14.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Typ Luftfahrzeug">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="74.0" fitWidth="348.0" layoutX="12.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../Bild1.png" />
+                                 </image>
+                              </ImageView>
+                              <HBox layoutX="14.0" layoutY="62.0" prefHeight="25.0" prefWidth="296.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="279.0">
+                                 <children>
+                                    <TextField editable="false" prefHeight="25.0" prefWidth="140.0" text="Burggraf">
+                                       <HBox.margin>
+                                          <Insets right="5.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                    <TextField text="Erich">
+                                       <HBox.margin>
+                                          <Insets right="5.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <Text layoutX="387.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kennzeichen">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <Label layoutX="387.0" layoutY="159.0" text="EBE-BH-Z64">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="386.0" layoutY="61.0" text="Fixpreis" textFill="#dd2c0c">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Text layoutX="20.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Beginn" />
+                              <Text layoutX="208.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ende" />
+                              <DatePicker layoutX="18.0" layoutY="257.0" />
+                              <DatePicker layoutX="201.0" layoutY="257.0" />
+                              <Separator layoutX="20.0" layoutY="207.0" prefHeight="3.0" prefWidth="562.0" />
+                              <Text layoutX="18.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reisedaten">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="23.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Abflugort" />
+                              <Text layoutX="209.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zielort" />
+                              <TextField editable="false" layoutX="20.0" layoutY="305.0" prefHeight="25.0" prefWidth="140.0" text="München" />
+                              <TextField editable="false" layoutX="201.0" layoutY="305.0" prefHeight="25.0" prefWidth="140.0" text="New York" />
+                              <Text layoutX="23.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charterdauer..............................................................................">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="484.0" layoutY="324.0" prefHeight="25.0" prefWidth="87.0" text="48 h">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextField>
+                              <Text layoutX="26.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Flugzeit....................................................................................">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="437.0" layoutY="372.0" prefHeight="39.0" prefWidth="134.0" text="23:15 hh:mm">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextField>
+                              <Text layoutX="26.0" layoutY="455.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status Auftrag.......................................................................">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <HBox layoutX="236.0" layoutY="15.0" spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="14.0">
+                                 <children>
+                                    <HBox />
+                                    <Button fx:id="change" mnemonicParsing="false" onAction="#changestatus" style="-fx-background-radius: 15;" styleClass="roundedButton" stylesheets="@application/application.css" text="Abbrechen" />
+                                    <Button fx:id="createbill" defaultButton="true" mnemonicParsing="false" onAction="#bill" style="-fx-background-radius: 15;" text="Speichern">
+                                       <effect>
+                                          <InnerShadow />
+                                       </effect>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+      <ImageView fitHeight="27.0" fitWidth="177.0" layoutX="10.0" layoutY="8.0">
+         <image>
+            <Image url="@../../../myflight.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="222.0" layoutY="8.0" text="Auftragsstatus ändern">
+         <font>
+            <Font name="High Tower Text" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="messagebar" layoutX="386.0" layoutY="13.0" prefHeight="17.0" prefWidth="397.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="13.0" />
+   </children>
+</AnchorPane>
