@@ -75,10 +75,10 @@ public class MyFlightController {
 
 	@FXML public void btn_close_click(ActionEvent event) {
 		
-	    apa_login.setVisible(false);
-	    apa_welcome.setVisible(true);
+	    //apa_login.setVisible(false);
+	    //apa_welcome.setVisible(true);
 		
-		//System.exit(0);
+		System.exit(0);
 	}
 	
 }

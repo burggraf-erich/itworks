@@ -34,7 +34,7 @@
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>
                       </TitledPane>
-                      <TitledPane animated="false" text="Charterverwaltung">
+                      <TitledPane fx:id="acc_charter" animated="false" onMouseClicked="#acc_chart_click" text="Charterverwaltung">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="165.0" prefWidth="199.0">
                                  <children>
@@ -231,6 +231,19 @@
                     <items>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
+                            <AnchorPane fx:id="apa_login" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="587.0" visible="false">
+                                 <children>
+                                    <Label layoutX="149.0" layoutY="50.0" prefHeight="35.0" prefWidth="291.0" text="Willkommen bei MyFlight!">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="121.0" layoutY="201.0" text="Benutzername:" />
+                                    <Label layoutX="121.0" layoutY="228.0" text="Passwort:" />
+                                    <TextField fx:id="txt_username" layoutX="220.0" layoutY="197.0" />
+                                    <PasswordField fx:id="pwf_password" layoutX="220.0" layoutY="224.0" />
+                                 </children>
+                              </AnchorPane>
                               <AnchorPane fx:id="apa_welcome" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" visible="false">
                                  <children>
                                     <Label layoutX="149.0" layoutY="50.0" prefHeight="35.0" prefWidth="291.0" text="Willkommen bei MyFlight!">
@@ -250,17 +263,13 @@
                                     </Label>
                                  </children>
                               </AnchorPane>
-                            <AnchorPane fx:id="apa_login" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="587.0">
+                              <AnchorPane fx:id="apa_charter" layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="589.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Label layoutX="149.0" layoutY="50.0" prefHeight="35.0" prefWidth="291.0" text="Willkommen bei MyFlight!">
+                                    <Label layoutX="195.0" layoutY="71.0" prefHeight="35.0" prefWidth="200.0" text="Charterverwaltung">
                                        <font>
                                           <Font size="24.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="121.0" layoutY="201.0" text="Benutzername:" />
-                                    <Label layoutX="121.0" layoutY="228.0" text="Passwort:" />
-                                    <TextField fx:id="txt_username" layoutX="220.0" layoutY="197.0" />
-                                    <PasswordField fx:id="pwf_password" layoutX="220.0" layoutY="224.0" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" visible="false">
