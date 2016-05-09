@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.canvas.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.web.*?>
 <?import java.lang.*?>
@@ -42,14 +43,9 @@
                                        <panes>
                                           <TitledPane animated="false" prefHeight="329.0" prefWidth="200.0" text="Übersicht Angebote" underline="true">
                                              <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="265.0" prefWidth="198.0" />
-                                             </content>
-                                          </TitledPane>
-                                          <TitledPane animated="false" text="Übersicht Aufträge" underline="true">
-                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="265.0" prefWidth="198.0">
                                                    <children>
-                                                      <Hyperlink layoutY="-6.0" prefHeight="172.0" prefWidth="201.0" text="Rechnung erstellen">
+                                                      <Hyperlink fx:id="hlk_create_offer" onAction="#hlk_create_offer" prefHeight="55.0" prefWidth="201.0" text="Angebot erstellen">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
@@ -57,7 +53,22 @@
                                                             <Insets left="30.0" />
                                                          </padding>
                                                       </Hyperlink>
-                                                      <Hyperlink layoutY="1.0" prefHeight="55.0" prefWidth="201.0" text="Auftrag erstellen">
+                                                   </children></AnchorPane>
+                                             </content>
+                                          </TitledPane>
+                                          <TitledPane animated="false" text="Übersicht Aufträge" underline="true">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                   <children>
+                                                      <Hyperlink prefHeight="55.0" prefWidth="201.0" text="Auftrag erstellen">
+                                                         <opaqueInsets>
+                                                            <Insets />
+                                                         </opaqueInsets>
+                                                         <padding>
+                                                            <Insets left="30.0" />
+                                                         </padding>
+                                                      </Hyperlink>
+                                                      <Hyperlink layoutY="-6.0" prefHeight="172.0" prefWidth="201.0" text="Rechnung erstellen">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
@@ -197,7 +208,17 @@
                                                             </TitledPane>
                                                             <TitledPane animated="false" text="Kundendaten verwalten" underline="true">
                                                                <content>
-                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                                     <children>
+                                                                        <Hyperlink fx:id="hlk_create_cust" onAction="#hlk_create_cust" prefHeight="55.0" prefWidth="201.0" text="Kunden anlegen">
+                                                                           <opaqueInsets>
+                                                                              <Insets />
+                                                                           </opaqueInsets>
+                                                                           <padding>
+                                                                              <Insets left="30.0" />
+                                                                           </padding>
+                                                                        </Hyperlink>
+                                                                     </children></AnchorPane>
                                                                </content>
                                                             </TitledPane>
                                                          </panes>
@@ -231,7 +252,7 @@
                     <items>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                            <AnchorPane fx:id="apa_login" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="587.0" visible="false">
+                            <AnchorPane fx:id="apa_login" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="587.0">
                                  <children>
                                     <Label layoutX="149.0" layoutY="50.0" prefHeight="35.0" prefWidth="291.0" text="Willkommen bei MyFlight!">
                                        <font>
@@ -263,13 +284,55 @@
                                     </Label>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="apa_charter" layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="589.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="apa_charter" layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Label layoutX="195.0" layoutY="71.0" prefHeight="35.0" prefWidth="200.0" text="Charterverwaltung">
+                                    <Label prefHeight="35.0" prefWidth="200.0" text="Charterverwaltung">
                                        <font>
                                           <Font size="24.0" />
                                        </font>
                                     </Label>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="apa_create_offer" prefHeight="474.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Firma:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="14.0" layoutY="45.0" text="Firmenname:" />
+                                    <Label layoutX="15.0" layoutY="72.0" text="Straße:" />
+                                    <Label layoutX="14.0" layoutY="99.0" text="Ort:" />
+                                    <TextField fx:id="txt_companyname" layoutX="88.0" layoutY="41.0" />
+                                    <TextField fx:id="txt_street" layoutX="88.0" layoutY="68.0" />
+                                    <TextField fx:id="txt_place" layoutX="88.0" layoutY="95.0" />
+                                    <TextField fx:id="txt_homenumber" layoutX="360.0" layoutY="68.0" prefHeight="25.0" prefWidth="34.0" />
+                                    <TextField fx:id="txt_customerid" layoutX="360.0" layoutY="41.0" prefHeight="25.0" prefWidth="115.0" />
+                                    <Label layoutX="432.0" layoutY="72.0" text="Zusatz:" />
+                                    <Label layoutX="272.0" layoutY="72.0" text="Hausnummer:" />
+                                    <Label layoutX="271.0" layoutY="45.0" text="Kundennummer:" />
+                                    <TextField fx:id="txt_homeext" layoutX="475.0" layoutY="68.0" prefHeight="25.0" prefWidth="34.0" />
+                                    <Separator layoutX="14.0" layoutY="134.0" prefHeight="2.0" prefWidth="493.0" />
+                                    <Label layoutX="270.0" layoutY="199.0" text="Name:" />
+                                    <Label layoutX="271.0" layoutY="226.0" text="Mobil:" />
+                                    <TextField fx:id="txt_name" layoutX="359.0" layoutY="195.0" />
+                                    <TextField fx:id="txt_mobile" layoutX="359.0" layoutY="222.0" prefHeight="25.0" prefWidth="150.0" />
+                                    <TextField fx:id="txt_mail" layoutX="87.0" layoutY="249.0" />
+                                    <TextField fx:id="txt_phone" layoutX="87.0" layoutY="222.0" />
+                                    <TextField fx:id="txt_prename" layoutX="87.0" layoutY="195.0" />
+                                    <Label layoutX="13.0" layoutY="253.0" text="Email" />
+                                    <Label layoutX="14.0" layoutY="226.0" text="Telefon:" />
+                                    <Label layoutX="13.0" layoutY="199.0" text="Vorname:" />
+                                    <Label layoutX="13.0" layoutY="143.0" text="Ansprechpartner:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="cbo_salutation" layoutX="88.0" layoutY="168.0" prefWidth="150.0" visibleRowCount="2" />
+                                    <Label layoutX="13.0" layoutY="172.0" text="Anrede:" />
+                                    <Label layoutX="272.0" layoutY="172.0" text="Titel:" />
+                                    <ComboBox fx:id="cbo_title" layoutX="359.0" layoutY="168.0" prefWidth="150.0" />
+                                    <Button fx:id="btn_searchcustid" contentDisplay="TOP" layoutX="476.0" layoutY="41.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="34.0" text="..." />
                                  </children>
                               </AnchorPane>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" visible="false">
@@ -290,30 +353,79 @@
                                     </TableView>
                                  </children>
                               </AnchorPane>
+                              <AnchorPane fx:id="apa_create_cust" layoutX="10.0" layoutY="10.0" prefHeight="484.0" prefWidth="599.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Firma:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="14.0" layoutY="45.0" text="Firmenname:" />
+                                    <Label layoutX="15.0" layoutY="72.0" text="Straße:" />
+                                    <Label layoutX="272.0" layoutY="97.0" text="Postleitzahl:" />
+                                    <TextField fx:id="txt_companyname_new" layoutX="88.0" layoutY="41.0" />
+                                    <TextField fx:id="txt_street_new" layoutX="88.0" layoutY="68.0" />
+                                    <TextField fx:id="txt_postcode_new" layoutX="361.0" layoutY="95.0" />
+                                    <TextField fx:id="txt_homenumber_new" layoutX="360.0" layoutY="68.0" prefHeight="25.0" prefWidth="34.0" />
+                                    <TextField fx:id="txt_customerid_new" disable="true" editable="false" layoutX="360.0" layoutY="41.0" prefHeight="25.0" prefWidth="150.0" />
+                                    <Label layoutX="407.0" layoutY="72.0" text="Zusatz:" />
+                                    <Label layoutX="272.0" layoutY="72.0" text="Hausnummer:" />
+                                    <Label layoutX="271.0" layoutY="45.0" text="Kundennummer:" />
+                                    <TextField fx:id="txt_homeext_new" layoutX="446.0" layoutY="68.0" prefHeight="25.0" prefWidth="63.0" />
+                                    <Separator layoutX="14.0" layoutY="164.0" prefHeight="2.0" prefWidth="493.0" />
+                                    <Label layoutX="270.0" layoutY="229.0" text="Name:" />
+                                    <Label layoutX="271.0" layoutY="256.0" text="Mobil:" />
+                                    <TextField fx:id="txt_name_new" layoutX="359.0" layoutY="225.0" />
+                                    <TextField fx:id="txt_mobile_new" layoutX="359.0" layoutY="252.0" prefHeight="25.0" prefWidth="150.0" />
+                                    <TextField fx:id="txt_mail_new" layoutX="87.0" layoutY="279.0" />
+                                    <TextField fx:id="txt_phone_new" layoutX="87.0" layoutY="252.0" />
+                                    <TextField fx:id="txt_prename_new" layoutX="87.0" layoutY="225.0" />
+                                    <Label layoutX="13.0" layoutY="283.0" text="Email:" />
+                                    <Label layoutX="14.0" layoutY="256.0" text="Telefon:" />
+                                    <Label layoutX="13.0" layoutY="229.0" text="Vorname:" />
+                                    <Label layoutX="13.0" layoutY="173.0" text="Ansprechpartner:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="cbo_salutation_new" layoutX="88.0" layoutY="198.0" prefHeight="25.0" prefWidth="149.0" visibleRowCount="2" />
+                                    <Label layoutX="13.0" layoutY="202.0" text="Anrede:" />
+                                    <TextField fx:id="txt_place_new" layoutX="88.0" layoutY="95.0" />
+                                    <Label layoutX="15.0" layoutY="100.0" text="Ort:" />
+                                    <Label layoutX="15.0" layoutY="126.0" text="Land:" />
+                                    <ComboBox fx:id="cbo_country_new" layoutX="89.0" layoutY="122.0" prefHeight="25.0" prefWidth="149.0" visibleRowCount="2" />
+                                    <Separator layoutX="14.0" layoutY="319.0" prefHeight="2.0" prefWidth="493.0" />
+                                    <ComboBox fx:id="cbo_custstatus_new" layoutX="359.0" layoutY="337.0" prefHeight="25.0" prefWidth="149.0" visibleRowCount="2" />
+                                    <Label layoutX="15.0" layoutY="341.0" text="Kundengruppe:" />
+                                 </children>
+                              </AnchorPane>
                            </children>
                         </AnchorPane>
                       <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="61.0" prefWidth="589.0">
                            <children>
-                              <HBox layoutX="236.0" layoutY="15.0" spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="14.0">
-                                 <children>
-                                    <HBox />
-                                    <Button fx:id="print" mnemonicParsing="false" style="-fx-background-radius: 15;" text="Drucken" visible="false" />
-                                    <Button fx:id="send" mnemonicParsing="false" style="-fx-background-radius: 15;" text="Versenden" visible="false" />
-                                    <Button fx:id="change" mnemonicParsing="false" style="-fx-background-radius: 15;" styleClass="roundedButton" text="Auftragsstatus ändern" visible="false" />
-                                    <Button fx:id="createbill" mnemonicParsing="false" style="-fx-background-radius: 15;" text="Rechnung erstellen" visible="false">
-                                       <effect>
-                                          <InnerShadow />
-                                       </effect>
-                                    </Button>
-                                    <Button fx:id="btn_close" cancelButton="true" mnemonicParsing="false" onAction="#btn_close_click" text="schließen" />
-                                    <Button fx:id="btn_login" mnemonicParsing="false" onAction="#btn_login_click" text="anmelden" />
-                                 </children>
-                              </HBox>
-                              <Label fx:id="lbl_dbconnect" layoutX="2.0" layoutY="43.0" prefHeight="17.0" prefWidth="201.0">
+                              <Label fx:id="lbl_dbconnect" layoutX="2.0" layoutY="51.0" prefHeight="17.0" prefWidth="201.0">
                                  <font>
                                     <Font name="System Italic" size="9.0" />
                                  </font>
                               </Label>
+                              <AnchorPane fx:id="apa_btn_login" prefHeight="68.0" prefWidth="589.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button fx:id="btn_close" cancelButton="true" layoutX="430.0" layoutY="33.0" mnemonicParsing="false" onAction="#btn_close_click" text="schließen" />
+                                    <Button fx:id="btn_login" layoutX="506.0" layoutY="33.0" mnemonicParsing="false" onAction="#btn_login_click" text="anmelden" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="apa_btn_createoffer" layoutX="10.0" layoutY="10.0" prefHeight="68.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button fx:id="btn_stop" layoutX="397.0" layoutY="34.0" mnemonicParsing="false" text="Beenden" />
+                                    <Button fx:id="btn_createoffer" layoutX="464.0" layoutY="34.0" mnemonicParsing="false" onAction="#btn_createoffer_click" text="Angebot erstellen" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="apa_btn_create_cust" layoutX="10.0" layoutY="10.0" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button fx:id="btn_stop_cust" cancelButton="true" layoutX="395.0" layoutY="33.0" mnemonicParsing="false" onAction="#btn_stop_click" text="Beenden" />
+                                    <Button fx:id="btn_creat_cust" layoutX="471.0" layoutY="33.0" mnemonicParsing="false" onAction="#btn_create_cust_click" text="Kunden anlegen" />
+                                 </children>
+                              </AnchorPane>
                            </children>
                         </AnchorPane>
                     </items>
