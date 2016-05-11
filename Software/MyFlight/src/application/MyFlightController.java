@@ -1,5 +1,6 @@
 package application;
 
+
 import java.sql.*;
 
 //import jfx.messagebox.MessageBox;
@@ -7,13 +8,12 @@ import java.sql.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.TitledPane;
@@ -23,18 +23,32 @@ import javafx.scene.control.ComboBox;
 
 public class MyFlightController {
 	
+	private ObservableList<Angebote> angebotedata = FXCollections.observableArrayList();
+
+	public ObservableList<Angebote> getangebotedata() {
+		return angebotedata;
+	}
+
 	Connection conn;
 	int highest_custID = 0;
 
-	@FXML Button btn_close;
-	@FXML Button btn_login;
-	@FXML PasswordField pwf_password;
-	@FXML Label lbl_dbconnect;
+	@FXML
+	Button btn_close;
+	@FXML
+	Button btn_login;
+	@FXML
+	PasswordField pwf_password;
+	@FXML
+	Label lbl_dbconnect;
 	@FXML TextField txt_username;
 	@FXML AnchorPane apa_welcome;
 	@FXML AnchorPane apa_login;
+	@FXML AnchorPane Aufträgeübersicht;
+	@FXML AnchorPane auftragübersichtbuttons;
 	@FXML Label lbl_username;
 	@FXML TitledPane acc_charter;
+	@FXML TitledPane übersichtangebote;
+	@FXML TitledPane übersichtaufträge;
 	@FXML Hyperlink hlk_create_offer;
 	@FXML AnchorPane apa_create_offer;
 	@FXML TextField txt_companyname;
@@ -95,6 +109,47 @@ public class MyFlightController {
 	@FXML ComboBox cbo_custstatus_new;
     
 	
+	@FXML Button angebotedit;
+	@FXML AnchorPane auftragändernform;
+	@FXML AnchorPane angebotübersicht;
+	
+	@FXML
+	private TableView<Angebote> angebotetabelle;
+	@FXML
+	private TableColumn<Angebote, Integer> Nummer;
+	@FXML
+	private TableColumn<Angebote, String> Kdname;
+	@FXML
+	TableColumn<Angebote, String> Datum;
+	@FXML
+	TableColumn Status;
+	@FXML
+	TableColumn Kdgruppe;
+
+	@FXML
+	TableColumn Kdvname;
+	@FXML
+	TableColumn Aart;
+	@FXML
+	TableColumn Flgztyp;
+	@FXML
+	TableColumn Beginn;
+	@FXML
+	TableColumn Ende;
+	
+	@FXML
+	private TableView<Angebote> auftragtable;
+
+	@FXML
+	private void initialize() {
+		// Initialize the person table with the two columns.
+		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
+		Kdname.setCellValueFactory(cellData -> cellData.getValue().KdnameProperty());
+		Datum.setCellValueFactory(cellData -> cellData.getValue().DatumProperty());
+
+		angebotetabelle.setItems(getangebotedata());
+	}
+	
 	@FXML public void btn_login_click(ActionEvent event) {
 		
 		
@@ -124,7 +179,7 @@ public class MyFlightController {
 		    apa_login.setVisible(false);
 		    apa_welcome.setVisible(true);
 		    lbl_username.setText(user);
-		    
+		    btn_login.setVisible(false);
 
 		    //conn.close();
 		    //
@@ -146,6 +201,44 @@ public class MyFlightController {
 		System.exit(0);
 	}
 
+	@FXML
+	public void actiongetangebote() {
+		// lbl_dbconnect.setText("Mouse geklickt!");
+
+		set_allunvisible();
+		angebotübersicht.setVisible(true);
+		try {
+
+			// connect method #1 - embedded driver
+			String dbURL1 = "jdbc:derby:c:/daten/wirtschaftsinformatik/4. semester/Wirtschaftsinformatikprojekt - Einführung/eigenes Projekt/entwicklung/db/codejava/webdb1;create=true";
+			Connection conn1 = DriverManager.getConnection(dbURL1);
+			if (conn1 != null) {
+				System.out.println("Connected to database #1");
+			}
+
+			Statement stmt = conn1.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Angebote");
+			angebotedata.remove(1, angebotedata.size());
+			int i = 1;
+			while (rs.next()) {
+				angebotedata.add(new Angebote(rs.getInt(1), rs.getString(2), rs.getString(5)));
+				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
+						+ rs.getString(4) + " " + rs.getString(5) + " " + rs.getString(6) + " " + rs.getString(7) + " "
+						+ rs.getString(8) + " " + rs.getDate(9) + " " + rs.getDate(10));
+			}
+
+			rs.close();
+			stmt.close();
+
+			conn1.close();
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+
+	}
+	
+	
 	@FXML public void acc_chart_click(MouseEvent event) {}
 
 	@FXML public void hlk_create_offer(ActionEvent event) {
@@ -167,6 +260,13 @@ public class MyFlightController {
 	    apa_btn_createoffer.setVisible(false);
 	    apa_create_cust.setVisible(false);
 	    apa_btn_create_cust.setVisible(false);
+	    auftragändernform.setVisible(false);
+	    angebotübersicht.setVisible(false);
+	    Aufträgeübersicht.setVisible(false);
+		auftragübersichtbuttons.setVisible(false);
+		apa_charter.setVisible(false);
+		
+		
 	}
 
 	@FXML public void btn_createoffer_click(ActionEvent event) {
@@ -300,6 +400,53 @@ public class MyFlightController {
 
 	@FXML public void btn_stop_click(ActionEvent event) {}
 	
+	@FXML
+	public void actiongetaufträge() {
+		// lbl_dbconnect.setText("Mouse geklickt!");
+
+		set_allunvisible();
+		Aufträgeübersicht.setVisible(true);
+		auftragübersichtbuttons.setVisible(true);
+		
+	/*	try {
+
+		 connect method #1 - embedded driver
+			String dbURL1 = "jdbc:derby:c:/daten/wirtschaftsinformatik/4. semester/Wirtschaftsinformatikprojekt - Einführung/eigenes Projekt/entwicklung/db/codejava/webdb1;create=true";
+			Connection conn1 = DriverManager.getConnection(dbURL1);
+			if (conn1 != null) {
+				System.out.println("Connected to database #1");
+			}
+
+			Statement stmt = conn1.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Angebote");
+			angebotedata.remove(1, angebotedata.size());
+			int i = 1;
+			while (rs.next()) {
+				angebotedata.add(new Angebote(rs.getInt(1), rs.getString(2), rs.getString(5)));
+				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
+						+ rs.getString(4) + " " + rs.getString(5) + " " + rs.getString(6) + " " + rs.getString(7) + " "
+						+ rs.getString(8) + " " + rs.getDate(9) + " " + rs.getDate(10));
+			}
+
+			rs.close();
+			stmt.close();
+
+			conn1.close();
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+*/
+	}
+	@FXML
+	public void angebotedit_click(ActionEvent event) {
+
+		 // System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
+		set_allunvisible(); 
+		auftragändernform.setVisible(true);
+	  }
+		
+
 }
 
 
