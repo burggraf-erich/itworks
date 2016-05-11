@@ -602,7 +602,7 @@
       </SplitPane>
       <ImageView fitHeight="48.0" fitWidth="793.0" layoutX="2.0">
          <image>
-            <Image url="@../../Logo2.jpg" />
+            <Image url="@../../../../../Logo2.jpg" />
          </image>
       </ImageView>
       <Label layoutX="222.0" layoutY="8.0" visible="false">
