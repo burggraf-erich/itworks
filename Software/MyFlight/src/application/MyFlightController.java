@@ -122,14 +122,14 @@ public class MyFlightController {
 	@FXML
 	TableColumn<Angebote, String> Datum;
 	@FXML
-	TableColumn Status;
+	TableColumn<Angebote, String> Status;
 	@FXML
-	TableColumn Kdgruppe;
+	TableColumn<Angebote, String> Kdgruppe;
 
 	@FXML
 	TableColumn Kdvname;
 	@FXML
-	TableColumn Aart;
+	TableColumn<Angebote, String> Aart;
 	@FXML
 	TableColumn Flgztyp;
 	@FXML
@@ -144,8 +144,9 @@ public class MyFlightController {
 	private void initialize() {
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
-		Kdname.setCellValueFactory(cellData -> cellData.getValue().KdnameProperty());
-		Datum.setCellValueFactory(cellData -> cellData.getValue().DatumProperty());
+		Status.setCellValueFactory(cellData -> cellData.getValue().StatusProperty());
+		Aart.setCellValueFactory(cellData -> cellData.getValue().AartProperty());
+		Kdgruppe.setCellValueFactory(cellData -> cellData.getValue().KdgruppeProperty());
 
 		angebotetabelle.setItems(getangebotedata());
 	}
@@ -210,29 +211,39 @@ public class MyFlightController {
 		try {
 
 			// connect method #1 - embedded driver
-			String dbURL1 = "jdbc:derby:c:/daten/wirtschaftsinformatik/4. semester/Wirtschaftsinformatikprojekt - Einführung/eigenes Projekt/entwicklung/db/codejava/webdb1;create=true";
-			Connection conn1 = DriverManager.getConnection(dbURL1);
-			if (conn1 != null) {
-				System.out.println("Connected to database #1");
-			}
+			
+		    
+			
+			//String dbURL1 = "jdbc:derby:c:/daten/wirtschaftsinformatik/4. semester/Wirtschaftsinformatikprojekt - Einführung/eigenes Projekt/entwicklung/db/codejava/webdb1;create=true";
+			//Connection conn1 = DriverManager.getConnection(dbURL1);
+			//if (conn1 != null) {
+			//	System.out.println("Connected to database #1");
+			//}
 
-			Statement stmt = conn1.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Angebote");
-			angebotedata.remove(1, angebotedata.size());
+			// Statement stmt = conn1.createStatement();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM angebote");
+			angebotedata.remove(0, angebotedata.size());
 			int i = 1;
-			while (rs.next()) {
-				angebotedata.add(new Angebote(rs.getInt(1), rs.getString(2), rs.getString(5)));
+			// Testbeginn
+			// rs = null;
+			 // Testende
+			
+			while ((rs != null) && (rs.next())) {
 				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
-						+ rs.getString(4) + " " + rs.getString(5) + " " + rs.getString(6) + " " + rs.getString(7) + " "
-						+ rs.getString(8) + " " + rs.getDate(9) + " " + rs.getDate(10));
+						+ rs.getInt(4) + " " + rs.getString(5) + " " + rs.getInt(6));
+				angebotedata.add(new Angebote(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(5)));
 			}
-
-			rs.close();
+			
+			if (angebotedata.size()== 0 ) lbl_dbconnect.setText("keine Angebote vorhanden");
+			
+			if (rs != null) rs.close();
 			stmt.close();
 
-			conn1.close();
+			// conn1.close();
 
 		} catch (SQLException ex) {
+			lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			ex.printStackTrace();
 		}
 
@@ -265,7 +276,7 @@ public class MyFlightController {
 	    Aufträgeübersicht.setVisible(false);
 		auftragübersichtbuttons.setVisible(false);
 		apa_charter.setVisible(false);
-		
+		lbl_dbconnect.setText("");
 		
 	}
 

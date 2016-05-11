@@ -245,7 +245,7 @@
                         </TitledPane>
                     </panes>
                   </Accordion>
-                  <Label fx:id="lbl_dbconnect" layoutX="1.0" layoutY="519.0" prefHeight="17.0" prefWidth="201.0">
+                  <Label fx:id="lbl_dbconnect" alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="481.0" prefHeight="55.0" prefWidth="201.0" textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font name="System Italic" size="9.0" />
                      </font>
