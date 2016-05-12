@@ -20,15 +20,17 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ComboBox;
+import java.lang.String;
 
 public class MyFlightController {
 	
 	private ObservableList<Angebote> angebotedata = FXCollections.observableArrayList();
-
+	
 	public ObservableList<Angebote> getangebotedata() {
 		return angebotedata;
 	}
-
+	private boolean authenticated = false;
+	
 	Connection conn;
 	int highest_custID = 0;
 
@@ -46,10 +48,18 @@ public class MyFlightController {
 	@FXML AnchorPane Aufträgeübersicht;
 	@FXML AnchorPane auftragübersichtbuttons;
 	@FXML Label lbl_username;
-	@FXML TitledPane acc_charter;
+	@FXML Label lblrolle;
+	@FXML Label lblberechtigung;
+	@FXML Label maskentitel;
+	@FXML TitledPane mnudashboard;
+	@FXML TitledPane mnufinanzverwaltung;
+	@FXML TitledPane mnureporting;
+	@FXML TitledPane mnuadministration;
+	@FXML TitledPane mnucharter;
 	@FXML TitledPane übersichtangebote;
 	@FXML TitledPane übersichtaufträge;
 	@FXML Hyperlink hlk_create_offer;
+	@FXML Hyperlink mnuzusatzkosten;
 	@FXML AnchorPane apa_create_offer;
 	@FXML TextField txt_companyname;
 	@FXML TextField txt_street;
@@ -180,8 +190,38 @@ public class MyFlightController {
 		    apa_login.setVisible(false);
 		    apa_welcome.setVisible(true);
 		    lbl_username.setText(user);
+		    
 		    btn_login.setVisible(false);
-
+		    
+		    
+		    // Vor- und Nachnamen ermitteln
+		    int pos = user.indexOf(".");
+		    String vorname = user.substring(0, pos);
+		    String nachname = user.substring(pos+1,user.length());
+		    
+		    User userobject = new User(vorname, nachname,"Mitarbeiter",3);
+		    authenticated = true;
+		    String userrolle = userobject.getrolle();
+		    lblrolle.setText(userrolle);
+		    lblberechtigung.setText(String.valueOf(userobject.getberechtigung()));	
+		    
+		    if (authenticated) {
+		    	mnudashboard.setDisable(false);
+		    	mnufinanzverwaltung.setDisable(false);
+		    	mnureporting.setDisable(false);
+		    	mnucharter.setDisable(false);
+		    }
+		    
+		    if (userobject.getberechtigung() >=2) {
+		    	mnuzusatzkosten.setDisable(false);
+		    }
+		    if (userobject.getberechtigung() == 3) {
+		    	mnuadministration.setDisable(false);
+		    }
+		    	
+		    	
+		    
+		    
 		    //conn.close();
 		    //
 		    } 
@@ -197,6 +237,11 @@ public class MyFlightController {
 		
 	}
 
+	private char[] substringBefore(Object setText, String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@FXML public void btn_close_click(ActionEvent event) {
 				
 		System.exit(0);
@@ -208,6 +253,9 @@ public class MyFlightController {
 
 		set_allunvisible();
 		angebotübersicht.setVisible(true);
+		maskentitel.setVisible(true);
+		maskentitel.setText("Übersicht Angebote");
+		
 		try {
 
 			// connect method #1 - embedded driver
@@ -277,7 +325,7 @@ public class MyFlightController {
 		auftragübersichtbuttons.setVisible(false);
 		apa_charter.setVisible(false);
 		lbl_dbconnect.setText("");
-		
+		maskentitel.setVisible(false);
 	}
 
 	@FXML public void btn_createoffer_click(ActionEvent event) {

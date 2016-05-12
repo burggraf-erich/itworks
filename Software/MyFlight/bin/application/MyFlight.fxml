@@ -31,12 +31,12 @@
                <children>
                   <Accordion layoutY="8.0" prefHeight="481.0" prefWidth="201.0" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <panes>
-                      <TitledPane animated="false" text="Dashboard">
+                      <TitledPane fx:id="mnudashboard" animated="false" disable="true" text="Dashboard">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>
                       </TitledPane>
-                      <TitledPane fx:id="acc_charter" animated="false" onMouseClicked="#acc_chart_click" text="Charterverwaltung">
+                      <TitledPane fx:id="mnucharter" animated="false" disable="true" onMouseClicked="#acc_chart_click" text="Charterverwaltung">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="165.0" prefWidth="199.0">
                                  <children>
@@ -105,7 +105,7 @@
                               </AnchorPane>
                         </content>
                       </TitledPane>
-                      <TitledPane animated="false" text="Finanzverwaltung">
+                      <TitledPane fx:id="mnufinanzverwaltung" animated="false" disable="true" text="Finanzverwaltung">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -127,11 +127,11 @@
                                                 </AnchorPane>
                                              </content>
                                           </TitledPane>
-                                          <TitledPane animated="false" text="Mahnungen" underline="true">
+                                          <TitledPane fx:id="mnumahnungen" animated="false" text="Mahnungen" underline="true">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                    <children>
-                                                      <Hyperlink layoutX="5.0" layoutY="6.0" prefHeight="55.0" prefWidth="201.0" text="Zusatzkosten bearbeiten">
+                                                      <Hyperlink fx:id="mnuzusatzkosten" disable="true" layoutX="5.0" layoutY="6.0" prefHeight="55.0" prefWidth="201.0" text="Zusatzkosten bearbeiten">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
@@ -154,7 +154,7 @@
                               </AnchorPane>
                         </content>
                       </TitledPane>
-                        <TitledPane animated="false" layoutX="10.0" layoutY="60.0" text="Reporting">
+                        <TitledPane fx:id="mnureporting" animated="false" disable="true" layoutX="10.0" layoutY="60.0" text="Reporting">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -180,7 +180,7 @@
                                  </children></AnchorPane>
                            </content>
                         </TitledPane>
-                        <TitledPane animated="false" layoutX="10.0" layoutY="85.0" text="Administration">
+                        <TitledPane fx:id="mnuadministration" animated="false" disable="true" layoutX="10.0" layoutY="85.0" text="Administration">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -267,27 +267,31 @@
                                     </Label>
                                     <Label layoutX="121.0" layoutY="201.0" text="Benutzername:" />
                                     <Label layoutX="121.0" layoutY="228.0" text="Passwort:" />
-                                    <TextField fx:id="txt_username" layoutX="220.0" layoutY="197.0" promptText="vorname.nachname" />
+                                    <TextField fx:id="txt_username" focusTraversable="false" layoutX="220.0" layoutY="197.0" promptText="vorname.nachname" />
                                     <PasswordField fx:id="pwf_password" layoutX="220.0" layoutY="224.0" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="apa_welcome" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" visible="false">
+                              <AnchorPane fx:id="apa_welcome" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="591.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Label layoutX="149.0" layoutY="50.0" prefHeight="35.0" prefWidth="291.0" text="Willkommen bei MyFlight!">
                                        <font>
                                           <Font size="24.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="214.0" layoutY="143.0" prefHeight="35.0" prefWidth="161.0" text="Sie sind angemeldet als: ">
+                                    <Label alignment="CENTER_RIGHT" layoutX="215.0" layoutY="143.0" prefHeight="35.0" prefWidth="161.0" text="Sie sind angemeldet als: ">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="lbl_username" layoutX="214.0" layoutY="178.0" prefHeight="35.0" prefWidth="161.0">
+                                    <Label fx:id="lbl_username" alignment="CENTER_RIGHT" layoutX="214.0" layoutY="178.0" prefHeight="35.0" prefWidth="161.0" textAlignment="RIGHT">
                                        <font>
-                                          <Font name="System Italic" size="12.0" />
+                                          <Font name="System Italic" size="14.0" />
                                        </font>
                                     </Label>
+                                    <Label layoutX="119.0" layoutY="229.0" text="Benutzerrolle:" />
+                                    <Label fx:id="lblrolle" alignment="CENTER_RIGHT" layoutX="235.0" layoutY="225.0" prefHeight="25.0" prefWidth="140.0" textAlignment="RIGHT" />
+                                    <Label layoutX="119.0" layoutY="256.0" text="Berechtigungsstufe:" />
+                                    <Label fx:id="lblberechtigung" alignment="CENTER_RIGHT" layoutX="349.0" layoutY="256.0" prefHeight="17.0" prefWidth="26.0" textAlignment="RIGHT" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane fx:id="apa_charter" layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -429,7 +433,7 @@
                               </Text>
                               <ImageView fitHeight="74.0" fitWidth="348.0" layoutX="12.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../Bild1.png" />
+                                    <Image url="@Bild1.png" />
                                  </image>
                               </ImageView>
                               <HBox layoutX="14.0" layoutY="62.0" prefHeight="25.0" prefWidth="296.0">
@@ -582,7 +586,7 @@
                               </AnchorPane>
                               <AnchorPane fx:id="apa_btn_createoffer" layoutX="10.0" layoutY="10.0" prefHeight="68.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Button fx:id="btn_stop" layoutX="397.0" layoutY="34.0" mnemonicParsing="false" text="Beenden" />
+                                    <Button fx:id="btn_stop" disable="true" layoutX="397.0" layoutY="34.0" mnemonicParsing="false" text="Beenden" />
                                     <Button fx:id="btn_createoffer" layoutX="464.0" layoutY="34.0" mnemonicParsing="false" onAction="#btn_createoffer_click" text="Angebot erstellen" />
                                  </children>
                               </AnchorPane>
@@ -605,11 +609,10 @@
             <Image url="@../../../../../Logo2.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="222.0" layoutY="8.0" visible="false">
+      <Label fx:id="maskentitel" layoutX="209.0" layoutY="13.0" prefHeight="35.0" prefWidth="397.0" text="Label" visible="false">
          <font>
-            <Font name="High Tower Text" size="24.0" />
+            <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="messagebar" layoutX="386.0" layoutY="13.0" prefHeight="17.0" prefWidth="397.0" visible="false" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="13.0" />
    </children>
 </AnchorPane>
