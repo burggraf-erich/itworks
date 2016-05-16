@@ -80,6 +80,7 @@ private ObservableList<Rechnungen> billdata = FXCollections.observableArrayList(
 	@FXML Button angebotedit;
 	@FXML Button btn_creat_cust;
 	@FXML Button btn_changebillstatus;
+	@FXML Button btn_cancelchangebillstatus;
 	
 	@FXML AnchorPane apa_welcome;
 	@FXML AnchorPane apa_login;
@@ -100,10 +101,12 @@ private ObservableList<Rechnungen> billdata = FXCollections.observableArrayList(
 	@FXML AnchorPane angebotübersicht;
 	@FXML AnchorPane apa_create_cust;
 	@FXML AnchorPane apa_btn_create_cust;
+	@FXML AnchorPane apa_formchangebillstatus;
+	@FXML AnchorPane ancpanebtn_changebillstatus;
 	
 	@FXML ScrollPane scroll_pane_order;
 	@FXML ScrollPane scroll_pane_changeorder;
-	
+	@FXML ScrollPane scrollpane_changebillstatus;
 	
 	@FXML Label lbl_dbconnect;
 	@FXML Label lbl_username;
@@ -412,7 +415,9 @@ private ObservableList<Rechnungen> billdata = FXCollections.observableArrayList(
 		scroll_pane_changeorder.setVisible(false);
 		Rechnungenübersichtbuttons.setVisible(false);
 		Rechnungenübersicht.setVisible(false);
-		
+		scrollpane_changebillstatus.setVisible(false);
+		apa_formchangebillstatus.setVisible(false);
+		ancpanebtn_changebillstatus.setVisible(false);	
 	}
 
 	@FXML public void btn_createoffer_click(ActionEvent event) {
@@ -806,5 +811,16 @@ private ObservableList<Rechnungen> billdata = FXCollections.observableArrayList(
 		result2.ifPresent(letter -> System.out.println("Your choice: " + letter));
 		actiongetangebote();
 	}
+	@FXML
+	public void change_billstatus(ActionEvent event) {
+		set_allunvisible();
+		scrollpane_changebillstatus.setVisible(true);
+		scrollpane_changebillstatus.setVvalue(0);;
+		apa_formchangebillstatus.setVisible(true);
+		ancpanebtn_changebillstatus.setVisible(true);
+		maskentitel.setVisible(true);
+		maskentitel.setText("Rechnungsstatus ändern");
+	}
+	
 	
 }
