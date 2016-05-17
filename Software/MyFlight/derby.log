@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Wed May 11 21:46:58 CEST 2016:
+Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): Instanz a816c00e-0154-a15b-a423-000000ba1fe8
+für Datenbankverzeichnis C:\Daten\Wirtschaftsinformatik\4. Semester\Wirtschaftsinformatikprojekt - Einführung\eigenes Projekt\Entwicklung\db\codejava\webdb1 mit Class Loader sun.misc.Launcher$AppClassLoader@19e0bfd
+Geladen aus file:/C:/Program%20Files%20(x86)/Java/jre1.8.0_65/db-derby-10.12.1.1-bin/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_65-b17
+user.dir=C:\Daten\Wirtschaftsinformatik\4. Semester\Wirtschaftsinformatikprojekt - Einführung\eigenes Projekt\Entwicklung\itworksteam\Software\MyFlight
+os.name=Windows 10
+os.arch=x86
+os.version=10.0
+derby.system.home=null
+Datenbank-Class Loader wurde gestartet - derby.database.classpath=''
