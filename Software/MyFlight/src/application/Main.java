@@ -18,6 +18,7 @@ public class Main extends Application {
     }
     @Override
 	public void start(Stage primaryStage) {
+    	System.setProperty("glass.accessible.force", "false");
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("MyFlight.fxml"));
