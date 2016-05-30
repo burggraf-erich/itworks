@@ -1,5 +1,6 @@
 package application;
-
+// V1.08
+// wird benötigt für Datenversorgung Tabelle mit Variablen
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -17,7 +18,7 @@ public class Aufträge {
 	private SimpleStringProperty Kdgruppeorder = null;
 	
 	
-
+// Konstruktor für Instanzerzeugung
 	public Aufträge(Integer Nummer, String Status, String Aart, String Kdgruppe) {
         this.Nummerorder = new SimpleIntegerProperty(Nummer);
         this.Statusorder = new SimpleStringProperty(Status);
