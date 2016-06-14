@@ -16,25 +16,27 @@ public class Rechnungen {
 	private SimpleIntegerProperty Nummerbill = null;
 	private SimpleStringProperty Statusbill = null;
 	private SimpleStringProperty Datumtopay = null;
-	private SimpleFloatProperty Preisbill = null;
+	private SimpleIntegerProperty Preisbill = null;
 	private SimpleFloatProperty Preisbill_aufschlag = null;
 	private SimpleFloatProperty Preisbill_zusatzkosten = null;
 	private SimpleStringProperty Kdgruppebill = null;
+	private SimpleStringProperty Kdnamebill = null;
 	private SimpleIntegerProperty Nummerorder_forbilltable = null;
 	private SimpleStringProperty Statusorder_forbilltable = null;
 	
 	
 	
 
-	public Rechnungen(Integer Nummer, String Status, String Datum, Float Preis, Float Preisaufschlag, Float Zusatzkosten, String Kdgruppe) {
+	public Rechnungen(Integer Nummer, String Status, int Preis, String Kdgruppe, String Kdname) {
 		this.Nummerbill = new SimpleIntegerProperty(Nummer);
 		this.Statusbill = new SimpleStringProperty(Status) ;
-		this.Datumtopay = new SimpleStringProperty(Datum) ;
-		this.Preisbill = new SimpleFloatProperty(Preis);
-		this.Preisbill_aufschlag = new SimpleFloatProperty(Preisaufschlag);
-		this.Preisbill_zusatzkosten = new SimpleFloatProperty(Zusatzkosten);
+//		this.Datumtopay = new SimpleStringProperty(Datum) ;
+		this.Preisbill = new SimpleIntegerProperty(Preis);
+//		this.Preisbill_aufschlag = new SimpleFloatProperty(Preisaufschlag);
+//		this.Preisbill_zusatzkosten = new SimpleFloatProperty(Zusatzkosten);
 		this.Kdgruppebill = new SimpleStringProperty(Kdgruppe);
-		}
+		this.Kdnamebill = new SimpleStringProperty(Kdname);	
+	}
 	public int getNummerbill() {
         return Nummerbill.get();
     }
@@ -44,10 +46,10 @@ public class Rechnungen {
 	public String getDatumtopay() {
         return Datumtopay.get();
     }
-	public Float getPreisbill() {
+	public int getPreisbill() {
         return Preisbill.get();
     }
-	public Float getPreisbill_aufschlag() {
+	public float getPreisbill_aufschlag() {
         return Preisbill_aufschlag.get();
     }
 	public Float getPreisbill_zusatzkosten() {
@@ -56,7 +58,10 @@ public class Rechnungen {
 	public String getKdgruppebill() {
         return Kdgruppebill.get();
     }
-    public void setNummerbill(int Nummer) {
+	public String getKdnamebill() {
+        return Kdnamebill.get();
+    }
+	public void setNummerbill(int Nummer) {
         this.Nummerbill.set(Nummer);
     }
     public void setStatusbill(String Status) {
@@ -65,7 +70,7 @@ public class Rechnungen {
     public void setDatumtopay(String Datum) {
         this.Datumtopay.set(Datum);
     }
-    public void setPreisbill(Float Preis) {
+    public void setPreisbill(int Preis) {
         this.Preisbill.set(Preis);
     }
     public void setPreisbill_aufschlag(Float Preisaufschlag) {
@@ -77,7 +82,9 @@ public class Rechnungen {
     public void setKdgruppebill(String Kdgruppe) {
         this.Kdgruppebill.set(Kdgruppe);
     }
-    
+    public void setKdnamebill(String Kdname) {
+        this.Kdnamebill.set(Kdname);
+    }
     public IntegerProperty NummerbillProperty() {
         return Nummerbill;
     }
@@ -87,7 +94,7 @@ public class Rechnungen {
     public StringProperty DatumtopayProperty() {
         return Datumtopay;
     }
-    public FloatProperty PreisbillProperty() {
+    public IntegerProperty PreisbillProperty() {
         return Preisbill;
     }
     public FloatProperty Preisbill_aufschlagProperty() {
@@ -99,6 +106,8 @@ public class Rechnungen {
     public StringProperty KdgruppebillProperty() {
         return Kdgruppebill;
     }
-    
+    public StringProperty KdnamebillProperty() {
+        return Kdnamebill;
+    }
     
 }

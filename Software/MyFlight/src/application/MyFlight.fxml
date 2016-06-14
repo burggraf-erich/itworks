@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -31,7 +24,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MyFlightController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MyFlightController">
 	<children>
   
       <SplitPane dividerPositions="0.2556390977443609" focusTraversable="false" layoutX="37.0" layoutY="48.0" prefHeight="552.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="48.0">
@@ -120,43 +113,8 @@
                                  <children>
                                     <Accordion prefHeight="348.0" prefWidth="212.0">
                                        <panes>
-                                          <TitledPane animated="false" prefHeight="0.0" prefWidth="202.0" text="Zahlungseingänge verfolgen" underline="true">
-                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                                   <children>
-                                                      <Hyperlink prefHeight="55.0" prefWidth="201.0" text="Zahlungseingang bearbeiten">
-                                                         <opaqueInsets>
-                                                            <Insets />
-                                                         </opaqueInsets>
-                                                         <padding>
-                                                            <Insets left="30.0" />
-                                                         </padding>
-                                                      </Hyperlink>
-                                                   </children>
-                                                </AnchorPane>
-                                             </content>
-                                          </TitledPane>
-                                          <TitledPane fx:id="mnumahnungen" animated="false" text="Mahnungen" underline="true">
-                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                                   <children>
-                                                      <Hyperlink fx:id="mnuzusatzkosten" disable="true" layoutX="5.0" layoutY="6.0" prefHeight="55.0" prefWidth="201.0" text="Zusatzkosten bearbeiten">
-                                                         <opaqueInsets>
-                                                            <Insets />
-                                                         </opaqueInsets>
-                                                         <padding>
-                                                            <Insets left="30.0" />
-                                                         </padding>
-                                                      </Hyperlink>
-                                                   </children>
-                                                </AnchorPane>
-                                             </content>
-                                          </TitledPane>
-                                          <TitledPane animated="false" text="Übersicht Rechnungen" underline="true">
-                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                             </content>
-                                          </TitledPane>
+                                          <TitledPane animated="false" onMouseClicked="#actiongetcosttrackingoverview" prefHeight="0.0" prefWidth="202.0" text="Zahlungseingänge verfolgen" underline="true" />
+                                          <TitledPane fx:id="mnumahnungen" animated="false" onMouseClicked="#actiongetcosttrackingreminder_warnings" text="Mahnungen" underline="true" />
                                        </panes>
                                     </Accordion>
                                  </children>
@@ -256,7 +214,7 @@
                   </Accordion>
                   <Label fx:id="lbl_dbconnect" alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="481.0" prefHeight="55.0" prefWidth="201.0" textAlignment="CENTER" wrapText="true">
                      <font>
-                        <Font name="System Italic" size="9.0" />
+                        <Font name="System Italic" size="13.0" />
                      </font>
                   </Label>
                </children>
@@ -280,21 +238,68 @@
                                     <PasswordField fx:id="pwf_password" layoutX="220.0" layoutY="224.0" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="Rechnungenübersicht" prefHeight="481.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <TableView fx:id="billtable" prefHeight="481.0" prefWidth="589.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <columns>
-                                        <TableColumn fx:id="Nummerbill" prefWidth="113.5" text="Rechnungsnummer" />
-                                        <TableColumn fx:id="Statusbill" prefWidth="103.5" text="Rechn.-status" />
-                                          <TableColumn fx:id="Datumtopay" prefWidth="89.0" text="Zahltermin" />
-                                          <TableColumn fx:id="Preisbill" prefWidth="34.5" text="Preis" />
-                                          <TableColumn fx:id="Preisbill_aufschlag" prefWidth="84.5" text="Preis-Aufschlag" />
-                                          <TableColumn fx:id="Preisbill_zusatzkosten" prefWidth="78.5" text="Zusatzkosten" />
-                                          <TableColumn fx:id="Kdgruppebill" prefWidth="72.0" text="Kundengruppe" />
-                                      </columns>
-                                    </TableView>
-                                 </children>
-                              </AnchorPane>
+                              <ScrollPane fx:id="scroll_pane_rechnungenübersicht" prefHeight="481.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <AnchorPane fx:id="Rechnungenübersicht" prefHeight="640.0" prefWidth="944.0" visible="false">
+                                       <children>
+                                          <TableView fx:id="billtable" prefHeight="640.0" prefWidth="912.0" AnchorPane.bottomAnchor="-159.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-323.0" AnchorPane.topAnchor="0.0">
+                                            <columns>
+                                              <TableColumn fx:id="Nummerbill" prefWidth="113.5" text="Rechnungsnummer" />
+                                              <TableColumn fx:id="Statusbill" prefWidth="103.5" text="Rechn.-status" />
+                                              <TableColumn fx:id="Kdnamebill" prefWidth="103.5" text="Name" />
+                                                <TableColumn fx:id="Datumtopay" prefWidth="89.0" text="Zahltermin" />
+                                                <TableColumn fx:id="Preisbill" prefWidth="34.5" text="Preis" />
+                                                <TableColumn fx:id="Preisbill_aufschlag" prefWidth="84.5" text="Preis-Aufschlag" />
+                                                <TableColumn fx:id="Preisbill_zusatzkosten" prefWidth="78.5" text="Zusatzkosten" />
+                                                <TableColumn fx:id="Kdgruppebill" prefWidth="72.0" text="Kundengruppe" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </ScrollPane>
+                              <ScrollPane fx:id="scroll_pane_costtrackingoverview" prefHeight="481.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <AnchorPane fx:id="costtrackingoverview" prefHeight="640.0" prefWidth="944.0" visible="false">
+                                       <children>
+                                          <TableView fx:id="costbilltable" prefHeight="640.0" prefWidth="912.0" AnchorPane.bottomAnchor="-159.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-323.0" AnchorPane.topAnchor="0.0">
+                                            <columns>
+                                              <TableColumn fx:id="Nummercostbill" prefWidth="113.5" text="Rechnungsnummer" />
+                                              <TableColumn fx:id="Statuscostbill" prefWidth="103.5" text="Rechn.-status" />
+                                                <TableColumn fx:id="Datumcosttopay" prefWidth="89.0" text="Zahltermin" />
+                                                <TableColumn fx:id="Preiscostbill" prefWidth="34.5" text="Preis" />
+                                                <TableColumn fx:id="Preiscostbill_aufschlag" prefWidth="84.5" text="Preis-Aufschlag" />
+                                                <TableColumn fx:id="Preiscostbill_zusatzkosten" prefWidth="78.5" text="Zusatzkosten" />
+                                                <TableColumn fx:id="Kdgruppecostbill" prefWidth="72.0" text="Kundengruppe" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </ScrollPane>
+							  <ScrollPane fx:id="scroll_pane_costtrackingreminder_warnings" prefHeight="481.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <AnchorPane fx:id="costtrackingreminder_warnings" prefHeight="640.0" prefWidth="944.0" visible="false">
+                                       <children>
+                                          <TableView fx:id="costreminder_warnings_billtable" prefHeight="640.0" prefWidth="912.0" AnchorPane.bottomAnchor="-159.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-323.0" AnchorPane.topAnchor="0.0">
+                                            <columns>
+                                              <TableColumn fx:id="Nummercostreminder_warnings_bill" prefWidth="113.5" text="Rechnungsnummer" />
+                                              <TableColumn fx:id="Statuscostreminder_warnings_bill" prefWidth="103.5" text="Rechn.-status" />
+                                                <TableColumn fx:id="Datumcostreminder_warnings_topay" prefWidth="89.0" text="Zahltermin" />
+                                                <TableColumn fx:id="Preiscostreminder_warnings_bill" prefWidth="34.5" text="Preis" />
+                                                <TableColumn fx:id="Preiscostreminder_warnings_bill_aufschlag" prefWidth="84.5" text="Preis-Aufschlag" />
+                                                <TableColumn fx:id="Preiscostreminder_warnings_bill_zusatzkosten" prefWidth="78.5" text="Zusatzkosten" />
+                                                <TableColumn fx:id="Kdgruppecostreminder_warnings_bill" prefWidth="72.0" text="Kundengruppe" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </ScrollPane>
+
+
+
+
                               <AnchorPane fx:id="apa_welcome" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="591.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Label layoutX="149.0" layoutY="50.0" prefHeight="35.0" prefWidth="291.0" text="Willkommen bei MyFlight!">
@@ -318,6 +323,50 @@
                                     <Label fx:id="lblberechtigung" alignment="CENTER_RIGHT" layoutX="349.0" layoutY="256.0" prefHeight="17.0" prefWidth="26.0" textAlignment="RIGHT" />
                                  </children>
                               </AnchorPane>
+                              <ScrollPane fx:id="scroll_pane_angebotübersicht" prefHeight="481.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <AnchorPane fx:id="angebotübersicht" prefHeight="636.0" prefWidth="829.0" visible="false">
+                                       <children>
+                                          <TableView fx:id="angebotetabelle" onMouseClicked="#setbtnenable" prefHeight="487.0" prefWidth="589.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <columns>
+                                              <TableColumn fx:id="Nummer" prefWidth="108.5" text="Angebotsnummer" />
+                                           <!--  //  <TableColumn fx:id="Datum" prefWidth="117.0" text="Auftragsdatum" />    -->
+                                                <TableColumn fx:id="Status" minWidth="0.0" prefWidth="0.0" text="Auftragsstatus" />
+                                                <TableColumn fx:id="Kdgruppe" prefWidth="75.0" text="Kd-Gruppe" />
+                                                <TableColumn fx:id="Kdname" prefWidth="75.0" text="Name" />
+                                                <TableColumn fx:id="Kdvname" prefWidth="75.0" text="Vorname" />
+                                                <TableColumn fx:id="Aart" prefWidth="75.0" text="Art" />
+                                                <TableColumn fx:id="Flgztyp" prefWidth="75.0" text="Flgz-Typ" />
+                                                <TableColumn fx:id="Beginn" prefWidth="75.0" text="Beginn-Datum" />
+                                                <TableColumn fx:id="Ende" prefWidth="75.0" text="Ende-Datum" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </ScrollPane>
+                              <ScrollPane fx:id="scroll_pane_auftragübersicht" prefHeight="481.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                              <AnchorPane fx:id="Aufträgeübersicht" minHeight="0.0" minWidth="0.0" prefHeight="640.0" prefWidth="825.0" visible="false">
+                                 <children>
+                                    <TableView fx:id="auftragtable" layoutX="131.0" layoutY="-14.0" prefHeight="634.0" prefWidth="900.0" AnchorPane.bottomAnchor="-160.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-309.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                        <TableColumn fx:id="Nummerorder" prefWidth="108.5" text="Auftragsnummer" />
+                                        <TableColumn prefWidth="117.0" text="Auftragsdatum" />
+                                          <TableColumn fx:id="Statusorder" minWidth="0.0" prefWidth="97.5" text="Auftragsstatus" />
+                                          <TableColumn fx:id="Kdgruppeorder" prefWidth="54.0" text="Kd-Gruppe" />
+                                          <TableColumn fx:id="Kdnameorder" minWidth="0.0" prefWidth="40.0" text="Name" />
+                                          <TableColumn fx:id="Kdvnameorder" prefWidth="75.0" text="Vorname" />
+                                          <TableColumn fx:id="Aartorder" prefWidth="54.5" text="Art" />
+                                          <TableColumn fx:id="Flgztyporder" prefWidth="55.5" text="Flgz-Typ" />
+                                          <TableColumn fx:id="Beginnorder" prefWidth="75.0" text="Beginn-Datum" />
+                                          <TableColumn fx:id="Endeorder" prefWidth="75.0" text="Ende-Datum" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                                 </content>
+                              </ScrollPane>
                               <AnchorPane fx:id="apa_charter" layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Label prefHeight="35.0" prefWidth="200.0" text="Charterverwaltung">
@@ -334,17 +383,12 @@
                               <Label layoutX="14.0" layoutY="36.0" text="(Firmen)name" />
                               <Label layoutX="161.0" layoutY="36.0" text="Vorname" />
                               <ChoiceBox layoutX="373.0" layoutY="654.0" prefWidth="150.0" visible="false" />
-                              <Text fill="#28a306" layoutX="18.0" layoutY="675.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status Auftrag........................................................." wrappingWidth="335.654296875">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Text>
                               <Text fill="#28a306" layoutX="18.0" layoutY="534.576171875" strokeType="OUTSIDE" strokeWidth="0.0" text="Preisdaten">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="384.0" layoutY="528.0" prefHeight="31.0" prefWidth="140.0" text="3.450,-- EUR">
+                              <TextField fx:id="preisnetto" alignment="CENTER_RIGHT" editable="false" layoutX="384.0" layoutY="528.0" prefHeight="31.0" prefWidth="140.0" text="3.450,-- EUR">
                                  <font>
                                     <Font name="Courier New" size="16.0" />
                                  </font>
@@ -360,12 +404,12 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="385.0" layoutY="561.0" prefHeight="31.0" prefWidth="139.0" text="  655,50 EUR">
+                              <TextField fx:id="preismwst" alignment="CENTER_RIGHT" editable="false" layoutX="385.0" layoutY="561.0" prefHeight="31.0" prefWidth="139.0" text="  655,50 EUR">
                                  <font>
                                     <Font name="Courier New" size="16.0" />
                                  </font>
                               </TextField>
-                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="384.0" layoutY="594.0" prefHeight="31.0" prefWidth="140.0" text="4.105,50 EUR">
+                              <TextField fx:id="preisbrutto" alignment="CENTER_RIGHT" editable="false" layoutX="384.0" layoutY="594.0" prefHeight="31.0" prefWidth="140.0" text="4.105,50 EUR">
                                  <font>
                                     <Font name="Courier New" size="16.0" />
                                  </font>
@@ -396,19 +440,14 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <ImageView fitHeight="74.0" fitWidth="348.0" layoutX="12.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@Bild1.png" />
-                                 </image>
-                              </ImageView>
                               <HBox layoutX="14.0" layoutY="62.0" prefHeight="25.0" prefWidth="296.0">
                                  <children>
-                                    <TextField editable="false" prefHeight="25.0" prefWidth="140.0" text="Burggraf">
+                                    <TextField fx:id="kdname" editable="false" prefHeight="25.0" prefWidth="140.0" text="Burggraf">
                                        <HBox.margin>
                                           <Insets right="5.0" />
                                        </HBox.margin>
                                     </TextField>
-                                    <TextField text="Erich">
+                                    <TextField fx:id="kdvname" editable="false" text="Erich">
                                        <HBox.margin>
                                           <Insets right="5.0" />
                                        </HBox.margin>
@@ -420,20 +459,20 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <Label layoutX="442.0" layoutY="156.0" text="EBE-BH-Z64">
+                              <Label fx:id="flgzkz" layoutX="442.0" layoutY="156.0" text="EBE-BH-Z64">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="454.0" layoutY="61.0" text="Fixpreis" textFill="#dd2c0c">
+                              <Label fx:id="artcharter" layoutX="454.0" layoutY="61.0" text="Fixpreis" textFill="#dd2c0c">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
                               <Text layoutX="20.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Beginn" />
                               <Text layoutX="208.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ende" />
-                              <DatePicker layoutX="18.0" layoutY="257.0" />
-                              <DatePicker layoutX="201.0" layoutY="257.0" />
+                              <DatePicker fx:id="datumvon" editable="false" layoutX="18.0" layoutY="257.0" />
+                              <DatePicker fx:id="datumbis" editable="false" layoutX="201.0" layoutY="257.0" />
                               <Separator layoutX="15.0" layoutY="210.0" prefHeight="3.0" prefWidth="600.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="12.0" />
                               <Text fill="#28a306f7" layoutX="16.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reisedaten">
                                  <font>
@@ -442,8 +481,8 @@
                               </Text>
                               <Text layoutX="23.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Abflugort" />
                               <Text layoutX="209.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zielort" />
-                              <TextField editable="false" layoutX="18.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="München" />
-                              <TextField editable="false" layoutX="201.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="New York" />
+                              <TextField fx:id="abflugort" editable="false" layoutX="18.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="München" />
+                              <TextField fx:id="ankunftort" editable="false" layoutX="201.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="New York" />
                               <Text layoutX="436.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charterdauer" />
                               <TextField alignment="CENTER_RIGHT" editable="false" layoutX="432.0" layoutY="252.0" prefHeight="25.0" prefWidth="87.0" text="48 h">
                                  <font>
@@ -460,18 +499,18 @@
                                           <Label layoutX="24.0" layoutY="337.0" text="Zwischenaufenthalt 1" />
                                           <Label layoutX="207.0" layoutY="337.0" text="Zwischenaufenthalt 2" />
                                           <Label layoutX="388.0" layoutY="337.0" text="Zwischenaufenthalt 3" />
-                                          <TextField layoutX="20.0" layoutY="354.0" prefHeight="25.0" prefWidth="139.0" />
-                                          <TextField layoutX="201.0" layoutY="354.0" prefHeight="25.0" prefWidth="139.0" />
-                                          <TextField layoutX="389.0" layoutY="354.0" prefHeight="25.0" prefWidth="133.0" />
+                                          <TextField editable="false" layoutX="20.0" layoutY="354.0" prefHeight="25.0" prefWidth="139.0" />
+                                          <TextField editable="false" layoutX="201.0" layoutY="354.0" prefHeight="25.0" prefWidth="139.0" />
+                                          <TextField editable="false" layoutX="389.0" layoutY="354.0" prefHeight="25.0" prefWidth="133.0" />
                                           <TableView layoutX="10.0" layoutY="385.0" prefHeight="130.0" prefWidth="555.0">
                                             <columns>
-                                              <TableColumn prefWidth="75.0" text="Datum Abflug" />
-                                              <TableColumn prefWidth="75.0" sortable="false" text="Uhrzeit Abflug" />
-                                                <TableColumn prefWidth="75.0" text="Abflugort" />
-                                                <TableColumn prefWidth="75.0" text="Flugzeit" />
-                                                <TableColumn prefWidth="75.0" text="Uhreit Ankunft" />
-                                                <TableColumn prefWidth="75.0" text="Zielort" />
-                                                <TableColumn prefWidth="75.0" text="Anzahl Passagiere" />
+                                              <TableColumn fx:id="tablecoldatebeginn" editable="false" prefWidth="95.0" text="Datum Abflug" />
+                                              <TableColumn fx:id="tablecoltimeabflug" editable="false" prefWidth="55.0" sortable="false" text="Uhrzeit Abflug" />
+                                                <TableColumn fx:id="tablecolabflugort" editable="false" prefWidth="75.0" text="Abflugort" />
+                                                <TableColumn fx:id="tablecolflugzeit" editable="false" prefWidth="75.0" text="Flugzeit" />
+                                                <TableColumn fx:id="tablecoltimeankunft" editable="false" prefWidth="75.0" text="Uhrzeit Ankunft" />
+                                                <TableColumn fx:id="tablecolankunftort" editable="false" prefWidth="75.0" text="Zielort" />
+                                                <TableColumn fx:id="tablecolpax" editable="false" prefWidth="75.0" text="Anzahl Passagiere" />
                                             </columns>
                                           </TableView>
                                           <DatePicker layoutX="14.0" layoutY="716.0" />
@@ -484,6 +523,7 @@
                                           <Separator layoutX="261.0" layoutY="784.0" prefHeight="3.0" prefWidth="261.0" />
                                           <TextField layoutX="15.0" layoutY="804.0" prefHeight="25.0" prefWidth="201.0" text="HINOTORI Executive AG" />
                                           <TextField layoutX="267.0" layoutY="804.0" prefHeight="25.0" prefWidth="221.0" text="Auftraggeber" />
+                                          <TextField fx:id="flgztyp" editable="false" layoutX="15.0" layoutY="134.0" />
                                     
                                                       
                                     
@@ -497,17 +537,12 @@
                                <children>
                                <Label layoutX="14.0" layoutY="36.0" text="(Firmen)name" />
                               <Label layoutX="161.0" layoutY="36.0" text="Vorname" />
-                              <Text fill="#28a306" layoutX="18.0" layoutY="675.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status Auftrag........................................................." wrappingWidth="335.654296875">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Text>
                               <Text fill="#28a306" layoutX="18.0" layoutY="534.576171875" strokeType="OUTSIDE" strokeWidth="0.0" text="Preisdaten">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="384.0" layoutY="528.0" prefHeight="31.0" prefWidth="140.0" text="3.450,-- EUR">
+                              <TextField fx:id="preisnetto1" alignment="CENTER_RIGHT" editable="false" layoutX="384.0" layoutY="528.0" prefHeight="31.0" prefWidth="140.0" text="3.450,-- EUR">
                                  <font>
                                     <Font name="Courier New" size="16.0" />
                                  </font>
@@ -523,12 +558,12 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="385.0" layoutY="561.0" prefHeight="31.0" prefWidth="139.0" text="  655,50 EUR">
+                              <TextField fx:id="preismwst1" alignment="CENTER_RIGHT" editable="false" layoutX="385.0" layoutY="561.0" prefHeight="31.0" prefWidth="139.0" text="  655,50 EUR">
                                  <font>
                                     <Font name="Courier New" size="16.0" />
                                  </font>
                               </TextField>
-                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="384.0" layoutY="594.0" prefHeight="31.0" prefWidth="140.0" text="4.105,50 EUR">
+                              <TextField fx:id="preisbrutto1" alignment="CENTER_RIGHT" editable="false" layoutX="384.0" layoutY="594.0" prefHeight="31.0" prefWidth="140.0" text="4.105,50 EUR">
                                  <font>
                                     <Font name="Courier New" size="16.0" />
                                  </font>
@@ -559,19 +594,14 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <ImageView fitHeight="74.0" fitWidth="348.0" layoutX="12.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@Bild1.png" />
-                                 </image>
-                              </ImageView>
                               <HBox layoutX="14.0" layoutY="62.0" prefHeight="25.0" prefWidth="296.0">
                                  <children>
-                                    <TextField editable="false" prefHeight="25.0" prefWidth="140.0" text="Burggraf">
+                                    <TextField fx:id="kdname1" editable="false" prefHeight="25.0" prefWidth="140.0" text="Burggraf">
                                        <HBox.margin>
                                           <Insets right="5.0" />
                                        </HBox.margin>
                                     </TextField>
-                                    <TextField text="Erich">
+                                    <TextField fx:id="kdvname1" editable="false" text="Erich">
                                        <HBox.margin>
                                           <Insets right="5.0" />
                                        </HBox.margin>
@@ -583,20 +613,21 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <Label layoutX="442.0" layoutY="156.0" text="EBE-BH-Z64">
+                                          <ComboBox fx:id="choiceorderstatus" layoutX="376.0" layoutY="650.0" prefWidth="150.0" promptText="bitte auswählen" />
+                              <Label fx:id="flgzkz1" layoutX="442.0" layoutY="156.0" text="EBE-BH-Z64">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="454.0" layoutY="61.0" text="Fixpreis" textFill="#dd2c0c">
+                              <Label fx:id="artcharter1" layoutX="454.0" layoutY="61.0" text="Fixpreis" textFill="#dd2c0c">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
                               <Text layoutX="20.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Beginn" />
                               <Text layoutX="208.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ende" />
-                              <DatePicker layoutX="18.0" layoutY="257.0" />
-                              <DatePicker layoutX="201.0" layoutY="257.0" />
+                              <DatePicker fx:id="datumvon1" editable="false" layoutX="18.0" layoutY="257.0" />
+                              <DatePicker fx:id="datumbis1" editable="false" layoutX="201.0" layoutY="257.0" />
                               <Separator layoutX="15.0" layoutY="210.0" prefHeight="3.0" prefWidth="600.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="12.0" />
                               <Text fill="#28a306f7" layoutX="16.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reisedaten">
                                  <font>
@@ -605,8 +636,8 @@
                               </Text>
                               <Text layoutX="23.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Abflugort" />
                               <Text layoutX="209.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zielort" />
-                              <TextField editable="false" layoutX="18.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="München" />
-                              <TextField editable="false" layoutX="201.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="New York" />
+                              <TextField fx:id="abflugort1" editable="false" layoutX="18.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="München" />
+                              <TextField fx:id="ankunftort1" editable="false" layoutX="201.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="New York" />
                               <Text layoutX="436.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charterdauer" />
                               <TextField alignment="CENTER_RIGHT" editable="false" layoutX="432.0" layoutY="252.0" prefHeight="25.0" prefWidth="87.0" text="48 h">
                                  <font>
@@ -623,18 +654,18 @@
                                           <Label layoutX="24.0" layoutY="337.0" text="Zwischenaufenthalt 1" />
                                           <Label layoutX="207.0" layoutY="337.0" text="Zwischenaufenthalt 2" />
                                           <Label layoutX="388.0" layoutY="337.0" text="Zwischenaufenthalt 3" />
-                                          <TextField layoutX="20.0" layoutY="354.0" prefHeight="25.0" prefWidth="139.0" />
-                                          <TextField layoutX="201.0" layoutY="354.0" prefHeight="25.0" prefWidth="139.0" />
-                                          <TextField layoutX="389.0" layoutY="354.0" prefHeight="25.0" prefWidth="133.0" />
+                                          <TextField editable="false" layoutX="20.0" layoutY="354.0" prefHeight="25.0" prefWidth="139.0" />
+                                          <TextField editable="false" layoutX="201.0" layoutY="354.0" prefHeight="25.0" prefWidth="139.0" />
+                                          <TextField editable="false" layoutX="389.0" layoutY="354.0" prefHeight="25.0" prefWidth="133.0" />
                                           <TableView layoutX="10.0" layoutY="385.0" prefHeight="130.0" prefWidth="555.0">
                                             <columns>
-                                              <TableColumn prefWidth="75.0" text="Datum Abflug" />
-                                              <TableColumn prefWidth="75.0" sortable="false" text="Uhrzeit Abflug" />
-                                                <TableColumn prefWidth="75.0" text="Abflugort" />
-                                                <TableColumn prefWidth="75.0" text="Flugzeit" />
-                                                <TableColumn prefWidth="75.0" text="Uhreit Ankunft" />
-                                                <TableColumn prefWidth="75.0" text="Zielort" />
-                                                <TableColumn prefWidth="75.0" text="Anzahl Passagiere" />
+                                              <TableColumn editable="false" prefWidth="75.0" text="Datum Abflug" />
+                                              <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Uhrzeit Abflug" />
+                                                <TableColumn editable="false" prefWidth="75.0" text="Abflugort" />
+                                                <TableColumn editable="false" prefWidth="75.0" text="Flugzeit" />
+                                                <TableColumn editable="false" prefWidth="75.0" text="Uhreit Ankunft" />
+                                                <TableColumn editable="false" prefWidth="75.0" text="Zielort" />
+                                                <TableColumn editable="false" prefWidth="75.0" text="Anzahl Passagiere" />
                                             </columns>
                                           </TableView>
                                           <DatePicker layoutX="14.0" layoutY="716.0" />
@@ -647,7 +678,12 @@
                                           <Separator layoutX="261.0" layoutY="784.0" prefHeight="3.0" prefWidth="261.0" />
                                           <TextField layoutX="15.0" layoutY="804.0" prefHeight="25.0" prefWidth="201.0" text="HINOTORI Executive AG" />
                                           <TextField layoutX="267.0" layoutY="804.0" prefHeight="25.0" prefWidth="221.0" text="Auftraggeber" />
-                                          <ComboBox fx:id="choiceorderstatus" layoutX="376.0" layoutY="653.0" prefWidth="150.0" />
+                                          <Text fill="#139420" layoutX="23.0" layoutY="672.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status Auftrag.........................................................">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <TextField fx:id="flgztyp1" editable="false" layoutX="14.0" layoutY="124.0" />
                                             </children>
                                  </AnchorPane>
                                 
@@ -705,6 +741,7 @@
                                  </font>
                               </Text>
                               <Separator layoutX="-1.0" layoutY="648.0" prefHeight="3.0" prefWidth="600.0" />
+                                          <ComboBox prefWidth="150.0" />
                               <Text fill="#28a30f" layoutX="14.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kundendaten">
                                  <font>
                                     <Font size="18.0" />
@@ -810,7 +847,7 @@
                                           <Separator layoutX="261.0" layoutY="784.0" prefHeight="3.0" prefWidth="261.0" />
                                           <TextField layoutX="15.0" layoutY="804.0" prefHeight="25.0" prefWidth="201.0" text="HINOTORI Executive AG" />
                                           <TextField layoutX="267.0" layoutY="804.0" prefHeight="25.0" prefWidth="221.0" text="Auftraggeber" />
-                                          <ComboBox fx:id="choiceorderstatus" layoutX="376.0" layoutY="653.0" prefWidth="150.0" />
+                                          <ComboBox fx:id="choicebillstatus" layoutX="376.0" layoutY="653.0" prefWidth="150.0" promptText="bitte auswählen" />
                                             </children>
                                  </AnchorPane>
    
@@ -861,26 +898,8 @@
                                     <Button fx:id="btn_searchcustid" contentDisplay="TOP" layoutX="476.0" layoutY="41.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="34.0" text="..." />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="angebotübersicht" prefHeight="474.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <TableView fx:id="angebotetabelle" editable="true" onMouseClicked="#setbtnenable" prefHeight="487.0" prefWidth="589.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <columns>
-                                        <TableColumn fx:id="Nummer" prefWidth="108.5" text="Auftragsnummer" />
-                                        <TableColumn fx:id="Datum" prefWidth="117.0" text="Auftragsdatum" />
-                                          <TableColumn fx:id="Status" minWidth="0.0" prefWidth="0.0" text="Auftragsstatus" />
-                                          <TableColumn fx:id="Kdgruppe" prefWidth="75.0" text="Kd-Gruppe" />
-                                          <TableColumn fx:id="Kdname" prefWidth="75.0" text="Name" />
-                                          <TableColumn fx:id="Kdvname" prefWidth="75.0" text="Vorname" visible="false" />
-                                          <TableColumn fx:id="Aart" prefWidth="75.0" text="Art" />
-                                          <TableColumn fx:id="Flgztyp" prefWidth="75.0" text="Flgz-Typ" />
-                                          <TableColumn fx:id="Beginn" prefWidth="75.0" text="Beginn-Datum" />
-                                          <TableColumn fx:id="Ende" prefWidth="75.0" text="Ende-Datum" />
-                                      </columns>
-                                    </TableView>
-                                 </children>
-                              </AnchorPane>
                               
-                                          <AnchorPane fx:id="apa_create_order" prefHeight="474.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="apa_create_order" prefHeight="474.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                  <Label layoutX="14.0" layoutY="14.0" text="Firma:">
                                        <font>
@@ -924,7 +943,7 @@
                                             </children>
                               </AnchorPane>
                               
-                                          <AnchorPane fx:id="apa_create_cust" layoutX="10.0" layoutY="10.0" prefHeight="484.0" prefWidth="599.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="apa_create_cust" layoutX="10.0" layoutY="10.0" prefHeight="484.0" prefWidth="599.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Label layoutX="14.0" layoutY="14.0" text="Firma:">
                                        <font>
@@ -969,39 +988,106 @@
                                     <ComboBox fx:id="cbo_custstatus_new" layoutX="359.0" layoutY="337.0" prefHeight="25.0" prefWidth="149.0" visibleRowCount="2" />
                                     <Label layoutX="15.0" layoutY="341.0" text="Kundengruppe:" />
                                  </children>
-                              </AnchorPane>
-                        <AnchorPane fx:id="Aufträgeübersicht" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="591.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <TableView fx:id="auftragtable" layoutX="131.0" layoutY="-14.0" prefHeight="487.0" prefWidth="634.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <columns>
-                                  <TableColumn fx:id="Nummerorder" prefWidth="108.5" text="Auftragsnummer" />
-                                  <TableColumn prefWidth="117.0" text="Auftragsdatum" />
-                                    <TableColumn fx:id="Statusorder" minWidth="0.0" prefWidth="0.0" text="Auftragsstatus" />
-                                    <TableColumn fx:id="Kdgruppeorder" prefWidth="75.0" text="Kd-Gruppe" />
-                                    <TableColumn fx:id="Kdnameorder" prefWidth="75.0" text="Name" />
-                                    <TableColumn prefWidth="75.0" text="Vorname" />
-                                    <TableColumn fx:id="Aartorder" prefWidth="75.0" text="Art" />
-                                    <TableColumn prefWidth="75.0" text="Flgz-Typ" />
-                                    <TableColumn prefWidth="75.0" text="Beginn-Datum" />
-                                    <TableColumn prefWidth="75.0" text="Ende-Datum" />
-                                </columns>
-                              </TableView>
-                           </children>
-                        </AnchorPane>      
+                              </AnchorPane>      
                               
+
+                              <AnchorPane fx:id="costtrackingedit" layoutX="10.0" layoutY="10.0" prefHeight="484.0" prefWidth="599.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Auftragsdaten:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="14.0" layoutY="45.0" text="Auftragsnummer:" />
+                                    <Label layoutX="15.0" layoutY="72.0" text="Auftragsstatus:" />
+                                    <Label layoutX="269.0" layoutY="101.0" text="Kundengruppe:" />
+                                    <TextField fx:id="txt_companyname_new" disable="true" layoutX="110.0" layoutY="41.0" />
+                                    <TextField fx:id="txt_street_new" disable="true" layoutX="110.0" layoutY="68.0" />
+                                    <TextField fx:id="txt_postcode_new" disable="true" layoutX="360.0" layoutY="99.0" />
+                                    <TextField fx:id="txt_homenumber_new" disable="true" layoutX="219.0" layoutY="226.0" prefHeight="25.0" prefWidth="34.0" />
+                                    <TextField fx:id="txt_customerid_new" disable="true" editable="false" layoutX="360.0" layoutY="41.0" prefHeight="25.0" prefWidth="150.0" />
+                                    <Label layoutX="17.0" layoutY="284.0" text="Preis:" />
+                                    <Label layoutX="14.0" layoutY="230.0" text="Preis-Aufschlag:" />
+                                    <Label layoutX="269.0" layoutY="45.0" text="Kundennummer:" />
+                                    <TextField fx:id="txt_homeext_new" disable="true" layoutX="190.0" layoutY="280.0" prefHeight="25.0" prefWidth="63.0" />
+                                    <Separator layoutX="14.0" layoutY="164.0" prefHeight="2.0" prefWidth="493.0" />
+                                    <Label layoutX="269.0" layoutY="74.0" text="Name:" />
+                                    <TextField fx:id="txt_name_new" disable="true" layoutX="360.0" layoutY="70.0" />
+                                    <Label layoutX="13.0" layoutY="173.0" text="Rechnungsdaten:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txt_place_new" disable="true" layoutX="138.0" layoutY="197.0" prefHeight="25.0" prefWidth="114.0" />
+                                    <Label layoutX="13.0" layoutY="204.0" text="Rechnungsnummer:" />
+                                    <Separator layoutX="14.0" layoutY="319.0" prefHeight="2.0" prefWidth="493.0" />
+                                    <ComboBox fx:id="choicecostbillstatus" layoutX="359.0" layoutY="355.0" prefHeight="25.0" prefWidth="149.0" promptText="bitte auswählen" />
+                                    <Label layoutX="15.0" layoutY="366.0" text="Rechnung Status neu:" />
+                                    <Label layoutX="16.0" layoutY="331.0" text="Rechnung Status bisher:" />
+                                    <Label layoutX="444.0" layoutY="330.0" text="Erinnerung1" />
+                                    <Label layoutX="15.0" layoutY="258.0" text="Zusatzkosten:" />
+                                    <TextField fx:id="txt_homeext_new1" disable="true" layoutX="190.0" layoutY="253.0" prefHeight="25.0" prefWidth="63.0" />
+                                    <Label layoutX="269.0" layoutY="202.0" text="Zahlungstermin:" />
+                                    <TextField fx:id="txt_postcode_new1" disable="true" layoutX="360.0" layoutY="196.0" />
+                                 </children>
+                              </AnchorPane>      
+
+                              <AnchorPane fx:id="costextracostedit" layoutX="10.0" layoutY="10.0" prefHeight="484.0" prefWidth="599.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Auftragsdaten:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="14.0" layoutY="45.0" text="Auftragsnummer:" />
+                                    <Label layoutX="15.0" layoutY="72.0" text="Auftragsstatus:" />
+                                    <Label layoutX="269.0" layoutY="101.0" text="Kundengruppe:" />
+                                    <TextField fx:id="txt_companyname_new" disable="true" layoutX="110.0" layoutY="41.0" />
+                                    <TextField fx:id="txt_street_new" disable="true" layoutX="110.0" layoutY="68.0" />
+                                    <TextField fx:id="txt_postcode_new" disable="true" layoutX="360.0" layoutY="99.0" />
+                                    <TextField fx:id="txt_homenumber_new" disable="true" layoutX="219.0" layoutY="226.0" prefHeight="25.0" prefWidth="34.0" />
+                                    <TextField fx:id="txt_customerid_new" disable="true" editable="false" layoutX="360.0" layoutY="41.0" prefHeight="25.0" prefWidth="150.0" />
+                                    <Label layoutX="17.0" layoutY="284.0" text="Preis:" />
+                                    <Label layoutX="14.0" layoutY="230.0" text="Preis-Aufschlag:" />
+                                    <Label layoutX="269.0" layoutY="45.0" text="Kundennummer:" />
+                                    <TextField fx:id="txt_homeext_new" disable="true" layoutX="190.0" layoutY="280.0" prefHeight="25.0" prefWidth="63.0" />
+                                    <Separator layoutX="14.0" layoutY="164.0" prefHeight="2.0" prefWidth="493.0" />
+                                    <Label layoutX="269.0" layoutY="74.0" text="Name:" />
+                                    <TextField fx:id="txt_name_new" disable="true" layoutX="360.0" layoutY="70.0" />
+                                    <Label layoutX="13.0" layoutY="173.0" text="Rechnungsdaten:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="txt_place_new" disable="true" layoutX="138.0" layoutY="197.0" prefHeight="25.0" prefWidth="114.0" />
+                                    <Label layoutX="13.0" layoutY="204.0" text="Rechnungsnummer:" />
+                                    <Separator layoutX="14.0" layoutY="319.0" prefHeight="2.0" prefWidth="493.0" />
+                                    <Label layoutX="15.0" layoutY="258.0" text="Zusatzkosten:" />
+                                    <TextField fx:id="txt_homeext_new1" layoutX="190.0" layoutY="253.0" prefHeight="25.0" prefWidth="63.0" />
+                                    <Label layoutX="269.0" layoutY="254.0" text="Zahlungstermin:" />
+                                    <TextField fx:id="txt_postcode_new1" disable="true" layoutX="369.0" layoutY="252.0" prefHeight="25.0" prefWidth="140.0" />
+                                    <Label layoutX="269.0" layoutY="282.0" text="Rechnung Status:" />
+                                    <TextField fx:id="txt_postcode_new11" disable="true" layoutX="369.0" layoutY="280.0" prefHeight="25.0" prefWidth="140.0" />
+                                 </children>
+                              </AnchorPane>      
+
+
+ 
+                             </children>
+          
+              </AnchorPane>
+
                               
-                                       </children>
-                        </AnchorPane>
-                      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="61.0" prefWidth="589.0">
+                          <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="61.0" prefWidth="589.0">
                            <children>
                               <AnchorPane fx:id="auftragübersichtbuttons" prefHeight="68.0" prefWidth="589.0" visible="false">
                                  <children>
                                     <HBox layoutX="176.0" layoutY="22.0" spacing="5.0">
                                        <children>
-                                          <Button fx:id="btnprint" disable="true" mnemonicParsing="false" text="Drucken" />
-                                          <Button fx:id="btnsend" disable="true" mnemonicParsing="false" text="Versenden" />
-                                          <Button fx:id="angebotedit" disable="true" mnemonicParsing="false" onAction="#angebotedit_click" text="Auftragsstatus ändern" />
-                                          <Button fx:id="btncreatebill" disable="true" mnemonicParsing="false" text="Rechnung erstellen" />
+                                          <Button fx:id="btnprint" disable="true" mnemonicParsing="false" onAction="#action_drucken" text="Drucken" />
+                                          <Button fx:id="btnsend" disable="true" mnemonicParsing="false" onAction="#action_versenden" text="Versenden" />
+                                          <Button fx:id="angebotedit" mnemonicParsing="false" onAction="#angebotedit_click" text="Auftragsstatus ändern" />
+                                          <Button fx:id="btncreatebill" mnemonicParsing="false" text="Rechnung erstellen" />
                                        </children>
                                        <opaqueInsets>
                                           <Insets />
@@ -1009,9 +1095,27 @@
                                     </HBox>
                                  </children>
                               </AnchorPane>
+                              <AnchorPane fx:id="apa_btn_costtrackingreminder" prefHeight="68.0" prefWidth="589.0" visible="false">
+                                 <children>
+                                    <HBox layoutX="206.0" layoutY="22.0" spacing="5.0">
+                                       <children>
+                                          <Button fx:id="btn_costextracostedit" disable="true" mnemonicParsing="false" onAction="#action_costextracostedit" text="Zusatzkosten bearbeiten" />
+                                          <Button fx:id="btn_createreminder" mnemonicParsing="false" onAction="#action_createreminder" text="Erinnerungs-/Mahnschreiben erstellen" />
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                    </HBox>
+                                 </children>
+                              </AnchorPane>
+
+
+
+
+
                               <AnchorPane fx:id="panebtnangebotübersicht" prefHeight="68.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Button fx:id="btncreateorder" disable="true" layoutX="471.0" layoutY="22.0" mnemonicParsing="false" onAction="#createorder" text="Auftrag erstellen" />
+                                    <Button fx:id="btncreateorder" layoutX="471.0" layoutY="22.0" mnemonicParsing="false" onAction="#createorder" text="Auftrag erstellen" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane fx:id="apa_btn_createoffer" layoutX="10.0" layoutY="10.0" prefHeight="68.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -1028,7 +1132,7 @@
                               </AnchorPane>
                               <AnchorPane fx:id="ancpanebtn_changeorder" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Button defaultButton="true" layoutX="514.0" layoutY="27.0" mnemonicParsing="false" text="Speichern" />
+                                    <Button defaultButton="true" layoutX="514.0" layoutY="27.0" mnemonicParsing="false" onAction="#saveorderchange" text="Speichern" />
                                     <Button fx:id="btn_cancel_changeorder" cancelButton="true" layoutX="430.0" layoutY="27.0" mnemonicParsing="false" onMouseClicked="#actiongetaufträge" text="Abbrechen" />
                                  </children>
                               </AnchorPane>
@@ -1054,6 +1158,27 @@
                                     <Button fx:id="btn_login" defaultButton="true" layoutX="506.0" layoutY="33.0" mnemonicParsing="false" onAction="#btn_login_click" text="anmelden" />
                                  </children>
                               </AnchorPane>
+                              <AnchorPane fx:id="apa_btn_costtrackingedit" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button fx:id="btn_canceltrackingedit" layoutX="437.0" layoutY="28.0" mnemonicParsing="false" onAction="#actiongetcosttrackingoverview" text="Abbrechen" />
+                                    <Button layoutX="516.0" layoutY="28.0" mnemonicParsing="false" text="Speichern" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="apa_btn_costextracostedit" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button fx:id="btn_cancelcostextracostedit" layoutX="437.0" layoutY="28.0" mnemonicParsing="false" onAction="#actiongetcosttrackingreminder" text="Abbrechen" />
+                                    <Button layoutX="516.0" layoutY="28.0" mnemonicParsing="false" text="Speichern" />
+                                 </children>
+                              </AnchorPane>
+
+
+                              <AnchorPane fx:id="apa_btn_costtrackingoverview" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button fx:id="btn_costtrackingedit" disable="true" layoutX="421.0" layoutY="22.0" mnemonicParsing="false" onAction="#action_costtrackingedit" text="Zahlungseingang bearbeiten" />
+                                 </children></AnchorPane>
+
+
+
                            </children>
                         </AnchorPane>
                     </items>

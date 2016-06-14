@@ -7,26 +7,30 @@ package application;
 	import java.net.URLEncoder;
 
 	public class Mainmail {
+		public static String kundenanrede;
 		public static String kunde ;
 		public static int Nummer ;
 		public static String Datum ;
-		public Mainmail (String kunde, int Nummer, String Datum) throws IOException, URISyntaxException {
+		public static String mail;
+		public Mainmail (String kundenanrede, String kunde, int Nummer, String Datum, String mail) throws IOException, URISyntaxException {
+			this.kundenanrede =kundenanrede;
 			this.kunde = kunde;
 			this.Nummer= Nummer;
 			this.Datum = Datum; 
-		executeMail(kunde,Nummer,Datum); }
+			this.mail = mail;
+		executeMail(kundenanrede, kunde,Nummer,Datum,mail); }
 		
-			public void executeMail(String kunde, int Nummer, String Datum)throws IOException, URISyntaxException {
+			public void executeMail(String anrede, String kunde, int Nummer, String Datum, String mail)throws IOException, URISyntaxException {
 			boolean ok = Desktop.isDesktopSupported();
 			if (!ok) {
 				System.out.println("Desktop not supported");
 			} else {
 				String mailto = "mailto:";
-				mailto += "?to=burggraf@t-online.de";
+				mailto += "?to="+mail;
 				mailto += "&subject=";
 				mailto += URLEncoder.encode("Auftrag Nr. "+Nummer+" zu unserem Angebot vom "+Datum);
 				mailto += "&body=";
-				mailto += URLEncoder.encode("Sehr geehrter Herr "+kunde+",\nherzlichen Dank für Ihre Anfrage, anbei übersenden wir Ihnen wie gewünscht einen \nverbindlichen Auftragsentwurf mit der Bitte um Ihre Prüfung.\n\nÜber eine Unterschrift und Rückantwort innerhalb der nächsten 5 Tage freuen wir uns sehr.\n\nGerne stehen wir für Rückfragen zu Ihrer Verfügung und verbleiben\n\nmit freundlichen Grüßen,\n\nHINOTORI Executive GmbH", "UTF-8");
+				mailto += URLEncoder.encode("Sehr geehrte(r) "+anrede+" "+kunde+",\nherzlichen Dank für Ihre Anfrage, anbei übersenden wir Ihnen wie gewünscht einen \nverbindlichen Auftragsentwurf mit der Bitte um Ihre Prüfung.\n\nÜber eine Unterschrift und Rückantwort innerhalb der nächsten 5 Tage freuen wir uns sehr.\n\nGerne stehen wir für Rückfragen zu Ihrer Verfügung und verbleiben\n\nmit freundlichen Grüßen,\n\nHINOTORI Executive GmbH", "UTF-8");
 				//mailto += URLEncoder.encode("vielen Dank für Ihre Nachfrage nach unserem Angebot!", "UTF-8");
 				
 
