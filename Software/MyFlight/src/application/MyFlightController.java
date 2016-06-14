@@ -1599,13 +1599,16 @@ public class MyFlightController {
 	if (AuswahlAktion == "Drucken" && AuswahlDokutyp == "PDF") {
 
 
+		filename = System.getProperty("user.dir") + "/"+Integer.toString(angebot_id)+".pdf";
+		f = new File(filename);
+
 	PDFPrinter druck = new PDFPrinter(f);
 	lbl_dbconnect.setText("PDF-Ausdruck gestartet");
 	
 	}
 	if (AuswahlAktion == "Drucken" && AuswahlDokutyp == "Word") {
 
-
+		strFilenamedoc = Integer.toString(angebot_id)+".docx";
 		Druckjob druck = new Druckjob(strFilenamedoc);
 		lbl_dbconnect.setText("Docx-Ausdruck gestartet");
 		
