@@ -1,5 +1,5 @@
 package application;
-// V1.13
+// V1.16
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -885,7 +885,7 @@ public class MyFlightController {
 			Statement stmt = conn.createStatement();
 			
 			// angebote-übersicht abrufen
-			ResultSet rs = stmt.executeQuery("SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.* FROM angebote INNER JOIN fluege on angebote.fluege_flug_id=fluege.Flug_ID inner join kunden on angebote.kunden_kunde_id= kunden.kunde_id");
+			ResultSet rs = stmt.executeQuery("select angebote.*, auftraege.Auftraege_ID, kunden.KundeName, kunden.KundeVorname, auftraege.Auftragsstatus_Auftragsstatus, angebotstermin.Datum_Von,angebotstermin.Datum_Bis from angebote inner join auftraege inner join kunden inner join angebotstermin where angebote.Angebote_ID=auftraege.Angebote_Angebote_ID and auftraege.Angebote_Kunden_Kunde_ID=kunden.Kunde_ID and angebote.Angebote_ID=angebotstermin.Angebote_Angebote_ID");
 					
 			auftraegedata.remove(0, auftraegedata.size());
 			int i = 1;
@@ -894,9 +894,9 @@ public class MyFlightController {
 			 // Testende
 			
 			while ((rs != null) && (rs.next())) {
-				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
-						+ rs.getString(5) + " " + rs.getString(21) + " " + rs.getString(22) + " " + rs.getInt(15) + " " + rs.getString(17)+ " " + rs.getString(18));
-				auftraegedata.add(new Aufträge(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(5), rs.getString(21),rs.getString(22), rs.getInt(15), rs.getString(17), rs.getString(18)));
+				System.out.println(i++ + " " + rs.getInt(17) + " " + rs.getString(20) + " " + rs.getString(3) + " "
+						+ rs.getString(5) + " " + rs.getString(18) + " " + rs.getString(19) + " " + rs.getInt(15) + " " + rs.getString(21)+ " " + rs.getString(22));
+				auftraegedata.add(new Aufträge(rs.getInt(17), rs.getString(20), rs.getString(3), rs.getString(5), rs.getString(18),rs.getString(19), rs.getInt(15), rs.getString(21), rs.getString(22)));
 			}
 			
 			//wenn die Datenbank bei der Entwicklung leer ist
@@ -1519,27 +1519,44 @@ public class MyFlightController {
 
 	@FXML
 	public void showdocumentdialog(ActionEvent event) throws Exception {
-		//gewähltes Angebot dessen ID übernehmen
+		//gewähltes Angebot dessen Daten für Speicherung Auftrag übernehmen
 		int angebot_id = Nummer.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
+		//String tmpstatus = Status.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
+		String tmpAart = Aart.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
+		String tmpkdgruppe = Kdgruppe.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
 		
-		// ermittle Variablen für Speichern eines Auftrags
+	
+		// ermittle nächste Auftrags-ID Speichern eines Auftrags
 		
+		String sql = "select max(auftraege_id) from auftraege";
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		rs.next();
+		int newauftraege_id = (rs.getInt(1) / 10000 + 1)*10000+2016;
+		ankunftort.setText(rs.getString(1));
+		System.out.println(newauftraege_id);		
 		
+		String tmpAuftragstatus = "offen";
 		
+		// ermittle Kunden_ID
+		sql = "select Kunden_kunde_id,angebotsstatus_angebotsstatus from angebote where angebote.angebote_id='"+angebot_id+"'";
+		rs = stmt.executeQuery(sql);
+		rs.next();
+		int tmpkunde_id = rs.getInt(1);
+		String tmpstatus = rs.getString(2);
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		System.out.println(newauftraege_id+" "+tmpAuftragstatus+" "+angebot_id+" "+tmpstatus+" "+tmpAart+" "+tmpkunde_id+" "+tmpkdgruppe);
+		// speichere Auftragsdaten
+		try {
+			stmt.executeUpdate("insert into auftraege (Auftraege_id, auftragsstatus_auftragsstatus, angebote_angebote_id, Angebote_angebotsstatus_angebotsstatus, Angebote_chartertyp_chartertyp, Angebote_kunden_kunde_Id, angebote_kunden_kundengruppen_kundengruppen) values ('"+newauftraege_id+"','"+tmpAuftragstatus+"','"+angebot_id+"','"+tmpstatus+"','"+tmpAart+"','"+tmpkunde_id+"','"+tmpkdgruppe+"')");
+			lbl_dbconnect.setText("Auftrag gespeichert");		
+		} catch (SQLException sqle) {
+
+			lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
+			// System.out.println("geht nicht");
+			sqle.printStackTrace();
+		}
+
 		
 		
 		
@@ -1616,11 +1633,11 @@ public class MyFlightController {
 
 	if (AuswahlAktion == "Versenden") {
 		// Kundenanrede
-			String sql = "select kunden.KundeAnrede from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
+			sql = "select kunden.KundeAnrede from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
 					+ angebot_id + "'";
 
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+			//Statement stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
 			rs.next();
 			System.out.println(rs.getString(1));
 			String kundenanrede = rs.getString(1);
