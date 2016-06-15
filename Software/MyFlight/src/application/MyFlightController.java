@@ -1,5 +1,5 @@
 package application;
-// V1.16
+// V1.17
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -184,6 +184,8 @@ public class MyFlightController {
 	@FXML Button btn_canceltrackingedit;
 	@FXML Button btn_costtrackingedit;
 	@FXML Button btn_cancelcostextracostedit;
+	@FXML Button btn_delete_order;
+	@FXML Button btn_change_user;
 	
 	@FXML AnchorPane apa_welcome;
 	@FXML AnchorPane apa_login;
@@ -480,8 +482,8 @@ public class MyFlightController {
 	        } 
 	        catch (Exception e) 
 	        { 
-	        	//lbl_dbconnect.setText("Verbindung fehlgeschlagen");
-	            //e.printStackTrace(); 
+	        	lbl_dbconnect.setText("mysql-Treiber nicht geladen");
+	            e.printStackTrace(); 
 	        } 
 	        try 
 	        { 
@@ -517,13 +519,13 @@ public class MyFlightController {
 			}
 		    
 		    
-		    lbl_dbconnect.setText("Datenbankverbindung erfolgreich hergestellt");
+		    lbl_dbconnect.setText("Anmeldung erfolgreich");
 		    apa_login.setVisible(false);
 		    apa_welcome.setVisible(true);
 		    lbl_username.setText(user);
 		    
 		    btn_login.setVisible(false);
-		    
+		    btn_change_user.setVisible(true);
 		    
 		    
 		    User userobject = new User(vorname, nachname,Rolle,berechtigungsstufe);
@@ -543,6 +545,7 @@ public class MyFlightController {
 		    
 		    if (userobject.getberechtigung() >=2) {
 		    	btn_costextracostedit.disableProperty().bind(Bindings.isEmpty(costreminder_warnings_billtable.getSelectionModel().getSelectedIndices()));	
+		    	btn_delete_order.disableProperty().bind(Bindings.isEmpty(auftragtable.getSelectionModel().getSelectedIndices()));
 		    }
 		    if (userobject.getberechtigung() == 3) {
 		    	mnuadministration.setDisable(false);
@@ -566,6 +569,7 @@ public class MyFlightController {
 			lbl_username.setText(user);
 
 			btn_login.setVisible(false);
+			btn_change_user.setVisible(true);
 
 			User userobject = new User(vorname, nachname, "Mitarbeiter", 3);
 			authenticated = true;
@@ -1519,172 +1523,179 @@ public class MyFlightController {
 
 	@FXML
 	public void showdocumentdialog(ActionEvent event) throws Exception {
-		//gewähltes Angebot dessen Daten für Speicherung Auftrag übernehmen
+		// gewähltes Angebot dessen Daten für Speicherung Auftrag übernehmen
 		int angebot_id = Nummer.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
-		//String tmpstatus = Status.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
+		// String tmpstatus =
+		// Status.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
 		String tmpAart = Aart.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
 		String tmpkdgruppe = Kdgruppe.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
-		
-	
-		// ermittle nächste Auftrags-ID Speichern eines Auftrags
-		
-		String sql = "select max(auftraege_id) from auftraege";
+
+		// Prüfung, ob Auftrag bereits angelegt ist
+		String sql = "select auftraege.auftraege_id from auftraege where auftraege.angebote_angebote_id='" + angebot_id
+				+ "'";
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery(sql);
-		rs.next();
-		int newauftraege_id = (rs.getInt(1) / 10000 + 1)*10000+2016;
-		ankunftort.setText(rs.getString(1));
-		System.out.println(newauftraege_id);		
-		
-		String tmpAuftragstatus = "offen";
-		
-		// ermittle Kunden_ID
-		sql = "select Kunden_kunde_id,angebotsstatus_angebotsstatus from angebote where angebote.angebote_id='"+angebot_id+"'";
-		rs = stmt.executeQuery(sql);
-		rs.next();
-		int tmpkunde_id = rs.getInt(1);
-		String tmpstatus = rs.getString(2);
-		
-		System.out.println(newauftraege_id+" "+tmpAuftragstatus+" "+angebot_id+" "+tmpstatus+" "+tmpAart+" "+tmpkunde_id+" "+tmpkdgruppe);
-		// speichere Auftragsdaten
-		try {
-			stmt.executeUpdate("insert into auftraege (Auftraege_id, auftragsstatus_auftragsstatus, angebote_angebote_id, Angebote_angebotsstatus_angebotsstatus, Angebote_chartertyp_chartertyp, Angebote_kunden_kunde_Id, angebote_kunden_kundengruppen_kundengruppen) values ('"+newauftraege_id+"','"+tmpAuftragstatus+"','"+angebot_id+"','"+tmpstatus+"','"+tmpAart+"','"+tmpkunde_id+"','"+tmpkdgruppe+"')");
-			lbl_dbconnect.setText("Auftrag gespeichert");		
-		} catch (SQLException sqle) {
+		if ((rs != null) && (rs.next()))
+			lbl_dbconnect.setText("Auftrag bereits vorhanden");
+		else {
 
-			lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
-			// System.out.println("geht nicht");
-			sqle.printStackTrace();
-		}
+			// ermittle nächste Auftrags-ID Speichern eines Auftrags
 
-		
-		
-		
-		List<String> choices = new ArrayList<>();
-		choices.clear();
-		choices.add("PDF");
-		choices.add("Word");
+			sql = "select max(auftraege_id) from auftraege";
+			rs = stmt.executeQuery(sql);
+			rs.next();
+			int newauftraege_id = (rs.getInt(1) / 10000 + 1) * 10000 + 2016;
 
-		ChoiceDialog<String> dialog1 = new ChoiceDialog<>("PDF", choices);
-		dialog1.setTitle("Dokumententyp");
-		dialog1.setHeaderText("Bitte Dokumententyp auswählen:");
-		dialog1.setContentText("Auswahl:");
+			System.out.println(newauftraege_id);
 
-		// Traditional way to get the response value.
-		Optional<String> result1 = dialog1.showAndWait();
-	//	if (result.isPresent()){
-		//    System.out.println("Your choice: " + result.get());
-//		}
+			String tmpAuftragstatus = "offen";
 
-		// The Java 8 way to get the response value (with lambda expression).
-		result1.ifPresent(letter -> System.out.println("Your choice: " + letter));
-		
-		if (result1.isPresent()) {
-		AuswahlDokutyp = result1.get();
-		}
-		
-		if (AuswahlDokutyp == "PDF") {
-			erzeugePdf(angebot_id);
+			// ermittle Kunden_ID
+			sql = "select Kunden_kunde_id,angebotsstatus_angebotsstatus from angebote where angebote.angebote_id='"
+					+ angebot_id + "'";
+			rs = stmt.executeQuery(sql);
+			rs.next();
+			int tmpkunde_id = rs.getInt(1);
+			String tmpstatus = rs.getString(2);
+
+			System.out.println(newauftraege_id + " " + tmpAuftragstatus + " " + angebot_id + " " + tmpstatus + " "
+					+ tmpAart + " " + tmpkunde_id + " " + tmpkdgruppe);
+			// speichere Auftragsdaten
+			try {
+				stmt.executeUpdate(
+						"insert into auftraege (Auftraege_id, auftragsstatus_auftragsstatus, angebote_angebote_id, Angebote_angebotsstatus_angebotsstatus, Angebote_chartertyp_chartertyp, Angebote_kunden_kunde_Id, angebote_kunden_kundengruppen_kundengruppen) values ('"
+								+ newauftraege_id + "','" + tmpAuftragstatus + "','" + angebot_id + "','" + tmpstatus
+								+ "','" + tmpAart + "','" + tmpkunde_id + "','" + tmpkdgruppe + "')");
+				lbl_dbconnect.setText("Auftrag gespeichert");
+			} catch (SQLException sqle) {
+
+				lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
+				// System.out.println("geht nicht");
+				sqle.printStackTrace();
 			}
-		
-		if (AuswahlDokutyp == "Word") {
-			erzeugeWord(angebot_id);
-			
+
+			List<String> choices = new ArrayList<>();
+			choices.clear();
+			choices.add("PDF");
+			choices.add("Word");
+
+			ChoiceDialog<String> dialog1 = new ChoiceDialog<>("PDF", choices);
+			dialog1.setTitle("Dokumententyp");
+			dialog1.setHeaderText("Bitte Dokumententyp auswählen:");
+			dialog1.setContentText("Auswahl:");
+
+			// Traditional way to get the response value.
+			Optional<String> result1 = dialog1.showAndWait();
+			// if (result.isPresent()){
+			// System.out.println("Your choice: " + result.get());
+			// }
+
+			// The Java 8 way to get the response value (with lambda
+			// expression).
+			result1.ifPresent(letter -> System.out.println("Your choice: " + letter));
+
+			if (result1.isPresent()) {
+				AuswahlDokutyp = result1.get();
+			}
+
+			if (AuswahlDokutyp == "PDF") {
+				erzeugePdf(angebot_id);
+			}
+
+			if (AuswahlDokutyp == "Word") {
+				erzeugeWord(angebot_id);
+
+			}
+
+			choices.clear();
+			choices.add("Drucken");
+			choices.add("Versenden");
+			choices.add("keine Aktion");
+
+			ChoiceDialog<String> dialog2 = new ChoiceDialog<>("keine Aktion", choices);
+			dialog2.setTitle("weitere Aktionen");
+			dialog2.setHeaderText("Bitte wählen Sie \neine weitere Aktion aus:");
+			dialog2.setContentText("Auswahl:");
+
+			// Traditional way to get the response value.
+			Optional<String> result2 = dialog2.showAndWait();
+			result2.ifPresent(letter -> System.out.println("Your choice: " + letter));
+			actiongetangebote();
+
+			if (result2.isPresent()) {
+				AuswahlAktion = result2.get();
+			}
+
+			if (AuswahlAktion == "Drucken" && AuswahlDokutyp == "PDF") {
+
+				filename = System.getProperty("user.dir") + "/" + Integer.toString(angebot_id) + ".pdf";
+				f = new File(filename);
+
+				PDFPrinter druck = new PDFPrinter(f);
+				lbl_dbconnect.setText("PDF-Ausdruck gestartet");
+
+			}
+			if (AuswahlAktion == "Drucken" && AuswahlDokutyp == "Word") {
+
+				strFilenamedoc = Integer.toString(angebot_id) + ".docx";
+				Druckjob druck = new Druckjob(strFilenamedoc);
+				lbl_dbconnect.setText("Docx-Ausdruck gestartet");
+
+			}
+
+			if (AuswahlAktion == "Versenden") {
+				// Kundenanrede
+				sql = "select kunden.KundeAnrede from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
+						+ angebot_id + "'";
+
+				// Statement stmt = conn.createStatement();
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				System.out.println(rs.getString(1));
+				String kundenanrede = rs.getString(1);
+
+				// Kundenname
+				sql = "select kunden.kundename from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
+						+ angebot_id + "'";
+
+				stmt = conn.createStatement();
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				System.out.println(rs.getString(1));
+				String Kunde = rs.getString(1);
+				// Datum von
+				sql = "select angebotstermin.datum_von from angebotstermin inner join angebote on angebote.angebote_id=angebotstermin.angebote_angebote_id where angebote.angebote_id='"
+						+ angebot_id + "'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				// Create an instance of SimpleDateFormat used for formatting
+				// the string representation of date (month/day/year)
+				DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+
+				// Using DateFormat format method we can create a string
+				// representation of a date with the defined format.
+				String reportDate = df.format(rs.getObject(1));
+				System.out.println(reportDate);
+				String Datum = reportDate;
+				// Kundenmailadresse
+				sql = "select kunden.kundeemail from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
+						+ angebot_id + "'";
+
+				stmt = conn.createStatement();
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				System.out.println(rs.getString(1));
+				String mailadresse = rs.getString(1);
+
+				// String Kunde = "Burggraf";
+				// int Nummer = 100302;
+				// String Datum = "10.06.2016";
+				Mainmail mail = new Mainmail(kundenanrede, Kunde, angebot_id, Datum, mailadresse);
+
+			}
 		}
-		
-		choices.clear();
-		choices.add("Drucken");
-		choices.add("Versenden");
-		choices.add("keine Aktion");
-		
-		ChoiceDialog<String> dialog2 = new ChoiceDialog<>("keine Aktion", choices);
-		dialog2.setTitle("weitere Aktionen");
-		dialog2.setHeaderText("Bitte wählen Sie \neine weitere Aktion aus:");
-		dialog2.setContentText("Auswahl:");
 
-		// Traditional way to get the response value.
-		Optional<String> result2 = dialog2.showAndWait();
-		result2.ifPresent(letter -> System.out.println("Your choice: " + letter));
-		actiongetangebote();
-	
-	
-	
-	if (result2.isPresent()) {
-		AuswahlAktion = result2.get();
-		}
-		
-	if (AuswahlAktion == "Drucken" && AuswahlDokutyp == "PDF") {
-
-
-		filename = System.getProperty("user.dir") + "/"+Integer.toString(angebot_id)+".pdf";
-		f = new File(filename);
-
-	PDFPrinter druck = new PDFPrinter(f);
-	lbl_dbconnect.setText("PDF-Ausdruck gestartet");
-	
 	}
-	if (AuswahlAktion == "Drucken" && AuswahlDokutyp == "Word") {
-
-		strFilenamedoc = Integer.toString(angebot_id)+".docx";
-		Druckjob druck = new Druckjob(strFilenamedoc);
-		lbl_dbconnect.setText("Docx-Ausdruck gestartet");
-		
-		}
-
-	if (AuswahlAktion == "Versenden") {
-		// Kundenanrede
-			sql = "select kunden.KundeAnrede from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
-					+ angebot_id + "'";
-
-			//Statement stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			rs.next();
-			System.out.println(rs.getString(1));
-			String kundenanrede = rs.getString(1);
-			
-		// Kundenname
-			sql = "select kunden.kundename from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
-					+ angebot_id + "'";
-
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			rs.next();
-			System.out.println(rs.getString(1));
-			String Kunde = rs.getString(1);
-		//Datum von
-			sql = "select angebotstermin.datum_von from angebotstermin inner join angebote on angebote.angebote_id=angebotstermin.angebote_angebote_id where angebote.angebote_id='"+angebot_id+"'";
-			rs = stmt.executeQuery(sql);
-			rs.next();
-			// Create an instance of SimpleDateFormat used for formatting 
-			// the string representation of date (month/day/year)
-			DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-
-				      
-			// Using DateFormat format method we can create a string 
-			// representation of a date with the defined format.
-			String reportDate = df.format(rs.getObject(1));
-			System.out.println(reportDate);
-			String Datum = reportDate;
-		// Kundenmailadresse
-			sql = "select kunden.kundeemail from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
-					+ angebot_id + "'";
-
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			rs.next();
-			System.out.println(rs.getString(1));
-			String mailadresse = rs.getString(1);			
-		
-		//String Kunde = "Burggraf";
-		// int Nummer = 100302;
-		//String Datum = "10.06.2016";
-		Mainmail mail = new Mainmail(kundenanrede,Kunde,angebot_id,Datum,mailadresse);
-		
-		}
-	
-	
-	}
-	
 	
     
 	
@@ -2605,4 +2616,113 @@ public class MyFlightController {
 					sqle.printStackTrace();
 				}
 				}
+
+	@FXML
+	public void action_createbill(ActionEvent event) throws Exception {
+		// gewählter Auftrag dessen Daten für Speicherung Rechnung übernehmen
+		int auftrag_id = Nummerorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
+		int tmpflgztyp = Flgztyporder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
+		String tmpAart = Aartorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
+		String tmpkdgruppe = Kdgruppeorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
+		String tmpauftragstatus = Statusorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
+
+		String sql = "select rechnungen.auftraege_auftraege_id from rechnungen where rechnungen.auftraege_auftraege_id='"
+				+ auftrag_id + "'";
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		if ((rs != null) && (rs.next()))
+			lbl_dbconnect.setText("Rechnung bereits vorhanden");
+		else {
+			// ermittle nächste Rechnungen-ID für speichern einer Rechnung
+
+			sql = "select max(rechnungen_id) from rechnungen";
+			rs = stmt.executeQuery(sql);
+			rs.next();
+			int newrechnungen_id = rs.getInt(1) + 1;
+			System.out.println(newrechnungen_id);
+
+			String tmprechnungstatus = "erstellt";
+
+			// ermittle Kunden_ID, Angebote_ID, Angebotsstatus von tabelle
+			// auftraege
+			sql = "select Auftraege.Angebote_Kunden_Kunde_ID, Auftraege.Angebote_Angebotsstatus_Angebotsstatus, Auftraege.Angebote_Angebote_ID  from auftraege where auftraege.auftraege_id='"
+					+ auftrag_id + "'";
+			rs = stmt.executeQuery(sql);
+			rs.next();
+			int tmpkunde_id = rs.getInt(1);
+			String tmpangebotstatus = rs.getString(2);
+			int tmpangebot_id = rs.getInt(3);
+
+			System.out.println(" " + newrechnungen_id + " " + tmprechnungstatus + " " + auftrag_id + " " + " "
+					+ tmpauftragstatus + " " + tmpangebot_id + " " + tmpangebotstatus + " " + tmpAart + " "
+					+ tmpkunde_id + " " + tmpkdgruppe);
+
+			// speichere Rechnungsdaten
+			try {
+				stmt.executeUpdate(
+						"insert into rechnungen (Rechnungen_ID ,Rechnungsstatus_Rechnungsstatus, Auftraege_Auftraege_ID , Auftraege_Auftragsstatus_Auftragsstatus ,Auftraege_Angebote_Angebote_ID , Auftraege_Angebote_Angebotsstatus_Angebotsstatus ,Auftraege_Angebote_Chartertyp_Chartertyp , Auftraege_Angebote_Kunden_Kunde_ID , Auftraege_Angebote_Kunden_Kundengruppen_Kundengruppen) values ('"
+								+ newrechnungen_id + "','" + tmprechnungstatus + "','" + auftrag_id + "','"
+								+ tmpauftragstatus + "','" + tmpangebot_id + "','" + tmpangebotstatus + "','" + tmpAart
+								+ "','" + tmpkunde_id + "','" + tmpkdgruppe + "')");
+				lbl_dbconnect.setText("Rechnung gespeichert");
+			} catch (SQLException sqle) {
+
+				lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
+				// System.out.println("geht nicht");
+				sqle.printStackTrace();
+			}
+		}	
+
+		
+		}
+		
+
+
+	@FXML
+	public void action_delete_order(ActionEvent event) throws Exception {
+		int auftrag_id = Nummerorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
+		String sql = "delete from auftraege where auftraege.auftraege_id ='" + auftrag_id + "'";
+		Statement statement = conn.createStatement();
+		try {
+			statement.executeUpdate(sql);
+			lbl_dbconnect.setText("Auftrag gelöscht");
+			actiongetaufträge();
+		} catch (SQLException sqle) {
+
+			lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
+				sqle.printStackTrace();
+		}
+	}
+
+	@FXML public void action_get_dashboard () {
+		 	
+			set_allunvisible();
+			apa_login.setVisible(false);
+			apa_btn_login.setVisible(true);
+		    apa_welcome.setVisible(true);
+		    lbl_username.setText(user);
+		    
+		    btn_login.setVisible(false);
+		    btn_change_user.setVisible(true);
+		    
+	}
+	@FXML public void action_change_user (ActionEvent event) {
+	 	
+		set_allunvisible();
+		apa_btn_login.setVisible(true);
+		apa_login.setVisible(true);
+		btn_change_user.setVisible(false);
+		btn_login.setVisible(true);
+		txt_username.setText("");
+        pwf_password.setText(""); 
+        authenticated = false;			    
+        mnudashboard.setDisable(true);
+		mnufinanzverwaltung.setDisable(true);
+		mnureporting.setDisable(true);
+		mnucharter.setDisable(true);
+		mnuadministration.setDisable(true);
+	}
+
+	
+	
 }

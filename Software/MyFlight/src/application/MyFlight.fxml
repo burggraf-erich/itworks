@@ -33,7 +33,7 @@
                <children>
                   <Accordion layoutY="8.0" prefHeight="481.0" prefWidth="201.0" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <panes>
-                      <TitledPane fx:id="mnudashboard" animated="false" disable="true" text="Dashboard">
+                      <TitledPane fx:id="mnudashboard" animated="false" disable="true" onMouseClicked="#action_get_dashboard" text="Dashboard">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>
@@ -1082,12 +1082,13 @@
                            <children>
                               <AnchorPane fx:id="auftragübersichtbuttons" prefHeight="68.0" prefWidth="589.0" visible="false">
                                  <children>
-                                    <HBox layoutX="176.0" layoutY="22.0" spacing="5.0">
+                                    <HBox alignment="TOP_RIGHT" layoutX="18.0" layoutY="22.0" prefHeight="25.0" prefWidth="557.0" spacing="5.0">
                                        <children>
-                                          <Button fx:id="btnprint" disable="true" mnemonicParsing="false" onAction="#action_drucken" text="Drucken" />
-                                          <Button fx:id="btnsend" disable="true" mnemonicParsing="false" onAction="#action_versenden" text="Versenden" />
-                                          <Button fx:id="angebotedit" mnemonicParsing="false" onAction="#angebotedit_click" text="Auftragsstatus ändern" />
-                                          <Button fx:id="btncreatebill" mnemonicParsing="false" text="Rechnung erstellen" />
+                                          <Button fx:id="btn_delete_order" disable="true" mnemonicParsing="false" onAction="#action_delete_order" text="Auftrag löschen" />
+                                          <Button fx:id="btnprint" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false" onAction="#action_drucken" text="Drucken" textAlignment="CENTER" />
+                                          <Button fx:id="btnsend" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false" onAction="#action_versenden" text="Versenden" textAlignment="CENTER" />
+                                          <Button fx:id="angebotedit" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false" onAction="#angebotedit_click" text="Auftragsstatus ändern" textAlignment="CENTER" />
+                                          <Button fx:id="btncreatebill" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false" onAction="#action_createbill" text="Rechnung erstellen" textAlignment="CENTER" />
                                        </children>
                                        <opaqueInsets>
                                           <Insets />
@@ -1154,8 +1155,9 @@
                               </AnchorPane>
                               <AnchorPane fx:id="apa_btn_login" prefHeight="68.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Button fx:id="btn_close" cancelButton="true" layoutX="430.0" layoutY="33.0" mnemonicParsing="false" onAction="#btn_close_click" text="schließen" AnchorPane.rightAnchor="93.0" />
-                                    <Button fx:id="btn_login" defaultButton="true" layoutX="506.0" layoutY="33.0" mnemonicParsing="false" onAction="#btn_login_click" text="anmelden" />
+                                    <Button fx:id="btn_change_user" defaultButton="true" layoutX="453.0" layoutY="30.0" mnemonicParsing="false" onAction="#action_change_user" text="Anwender wechseln" visible="false" />
+                                    <Button fx:id="btn_close" cancelButton="true" layoutX="377.0" layoutY="30.0" mnemonicParsing="false" onAction="#btn_close_click" text="schließen" AnchorPane.rightAnchor="146.0" />
+                                    <Button fx:id="btn_login" defaultButton="true" layoutX="458.0" layoutY="30.0" mnemonicParsing="false" onAction="#btn_login_click" text="anmelden" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane fx:id="apa_btn_costtrackingedit" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -1189,7 +1191,7 @@
       </SplitPane>
       <ImageView fitHeight="48.0" fitWidth="793.0" layoutX="2.0">
          <image>
-            <Image url="@../../../../../Logo2.jpg" />
+            <Image url="@Logo2.jpg" />
          </image>
       </ImageView>
       <Label fx:id="maskentitel" layoutX="209.0" layoutY="13.0" prefHeight="35.0" prefWidth="397.0" text="Label" visible="false">
