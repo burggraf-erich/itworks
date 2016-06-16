@@ -706,7 +706,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="384.0" layoutY="528.0" prefHeight="31.0" prefWidth="140.0" text="3.450,-- EUR">
+                              <TextField fx:id="preisnetto2" alignment="CENTER_RIGHT" editable="false" layoutX="384.0" layoutY="528.0" prefHeight="31.0" prefWidth="140.0" text="3.450,-- EUR">
                                  <font>
                                     <Font name="Courier New" size="16.0" />
                                  </font>
@@ -722,12 +722,12 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="385.0" layoutY="561.0" prefHeight="31.0" prefWidth="139.0" text="  655,50 EUR">
+                              <TextField fx:id="preismwst2" alignment="CENTER_RIGHT" editable="false" layoutX="385.0" layoutY="561.0" prefHeight="31.0" prefWidth="139.0" text="  655,50 EUR">
                                  <font>
                                     <Font name="Courier New" size="16.0" />
                                  </font>
                               </TextField>
-                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="384.0" layoutY="594.0" prefHeight="31.0" prefWidth="140.0" text="4.105,50 EUR">
+                              <TextField fx:id="preisbrutto2" alignment="CENTER_RIGHT" editable="false" layoutX="384.0" layoutY="594.0" prefHeight="31.0" prefWidth="140.0" text="4.105,50 EUR">
                                  <font>
                                     <Font name="Courier New" size="16.0" />
                                  </font>
@@ -759,19 +759,14 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <ImageView fitHeight="74.0" fitWidth="348.0" layoutX="12.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@Bild1.png" />
-                                 </image>
-                              </ImageView>
                               <HBox layoutX="14.0" layoutY="62.0" prefHeight="25.0" prefWidth="296.0">
                                  <children>
-                                    <TextField editable="false" prefHeight="25.0" prefWidth="140.0" text="Burggraf">
+                                    <TextField fx:id="kdname2" editable="false" prefHeight="25.0" prefWidth="140.0" text="Burggraf">
                                        <HBox.margin>
                                           <Insets right="5.0" />
                                        </HBox.margin>
                                     </TextField>
-                                    <TextField text="Erich">
+                                    <TextField fx:id="kdvname2" editable="false" text="Erich">
                                        <HBox.margin>
                                           <Insets right="5.0" />
                                        </HBox.margin>
@@ -783,20 +778,20 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <Label layoutX="442.0" layoutY="156.0" text="EBE-BH-Z64">
+                              <Label fx:id="flgzkz2" layoutX="442.0" layoutY="156.0" text="EBE-BH-Z64">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="454.0" layoutY="61.0" text="Fixpreis" textFill="#dd2c0c">
+                              <Label fx:id="artcharter2" layoutX="454.0" layoutY="61.0" text="Fixpreis" textFill="#dd2c0c">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
                               <Text layoutX="20.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Beginn" />
                               <Text layoutX="208.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ende" />
-                              <DatePicker layoutX="18.0" layoutY="257.0" />
-                              <DatePicker layoutX="201.0" layoutY="257.0" />
+                              <DatePicker fx:id="datumvon2" editable="false" layoutX="18.0" layoutY="257.0" />
+                              <DatePicker fx:id="datumbis2" editable="false" layoutX="201.0" layoutY="257.0" />
                               <Separator layoutX="15.0" layoutY="210.0" prefHeight="3.0" prefWidth="600.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="12.0" />
                               <Text fill="#28a306f7" layoutX="16.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reisedaten">
                                  <font>
@@ -805,8 +800,8 @@
                               </Text>
                               <Text layoutX="23.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Abflugort" />
                               <Text layoutX="209.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zielort" />
-                              <TextField editable="false" layoutX="18.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="München" />
-                              <TextField editable="false" layoutX="201.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="New York" />
+                              <TextField fx:id="abflugort2" editable="false" layoutX="18.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="München" />
+                              <TextField fx:id="ankunftort2" editable="false" layoutX="201.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="New York" />
                               <Text layoutX="436.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charterdauer" />
                               <TextField alignment="CENTER_RIGHT" editable="false" layoutX="432.0" layoutY="252.0" prefHeight="25.0" prefWidth="87.0" text="48 h">
                                  <font>
@@ -823,18 +818,18 @@
                                           <Label layoutX="24.0" layoutY="337.0" text="Zwischenaufenthalt 1" />
                                           <Label layoutX="207.0" layoutY="337.0" text="Zwischenaufenthalt 2" />
                                           <Label layoutX="388.0" layoutY="337.0" text="Zwischenaufenthalt 3" />
-                                          <TextField layoutX="20.0" layoutY="354.0" prefHeight="25.0" prefWidth="139.0" />
-                                          <TextField layoutX="201.0" layoutY="354.0" prefHeight="25.0" prefWidth="139.0" />
-                                          <TextField layoutX="389.0" layoutY="354.0" prefHeight="25.0" prefWidth="133.0" />
+                                          <TextField editable="false" layoutX="20.0" layoutY="354.0" prefHeight="25.0" prefWidth="139.0" />
+                                          <TextField editable="false" layoutX="201.0" layoutY="354.0" prefHeight="25.0" prefWidth="139.0" />
+                                          <TextField editable="false" layoutX="389.0" layoutY="354.0" prefHeight="25.0" prefWidth="133.0" />
                                           <TableView layoutX="10.0" layoutY="385.0" prefHeight="130.0" prefWidth="555.0">
                                             <columns>
-                                              <TableColumn prefWidth="75.0" text="Datum Abflug" />
-                                              <TableColumn prefWidth="75.0" sortable="false" text="Uhrzeit Abflug" />
-                                                <TableColumn prefWidth="75.0" text="Abflugort" />
-                                                <TableColumn prefWidth="75.0" text="Flugzeit" />
-                                                <TableColumn prefWidth="75.0" text="Uhreit Ankunft" />
-                                                <TableColumn prefWidth="75.0" text="Zielort" />
-                                                <TableColumn prefWidth="75.0" text="Anzahl Passagiere" />
+                                              <TableColumn editable="false" prefWidth="75.0" text="Datum Abflug" />
+                                              <TableColumn editable="false" prefWidth="75.0" sortable="false" text="Uhrzeit Abflug" />
+                                                <TableColumn editable="false" prefWidth="75.0" text="Abflugort" />
+                                                <TableColumn editable="false" prefWidth="75.0" text="Flugzeit" />
+                                                <TableColumn editable="false" prefWidth="75.0" text="Uhreit Ankunft" />
+                                                <TableColumn editable="false" prefWidth="75.0" text="Zielort" />
+                                                <TableColumn editable="false" prefWidth="75.0" text="Anzahl Passagiere" />
                                             </columns>
                                           </TableView>
                                           <DatePicker layoutX="14.0" layoutY="716.0" />
@@ -848,6 +843,7 @@
                                           <TextField layoutX="15.0" layoutY="804.0" prefHeight="25.0" prefWidth="201.0" text="HINOTORI Executive AG" />
                                           <TextField layoutX="267.0" layoutY="804.0" prefHeight="25.0" prefWidth="221.0" text="Auftraggeber" />
                                           <ComboBox fx:id="choicebillstatus" layoutX="376.0" layoutY="653.0" prefWidth="150.0" promptText="bitte auswählen" />
+                                          <TextField fx:id="flgztyp2" editable="false" layoutX="15.0" layoutY="124.0" />
                                             </children>
                                  </AnchorPane>
    
@@ -1150,7 +1146,7 @@
                               <AnchorPane fx:id="ancpanebtn_changebillstatus" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Button fx:id="btn_cancelchangebillstatus" layoutX="437.0" layoutY="28.0" mnemonicParsing="false" onAction="#actiongetrechnungen" text="Abbrechen" />
-                                    <Button layoutX="516.0" layoutY="28.0" mnemonicParsing="false" text="Speichern" />
+                                    <Button fx:id="btn_save_billstatus" layoutX="516.0" layoutY="28.0" mnemonicParsing="false" onAction="#action_save_billstatus" text="Speichern" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane fx:id="apa_btn_login" prefHeight="68.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

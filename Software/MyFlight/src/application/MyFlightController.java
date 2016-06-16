@@ -1,5 +1,5 @@
 package application;
-// V1.17
+// V1.18
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -186,6 +186,7 @@ public class MyFlightController {
 	@FXML Button btn_cancelcostextracostedit;
 	@FXML Button btn_delete_order;
 	@FXML Button btn_change_user;
+	@FXML Button btn_save_billstatus;
 	
 	@FXML AnchorPane apa_welcome;
 	@FXML AnchorPane apa_login;
@@ -282,8 +283,24 @@ public class MyFlightController {
 	@FXML TextField preisnetto1;
 	@FXML TextField preismwst1;
 	@FXML TextField preisbrutto1;
-	//Felder für Maske Erstelle Auftrag - Ende
+	//Felder für Maske Ändere Auftrag - Ende
 
+	//Felder für Maske Rechnungsstatus ändern - Beginn
+	
+	@FXML TextField kdname2;
+	@FXML TextField kdvname2;
+	@FXML Label artcharter2;
+	@FXML TextField flgztyp2;
+	@FXML Label flgzkz2;
+	@FXML DatePicker datumvon2;
+	@FXML DatePicker datumbis2;
+	@FXML TextField abflugort2;
+	@FXML TextField ankunftort2;
+	@FXML TextField preisnetto2;
+	@FXML TextField preismwst2;
+	@FXML TextField preisbrutto2;
+	//Felder für Maske Rechnungsstatus ändern - Ende
+	
 	@FXML TextField txt_mail;
 	@FXML TextField txt_mobile;
 	@FXML TextField txt_name;
@@ -1701,7 +1718,7 @@ public class MyFlightController {
 	
 	
 	@FXML
-	public void change_billstatus(ActionEvent event) {
+	public void change_billstatus(ActionEvent event) throws SQLException {
 		set_allunvisible();
 		scrollpane_changebillstatus.setVisible(true);
 		scrollpane_changebillstatus.setVvalue(0);;
@@ -1711,6 +1728,123 @@ public class MyFlightController {
 		maskentitel.setText("Rechnungsstatus ändern");
 		choicebillstatus.getItems().clear();
 		choicebillstatus.getItems().addAll("erstellt","verschickt");
+
+		//rechnung_id übernehmen
+		int rechnung_id = Nummerbill.getCellData(billtable.getSelectionModel().getSelectedIndex());
+		
+		// Kundenname
+				String sql = "select kunden.kundename from kunden inner join rechnungen on kunden.kunde_id=rechnungen.Auftraege_Angebote_Kunden_Kunde_ID and rechnungen.rechnungen_id='"
+				+ rechnung_id + "'";
+
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);
+				rs.next();
+			kdname2.setText(rs.getString(1));
+			System.out.println(rs.getString(1));
+
+		// Kundenvorname
+				sql = "select kunden.kundevorname from kunden inner join rechnungen on kunden.kunde_id=rechnungen.Auftraege_Angebote_Kunden_Kunde_ID and rechnungen.rechnungen_id='"
+				+ rechnung_id + "'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				kdvname2.setText(rs.getString(1));
+				System.out.println(rs.getString(1));
+
+		//Art des Charters
+				sql = "select rechnungen.Auftraege_Angebote_Chartertyp_Chartertyp from rechnungen where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				artcharter2.setText(rs.getString(1));
+				System.out.println(rs.getString(1));
+		//Flugzeugtyp
+				sql = "select a.Flugzeugtyp from flugzeugtypen a inner join angebote b on a.flugzeugtypen_ID = b.Fluege_flugzeuge_Flugzeugtypen_Flugzeugtypen_ID inner join rechnungen where b.angebote_id=rechnungen.Auftraege_Angebote_Angebote_ID and rechnungen.rechnungen_id='"+rechnung_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				flgztyp2.setText(rs.getString(1));
+				System.out.println(rs.getString(1));
+		//Flugzeugkennzeichen
+				sql = "select angebote.fluege_flugzeuge_flugzeug_id from angebote inner join rechnungen where angebote.angebote_id=rechnungen.Auftraege_Angebote_Angebote_ID and rechnungen.rechnungen_id='"+rechnung_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				flgzkz2.setText(rs.getString(1));
+				System.out.println(rs.getString(1));
+		//Datum von
+				sql = "select fluege.Datum_Von from angebote inner join fluege on angebote.fluege_flug_id=fluege.Flug_ID inner join rechnungen on angebote.angebote_id=rechnungen.Auftraege_Angebote_Angebote_ID where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				// Create an instance of SimpleDateFormat used for formatting 
+				// the string representation of date (month/day/year)
+				DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+
+					      
+				// Using DateFormat format method we can create a string 
+				// representation of a date with the defined format.
+				String reportDate = df.format(rs.getObject(1));
+				System.out.println(reportDate);
+				datumvon2.setPromptText(reportDate);
+				//datumvon.setPromptText(rs.getString(1));
+				//System.out.println(rs.getString(1));
+		//Datum bis
+				sql = "select fluege.Datum_bis from angebote inner join fluege on angebote.fluege_flug_id=fluege.Flug_ID inner join rechnungen on angebote.angebote_id=rechnungen.Auftraege_Angebote_Angebote_ID where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				// Create an instance of SimpleDateFormat used for formatting 
+				// the string representation of date (month/day/year)
+				//DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+					      
+				// Using DateFormat format method we can create a string 
+				// representation of a date with the defined format.
+				reportDate = df.format(rs.getObject(1));
+				System.out.println(reportDate);
+				datumbis2.setPromptText(reportDate);
+		//Abflugort
+				sql = "select flughafen_von.flughafenname from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote inner join rechnungen on angebote.angebote_id=rechnungen.Auftraege_Angebote_Angebote_ID where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				abflugort2.setText(rs.getString(1));
+				System.out.println(rs.getString(1));				
+		//Ankunftort
+				sql = "select flughafen_bis.flughafenname from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote inner join rechnungen on angebote.angebote_id=rechnungen.Auftraege_Angebote_Angebote_ID where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				ankunftort2.setText(rs.getString(1));
+				System.out.println(rs.getString(1));				
+		//Preis netto
+				sql = "select angebote.angebotspreis_netto from angebote inner join rechnungen on angebote.angebote_id=rechnungen.Auftraege_Angebote_Angebote_ID where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				System.out.println(rs.getInt(1));		
+				preisnetto2.setText(Integer.toString(rs.getInt(1)));
+				int Preisnetto = rs.getInt(1);
+		//Preis brutto
+				sql = "select angebote.angebotspreis_brutto from angebote inner join rechnungen on angebote.angebote_id=rechnungen.Auftraege_Angebote_Angebote_ID where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				System.out.println(rs.getInt(1));		
+				preisbrutto2.setText(Integer.toString(rs.getInt(1)));
+				int Preisbrutto = rs.getInt(1);					
+		//Preis Mwst
+				int Preismwst = Preisbrutto - Preisnetto;
+				System.out.println(Preismwst);		
+				preismwst2.setText(Integer.toString(Preismwst));
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	}
 	
 	public void erzeugePdf(int angebot_id) throws Exception {
@@ -2723,6 +2857,19 @@ public class MyFlightController {
 		mnuadministration.setDisable(true);
 	}
 
-	
+	@FXML		public void action_save_billstatus() throws SQLException {
+		int rechnung_id = Nummerbill.getCellData(billtable.getSelectionModel().getSelectedIndex());
+		String billstatuschange = choicebillstatus.getValue().toString();
+		Statement stmt = conn.createStatement();
+		try {
+		stmt.executeUpdate("Update rechnungen set rechnungsstatus_Rechnungsstatus='"+billstatuschange+"' where rechnungen.rechnungen_id='"+rechnung_id+"'");
+		lbl_dbconnect.setText("Änderung gespeichert");		
+	} catch (SQLException sqle) {
+
+		lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
+		// System.out.println("geht nicht");
+		sqle.printStackTrace();
+	}
+	}	
 	
 }
