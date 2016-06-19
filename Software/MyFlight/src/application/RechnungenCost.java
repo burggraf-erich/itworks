@@ -15,6 +15,7 @@ public class RechnungenCost {
 
 	private SimpleIntegerProperty Nummercostbill = null;
 	private SimpleStringProperty Statuscostbill = null;
+	private SimpleStringProperty Kdnamecostbill = null;
 	private SimpleStringProperty Datumcosttopay = null;
 	private SimpleFloatProperty Preiscostbill = null;
 	private SimpleFloatProperty Preiscostbill_aufschlag = null;
@@ -25,14 +26,14 @@ public class RechnungenCost {
 	
 	
 	
-
-	public RechnungenCost(Integer Nummer, String Status, String Datum, Float Preis, Float Preisaufschlag, Float Zusatzkosten, String Kdgruppe) {
+	public RechnungenCost(Integer Nummer, String Status, String Kdname, String zahltermin, float Preis, float preisaufschlag, float zusatzkosten, String Kdgruppe) {
 		this.Nummercostbill = new SimpleIntegerProperty(Nummer);
 		this.Statuscostbill = new SimpleStringProperty(Status) ;
-		this.Datumcosttopay = new SimpleStringProperty(Datum) ;
+		this.Kdnamecostbill = new SimpleStringProperty(Kdname);
+		this.Datumcosttopay = new SimpleStringProperty(zahltermin) ;
 		this.Preiscostbill = new SimpleFloatProperty(Preis);
-		this.Preiscostbill_aufschlag = new SimpleFloatProperty(Preisaufschlag);
-		this.Preiscostbill_zusatzkosten = new SimpleFloatProperty(Zusatzkosten);
+		this.Preiscostbill_aufschlag = new SimpleFloatProperty(preisaufschlag);
+		this.Preiscostbill_zusatzkosten = new SimpleFloatProperty(zusatzkosten);
 		this.Kdgruppecostbill = new SimpleStringProperty(Kdgruppe);
 		}
 	public int getNummercostbill() {
@@ -40,6 +41,9 @@ public class RechnungenCost {
     }
 	public String getStatuscostbill() {
         return Statuscostbill.get();
+    }
+	public String getKdnamecostbill() {
+        return Kdnamecostbill.get();
     }
 	public String getDatumcosttopay() {
         return Datumcosttopay.get();
@@ -62,6 +66,9 @@ public class RechnungenCost {
     public void setStatuscostbill(String Status) {
         this.Statuscostbill.set(Status);
     }
+    public void setKdnamecostbill(String Status) {
+        this.Kdnamecostbill.set(Status);
+    }
     public void setDatumcosttopay(String Datum) {
         this.Datumcosttopay.set(Datum);
     }
@@ -83,6 +90,9 @@ public class RechnungenCost {
     }
     public StringProperty StatuscostbillProperty() {
         return Statuscostbill;
+    }
+    public StringProperty KdnamecostbillProperty() {
+        return Kdnamecostbill;
     }
     public StringProperty DatumcosttopayProperty() {
         return Datumcosttopay;

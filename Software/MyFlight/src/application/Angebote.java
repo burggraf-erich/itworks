@@ -15,18 +15,18 @@ public class Angebote {
 	private IntegerProperty Nummer = null;
 	private SimpleStringProperty Aart = null;
 	private SimpleStringProperty Kdgruppe = null;
-	private IntegerProperty Flugztyp = null;
+	private SimpleStringProperty Flgztyp = null;
 	private SimpleStringProperty Datum_von = null;
 	private SimpleStringProperty Datum_bis = null;
 	private SimpleStringProperty Kdname = null;
 	private SimpleStringProperty Kdvname = null;
 	
 // Konstruktor für Instanzerzeugung 
-	public Angebote(Integer Nummer, String Aart, String Kdgruppe, Integer Flugztyp, String Datum_von, String Datum_bis, String Kdname, String Kdvname) {
+	public Angebote(Integer Nummer, String Aart, String Kdgruppe, String Flugztyp, String Datum_von, String Datum_bis, String Kdname, String Kdvname) {
         this.Nummer = new SimpleIntegerProperty(Nummer);
           this.Aart = new SimpleStringProperty(Aart);
         this.Kdgruppe = new SimpleStringProperty(Kdgruppe);
-        this.Flugztyp = new SimpleIntegerProperty(Flugztyp);
+        this.Flgztyp = new SimpleStringProperty(Flugztyp);
         this.Datum_von = new SimpleStringProperty(Datum_von);
         this.Datum_bis = new SimpleStringProperty(Datum_bis);
         this.Kdname = new SimpleStringProperty(Kdname);
@@ -43,16 +43,16 @@ public class Angebote {
     public IntegerProperty NummerProperty() {
         return Nummer;
     }
-    public int getFlugztyp() {
-        return Flugztyp.get();
+    public String getFlgztyp() {
+        return Flgztyp.get();
     }
 
-    public void setFlugztyp(int Flugztyp) {
-        this.Flugztyp.set(Flugztyp);
+    public void setFlgztyp(String Flgztyp) {
+        this.Flgztyp.set(Flgztyp);
     }
 
-    public IntegerProperty FlugztypProperty() {
-        return Flugztyp;
+    public StringProperty FlgztypProperty() {
+        return Flgztyp;
     }
     
     public String getDatum_von() {

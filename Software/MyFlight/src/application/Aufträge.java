@@ -13,23 +13,25 @@ import java.time.LocalDate;
 public class Aufträge {
 
 	private IntegerProperty Nummerorder = null;
+	private SimpleStringProperty datumauftragorder = null;
 	private SimpleStringProperty Statusorder = null;
 	private SimpleStringProperty Aartorder = null;
 	private SimpleStringProperty Kdgruppeorder = null;
 	private SimpleStringProperty Kdnameorder = null;
 	private SimpleStringProperty Kdvnameorder = null;
-	private IntegerProperty Flgztyporder = null;
+	private SimpleStringProperty Flgztyporder = null;
 	private SimpleStringProperty Beginnorder = null;
 	private SimpleStringProperty Endeorder = null;
 	
 	
 // Konstruktor für Instanzerzeugung
-	public Aufträge(Integer Nummer, String Status, String Aart, String Kdgruppe, String Kdnameorder, String Kdvnameorder, Integer Flgztyporder, String Beginnorder, String Endeorder) {
+	public Aufträge(Integer Nummer, String datumauftragorder, String Status, String Aart, String Kdgruppe, String Kdnameorder, String Kdvnameorder, String Flgztyporder, String Beginnorder, String Endeorder) {
         this.Nummerorder = new SimpleIntegerProperty(Nummer);
+        this.datumauftragorder = new SimpleStringProperty(datumauftragorder);
         this.Statusorder = new SimpleStringProperty(Status);
         this.Aartorder = new SimpleStringProperty(Aart);
         this.Kdgruppeorder = new SimpleStringProperty(Kdgruppe);
-        this.Flgztyporder = new SimpleIntegerProperty(Flgztyporder);
+        this.Flgztyporder = new SimpleStringProperty(Flgztyporder);
         this.Beginnorder = new SimpleStringProperty(Beginnorder);
         this.Endeorder = new SimpleStringProperty(Endeorder);
         this.Kdnameorder = new SimpleStringProperty(Kdnameorder);
@@ -46,14 +48,14 @@ public class Aufträge {
     public IntegerProperty NummerorderProperty() {
         return Nummerorder;
     }
-	public int getFlgztyporder() {
+	public String getFlgztyporder() {
         return Flgztyporder.get();
     }
 
-    public void setFlgztyporder(int Flgztyp) {
+    public void setFlgztyporder(String Flgztyp) {
         this.Flgztyporder.set(Flgztyp);
     }
-    public IntegerProperty FlgztyporderProperty() {
+    public StringProperty FlgztyporderProperty() {
         return Flgztyporder;
     }
 
@@ -135,4 +137,16 @@ public class Aufträge {
     public StringProperty EndeorderProperty() {
         return Endeorder;
     }
+    public String getdatumauftragorder() {
+        return datumauftragorder.get();
+    }
+
+    public void setdatumauftragorder(String datumauftragorder) {
+        this.datumauftragorder.set(datumauftragorder);
+    }
+    public StringProperty datumauftragorderProperty() {
+        return datumauftragorder;
+    }
+
+
 }

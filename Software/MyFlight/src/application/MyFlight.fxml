@@ -266,6 +266,7 @@
                                             <columns>
                                               <TableColumn fx:id="Nummercostbill" prefWidth="113.5" text="Rechnungsnummer" />
                                               <TableColumn fx:id="Statuscostbill" prefWidth="103.5" text="Rechn.-status" />
+                                                <TableColumn fx:id="Kdnamecostbill" prefWidth="75.0" text="Name" />
                                                 <TableColumn fx:id="Datumcosttopay" prefWidth="89.0" text="Zahltermin" />
                                                 <TableColumn fx:id="Preiscostbill" prefWidth="34.5" text="Preis" />
                                                 <TableColumn fx:id="Preiscostbill_aufschlag" prefWidth="84.5" text="Preis-Aufschlag" />
@@ -285,6 +286,7 @@
                                             <columns>
                                               <TableColumn fx:id="Nummercostreminder_warnings_bill" prefWidth="113.5" text="Rechnungsnummer" />
                                               <TableColumn fx:id="Statuscostreminder_warnings_bill" prefWidth="103.5" text="Rechn.-status" />
+                                                <TableColumn fx:id="Kdnamecostreminder_warnings_bill" prefWidth="75.0" text="Name" />
                                                 <TableColumn fx:id="Datumcostreminder_warnings_topay" prefWidth="89.0" text="Zahltermin" />
                                                 <TableColumn fx:id="Preiscostreminder_warnings_bill" prefWidth="34.5" text="Preis" />
                                                 <TableColumn fx:id="Preiscostreminder_warnings_bill_aufschlag" prefWidth="84.5" text="Preis-Aufschlag" />
@@ -352,7 +354,7 @@
                                     <TableView fx:id="auftragtable" layoutX="131.0" layoutY="-14.0" prefHeight="634.0" prefWidth="900.0" AnchorPane.bottomAnchor="-160.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-309.0" AnchorPane.topAnchor="0.0">
                                       <columns>
                                         <TableColumn fx:id="Nummerorder" prefWidth="108.5" text="Auftragsnummer" />
-                                        <TableColumn prefWidth="117.0" text="Auftragsdatum" />
+                                        <TableColumn fx:id="datumauftragorder" prefWidth="117.0" text="Auftragsdatum" />
                                           <TableColumn fx:id="Statusorder" minWidth="0.0" prefWidth="97.5" text="Auftragsstatus" />
                                           <TableColumn fx:id="Kdgruppeorder" prefWidth="54.0" text="Kd-Gruppe" />
                                           <TableColumn fx:id="Kdnameorder" minWidth="0.0" prefWidth="40.0" text="Name" />
@@ -484,13 +486,13 @@
                               <TextField fx:id="abflugort" editable="false" layoutX="18.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="München" />
                               <TextField fx:id="ankunftort" editable="false" layoutX="201.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="New York" />
                               <Text layoutX="436.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charterdauer" />
-                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="432.0" layoutY="252.0" prefHeight="25.0" prefWidth="87.0" text="48 h">
+                              <TextField fx:id="charterdauer" alignment="CENTER_RIGHT" editable="false" layoutX="432.0" layoutY="252.0" prefHeight="25.0" prefWidth="87.0" text="48 h">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </TextField>
                               <Text layoutX="388.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Flugzeit" />
-                              <TextField alignment="CENTER_RIGHT" editable="false" layoutX="387.0" layoutY="302.0" prefHeight="20.0" prefWidth="134.0" text="23:15 hh:mm">
+                              <TextField fx:id="flugzeit" alignment="CENTER_RIGHT" editable="false" layoutX="387.0" layoutY="302.0" prefHeight="20.0" prefWidth="134.0" text="23:15 hh:mm">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -997,34 +999,34 @@
                                     <Label layoutX="14.0" layoutY="45.0" text="Auftragsnummer:" />
                                     <Label layoutX="15.0" layoutY="72.0" text="Auftragsstatus:" />
                                     <Label layoutX="269.0" layoutY="101.0" text="Kundengruppe:" />
-                                    <TextField fx:id="txt_companyname_new" disable="true" layoutX="110.0" layoutY="41.0" />
-                                    <TextField fx:id="txt_street_new" disable="true" layoutX="110.0" layoutY="68.0" />
-                                    <TextField fx:id="txt_postcode_new" disable="true" layoutX="360.0" layoutY="99.0" />
-                                    <TextField fx:id="txt_homenumber_new" disable="true" layoutX="219.0" layoutY="226.0" prefHeight="25.0" prefWidth="34.0" />
-                                    <TextField fx:id="txt_customerid_new" disable="true" editable="false" layoutX="360.0" layoutY="41.0" prefHeight="25.0" prefWidth="150.0" />
+                                    <TextField fx:id="auftrag_idcosttrackingedit" editable="false" layoutX="110.0" layoutY="41.0" />
+                                    <TextField fx:id="Auftragstatuscosttrackingedit" editable="false" layoutX="110.0" layoutY="68.0" />
+                                    <TextField fx:id="Kdgruppecosttrackingedit" editable="false" layoutX="360.0" layoutY="99.0" />
+                                    <TextField fx:id="preisaufschlagcosttrackingedit" editable="false" layoutX="219.0" layoutY="226.0" prefHeight="25.0" prefWidth="34.0" />
+                                    <TextField fx:id="Kunden_idcosttrackingedit" editable="false" layoutX="360.0" layoutY="41.0" prefHeight="25.0" prefWidth="150.0" />
                                     <Label layoutX="17.0" layoutY="284.0" text="Preis:" />
                                     <Label layoutX="14.0" layoutY="230.0" text="Preis-Aufschlag:" />
                                     <Label layoutX="269.0" layoutY="45.0" text="Kundennummer:" />
-                                    <TextField fx:id="txt_homeext_new" disable="true" layoutX="190.0" layoutY="280.0" prefHeight="25.0" prefWidth="63.0" />
+                                    <TextField fx:id="preisbruttocosttrackingedit" editable="false" layoutX="190.0" layoutY="280.0" prefHeight="25.0" prefWidth="63.0" />
                                     <Separator layoutX="14.0" layoutY="164.0" prefHeight="2.0" prefWidth="493.0" />
                                     <Label layoutX="269.0" layoutY="74.0" text="Name:" />
-                                    <TextField fx:id="txt_name_new" disable="true" layoutX="360.0" layoutY="70.0" />
+                                    <TextField fx:id="Kdnamecosttrackingedit" editable="false" layoutX="360.0" layoutY="70.0" />
                                     <Label layoutX="13.0" layoutY="173.0" text="Rechnungsdaten:">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="txt_place_new" disable="true" layoutX="138.0" layoutY="197.0" prefHeight="25.0" prefWidth="114.0" />
+                                    <TextField fx:id="rechnung_idcosttrackingedit" editable="false" layoutX="138.0" layoutY="197.0" prefHeight="25.0" prefWidth="114.0" />
                                     <Label layoutX="13.0" layoutY="204.0" text="Rechnungsnummer:" />
                                     <Separator layoutX="14.0" layoutY="319.0" prefHeight="2.0" prefWidth="493.0" />
                                     <ComboBox fx:id="choicecostbillstatus" layoutX="359.0" layoutY="355.0" prefHeight="25.0" prefWidth="149.0" promptText="bitte auswählen" />
                                     <Label layoutX="15.0" layoutY="366.0" text="Rechnung Status neu:" />
                                     <Label layoutX="16.0" layoutY="331.0" text="Rechnung Status bisher:" />
-                                    <Label layoutX="444.0" layoutY="330.0" text="Erinnerung1" />
+                                    <Label fx:id="rechnungstatuscosttrackingedit" layoutX="444.0" layoutY="330.0" text="Erinnerung1" />
                                     <Label layoutX="15.0" layoutY="258.0" text="Zusatzkosten:" />
-                                    <TextField fx:id="txt_homeext_new1" disable="true" layoutX="190.0" layoutY="253.0" prefHeight="25.0" prefWidth="63.0" />
+                                    <TextField fx:id="zusatzkostencosttrackingedit" editable="false" layoutX="190.0" layoutY="253.0" prefHeight="25.0" prefWidth="63.0" />
                                     <Label layoutX="269.0" layoutY="202.0" text="Zahlungstermin:" />
-                                    <TextField fx:id="txt_postcode_new1" disable="true" layoutX="360.0" layoutY="196.0" />
+                                    <TextField fx:id="zahlungstermincosttrackingedit" editable="false" layoutX="360.0" layoutY="196.0" />
                                  </children>
                               </AnchorPane>      
 
@@ -1038,32 +1040,35 @@
                                     <Label layoutX="14.0" layoutY="45.0" text="Auftragsnummer:" />
                                     <Label layoutX="15.0" layoutY="72.0" text="Auftragsstatus:" />
                                     <Label layoutX="269.0" layoutY="101.0" text="Kundengruppe:" />
-                                    <TextField fx:id="txt_companyname_new" disable="true" layoutX="110.0" layoutY="41.0" />
-                                    <TextField fx:id="txt_street_new" disable="true" layoutX="110.0" layoutY="68.0" />
-                                    <TextField fx:id="txt_postcode_new" disable="true" layoutX="360.0" layoutY="99.0" />
-                                    <TextField fx:id="txt_homenumber_new" disable="true" layoutX="219.0" layoutY="226.0" prefHeight="25.0" prefWidth="34.0" />
-                                    <TextField fx:id="txt_customerid_new" disable="true" editable="false" layoutX="360.0" layoutY="41.0" prefHeight="25.0" prefWidth="150.0" />
+                                    <TextField fx:id="auftrag_idextracostedit" editable="false" layoutX="110.0" layoutY="41.0" />
+                                    <TextField fx:id="Auftragstatusextracostedit" editable="false" layoutX="110.0" layoutY="68.0" />
+                                    <TextField fx:id="Kdgruppeextracostedit" editable="false" layoutX="360.0" layoutY="99.0" />
+                                    <TextField fx:id="preisaufschlagextracostedit" editable="false" layoutX="219.0" layoutY="226.0" prefHeight="25.0" prefWidth="34.0" />
+                                    <TextField fx:id="Kunden_idextracostedit" editable="false" layoutX="360.0" layoutY="41.0" prefHeight="25.0" prefWidth="150.0" />
                                     <Label layoutX="17.0" layoutY="284.0" text="Preis:" />
                                     <Label layoutX="14.0" layoutY="230.0" text="Preis-Aufschlag:" />
                                     <Label layoutX="269.0" layoutY="45.0" text="Kundennummer:" />
-                                    <TextField fx:id="txt_homeext_new" disable="true" layoutX="190.0" layoutY="280.0" prefHeight="25.0" prefWidth="63.0" />
+                                    <TextField fx:id="preisbruttoextracostedit" editable="false" layoutX="190.0" layoutY="280.0" prefHeight="25.0" prefWidth="63.0" />
                                     <Separator layoutX="14.0" layoutY="164.0" prefHeight="2.0" prefWidth="493.0" />
                                     <Label layoutX="269.0" layoutY="74.0" text="Name:" />
-                                    <TextField fx:id="txt_name_new" disable="true" layoutX="360.0" layoutY="70.0" />
+                                    <TextField fx:id="Kdnameextracostedit" editable="false" layoutX="360.0" layoutY="70.0" />
                                     <Label layoutX="13.0" layoutY="173.0" text="Rechnungsdaten:">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="txt_place_new" disable="true" layoutX="138.0" layoutY="197.0" prefHeight="25.0" prefWidth="114.0" />
+                                    <TextField fx:id="rechnung_idextracostedit" editable="false" layoutX="138.0" layoutY="197.0" prefHeight="25.0" prefWidth="114.0" />
                                     <Label layoutX="13.0" layoutY="204.0" text="Rechnungsnummer:" />
                                     <Separator layoutX="14.0" layoutY="319.0" prefHeight="2.0" prefWidth="493.0" />
-                                    <Label layoutX="15.0" layoutY="258.0" text="Zusatzkosten:" />
-                                    <TextField fx:id="txt_homeext_new1" layoutX="190.0" layoutY="253.0" prefHeight="25.0" prefWidth="63.0" />
+                                    <Label layoutX="15.0" layoutY="258.0" text="Zusatzkosten:">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font></Label>
+                                    <TextField fx:id="zusatzkostenextracostedit" layoutX="190.0" layoutY="253.0" prefHeight="25.0" prefWidth="63.0" />
                                     <Label layoutX="269.0" layoutY="254.0" text="Zahlungstermin:" />
-                                    <TextField fx:id="txt_postcode_new1" disable="true" layoutX="369.0" layoutY="252.0" prefHeight="25.0" prefWidth="140.0" />
+                                    <TextField fx:id="zahlungsterminextracostedit" editable="false" layoutX="369.0" layoutY="252.0" prefHeight="25.0" prefWidth="140.0" />
                                     <Label layoutX="269.0" layoutY="282.0" text="Rechnung Status:" />
-                                    <TextField fx:id="txt_postcode_new11" disable="true" layoutX="369.0" layoutY="280.0" prefHeight="25.0" prefWidth="140.0" />
+                                    <TextField fx:id="rechnungstatusextracostedit" editable="false" layoutX="369.0" layoutY="280.0" prefHeight="25.0" prefWidth="140.0" />
                                  </children>
                               </AnchorPane>      
 
@@ -1124,7 +1129,7 @@
                               <AnchorPane fx:id="ancpanebtn_createorder" prefHeight="68.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Button fx:id="btn_cancel_createorder" cancelButton="true" layoutX="422.0" layoutY="22.0" mnemonicParsing="false" onAction="#actiongetangebote" text="Abbrechen" />
-                                    <Button fx:id="btn_save_order" layoutX="506.0" layoutY="22.0" mnemonicParsing="false" onAction="#showdocumentdialog" text="Speichern" />
+                                    <Button fx:id="btn_save_order" layoutX="506.0" layoutY="22.0" mnemonicParsing="false" onAction="#action_createorder" text="Speichern" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane fx:id="ancpanebtn_changeorder" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -1159,13 +1164,13 @@
                               <AnchorPane fx:id="apa_btn_costtrackingedit" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Button fx:id="btn_canceltrackingedit" layoutX="437.0" layoutY="28.0" mnemonicParsing="false" onAction="#actiongetcosttrackingoverview" text="Abbrechen" />
-                                    <Button layoutX="516.0" layoutY="28.0" mnemonicParsing="false" text="Speichern" />
+                                    <Button fx:id="btn_save_costtrackingedit" layoutX="516.0" layoutY="28.0" mnemonicParsing="false" onAction="#action_save_costtrackingedit" text="Speichern" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane fx:id="apa_btn_costextracostedit" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Button fx:id="btn_cancelcostextracostedit" layoutX="437.0" layoutY="28.0" mnemonicParsing="false" onAction="#actiongetcosttrackingreminder" text="Abbrechen" />
-                                    <Button layoutX="516.0" layoutY="28.0" mnemonicParsing="false" text="Speichern" />
+                                    <Button fx:id="btn_save_costextracostedit" layoutX="516.0" layoutY="28.0" mnemonicParsing="false" onAction="#action_save_costextracostedit" text="Speichern" />
                                  </children>
                               </AnchorPane>
 

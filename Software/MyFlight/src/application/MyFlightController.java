@@ -1,5 +1,5 @@
 package application;
-// V1.18
+// V1.20
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -41,9 +41,11 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.concurrent.TimeUnit;
 // imports für PDF-Generator
 import java.io.File;
 import java.io.FileOutputStream;
@@ -187,6 +189,7 @@ public class MyFlightController {
 	@FXML Button btn_delete_order;
 	@FXML Button btn_change_user;
 	@FXML Button btn_save_billstatus;
+	@FXML Button btn_save_costtrackingedit;
 	
 	@FXML AnchorPane apa_welcome;
 	@FXML AnchorPane apa_login;
@@ -235,6 +238,7 @@ public class MyFlightController {
 	@FXML Label lblberechtigung;
 	@FXML Label maskentitel;
 	
+	
 	@FXML TitledPane mnudashboard;
 	@FXML TitledPane mnufinanzverwaltung;
 	@FXML TitledPane mnureporting;
@@ -267,6 +271,9 @@ public class MyFlightController {
 	@FXML TextField preisnetto;
 	@FXML TextField preismwst;
 	@FXML TextField preisbrutto;
+	@FXML TextField charterdauer;
+	@FXML TextField flugzeit;
+	
 	//Felder für Maske Erstelle Auftrag - Ende
 	
 	//Felder für Maske Ändere Auftrag - Beginn
@@ -301,7 +308,35 @@ public class MyFlightController {
 	@FXML TextField preisbrutto2;
 	//Felder für Maske Rechnungsstatus ändern - Ende
 	
-	@FXML TextField txt_mail;
+	//Felder für Maske Rechnungsstatus ändern - Beginn
+	 @FXML TextField auftrag_idcosttrackingedit;
+     @FXML TextField Auftragstatuscosttrackingedit;
+     @FXML TextField Kdgruppecosttrackingedit;
+     @FXML TextField preisaufschlagcosttrackingedit;
+     @FXML TextField Kunden_idcosttrackingedit;
+     @FXML TextField preisbruttocosttrackingedit;
+     @FXML TextField Kdnamecosttrackingedit;
+     @FXML TextField rechnung_idcosttrackingedit;
+     @FXML TextField zusatzkostencosttrackingedit;
+     @FXML TextField zahlungstermincosttrackingedit;
+     @FXML Label rechnungstatuscosttrackingedit;
+  //Felder für Maske Rechnungsstatus ändern - Ende
+  
+   //Felder für Maske Zusatzkosten für Rechnung - Beginn
+   	 @FXML TextField auftrag_idextracostedit;
+        @FXML TextField Auftragstatusextracostedit;
+        @FXML TextField Kdgruppeextracostedit;
+        @FXML TextField preisaufschlagextracostedit;
+        @FXML TextField Kunden_idextracostedit;
+        @FXML TextField preisbruttoextracostedit;
+        @FXML TextField Kdnameextracostedit;
+        @FXML TextField rechnung_idextracostedit;
+        @FXML TextField zusatzkostenextracostedit;
+        @FXML TextField zahlungsterminextracostedit;
+        @FXML TextField rechnungstatusextracostedit;
+      //Felder für Maske Zusatzkosten für Rechnung - Ende
+     
+    @FXML TextField txt_mail;
 	@FXML TextField txt_mobile;
 	@FXML TextField txt_name;
 	@FXML TextField txt_phone;
@@ -348,15 +383,16 @@ public class MyFlightController {
 	@FXML	TableColumn<Angebote, String> Kdgruppe;
 	@FXML	TableColumn<Angebote, String> Kdvname;
 	@FXML	TableColumn<Angebote, String> Aart;
-	@FXML	TableColumn<Angebote, Integer> Flgztyp;
+	@FXML	TableColumn<Angebote, String> Flgztyp;
 	@FXML	TableColumn<Angebote, String>  Beginn;
 	@FXML	TableColumn<Angebote, String>  Ende;
 	
 	@FXML	TableView<Aufträge> auftragtable;
 	@FXML	TableColumn<Aufträge, Integer> Nummerorder;
+	@FXML	TableColumn<Aufträge, String> datumauftragorder;
 	@FXML	TableColumn<Aufträge, String> Kdnameorder;
 	@FXML	TableColumn<Aufträge, String> Kdvnameorder;
-	@FXML	TableColumn<Aufträge, Integer> Flgztyporder;
+	@FXML	TableColumn<Aufträge, String> Flgztyporder;
 	@FXML	TableColumn<Aufträge, String> Beginnorder;
 	@FXML	TableColumn<Aufträge, String> Endeorder;
 	
@@ -369,7 +405,7 @@ public class MyFlightController {
 	@FXML	TableColumn<Rechnungen, Integer> Nummerbill;
 	@FXML	TableColumn<Rechnungen, String> Statusbill;
 	@FXML	TableColumn<Rechnungen, String> Datumtopay;
-	@FXML	TableColumn<Rechnungen, Integer> Preisbill;
+	@FXML	TableColumn<Rechnungen, Float> Preisbill;
 	@FXML	TableColumn<Rechnungen, Float> Preisbill_aufschlag;
 	@FXML	TableColumn<Rechnungen, Float> Preisbill_zusatzkosten;
 	@FXML	TableColumn<Rechnungen, String> Kdgruppebill;
@@ -380,6 +416,7 @@ public class MyFlightController {
 	@FXML	TableView<RechnungenCost> costbilltable;
 	@FXML	TableColumn<RechnungenCost, Integer> Nummercostbill;
 	@FXML	TableColumn<RechnungenCost, String> Statuscostbill;
+	@FXML	TableColumn<RechnungenCost, String> Kdnamecostbill;
 	@FXML	TableColumn<RechnungenCost, String> Datumcosttopay;
 	@FXML	TableColumn<RechnungenCost, Float> Preiscostbill;
 	@FXML	TableColumn<RechnungenCost, Float> Preiscostbill_aufschlag;
@@ -391,6 +428,7 @@ public class MyFlightController {
 	@FXML	TableView<RechnungenCostreminder> costreminder_warnings_billtable;
 	@FXML	TableColumn<RechnungenCostreminder, Integer> Nummercostreminder_warnings_bill;
 	@FXML	TableColumn<RechnungenCostreminder, String> Statuscostreminder_warnings_bill;
+	@FXML	TableColumn<RechnungenCostreminder, String> Kdnamecostreminder_warnings_bill;
 	@FXML	TableColumn<RechnungenCostreminder, String> Datumcostreminder_warnings_topay;
 	@FXML	TableColumn<RechnungenCostreminder, Float> Preiscostreminder_warnings_bill;
 	@FXML	TableColumn<RechnungenCostreminder, Float> Preiscostreminder_warnings_bill_aufschlag;
@@ -405,7 +443,7 @@ public class MyFlightController {
 	private void initialize() {
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
-		Flgztyp.setCellValueFactory(cellData -> cellData.getValue().FlugztypProperty().asObject());
+		Flgztyp.setCellValueFactory(cellData -> cellData.getValue().FlgztypProperty());
 		Beginn.setCellValueFactory(cellData -> cellData.getValue().Datum_vonProperty());
 		Ende.setCellValueFactory(cellData -> cellData.getValue().Datum_bisProperty());
 		Aart.setCellValueFactory(cellData -> cellData.getValue().AartProperty());
@@ -416,36 +454,40 @@ public class MyFlightController {
 		// Datenverknüpfung auftragtable
 
 		Nummerorder.setCellValueFactory(cellData -> cellData.getValue().NummerorderProperty().asObject());
-		Flgztyporder.setCellValueFactory(cellData -> cellData.getValue().FlgztyporderProperty().asObject());
+		datumauftragorder.setCellValueFactory(cellData -> cellData.getValue().datumauftragorderProperty());
+		Flgztyporder.setCellValueFactory(cellData -> cellData.getValue().FlgztyporderProperty());
 		Statusorder.setCellValueFactory(cellData -> cellData.getValue().StatusorderProperty());
 		Aartorder.setCellValueFactory(cellData -> cellData.getValue().AartorderProperty());
 		Kdgruppeorder.setCellValueFactory(cellData -> cellData.getValue().KdgruppeorderProperty());
 		Kdnameorder.setCellValueFactory(cellData -> cellData.getValue().KdnameorderProperty());
 		Kdvnameorder.setCellValueFactory(cellData -> cellData.getValue().KdvnameorderProperty());
-		Flgztyporder.setCellValueFactory(cellData -> cellData.getValue().FlgztyporderProperty().asObject());
 		Beginnorder.setCellValueFactory(cellData -> cellData.getValue().BeginnorderProperty());
 		Endeorder.setCellValueFactory(cellData -> cellData.getValue().EndeorderProperty());
 		
 		// Datenverknüpfung billtable
 		Nummerbill.setCellValueFactory(cellData -> cellData.getValue().NummerbillProperty().asObject());
 		Statusbill.setCellValueFactory(cellData -> cellData.getValue().StatusbillProperty());
-//		Datumtopay.setCellValueFactory(cellData -> cellData.getValue().DatumtopayProperty());
+		Datumtopay.setCellValueFactory(cellData -> cellData.getValue().DatumtopayProperty());
 		Preisbill.setCellValueFactory(cellData -> cellData.getValue().PreisbillProperty().asObject());
-//		Preisbill_aufschlag.setCellValueFactory(cellData -> cellData.getValue().Preisbill_aufschlagProperty().asObject());
-//		Preisbill_zusatzkosten.setCellValueFactory(cellData -> cellData.getValue().Preisbill_zusatzkostenProperty().asObject());
+		Preisbill_aufschlag.setCellValueFactory(cellData -> cellData.getValue().Preisbill_aufschlagProperty().asObject());
+		Preisbill_zusatzkosten.setCellValueFactory(cellData -> cellData.getValue().Preisbill_zusatzkostenProperty().asObject());
 		Kdgruppebill.setCellValueFactory(cellData -> cellData.getValue().KdgruppebillProperty());
 		Kdnamebill.setCellValueFactory(cellData -> cellData.getValue().KdnamebillProperty());
 		
+		// Datenverknüpfung costbilltable
 		Nummercostbill.setCellValueFactory(cellData -> cellData.getValue().NummercostbillProperty().asObject());
 		Statuscostbill.setCellValueFactory(cellData -> cellData.getValue().StatuscostbillProperty());
+		Kdnamecostbill.setCellValueFactory(cellData -> cellData.getValue().KdnamecostbillProperty());
 		Datumcosttopay.setCellValueFactory(cellData -> cellData.getValue().DatumcosttopayProperty());
 		Preiscostbill.setCellValueFactory(cellData -> cellData.getValue().PreiscostbillProperty().asObject());
 		Preiscostbill_aufschlag.setCellValueFactory(cellData -> cellData.getValue().Preiscostbill_aufschlagProperty().asObject());
 		Preiscostbill_zusatzkosten.setCellValueFactory(cellData -> cellData.getValue().Preiscostbill_zusatzkostenProperty().asObject());
 		Kdgruppecostbill.setCellValueFactory(cellData -> cellData.getValue().KdgruppecostbillProperty());
 		
+		// Datenverknüpfung costreminder_warnings_billtable
 		Nummercostreminder_warnings_bill.setCellValueFactory(cellData -> cellData.getValue().Nummercostreminder_warnings_billProperty().asObject());
 		Statuscostreminder_warnings_bill.setCellValueFactory(cellData -> cellData.getValue().Statuscostreminder_warnings_billProperty());
+		Kdnamecostreminder_warnings_bill.setCellValueFactory(cellData -> cellData.getValue().Kdnamecostreminder_warnings_billProperty());
 		Datumcostreminder_warnings_topay.setCellValueFactory(cellData -> cellData.getValue().Datumcostreminder_warnings_topayProperty());
 		Preiscostreminder_warnings_bill.setCellValueFactory(cellData -> cellData.getValue().Preiscostreminder_warnings_billProperty().asObject());
 		Preiscostreminder_warnings_bill_aufschlag.setCellValueFactory(cellData -> cellData.getValue().Preiscostreminder_warnings_bill_aufschlagProperty().asObject());
@@ -489,133 +531,132 @@ public class MyFlightController {
 		
      // Vor- und Nachnamen ermitteln
 	    int pos = user.indexOf(".");
-	    vorname = user.substring(0, pos);
-	    nachname = user.substring(pos+1,user.length());
-	    
+	    System.out.println(pos);
+		if (pos <= 0)
+			lbl_dbconnect.setText("Bitte User mit Vorname.Nachname eingeben");
+		else {
+			vorname = user.substring(0, pos);
+			nachname = user.substring(pos + 1, user.length());
+			try {
+				Class.forName("org.gjt.mm.mysql.Driver").newInstance();
+			} catch (Exception e) {
+				lbl_dbconnect.setText("mysql-Treiber nicht geladen");
+				e.printStackTrace();
+			}
+			try {
+				String url = "jdbc:mysql://" + hostname + ":" + port + "/" + dbname;
+				conn = DriverManager.getConnection(url, user, password);
 
-		
-	    try { 
-	      	 Class.forName("org.gjt.mm.mysql.Driver").newInstance(); 
-	        } 
-	        catch (Exception e) 
-	        { 
-	        	lbl_dbconnect.setText("mysql-Treiber nicht geladen");
-	            e.printStackTrace(); 
-	        } 
-	        try 
-	        { 
-		    String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
-		    conn = DriverManager.getConnection(url, user, password); 
-		    
-		    
-		    Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT berechtigungen_berechtigungen_id FROM benutzer where benutzervorname='"+vorname+"' and benutzernachname='"+nachname+"'");
-		
-			if ((rs!= null) && (rs.next())) {
-			
-				berechtigungsstufe = rs.getInt(1);	
-			rs = stmt.executeQuery("SELECT Berechtigungen FROM berechtigungen where Berechtigungen_ID='"+berechtigungsstufe+"'");
-			rs.next();
-				switch (rs.getString(1)) {
-				case "Administrator":
-					berechtigungsstufe = 3;
-					Rolle = rs.getString(1);
-					break;
-				case "Key-User":
-					berechtigungsstufe = 2;
-					Rolle = rs.getString(1);
-					break;
-				case "User":
-					berechtigungsstufe = 1;
-					Rolle = rs.getString(1);
-					break;
-				default:
-					berechtigungsstufe = 0;
-					Rolle = "";
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt
+						.executeQuery("SELECT berechtigungen_berechtigungen_id FROM benutzer where benutzervorname='"
+								+ vorname + "' and benutzernachname='" + nachname + "'");
+
+				if ((rs != null) && (rs.next())) {
+
+					berechtigungsstufe = rs.getInt(1);
+					rs = stmt.executeQuery("SELECT Berechtigungen FROM berechtigungen where Berechtigungen_ID='"
+							+ berechtigungsstufe + "'");
+					rs.next();
+					switch (rs.getString(1)) {
+					case "Administrator":
+						berechtigungsstufe = 3;
+						Rolle = rs.getString(1);
+						break;
+					case "Key-User":
+						berechtigungsstufe = 2;
+						Rolle = rs.getString(1);
+						break;
+					case "User":
+						berechtigungsstufe = 1;
+						Rolle = rs.getString(1);
+						break;
+					default:
+						berechtigungsstufe = 0;
+						Rolle = "";
+					}
 				}
+
+				lbl_dbconnect.setText("Anmeldung erfolgreich");
+				apa_login.setVisible(false);
+				apa_welcome.setVisible(true);
+				lbl_username.setText(user);
+
+				btn_login.setVisible(false);
+				btn_change_user.setVisible(true);
+
+				User userobject = new User(vorname, nachname, Rolle, berechtigungsstufe);
+				System.out.println(berechtigungsstufe);
+				authenticated = true;
+				String userrolle = userobject.getrolle();
+				lblrolle.setText(userrolle);
+				lblberechtigung.setText(String.valueOf(userobject.getberechtigung()));
+
+				// setze nach erfolgreicher Anmeldung je nach
+				// Berechtigungsgruppe die Menüpunkte und Buttons aktiv
+				if (authenticated) {
+					mnudashboard.setDisable(false);
+					mnufinanzverwaltung.setDisable(false);
+					mnureporting.setDisable(false);
+					mnucharter.setDisable(false);
+				}
+
+				if (userobject.getberechtigung() >= 2) {
+					btn_costextracostedit.disableProperty().bind(
+							Bindings.isEmpty(costreminder_warnings_billtable.getSelectionModel().getSelectedIndices()));
+					btn_delete_order.disableProperty()
+							.bind(Bindings.isEmpty(auftragtable.getSelectionModel().getSelectedIndices()));
+				}
+				if (userobject.getberechtigung() == 3) {
+					mnuadministration.setDisable(false);
+				}
+
+				conn.close();
+				//
+			} catch (SQLException sqle) {
+
+				lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
+				// System.out.println("geht nicht");
+				sqle.printStackTrace();
+
+				// Anwendung auch bei fehlenden Berechtigungen freischalten -
+				// Beginn
+				apa_login.setVisible(false);
+				apa_welcome.setVisible(true);
+				lbl_username.setText(user);
+
+				btn_login.setVisible(false);
+				btn_change_user.setVisible(true);
+
+				User userobject = new User(vorname, nachname, "Mitarbeiter", 3);
+				authenticated = true;
+				String userrolle = userobject.getrolle();
+				lblrolle.setText(userrolle);
+				lblberechtigung.setText(String.valueOf(userobject.getberechtigung()));
+				authenticated = true;
+				if (authenticated) {
+					mnudashboard.setDisable(false);
+					mnufinanzverwaltung.setDisable(false);
+					mnureporting.setDisable(false);
+					mnucharter.setDisable(false);
+				}
+
+				if (userobject.getberechtigung() >= 2) {
+					// mnuzusatzkosten.setDisable(false);
+				}
+				if (userobject.getberechtigung() == 3) {
+					mnuadministration.setDisable(false);
+				}
+
 			}
-		    
-		    
-		    lbl_dbconnect.setText("Anmeldung erfolgreich");
-		    apa_login.setVisible(false);
-		    apa_welcome.setVisible(true);
-		    lbl_username.setText(user);
-		    
-		    btn_login.setVisible(false);
-		    btn_change_user.setVisible(true);
-		    
-		    
-		    User userobject = new User(vorname, nachname,Rolle,berechtigungsstufe);
-		    System.out.println(berechtigungsstufe);
-		    authenticated = true;
-		    String userrolle = userobject.getrolle();
-		    lblrolle.setText(userrolle);
-		    lblberechtigung.setText(String.valueOf(userobject.getberechtigung()));	
-		    
-		    // setze nach erfolgreicher Anmeldung je nach Berechtigungsgruppe die Menüpunkte und Buttons aktiv
-		    if (authenticated) {
-		    	mnudashboard.setDisable(false);
-		    	mnufinanzverwaltung.setDisable(false);
-		    	mnureporting.setDisable(false);
-		    	mnucharter.setDisable(false);
-		    }
-		    
-		    if (userobject.getberechtigung() >=2) {
-		    	btn_costextracostedit.disableProperty().bind(Bindings.isEmpty(costreminder_warnings_billtable.getSelectionModel().getSelectedIndices()));	
-		    	btn_delete_order.disableProperty().bind(Bindings.isEmpty(auftragtable.getSelectionModel().getSelectedIndices()));
-		    }
-		    if (userobject.getberechtigung() == 3) {
-		    	mnuadministration.setDisable(false);
-		    }
-		    	
-		    	
-		    
-		    
-		    conn.close();
-		    //
-		    } 
-		catch (SQLException sqle) {
-
-			lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
-			// System.out.println("geht nicht");
-			sqle.printStackTrace();
-
-			// Anwendung auch bei fehlenden Berechtigungen freischalten - Beginn
-			apa_login.setVisible(false);
-			apa_welcome.setVisible(true);
-			lbl_username.setText(user);
-
-			btn_login.setVisible(false);
-			btn_change_user.setVisible(true);
-
-			User userobject = new User(vorname, nachname, "Mitarbeiter", 3);
-			authenticated = true;
-			String userrolle = userobject.getrolle();
-			lblrolle.setText(userrolle);
-			lblberechtigung.setText(String.valueOf(userobject.getberechtigung()));
-			authenticated = true;
-			if (authenticated) {
-				mnudashboard.setDisable(false);
-				mnufinanzverwaltung.setDisable(false);
-				mnureporting.setDisable(false);
-				mnucharter.setDisable(false);
-			}
-
-			if (userobject.getberechtigung() >= 2) {
-				// mnuzusatzkosten.setDisable(false);
-			}
-			if (userobject.getberechtigung() == 3) {
-				mnuadministration.setDisable(false);
-			}
-
 		}
 		// Anwendung auch bei fehlenden Berechtigungen freischalten - Ende
 	}
 
-	//private char[] substringBefore(Object setText, String string) {
-		// TODO Auto-generated method stub
-//		return null;
-	//}
+	// private char[] substringBefore(Object setText, String string) {
+	// TODO Auto-generated method stub
+	// return null;
+	// }
 
 	@FXML public void btn_close_click(ActionEvent event) {
 				
@@ -657,7 +698,7 @@ public class MyFlightController {
 			Statement stmt = conn.createStatement();
 			
 			// angebote-übersicht abrufen
-			ResultSet rs = stmt.executeQuery("SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.* FROM angebote INNER JOIN fluege on angebote.fluege_flug_id=fluege.Flug_ID inner join kunden on angebote.kunden_kunde_id= kunden.kunde_id");
+			ResultSet rs = stmt.executeQuery("SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID group by angebote.angebote_id");
 					
 			angebotedata.remove(0, angebotedata.size());
 			int i = 1;
@@ -666,9 +707,9 @@ public class MyFlightController {
 			 // Testende
 			
 			while ((rs != null) && (rs.next())) {
-				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(3) + " " + rs.getString(5) + " "
-						+ rs.getString(15) + " " + rs.getString(17) + " " + rs.getString(18) + " " + rs.getString(21) + " " + rs.getString(22));
-				angebotedata.add(new Angebote(rs.getInt(1), rs.getString(3), rs.getString(5), rs.getInt(15), rs.getString(17),rs.getString(18), rs.getString(21), rs.getString(22)));
+				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(4) + " " + rs.getString(40) + " "
+						+ rs.getString(41) + " " + rs.getString(21) + " " + rs.getString(22) + " " + rs.getString(29) + " " + rs.getString(30));
+				angebotedata.add(new Angebote(rs.getInt(1), rs.getString(4), rs.getString(40), rs.getString(41), rs.getString(21),rs.getString(22), rs.getString(29), rs.getString(30)));
 			}
 			
 			//wenn die Datenbank bei der Entwicklung leer ist
@@ -905,9 +946,9 @@ public class MyFlightController {
 			
 			Statement stmt = conn.createStatement();
 			
-			// angebote-übersicht abrufen
-			ResultSet rs = stmt.executeQuery("select angebote.*, auftraege.Auftraege_ID, kunden.KundeName, kunden.KundeVorname, auftraege.Auftragsstatus_Auftragsstatus, angebotstermin.Datum_Von,angebotstermin.Datum_Bis from angebote inner join auftraege inner join kunden inner join angebotstermin where angebote.Angebote_ID=auftraege.Angebote_Angebote_ID and auftraege.Angebote_Kunden_Kunde_ID=kunden.Kunde_ID and angebote.Angebote_ID=angebotstermin.Angebote_Angebote_ID");
-					
+			// Aufträge-übersicht abrufen
+			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM auftraege inner join angebote INNER JOIN fluege inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.angebote_id=fluege.angebote_Angebote_ID and angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID group by auftraege.auftraege_id");
+			
 			auftraegedata.remove(0, auftraegedata.size());
 			int i = 1;
 			// Testbeginn
@@ -915,9 +956,9 @@ public class MyFlightController {
 			 // Testende
 			
 			while ((rs != null) && (rs.next())) {
-				System.out.println(i++ + " " + rs.getInt(17) + " " + rs.getString(20) + " " + rs.getString(3) + " "
-						+ rs.getString(5) + " " + rs.getString(18) + " " + rs.getString(19) + " " + rs.getInt(15) + " " + rs.getString(21)+ " " + rs.getString(22));
-				auftraegedata.add(new Aufträge(rs.getInt(17), rs.getString(20), rs.getString(3), rs.getString(5), rs.getString(18),rs.getString(19), rs.getInt(15), rs.getString(21), rs.getString(22)));
+				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
+						+ rs.getString(8) + " " + rs.getString(44) + " " + rs.getString(33) + " " + rs.getString(34) + " " + rs.getString(45)+ " " + rs.getString(25)+ " " + rs.getString(26));
+				auftraegedata.add(new Aufträge(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(8), rs.getString(44),rs.getString(33), rs.getString(34), rs.getString(45), rs.getString(25), rs.getString(26)));
 			}
 			
 			//wenn die Datenbank bei der Entwicklung leer ist
@@ -1001,8 +1042,8 @@ public class MyFlightController {
 			
 			Statement stmt = conn.createStatement();
 			
-			// angebote-übersicht abrufen
-			ResultSet rs = stmt.executeQuery("select kunden.kundename, rechnungen.*, angebote.angebotspreis_brutto from kunden inner join rechnungen inner join angebote where rechnungen.Auftraege_Angebote_Angebote_ID=angebote.angebote_id and rechnungen.Auftraege_Angebote_Kunden_Kunde_ID=kunden.kunde_id");
+			// Rechnungen-übersicht abrufen
+			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id = angebote.angebote_id");
 		
 			
 			
@@ -1014,9 +1055,9 @@ public class MyFlightController {
 			 // Testende
 			
 			while ((rs != null) && (rs.next())) {
-				System.out.println(i++ + " " + rs.getInt(2) + " " + rs.getString(3) + " " + rs.getInt(11) + " "
-						+ rs.getString(10) + " " + rs.getString(1) );
-				billdata.add(new Rechnungen(rs.getInt(2), rs.getString(3), rs.getInt(11), rs.getString(10), rs.getString(1)));
+				System.out.println(i++ + " " + rs.getInt(46) + " " + rs.getString(49) + " " + rs.getString(33) + " "
+						+ rs.getString(48) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(13)+ " " + rs.getString(44) );
+				billdata.add(new Rechnungen(rs.getInt(46), rs.getString(49), rs.getString(33), rs.getString(48), rs.getFloat(11), rs.getFloat(17), rs.getFloat(13), rs.getString(44)));
 			}
 		//wenn die Datenbank bei der Entwicklung leer ist
 //			billdata.remove(0, billdata.size());
@@ -1078,7 +1119,6 @@ public class MyFlightController {
 		apa_btn_costtrackingoverview.setVisible(true);
 		maskentitel.setVisible(true);
 		maskentitel.setText("Zahlungseingänge verfolgen");
-		
 		try {
 
 			// connect method #1 - embedded driver
@@ -1092,23 +1132,42 @@ public class MyFlightController {
 			//}
 
 			// Statement stmt = conn1.createStatement();
+
+			final String hostname = "172.20.1.24"; 
+	        final String port = "3306"; 
+	        String dbname = "myflight";
+			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+		    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+			
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM angebote");
-//			auftraegedata.remove(0, auftraegedata.size());
+			
+			// Rechnungen-übersicht abrufen, die noch nicht bezahlt sind
+			
+			// Rechnungen-übersicht abrufen
+			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id = angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt'");
+		
+
+		
+			
+			
+			
+			costbilldata.remove(0, costbilldata.size());
 			int i = 1;
 			// Testbeginn
 			// rs = null;
 			 // Testende
 			
 			while ((rs != null) && (rs.next())) {
-				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
-						+ rs.getInt(4) + " " + rs.getString(5) + " " + rs.getInt(6));
-	//			auftraegedata.add(new Aufträge(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(5)));
-			}
+				System.out.println(i++ + " " + rs.getInt(46) + " " + rs.getString(49) + " " + rs.getString(33) + " " + rs.getString(48) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(13)+ " " + rs.getString(44) );
+				
+				costbilldata.add(new RechnungenCost(rs.getInt(46), rs.getString(49), rs.getString(33), rs.getString(48), rs.getFloat(11), rs.getFloat(17), rs.getFloat(13), rs.getString(44)));
+		
+				
+		}
 		//wenn die Datenbank bei der Entwicklung leer ist
-			costbilldata.remove(0, costbilldata.size());
-			costbilldata.add(new RechnungenCost(30302,"erstellt","2016-05-16",2450.45F,150.00F,15.00F,"PRE"));
-			costbilldata.add(new RechnungenCost(30514,"verschickt","2016-05-14",5300.00F,0.00F,0.00F,"CORP"));
+//			billdata.remove(0, billdata.size());
+//			billdata.add(new Rechnungen(30302,"erstellt","2016-05-16",2450.45F,150.00F,15.00F,"PRE"));
+//			billdata.add(new Rechnungen(30514,"verschickt","2016-05-14",5300.00F,0.00F,0.00F,"CORP"));
 						
 			
 			if (costbilldata.size()== 0 ) lbl_dbconnect.setText("keine Rechnungen vorhanden");
@@ -1156,6 +1215,8 @@ public class MyFlightController {
 */
 	}	
 	
+
+	
 	@FXML	public void actiongetcosttrackingreminder_warnings() {
 		// lbl_dbconnect.setText("Mouse geklickt!");
 
@@ -1179,26 +1240,45 @@ public class MyFlightController {
 			//}
 
 			// Statement stmt = conn1.createStatement();
+
+			final String hostname = "172.20.1.24"; 
+	        final String port = "3306"; 
+	        String dbname = "myflight";
+			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+		    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+			
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM angebote");
-//			auftraegedata.remove(0, auftraegedata.size());
+			
+			// Rechnungen-übersicht abrufen, deren Zahlungstermin überschritten ist
+			
+			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt'");
+		
+			
+			GregorianCalendar now = new GregorianCalendar();
+			
+			costreminder_warnings_billdata.remove(0, costreminder_warnings_billdata.size());
 			int i = 1;
 			// Testbeginn
 			// rs = null;
 			 // Testende
 			
 			while ((rs != null) && (rs.next())) {
-				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
-						+ rs.getInt(4) + " " + rs.getString(5) + " " + rs.getInt(6));
-	//			auftraegedata.add(new Aufträge(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(5)));
-			}
+				System.out.println(i++ + " " + rs.getInt(46) + " " + rs.getString(49) + " " + rs.getString(33) + " " + rs.getString(48) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(13)+ " " + rs.getString(44) );
+			
+		//		if (now.after(rs.getDate(48))) {
+				System.out.println(now.after(rs.getDate(48)));
+				System.out.println(now.getTime());
+				costreminder_warnings_billdata.add(new RechnungenCostreminder(rs.getInt(46), rs.getString(49), rs.getString(33), rs.getString(48), rs.getFloat(11), rs.getFloat(17), rs.getFloat(13), rs.getString(44)));
+				}
+				
+		//	}
 		//wenn die Datenbank bei der Entwicklung leer ist
-			costreminder_warnings_billdata.remove(0, costreminder_warnings_billdata.size());
-			costreminder_warnings_billdata.add(new RechnungenCostreminder(30302,"erstellt","2016-05-16",2450.45F,150.00F,15.00F,"PRE"));
-			costreminder_warnings_billdata.add(new RechnungenCostreminder(30514,"verschickt","2016-05-14",5300.00F,0.00F,0.00F,"CORP"));
+//			billdata.remove(0, billdata.size());
+//			billdata.add(new Rechnungen(30302,"erstellt","2016-05-16",2450.45F,150.00F,15.00F,"PRE"));
+//			billdata.add(new Rechnungen(30514,"verschickt","2016-05-14",5300.00F,0.00F,0.00F,"CORP"));
 						
 			
-			if (costbilldata.size()== 0 ) lbl_dbconnect.setText("keine fälligen Erinnerungen/Mahnungen vorhanden");
+			if (costreminder_warnings_billdata.size()== 0 ) lbl_dbconnect.setText("keine Rechnungen vorhanden");
 			
 			if (rs != null) rs.close();
 			stmt.close();
@@ -1242,7 +1322,11 @@ public class MyFlightController {
 		}
 */
 	}	
+	
 
+
+		
+		
 	
 	
 	@FXML	public void angebotedit_click(ActionEvent event) throws SQLException {
@@ -1285,19 +1369,19 @@ public class MyFlightController {
 				artcharter1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));
 		//Flugzeugtyp
-				sql = "select a.Flugzeugtyp from flugzeugtypen a inner join angebote b on a.flugzeugtypen_ID = b.Fluege_flugzeuge_Flugzeugtypen_Flugzeugtypen_ID where b.angebote_id='"+angebot_id+"'";
+				sql = "select Flugzeugtyp from flugzeugtypen inner join flugzeuge inner join angebote on flugzeuge.flugzeug_ID = angebote.flugzeuge_Flugzeug_ID where angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				flgztyp1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));
 		//Flugzeugkennzeichen
-				sql = "select angebote.fluege_flugzeuge_flugzeug_id from angebote where angebote.angebote_id='"+angebot_id+"'";
+				sql = "select angebote.flugzeuge_flugzeug_id from angebote where angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				flgzkz1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));
 		//Datum von
-				sql = "select fluege.Datum_Von from angebote inner join fluege on angebote.fluege_flug_id=fluege.Flug_ID where angebote.angebote_id='"+angebot_id+"'";
+				sql = "select angebote.termin_von from angebote where angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				// Create an instance of SimpleDateFormat used for formatting 
@@ -1313,7 +1397,7 @@ public class MyFlightController {
 				//datumvon.setPromptText(rs.getString(1));
 				//System.out.println(rs.getString(1));
 		//Datum bis
-				sql = "select fluege.Datum_bis from angebote inner join fluege on angebote.fluege_flug_id=fluege.Flug_ID where angebote.angebote_id='"+angebot_id+"'";
+				sql = "select angebote.termin_bis from angebote where angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				// Create an instance of SimpleDateFormat used for formatting 
@@ -1326,6 +1410,7 @@ public class MyFlightController {
 				reportDate = df.format(rs.getObject(1));
 				System.out.println(reportDate);
 				datumbis1.setPromptText(reportDate);
+
 		//Abflugort
 				sql = "select flughafen_von.flughafenname from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
@@ -1338,6 +1423,8 @@ public class MyFlightController {
 				rs.next();
 				ankunftort1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));				
+					
+						
 		//Preis netto
 				sql = "select angebote.angebotspreis_netto from angebote where angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
@@ -1363,7 +1450,7 @@ public class MyFlightController {
 	
 	}
 
-	@FXML	public void action_costtrackingedit(ActionEvent event) {
+	@FXML	public void action_costtrackingedit(ActionEvent event) throws SQLException {
 
 		 // System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
 		set_allunvisible(); 
@@ -1373,9 +1460,65 @@ public class MyFlightController {
 		maskentitel.setText("Zahlungseingang bearbeiten");
 		choicecostbillstatus.getItems().clear();
 		choicecostbillstatus.getItems().addAll("bezahlt");
-	  }
+		choicecostbillstatus.getItems().addAll("nicht bezahlt");
+		
+		//Werte aus ausgewählter Tabellenzeile übernehmen
+		int rechnung_id = Nummercostbill.getCellData(costbilltable.getSelectionModel().getSelectedIndex());
+//		String tmpAuftragstatuscosttrackingedit = Statuscostbill.getCellData(costbilltable.getSelectionModel().getSelectedIndex());
+		String tmprechnungstatuscosttrackingedit = Statuscostbill.getCellData(costbilltable.getSelectionModel().getSelectedIndex());
+		String tmpKdnamecosttrackingedit = Kdnamecostbill.getCellData(costbilltable.getSelectionModel().getSelectedIndex());
+		float tmppreisbruttocosttrackingedit = Preiscostbill.getCellData(costbilltable.getSelectionModel().getSelectedIndex());
+//		float tmppreisaufschlagcosttrackingedit = Preiscostbill_aufschlag.getCellData(costbilltable.getSelectionModel().getSelectedIndex());
+//		float tmpzusatzkostencosttrackingedit = Preiscostbill_zusatzkosten.getCellData(costbilltable.getSelectionModel().getSelectedIndex());
+		String tmpKdgruppecosttrackingedit = Kdgruppecostbill.getCellData(costbilltable.getSelectionModel().getSelectedIndex());
+		
 
-	@FXML	public void action_costextracostedit(ActionEvent event) {
+		//Felder für Maske Rechnungsstatus ändern - mit Daten versorgen Beginn
+	
+		rechnung_idcosttrackingedit.setText(Integer.toString(rechnung_id));
+		rechnungstatuscosttrackingedit.setText(tmprechnungstatuscosttrackingedit);
+		Kdnamecosttrackingedit.setText(tmpKdnamecosttrackingedit);
+		preisbruttocosttrackingedit.setText(Float.toString(tmppreisbruttocosttrackingedit));
+//		preisaufschlagcosttrackingedit.setText(Float.toString(tmppreisaufschlagcosttrackingedit));
+//		zusatzkostencosttrackingedit.setText(Float.toString(tmpzusatzkostencosttrackingedit));
+		Kdgruppecosttrackingedit.setText(tmpKdgruppecosttrackingedit);
+		
+		
+	   
+	   
+	  //Felder für Maske Rechnungsstatus ändern - mit Daten versorgen Ende
+		
+		// Auftragsnummer
+				String sql = "select auftraege.auftraege_id from auftraege inner join rechnungen on auftraege.auftraege_id = rechnungen.auftraege_auftraege_id where rechnungen.rechnungen_ID = '"+rechnung_id+"'";
+
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);
+				rs.next();
+				auftrag_idcosttrackingedit.setText(rs.getString(1));
+			System.out.println(rs.getString(1));
+
+		// Auftragsstatus
+				sql = "select auftraege.Auftragsstatus_Auftragsstatus from auftraege inner join rechnungen on auftraege.auftraege_id = rechnungen.auftraege_auftraege_id where rechnungen.rechnungen_ID = '"+rechnung_id+"'"; 
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				Auftragstatuscosttrackingedit.setText(rs.getString(1));
+				System.out.println(rs.getString(1));
+
+		//Kunden_ID
+				sql = "select angebote.kunden_kunde_id from angebote inner join rechnungen inner join auftraege on angebote.angebote_id = auftraege.angebote_angebote_id and auftraege.auftraege_id = rechnungen.auftraege_auftraege_id where rechnungen.rechnungen_ID = '"+rechnung_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				Kunden_idcosttrackingedit.setText(rs.getString(1));
+				System.out.println(rs.getString(1));
+					
+
+		
+	
+	
+	
+	}
+
+	@FXML	public void action_costextracostedit(ActionEvent event) throws SQLException {
 
 		 // System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
 		set_allunvisible(); 
@@ -1383,12 +1526,179 @@ public class MyFlightController {
 		apa_btn_costextracostedit.setVisible(true);
 		maskentitel.setVisible(true);
 		maskentitel.setText("Zusatzkosten bearbeiten");
-		}
 	
-	@FXML	public void action_createreminder(ActionEvent event) {
+		//Werte aus ausgewählter Tabellenzeile übernehmen
+		int rechnung_id = Nummercostreminder_warnings_bill.getCellData(costreminder_warnings_billtable.getSelectionModel().getSelectedIndex());
+		String tmpAuftragstatusextracostedit = Statuscostreminder_warnings_bill.getCellData(costreminder_warnings_billtable.getSelectionModel().getSelectedIndex());
+		String tmprechnungstatusextracostedit = Statuscostreminder_warnings_bill.getCellData(costreminder_warnings_billtable.getSelectionModel().getSelectedIndex());
+		String tmpKdnameextracostedit = Kdnamecostreminder_warnings_bill.getCellData(costreminder_warnings_billtable.getSelectionModel().getSelectedIndex());
+		float tmppreisbruttoextracostedit = Preiscostreminder_warnings_bill.getCellData(costreminder_warnings_billtable.getSelectionModel().getSelectedIndex());
+		float tmppreisaufschlagextracostedit = Preiscostreminder_warnings_bill_aufschlag.getCellData(costreminder_warnings_billtable.getSelectionModel().getSelectedIndex());
+		float tmpzusatzkostenextracostedit = Preiscostreminder_warnings_bill_zusatzkosten.getCellData(costreminder_warnings_billtable.getSelectionModel().getSelectedIndex());
+		String tmpKdgruppeextracostedit = Kdgruppecostreminder_warnings_bill.getCellData(costreminder_warnings_billtable.getSelectionModel().getSelectedIndex());
+		
 
-		//just do nothing
-	  }
+		//Felder für Maske Rechnung Zusatzkosten bearbeiten - mit Daten versorgen Beginn
+	
+		rechnung_idextracostedit.setText(Integer.toString(rechnung_id));
+		rechnungstatusextracostedit.setText(tmprechnungstatusextracostedit);
+		Kdnameextracostedit.setText(tmpKdnameextracostedit);
+		preisbruttoextracostedit.setText(Float.toString(tmppreisbruttoextracostedit));
+		preisaufschlagextracostedit.setText(Float.toString(tmppreisaufschlagextracostedit));
+		zusatzkostenextracostedit.setText(Float.toString(tmpzusatzkostenextracostedit));
+		Kdgruppeextracostedit.setText(tmpKdgruppeextracostedit);
+		
+		
+	   
+	   
+		//Felder für Maske Rechnung Zusatzkosten bearbeiten - mit Daten versorgen Ende
+		
+		// Auftragsnummer
+				String sql = "select auftraege.auftraege_id from auftraege inner join rechnungen on auftraege.auftraege_id = rechnungen.auftraege_auftraege_id where rechnungen.rechnungen_ID = '"+rechnung_id+"'";
+
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);
+				rs.next();
+				auftrag_idextracostedit.setText(rs.getString(1));
+			System.out.println(rs.getString(1));
+
+		// Auftragsstatus
+				sql = "select auftraege.Auftragsstatus_Auftragsstatus from auftraege inner join rechnungen on auftraege.auftraege_id = rechnungen.auftraege_auftraege_id where rechnungen.rechnungen_ID = '"+rechnung_id+"'"; 
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				Auftragstatusextracostedit.setText(rs.getString(1));
+				System.out.println(rs.getString(1));
+
+		//Kunden_ID
+				sql = "select angebote.kunden_kunde_id from angebote inner join rechnungen inner join auftraege on angebote.angebote_id = auftraege.angebote_angebote_id and auftraege.auftraege_id = rechnungen.auftraege_auftraege_id where rechnungen.rechnungen_ID = '"+rechnung_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				Kunden_idextracostedit.setText(rs.getString(1));
+				System.out.println(rs.getString(1));
+					
+
+		
+	
+	
+	}
+	
+	@FXML
+	public void action_createreminder(ActionEvent event) throws Exception {
+		boolean change = false;
+		int rechnung_id = Nummercostreminder_warnings_bill
+				.getCellData(costreminder_warnings_billtable.getSelectionModel().getSelectedIndex());
+		String tmprechnungstatusextracostedit = Statuscostreminder_warnings_bill
+				.getCellData(costreminder_warnings_billtable.getSelectionModel().getSelectedIndex());
+
+		// angebote_id ermitteln
+		String sql = "select angebote.angebote_id from angebote inner join rechnungen inner join auftraege on angebote.angebote_id = auftraege.angebote_angebote_id and auftraege.auftraege_id = rechnungen.auftraege_auftraege_id where rechnungen.rechnungen_ID = '"+rechnung_id+"'";
+
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		rs.next();
+		int angebot_id = rs.getInt(1);
+		System.out.println(rs.getInt(1));
+
+		switch (tmprechnungstatusextracostedit) {
+		case "verschickt":
+			tmprechnungstatusextracostedit = "Erinnerung 1";
+			change = true;
+			break;
+		case "Erinnerung 1":
+			tmprechnungstatusextracostedit = "Erinnerung 2";
+			change = true;
+			break;
+		case "Mahnung 1":
+			tmprechnungstatusextracostedit = "Mahnung 2";
+			change = true;
+			break;
+		case "nicht bezahlt":
+			tmprechnungstatusextracostedit = "Mahnung 2";
+			change = true;
+			break;
+		default:
+		}
+		if (change) {
+			try {
+				stmt.executeUpdate("Update rechnungen set rechnungsstatus_rechnungsstatus='"
+						+ tmprechnungstatusextracostedit + "' where rechnungen.rechnungen_id='" + rechnung_id + "'");
+				lbl_dbconnect.setText("nächste Erinnerungs-/Mahnstufe gespeichert");
+			} catch (SQLException sqle) {
+
+				lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
+				// System.out.println("geht nicht");
+				sqle.printStackTrace();
+			}
+		}
+		List<String> choices = new ArrayList<>();
+		choices.clear();
+		choices.add("PDF");
+		choices.add("Word");
+
+		ChoiceDialog<String> dialog1 = new ChoiceDialog<>("PDF", choices);
+		dialog1.setTitle("Dokumententyp");
+		dialog1.setHeaderText("Bitte Dokumententyp auswählen:");
+		dialog1.setContentText("Auswahl:");
+
+		// Traditional way to get the response value.
+		Optional<String> result1 = dialog1.showAndWait();
+		// if (result.isPresent()){
+		// System.out.println("Your choice: " + result.get());
+		// }
+
+		// The Java 8 way to get the response value (with lambda
+		// expression).
+		result1.ifPresent(letter -> System.out.println("Your choice: " + letter));
+
+		if (result1.isPresent()) {
+			AuswahlDokutyp = result1.get();
+		}
+
+		if (AuswahlDokutyp == "PDF") {
+			erzeugePdf(angebot_id, "Mahnung");
+		}
+
+		if (AuswahlDokutyp == "Word") {
+			erzeugeWord(angebot_id, "Mahnung");
+
+		}
+
+		choices.clear();
+		choices.add("Drucken");
+		choices.add("keine Aktion");
+
+		ChoiceDialog<String> dialog2 = new ChoiceDialog<>("keine Aktion", choices);
+		dialog2.setTitle("weitere Aktionen");
+		dialog2.setHeaderText("Bitte wählen Sie \neine weitere Aktion aus:");
+		dialog2.setContentText("Auswahl:");
+
+		// Traditional way to get the response value.
+		Optional<String> result2 = dialog2.showAndWait();
+		result2.ifPresent(letter -> System.out.println("Your choice: " + letter));
+		actiongetcosttrackingreminder_warnings();
+
+		if (result2.isPresent()) {
+			AuswahlAktion = result2.get();
+		}
+
+		if (AuswahlAktion == "Drucken" && AuswahlDokutyp == "PDF") {
+
+			filename = System.getProperty("user.dir") + "/" + Integer.toString(angebot_id) + "m.pdf";
+			f = new File(filename);
+
+			PDFPrinter druck = new PDFPrinter(f);
+			lbl_dbconnect.setText("PDF-Ausdruck gestartet");
+
+		}
+		if (AuswahlAktion == "Drucken" && AuswahlDokutyp == "Word") {
+
+			strFilenamedoc = Integer.toString(angebot_id) + "m.docx";
+			Druckjob druck = new Druckjob(strFilenamedoc);
+			lbl_dbconnect.setText("Docx-Ausdruck gestartet");
+
+		}
+
+	}
 	
 	@FXML public void actiongetcosttrackingreminder (ActionEvent event) {
 		actiongetcosttrackingreminder_warnings();
@@ -1437,62 +1747,33 @@ public class MyFlightController {
 		//angebote_id übernehmen
 		int angebot_id = Nummer.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
 		
-		// Kundenname
-				String sql = "select kunden.kundename from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
-				+ angebot_id + "'";
+		// Daten für Auftrag erstellen einlesen
+				String sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID where angebote.angebote_id = '"+ angebot_id + "'";
 
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);
 				rs.next();
-			kdname.setText(rs.getString(1));
-			System.out.println(rs.getString(1));
+			kdname.setText(rs.getString(29));
+			System.out.println(rs.getString(29));
 
-		// Kundenvorname
-				sql = "select kunden.kundevorname from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
-				+ angebot_id + "'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				kdvname.setText(rs.getString(1));
-				System.out.println(rs.getString(1));
+			kdvname.setText(rs.getString(30));
+				System.out.println(rs.getString(30));
 
-		//Art des Charters
-				sql = "select angebote.chartertyp_chartertyp from angebote where angebote.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				artcharter.setText(rs.getString(1));
-				System.out.println(rs.getString(1));
-		//Flugzeugtyp
-				sql = "select a.Flugzeugtyp from flugzeugtypen a inner join angebote b on a.flugzeugtypen_ID = b.Fluege_flugzeuge_Flugzeugtypen_Flugzeugtypen_ID where b.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				flgztyp.setText(rs.getString(1));
-				System.out.println(rs.getString(1));
-		//Flugzeugkennzeichen
-				sql = "select angebote.fluege_flugzeuge_flugzeug_id from angebote where angebote.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				flgzkz.setText(rs.getString(1));
-				System.out.println(rs.getString(1));
-		//Datum von
-				sql = "select fluege.Datum_Von from angebote inner join fluege on angebote.fluege_flug_id=fluege.Flug_ID where angebote.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
+			artcharter.setText(rs.getString(4));
+				System.out.println(rs.getString(4));
+			flgztyp.setText(rs.getString(41));
+				System.out.println(rs.getString(41));
+			flgzkz.setText(rs.getString(16));
+				System.out.println(rs.getString(16));
 				// Create an instance of SimpleDateFormat used for formatting 
 				// the string representation of date (month/day/year)
 				DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-
-					      
+				
 				// Using DateFormat format method we can create a string 
 				// representation of a date with the defined format.
-				String reportDate = df.format(rs.getObject(1));
+				String reportDate = df.format(rs.getObject(25));
 				System.out.println(reportDate);
 				datumvon.setPromptText(reportDate);
-				//datumvon.setPromptText(rs.getString(1));
-				//System.out.println(rs.getString(1));
-		//Datum bis
-				sql = "select fluege.Datum_bis from angebote inner join fluege on angebote.fluege_flug_id=fluege.Flug_ID where angebote.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
 				// Create an instance of SimpleDateFormat used for formatting 
 				// the string representation of date (month/day/year)
 				//DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -1500,9 +1781,29 @@ public class MyFlightController {
 					      
 				// Using DateFormat format method we can create a string 
 				// representation of a date with the defined format.
-				reportDate = df.format(rs.getObject(1));
+				
+				reportDate = df.format(rs.getObject(26));
 				System.out.println(reportDate);
 				datumbis.setPromptText(reportDate);
+				//Charterdauer
+			//	System.out.println(rs.getTime(14));		
+		//		charterdauer.setText(Object.toString(rs.getObject(14)));
+				//Flugzeit
+		//		System.out.println(rs.getString(15));		
+			//	charterdauer.setText(rs.getString(15));
+				//Preis netto
+				System.out.println(rs.getInt(8));		
+				preisnetto.setText(Integer.toString(rs.getInt(8)));
+				int Preisnetto = rs.getInt(8);
+				// Preis Brutto
+				System.out.println(rs.getInt(7));		
+				preisbrutto.setText(Integer.toString(rs.getInt(7)));
+				int Preisbrutto = rs.getInt(7);					
+		//Preis Mwst
+				int Preismwst = Preisbrutto - Preisnetto;
+				System.out.println(Preismwst);		
+				preismwst.setText(Integer.toString(Preismwst));
+				
 		//Abflugort
 				sql = "select flughafen_von.flughafenname from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
@@ -1515,31 +1816,13 @@ public class MyFlightController {
 				rs.next();
 				ankunftort.setText(rs.getString(1));
 				System.out.println(rs.getString(1));				
-		//Preis netto
-				sql = "select angebote.angebotspreis_netto from angebote where angebote.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				System.out.println(rs.getInt(1));		
-				preisnetto.setText(Integer.toString(rs.getInt(1)));
-				int Preisnetto = rs.getInt(1);
-		//Preis brutto
-				sql = "select angebote.angebotspreis_brutto from angebote where angebote.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				System.out.println(rs.getInt(1));		
-				preisbrutto.setText(Integer.toString(rs.getInt(1)));
-				int Preisbrutto = rs.getInt(1);					
-		//Preis Mwst
-				int Preismwst = Preisbrutto - Preisnetto;
-				System.out.println(Preismwst);		
-				preismwst.setText(Integer.toString(Preismwst));
 					
 
 				
 	}
 
 	@FXML
-	public void showdocumentdialog(ActionEvent event) throws Exception {
+	public void action_createorder(ActionEvent event) throws Exception {
 		// gewähltes Angebot dessen Daten für Speicherung Auftrag übernehmen
 		int angebot_id = Nummer.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
 		// String tmpstatus =
@@ -1566,7 +1849,14 @@ public class MyFlightController {
 			System.out.println(newauftraege_id);
 
 			String tmpAuftragstatus = "offen";
-
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	        Calendar c = df.getCalendar();
+	        System.out.println (c);
+	        c.setTimeInMillis(System.currentTimeMillis());
+	        //String tagesdatum = c.get(Calendar.DAY_OF_MONTH) + "." + (c.get(Calendar.MONTH) + 1) + "." + c.get(Calendar.YEAR);
+	        String tagesdatum = c.get(Calendar.YEAR)+ "-"+ (c.get(Calendar.MONTH) + 1) + "-"+c.get(Calendar.DAY_OF_MONTH);
+	        
+	        System.out.println (tagesdatum);
 			// ermittle Kunden_ID
 			sql = "select Kunden_kunde_id,angebotsstatus_angebotsstatus from angebote where angebote.angebote_id='"
 					+ angebot_id + "'";
@@ -1575,15 +1865,13 @@ public class MyFlightController {
 			int tmpkunde_id = rs.getInt(1);
 			String tmpstatus = rs.getString(2);
 
-			System.out.println(newauftraege_id + " " + tmpAuftragstatus + " " + angebot_id + " " + tmpstatus + " "
+			System.out.println(newauftraege_id + " " + tmpAuftragstatus + " " + angebot_id + " " + c + " "
 					+ tmpAart + " " + tmpkunde_id + " " + tmpkdgruppe);
 			// speichere Auftragsdaten
 			try {
 				stmt.executeUpdate(
-						"insert into auftraege (Auftraege_id, auftragsstatus_auftragsstatus, angebote_angebote_id, Angebote_angebotsstatus_angebotsstatus, Angebote_chartertyp_chartertyp, Angebote_kunden_kunde_Id, angebote_kunden_kundengruppen_kundengruppen) values ('"
-								+ newauftraege_id + "','" + tmpAuftragstatus + "','" + angebot_id + "','" + tmpstatus
-								+ "','" + tmpAart + "','" + tmpkunde_id + "','" + tmpkdgruppe + "')");
-				lbl_dbconnect.setText("Auftrag gespeichert");
+						"insert into auftraege (Auftraege_id, auftragsstatus_auftragsstatus, angebote_angebote_id, Auftragsdatum) values ('"+ newauftraege_id + "','" + tmpAuftragstatus + "','" + angebot_id + "','" + tagesdatum+ "')");
+								lbl_dbconnect.setText("Auftrag gespeichert");
 			} catch (SQLException sqle) {
 
 				lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
@@ -1616,11 +1904,11 @@ public class MyFlightController {
 			}
 
 			if (AuswahlDokutyp == "PDF") {
-				erzeugePdf(angebot_id);
+				erzeugePdf(angebot_id,"Auftrag");
 			}
 
 			if (AuswahlDokutyp == "Word") {
-				erzeugeWord(angebot_id);
+				erzeugeWord(angebot_id, "Auftrag");
 
 			}
 
@@ -1687,7 +1975,7 @@ public class MyFlightController {
 				rs.next();
 				// Create an instance of SimpleDateFormat used for formatting
 				// the string representation of date (month/day/year)
-				DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+				df = new SimpleDateFormat("dd.MM.yyyy");
 
 				// Using DateFormat format method we can create a string
 				// representation of a date with the defined format.
@@ -1732,8 +2020,12 @@ public class MyFlightController {
 		//rechnung_id übernehmen
 		int rechnung_id = Nummerbill.getCellData(billtable.getSelectionModel().getSelectedIndex());
 		
+
+	
+		
+		
 		// Kundenname
-				String sql = "select kunden.kundename from kunden inner join rechnungen on kunden.kunde_id=rechnungen.Auftraege_Angebote_Kunden_Kunde_ID and rechnungen.rechnungen_id='"
+				String sql = "select kunden.kundename from kunden inner join angebote inner join rechnungen on kunden.kunde_id=angebote.kunden_kunde_id and rechnungen.rechnungen_id='"
 				+ rechnung_id + "'";
 
 				Statement stmt = conn.createStatement();
@@ -1743,7 +2035,7 @@ public class MyFlightController {
 			System.out.println(rs.getString(1));
 
 		// Kundenvorname
-				sql = "select kunden.kundevorname from kunden inner join rechnungen on kunden.kunde_id=rechnungen.Auftraege_Angebote_Kunden_Kunde_ID and rechnungen.rechnungen_id='"
+				sql = "select kunden.kundevorname from kunden inner join angebote inner join rechnungen on kunden.kunde_id=angebote.kunden_kunde_id and rechnungen.rechnungen_id='"
 				+ rechnung_id + "'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
@@ -1751,25 +2043,25 @@ public class MyFlightController {
 				System.out.println(rs.getString(1));
 
 		//Art des Charters
-				sql = "select rechnungen.Auftraege_Angebote_Chartertyp_Chartertyp from rechnungen where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				sql = "select angebote.chartertyp_chartertyp from angebote inner join auftraege inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and auftraege.angebote_angebote_id=angebote.angebote_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				artcharter2.setText(rs.getString(1));
 				System.out.println(rs.getString(1));
 		//Flugzeugtyp
-				sql = "select a.Flugzeugtyp from flugzeugtypen a inner join angebote b on a.flugzeugtypen_ID = b.Fluege_flugzeuge_Flugzeugtypen_Flugzeugtypen_ID inner join rechnungen where b.angebote_id=rechnungen.Auftraege_Angebote_Angebote_ID and rechnungen.rechnungen_id='"+rechnung_id+"'";
+				sql = "select flugzeugtypen.flugzeugtyp from flugzeugtypen inner join flugzeuge on flugzeugtypen.flugzeugtypen_id=flugzeuge.flugzeugtypen_flugzeugtypen_id inner join angebote on flugzeuge.flugzeug_id=angebote.flugzeuge_flugzeug_id inner join auftraege inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and auftraege.angebote_angebote_id=angebote.angebote_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				flgztyp2.setText(rs.getString(1));
 				System.out.println(rs.getString(1));
 		//Flugzeugkennzeichen
-				sql = "select angebote.fluege_flugzeuge_flugzeug_id from angebote inner join rechnungen where angebote.angebote_id=rechnungen.Auftraege_Angebote_Angebote_ID and rechnungen.rechnungen_id='"+rechnung_id+"'";
+				sql = "select flugzeuge.flugzeug_id from flugzeuge inner join angebote on flugzeuge.flugzeug_id=angebote.flugzeuge_flugzeug_id inner join auftraege inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and auftraege.angebote_angebote_id=angebote.angebote_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				flgzkz2.setText(rs.getString(1));
 				System.out.println(rs.getString(1));
 		//Datum von
-				sql = "select fluege.Datum_Von from angebote inner join fluege on angebote.fluege_flug_id=fluege.Flug_ID inner join rechnungen on angebote.angebote_id=rechnungen.Auftraege_Angebote_Angebote_ID where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				sql = "select angebote.termin_von from angebote inner join auftraege inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and auftraege.angebote_angebote_id=angebote.angebote_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				// Create an instance of SimpleDateFormat used for formatting 
@@ -1785,7 +2077,7 @@ public class MyFlightController {
 				//datumvon.setPromptText(rs.getString(1));
 				//System.out.println(rs.getString(1));
 		//Datum bis
-				sql = "select fluege.Datum_bis from angebote inner join fluege on angebote.fluege_flug_id=fluege.Flug_ID inner join rechnungen on angebote.angebote_id=rechnungen.Auftraege_Angebote_Angebote_ID where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				sql = "select angebote.termin_bis from angebote inner join auftraege inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and auftraege.angebote_angebote_id=angebote.angebote_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				// Create an instance of SimpleDateFormat used for formatting 
@@ -1799,113 +2091,190 @@ public class MyFlightController {
 				System.out.println(reportDate);
 				datumbis2.setPromptText(reportDate);
 		//Abflugort
-				sql = "select flughafen_von.flughafenname from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote inner join rechnungen on angebote.angebote_id=rechnungen.Auftraege_Angebote_Angebote_ID where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				sql = "select flughafen_von.flughafenname from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote inner join rechnungen inner join auftraege on fluege.angebote_angebote_id=angebote.angebote_id and auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.auftraege_auftraege_id=auftraege.auftraege_id where rechnungen.rechnungen_id='"+rechnung_id+"'";    
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				abflugort2.setText(rs.getString(1));
 				System.out.println(rs.getString(1));				
 		//Ankunftort
-				sql = "select flughafen_bis.flughafenname from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote inner join rechnungen on angebote.angebote_id=rechnungen.Auftraege_Angebote_Angebote_ID where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				sql = "select flughafen_bis.flughafenname from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote inner join rechnungen inner join auftraege on fluege.angebote_angebote_id=angebote.angebote_id and auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.auftraege_auftraege_id=auftraege.auftraege_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				ankunftort2.setText(rs.getString(1));
 				System.out.println(rs.getString(1));				
 		//Preis netto
-				sql = "select angebote.angebotspreis_netto from angebote inner join rechnungen on angebote.angebote_id=rechnungen.Auftraege_Angebote_Angebote_ID where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				sql = "select angebote.angebotspreis_netto from angebote inner join rechnungen inner join auftraege on auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.auftraege_auftraege_id=auftraege.auftraege_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
-				System.out.println(rs.getInt(1));		
-				preisnetto2.setText(Integer.toString(rs.getInt(1)));
-				int Preisnetto = rs.getInt(1);
+				System.out.println(rs.getFloat(1));		
+				preisnetto2.setText(Float.toString(rs.getFloat(1)));
+				float Preisnetto = rs.getFloat(1);
 		//Preis brutto
-				sql = "select angebote.angebotspreis_brutto from angebote inner join rechnungen on angebote.angebote_id=rechnungen.Auftraege_Angebote_Angebote_ID where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				sql = "select angebote.angebotspreis_brutto from angebote inner join rechnungen inner join auftraege on auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.auftraege_auftraege_id=auftraege.auftraege_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				System.out.println(rs.getInt(1));		
-				preisbrutto2.setText(Integer.toString(rs.getInt(1)));
-				int Preisbrutto = rs.getInt(1);					
+				preisbrutto2.setText(Float.toString(rs.getFloat(1)));
+				float Preisbrutto = rs.getFloat(1);					
 		//Preis Mwst
-				int Preismwst = Preisbrutto - Preisnetto;
+				float Preismwst = Preisbrutto - Preisnetto;
 				System.out.println(Preismwst);		
-				preismwst2.setText(Integer.toString(Preismwst));
+				preismwst2.setText(Float.toString(Preismwst));
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
 	
 	}
 	
-	public void erzeugePdf(int angebot_id) throws Exception {
-		// step 1
-				Document document = new Document(PageSize.A4);
-				document.setMargins(50f, 40f, 50f, 40f);
-				// step 2
-				String filename = System.getProperty("user.dir") + "/"+Integer.toString(angebot_id)+".pdf";
-				PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(filename));
-				// nur für die Möglichkeit, dass wir einen Rahmen zeichnen können
-				ParagraphBorder border = enableBordering(pdfWriter);
-				// step 3
-				document.open();
+	public void erzeugePdf(int angebot_id, String modus) throws Exception {
+	
+		Document document = new Document(PageSize.A4);
+		document.setMargins(50f, 40f, 50f, 40f);
+		if (modus == "Auftrag") {
+			filename = System.getProperty("user.dir") + "/" + Integer.toString(angebot_id) + ".pdf";
+		} else {
+			filename = System.getProperty("user.dir") + "/" + Integer.toString(angebot_id) + "m.pdf";
+		}
+		PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(filename));
+		// nur für die Möglichkeit, dass wir einen Rahmen zeichnen können
+		ParagraphBorder border = enableBordering(pdfWriter);
+		
+		document.open();
+		Font styleTitel = new Font(FontFamily.HELVETICA);
+		styleTitel.setSize(18);
+		styleTitel.setStyle(FontStyle.BOLD.name());
 
-				// step 4
-				Font styleTitel = new Font(FontFamily.HELVETICA);
-				styleTitel.setSize(18);
-				styleTitel.setStyle(FontStyle.BOLD.name());
+		Font styleUeberschrift1 = new Font(FontFamily.HELVETICA);
+		styleUeberschrift1.setSize(12);
+		styleUeberschrift1.setColor(BaseColor.BLUE);
+		styleUeberschrift1.setStyle(FontStyle.BOLD.name());
 
-				Font styleUeberschrift1 = new Font(FontFamily.HELVETICA);
-				styleUeberschrift1.setSize(12);
-				styleUeberschrift1.setColor(BaseColor.BLUE);
-				styleUeberschrift1.setStyle(FontStyle.BOLD.name());
+		Font styleUeberschrift2 = new Font(FontFamily.HELVETICA);
+		styleUeberschrift2.setSize(14);
+		styleUeberschrift2.setColor(BaseColor.BLUE);
+		styleUeberschrift2.setStyle(FontStyle.NORMAL.name());
 
-				Font styleUeberschrift2 = new Font(FontFamily.HELVETICA);
-				styleUeberschrift2.setSize(14);
-				styleUeberschrift2.setColor(BaseColor.BLUE);
-				styleUeberschrift2.setStyle(FontStyle.NORMAL.name());
+		Font styleText = new Font(FontFamily.HELVETICA);
+		styleText.setSize(12);
+		styleText.setStyle(FontStyle.NORMAL.name());
 
-				Font styleText = new Font(FontFamily.HELVETICA);
-				styleText.setSize(12);
-				styleText.setStyle(FontStyle.NORMAL.name());
+		Font styleTextunderline = new Font(FontFamily.HELVETICA);
+		styleTextunderline.setSize(12);
+		styleTextunderline.setStyle(FontStyle.UNDERLINE.name());
 
-				Font styleTextunderline = new Font(FontFamily.HELVETICA);
-				styleText.setSize(12);
-				styleText.setStyle(FontStyle.UNDERLINE.name());
+		Font styleFettText = new Font(FontFamily.HELVETICA);
+		styleFettText.setSize(12);
+		styleFettText.setStyle(FontStyle.BOLD.name());
 
-				Font styleFettText = new Font(FontFamily.HELVETICA);
-				styleFettText.setSize(12);
-				styleFettText.setStyle(FontStyle.BOLD.name());
+		Font styleRot = new Font(FontFamily.HELVETICA);
+		styleRot.setSize(12);
+		styleRot.setColor(BaseColor.RED);
+		styleRot.setStyle(FontStyle.BOLD.name());
 
-				Font styleRot = new Font(FontFamily.HELVETICA);
-				styleRot.setSize(12);
-				styleRot.setColor(BaseColor.RED);
-				styleRot.setStyle(FontStyle.BOLD.name());
+		Font styleKursiv = new Font(FontFamily.HELVETICA);
+		styleKursiv.setSize(12);
+		styleKursiv.setStyle(FontStyle.ITALIC.name());
 
-				Font styleKursiv = new Font(FontFamily.HELVETICA);
-				styleKursiv.setSize(12);
-				styleKursiv.setStyle(FontStyle.ITALIC.name());
+		Image image = Image.getInstance(PdfGenerator.class.getResource("logo2.jpg"));
+		image.scaleAbsolute(507,40);
+		document.add(image);
+		// Dokumententitel (mit Rahmen!)
+		border.setActive(true);
+		Paragraph p = new Paragraph("", styleTitel);
+		p.setAlignment(Element.ALIGN_LEFT);
+		document.add(p);
+		border.setActive(false);
+		// Parameter für Dokumenterstellung
+		
+	
+		// Daten für Auftrag erstellen einlesen
+		String sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID where angebote.angebote_id = '"+ angebot_id + "'";
 
-				Image image = Image.getInstance(PdfGenerator.class.getResource("logo2.jpg"));
-				image.scaleAbsolute(507,40);
-				document.add(image);
-				// Dokumententitel (mit Rahmen!)
-				border.setActive(true);
-				Paragraph p = new Paragraph("", styleTitel);
-				p.setAlignment(Element.ALIGN_LEFT);
-				document.add(p);
-				border.setActive(false);
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		rs.next();
+	String AG = rs.getString(30);
+	AG = AG+" "+rs.getString(29);
+	String Typ=rs.getString(41);
+	String Kennzeichen =rs.getString(16);
+	
+	 //artcharter.setText(rs.getString(4));
+		
+		// Create an instance of SimpleDateFormat used for formatting 
+		// the string representation of date (month/day/year)
+		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+		
+		// Using DateFormat format method we can create a string 
+		// representation of a date with the defined format.
+		String Beginndatum = df.format(rs.getObject(25));
+		
+		// Create an instance of SimpleDateFormat used for formatting 
+		// the string representation of date (month/day/year)
+		//DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+			      
+		// Using DateFormat format method we can create a string 
+		// representation of a date with the defined format.
+		
+		String Endedatum = df.format(rs.getObject(26));
+		//Charterdauer
+	//	System.out.println(rs.getTime(14));		
+//		charterdauer.setText(Object.toString(rs.getObject(14)));
+		//Flugzeit
+//		System.out.println(rs.getString(15));		
+	//	charterdauer.setText(rs.getString(15));
+		//Preis netto
+		System.out.println(rs.getInt(8));		
+		String Preisnetto = Integer.toString(rs.getInt(8))+" EUR";
+		int intpreisnetto = rs.getInt(8);
+		// Preis Brutto
+		System.out.println(rs.getInt(7));		
+		String Preisbrutto = Integer.toString(rs.getInt(7))+ " EUR";
+		int intpreisbrutto = rs.getInt(7);					
+//Preis Mwst
+		int Preismwst = intpreisbrutto - intpreisnetto;
+		String Mwst = Integer.toString(Preismwst)+" EUR";
+		
+		//Abflugort
+		sql = "select flughafen_von.flughafenname from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
+		rs = stmt.executeQuery(sql);
+		rs.next();
+		String FlugAnfang = rs.getString(1);
+						
+//Ankunftort
+		sql = "select flughafen_bis.flughafenname from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
+		rs = stmt.executeQuery(sql);
+		rs.next();
+		String FlugEnde = rs.getString(1);
+						
 				
+		
+			
+		
+							
+						//String AG = "Erich";
+						//String Typ = "Dornier";
+						//String Kennzeichen = "120";
+						//String Beginndatum = "20.05.2016";
+						//String Endedatum = "01.06.2016";
+						//String FlugAnfang = "München";
+						//String FlugEnde = "New York";
+						String Zwischen1 = "Paris";
+						String Zwischen2 = "London";
+						String Zwischen3 = "Reykjavík";
+						String Charterdauer = "124:30 h";
+						String Flugzeit = "24:45";
+						//String Preisnetto = "1.450,00 EUR";
+						//String Mwst = "275,50 EUR";
+						//String Preisbrutto = "1.725,50 EUR";
+						
+						Chunk underline = new Chunk("                                                  ");
+
+		
+		switch (modus) {
+		
+		case "Auftrag":
 			
 
 				p = new Paragraph(" ", styleText);
@@ -1938,120 +2307,8 @@ public class MyFlightController {
 				p.setSpacingAfter(20f);
 				document.add(p);
 				
-// Parameter für Dokumenterstellung
-				
-		//Kundenvorname
-				String sql = "select kunden.kundevorname from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"+angebot_id+"'";
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery(sql);
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				String AG = rs.getString(1)+" ";
-				System.out.println(AG);
-			
-		//Kundenname
-				sql = "select kunden.kundename from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"+angebot_id+"'";
-				
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				AG = AG+rs.getString(1);
-				System.out.println(AG);
-		//Art des Charters
-			/*	sql = "select angebote.chartertyp_chartertyp from angebote where angebote.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				artcharter.setText(rs.getString(1));
-				System.out.println(rs.getString(1)); */
-		//Flugzeugtyp
-				sql = "select a.Flugzeugtyp from flugzeugtypen a inner join angebote b on a.flugzeugtypen_ID = b.Fluege_flugzeuge_Flugzeugtypen_Flugzeugtypen_ID where b.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				String Typ=rs.getString(1);
-				System.out.println(rs.getString(1));
-		//Flugzeugkennzeichen
-				sql = "select angebote.fluege_flugzeuge_flugzeug_id from angebote where angebote.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				String Kennzeichen =rs.getString(1);
-				System.out.println(rs.getString(1));
-		//Datum von
-				sql = "select fluege.Datum_Von from angebote inner join fluege on angebote.fluege_flug_id=fluege.Flug_ID where angebote.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				// Create an instance of SimpleDateFormat used for formatting 
-				// the string representation of date (month/day/year)
-				DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-
-					      
-				// Using DateFormat format method we can create a string 
-				// representation of a date with the defined format.
-				String reportDate = df.format(rs.getObject(1));
-				System.out.println(reportDate);
-				String Beginndatum = reportDate;
-				//datumvon.setPromptText(rs.getString(1));
-				//System.out.println(rs.getString(1));
-		//Datum bis
-				sql = "select fluege.Datum_bis from angebote inner join fluege on angebote.fluege_flug_id=fluege.Flug_ID where angebote.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				// Create an instance of SimpleDateFormat used for formatting 
-				// the string representation of date (month/day/year)
-				//DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-					      
-				// Using DateFormat format method we can create a string 
-				// representation of a date with the defined format.
-				reportDate = df.format(rs.getObject(1));
-				System.out.println(reportDate);
-				String Endedatum = reportDate;
-		//Abflugort
-				sql = "select flughafen_von.flughafenname from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				String FlugAnfang = rs.getString(1);
-				System.out.println(rs.getString(1));				
-		//Ankunftort
-				sql = "select flughafen_bis.flughafenname from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				String FlugEnde = rs.getString(1);
-				System.out.println(rs.getString(1));				
-		//Preis netto
-				sql = "select angebote.angebotspreis_netto from angebote where angebote.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				System.out.println(rs.getInt(1));		
-				String Preisnetto = Integer.toString(rs.getInt(1))+" EUR";
-				int intPreisnetto = rs.getInt(1);
-		//Preis brutto
-				sql = "select angebote.angebotspreis_brutto from angebote where angebote.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				System.out.println(rs.getInt(1));		
-				String Preisbrutto = Integer.toString(rs.getInt(1))+" EUR";
-				int intPreisbrutto = rs.getInt(1);					
-		//Preis Mwst
-				int Preismwst = intPreisbrutto - intPreisnetto;
-				System.out.println(Preismwst);		
-				String Mwst = Integer.toString(Preismwst)+" EUR";
-					
 				
 			
-				//String AG = "Erich";
-				//String Typ = "Dornier";
-				//String Kennzeichen = "120";
-				//String Beginndatum = "20.05.2016";
-				//String Endedatum = "01.06.2016";
-				//String FlugAnfang = "München";
-				//String FlugEnde = "New York";
-				String Zwischen1 = "Paris";
-				String Zwischen2 = "London";
-				String Zwischen3 = "Reykjavík";
-				String Charterdauer = "124:30 h";
-				String Flugzeit = "24:45";
-				//String Preisnetto = "1.450,00 EUR";
-				//String Mwst = "275,50 EUR";
-				//String Preisbrutto = "1.725,50 EUR";
 				
 				p = new Paragraph(
 						AG+" chartert das Luftfahrzeug "+Typ+" "+Kennzeichen+" für die Zeit vom "+Beginndatum+" zum "+Endedatum+" zu einer Reise von "+FlugAnfang+" nach "+FlugEnde+" über "+Zwischen1+", "+Zwischen2+", "+Zwischen3+".",styleText);
@@ -2175,7 +2432,6 @@ public class MyFlightController {
 				
 				p = new Paragraph();
 				p.setTabSettings(new TabSettings(35f));
-				Chunk underline = new Chunk("                                                  ");
 				underline.setUnderline(0.3f, -2f); //0.1 thick, -2 y-location
 				p.add(underline);
 				p.add(Chunk.TABBING);
@@ -2204,11 +2460,58 @@ public class MyFlightController {
 				// step 5
 				document.close();
 
-				File file = new File(filename);
-				System.out.println("Saved " + file.getCanonicalPath());
-			}
+				
+		break;		
+		case "Mahnung":
 
-			private static ParagraphBorder enableBordering(PdfWriter pdfWriter) {
+			p = new Paragraph(" ", styleText);
+			p.setAlignment(Element.ALIGN_CENTER);
+			// etwas abstand hinter der überschrift
+			p.setSpacingAfter(6f);
+			document.add(p);
+			p = new Paragraph("Mahnung", styleUeberschrift1);
+			p.setAlignment(Element.ALIGN_LEFT);
+			// etwas abstand hinter der überschrift
+			p.setSpacingAfter(6f);
+			document.add(p);
+			p = new Paragraph("Sehr geehrte(r) "+AG+",", styleText);
+			p.setAlignment(Element.ALIGN_LEFT);
+			// etwas abstand hinter der überschrift
+			p.setSpacingAfter(6f);
+			document.add(p);
+			p = new Paragraph("nachdem Sie auf unsere Erinnerungen zur Begleichung unserer Rechnung nicht reagiert haben, mahnen wir Sie nun an, die Rechnung binnen 7 Tage zu begleichen. Andernfalls sehen wir uns gezwungen, gerichtliche Schritte gegen Sie einzuleiten. ", styleText);
+			p.setAlignment(Element.ALIGN_LEFT);
+			// etwas abstand hinter der überschrift
+			p.setSpacingAfter(6f);
+			document.add(p);
+			p = new Paragraph("Mit freundlichen Grüßen,", styleText);
+			p.setAlignment(Element.ALIGN_LEFT);
+			// etwas abstand hinter der überschrift
+			p.setSpacingAfter(6f);
+			document.add(p);
+			p = new Paragraph("HINOTORI Executive AG", styleUeberschrift1);
+			p.setAlignment(Element.ALIGN_LEFT);
+			// etwas abstand hinter der überschrift
+			p.setSpacingAfter(20f);
+			document.add(p);
+						
+										
+					// step 5
+					break;
+		
+		default:		
+		}
+		document.close();
+
+		File file = new File(filename);
+		System.out.println("Saved " + file.getCanonicalPath());
+
+		
+	}
+
+	// ErzeugePDF - Ende-************************************************************************************************************
+	
+	private static ParagraphBorder enableBordering(PdfWriter pdfWriter) {
 				ParagraphBorder border = new ParagraphBorder();
 				pdfWriter.setPageEvent(border);
 				return border;
@@ -2262,8 +2565,18 @@ public class MyFlightController {
 				}
 				return table;
 			}
-
-			public void erzeugeWord(int angebot_id) throws Exception {
+	
+			
+	//*********************************************************************************************************************************************
+	//*********************************************************************************************************************************************		
+			public void erzeugeWord(int angebot_id, String modus) throws Exception {
+				
+				if (modus=="Auftrag"){
+					filename = System.getProperty("user.dir") + "/"+Integer.toString(angebot_id)+".docx";}
+				else {
+					filename = System.getProperty("user.dir") + "/"+Integer.toString(angebot_id)+"m.docx";}
+				
+					
 				factory = Context.getWmlObjectFactory();
 
 				WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
@@ -2288,132 +2601,107 @@ public class MyFlightController {
 
 				
 				
-				//centerParagraph(mdp.addParagraphOfText(
-				//		"Ganz normaler Text."));
-				centerParagraph(mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "Chartervertrag"));
-				doBoldFormat(getFirstRunOfParagraph(getLastParagraph(mdp)));
-				centerParagraph(mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "zwischen"));
-				centerParagraph(mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "HINOTORI Executive AG (Auftragnehmer)"));
-				doBoldFormat(getFirstRunOfParagraph(getLastParagraph(mdp)));
-				centerParagraph(mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "und"));
-				centerParagraph(mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "Firma oder Person"));
-				doBoldFormat(getFirstRunOfParagraph(getLastParagraph(mdp)));
-
 				// Parameter für Dokumenterstellung
 				
-				//Kundenvorname
-						String sql = "select kunden.kundevorname from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"+angebot_id+"'";
-						Statement stmt = conn.createStatement();
-						ResultSet rs = stmt.executeQuery(sql);
-						rs = stmt.executeQuery(sql);
-						rs.next();
-						String AG = rs.getString(1)+" ";
-						System.out.println(AG);
-					
-				//Kundenname
-						sql = "select kunden.kundename from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"+angebot_id+"'";
-						
-						rs = stmt.executeQuery(sql);
-						rs.next();
-						AG = AG+rs.getString(1);
-						System.out.println(AG);
-				//Art des Charters
-					/*	sql = "select angebote.chartertyp_chartertyp from angebote where angebote.angebote_id='"+angebot_id+"'";
-						rs = stmt.executeQuery(sql);
-						rs.next();
-						artcharter.setText(rs.getString(1));
-						System.out.println(rs.getString(1)); */
-				//Flugzeugtyp
-						sql = "select a.Flugzeugtyp from flugzeugtypen a inner join angebote b on a.flugzeugtypen_ID = b.Fluege_flugzeuge_Flugzeugtypen_Flugzeugtypen_ID where b.angebote_id='"+angebot_id+"'";
-						rs = stmt.executeQuery(sql);
-						rs.next();
-						String Typ=rs.getString(1);
-						System.out.println(rs.getString(1));
-				//Flugzeugkennzeichen
-						sql = "select angebote.fluege_flugzeuge_flugzeug_id from angebote where angebote.angebote_id='"+angebot_id+"'";
-						rs = stmt.executeQuery(sql);
-						rs.next();
-						String Kennzeichen =rs.getString(1);
-						System.out.println(rs.getString(1));
-				//Datum von
-						sql = "select fluege.Datum_Von from angebote inner join fluege on angebote.fluege_flug_id=fluege.Flug_ID where angebote.angebote_id='"+angebot_id+"'";
-						rs = stmt.executeQuery(sql);
-						rs.next();
-						// Create an instance of SimpleDateFormat used for formatting 
-						// the string representation of date (month/day/year)
-						DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+				String sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID where angebote.angebote_id = '"+ angebot_id + "'";
 
-							      
-						// Using DateFormat format method we can create a string 
-						// representation of a date with the defined format.
-						String reportDate = df.format(rs.getObject(1));
-						System.out.println(reportDate);
-						String Beginndatum = reportDate;
-						//datumvon.setPromptText(rs.getString(1));
-						//System.out.println(rs.getString(1));
-				//Datum bis
-						sql = "select fluege.Datum_bis from angebote inner join fluege on angebote.fluege_flug_id=fluege.Flug_ID where angebote.angebote_id='"+angebot_id+"'";
-						rs = stmt.executeQuery(sql);
-						rs.next();
-						// Create an instance of SimpleDateFormat used for formatting 
-						// the string representation of date (month/day/year)
-						//DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-							      
-						// Using DateFormat format method we can create a string 
-						// representation of a date with the defined format.
-						reportDate = df.format(rs.getObject(1));
-						System.out.println(reportDate);
-						String Endedatum = reportDate;
-				//Abflugort
-						sql = "select flughafen_von.flughafenname from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
-						rs = stmt.executeQuery(sql);
-						rs.next();
-						String FlugAnfang = rs.getString(1);
-						System.out.println(rs.getString(1));				
-				//Ankunftort
-						sql = "select flughafen_bis.flughafenname from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
-						rs = stmt.executeQuery(sql);
-						rs.next();
-						String FlugEnde = rs.getString(1);
-						System.out.println(rs.getString(1));				
-				//Preis netto
-						sql = "select angebote.angebotspreis_netto from angebote where angebote.angebote_id='"+angebot_id+"'";
-						rs = stmt.executeQuery(sql);
-						rs.next();
-						System.out.println(rs.getInt(1));		
-						String Preisnetto = Integer.toString(rs.getInt(1))+" EUR";
-						int intPreisnetto = rs.getInt(1);
-				//Preis brutto
-						sql = "select angebote.angebotspreis_brutto from angebote where angebote.angebote_id='"+angebot_id+"'";
-						rs = stmt.executeQuery(sql);
-						rs.next();
-						System.out.println(rs.getInt(1));		
-						String Preisbrutto = Integer.toString(rs.getInt(1))+" EUR";
-						int intPreisbrutto = rs.getInt(1);					
-				//Preis Mwst
-						int Preismwst = intPreisbrutto - intPreisnetto;
-						System.out.println(Preismwst);		
-						String Mwst = Integer.toString(Preismwst)+" EUR";
-							
-						
-					
-						//String AG = "Erich";
-						//String Typ = "Dornier";
-						//String Kennzeichen = "120";
-						//String Beginndatum = "20.05.2016";
-						//String Endedatum = "01.06.2016";
-						//String FlugAnfang = "München";
-						//String FlugEnde = "New York";
-						String Zwischen1 = "Paris";
-						String Zwischen2 = "London";
-						String Zwischen3 = "Reykjavík";
-						String Charterdauer = "124:30 h";
-						String Flugzeit = "24:45";
-						//String Preisnetto = "1.450,00 EUR";
-						//String Mwst = "275,50 EUR";
-						//String Preisbrutto = "1.725,50 EUR";				
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);
+				rs.next();
+			String AG = rs.getString(30);
+			AG = AG+" "+rs.getString(29);
+			String Typ=rs.getString(41);
+			String Kennzeichen =rs.getString(16);
+			
+			 //artcharter.setText(rs.getString(4));
 				
+				// Create an instance of SimpleDateFormat used for formatting 
+				// the string representation of date (month/day/year)
+				DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+				
+				// Using DateFormat format method we can create a string 
+				// representation of a date with the defined format.
+				String Beginndatum = df.format(rs.getObject(25));
+				
+				// Create an instance of SimpleDateFormat used for formatting 
+				// the string representation of date (month/day/year)
+				//DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+					      
+				// Using DateFormat format method we can create a string 
+				// representation of a date with the defined format.
+				
+				String Endedatum = df.format(rs.getObject(26));
+				//Charterdauer
+			//	System.out.println(rs.getTime(14));		
+//				charterdauer.setText(Object.toString(rs.getObject(14)));
+				//Flugzeit
+//				System.out.println(rs.getString(15));		
+			//	charterdauer.setText(rs.getString(15));
+				//Preis netto
+				System.out.println(rs.getInt(8));		
+				String Preisnetto = Integer.toString(rs.getInt(8))+" EUR";
+				int intpreisnetto = rs.getInt(8);
+				// Preis Brutto
+				System.out.println(rs.getInt(7));		
+				String Preisbrutto = Integer.toString(rs.getInt(7))+ " EUR";
+				int intpreisbrutto = rs.getInt(7);					
+		//Preis Mwst
+				int Preismwst = intpreisbrutto - intpreisnetto;
+				String Mwst = Integer.toString(Preismwst)+" EUR";
+				
+				//Abflugort
+				sql = "select flughafen_von.flughafenname from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				String FlugAnfang = rs.getString(1);
+								
+		//Ankunftort
+				sql = "select flughafen_bis.flughafenname from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				String FlugEnde = rs.getString(1);
+								
+						
+				
+					
+				
+									
+								//String AG = "Erich";
+								//String Typ = "Dornier";
+								//String Kennzeichen = "120";
+								//String Beginndatum = "20.05.2016";
+								//String Endedatum = "01.06.2016";
+								//String FlugAnfang = "München";
+								//String FlugEnde = "New York";
+								String Zwischen1 = "Paris";
+								String Zwischen2 = "London";
+								String Zwischen3 = "Reykjavík";
+								String Charterdauer = "124:30 h";
+								String Flugzeit = "24:45";
+								//String Preisnetto = "1.450,00 EUR";
+								//String Mwst = "275,50 EUR";
+								//String Preisbrutto = "1.725,50 EUR";
+								
+
+				
+				
+				
+
+			switch (modus) {
+			case "Auftrag" :
+						
+						//centerParagraph(mdp.addParagraphOfText(
+						//		"Ganz normaler Text."));
+						centerParagraph(mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "Chartervertrag"));
+						doBoldFormat(getFirstRunOfParagraph(getLastParagraph(mdp)));
+						centerParagraph(mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "zwischen"));
+						centerParagraph(mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "HINOTORI Executive AG (Auftragnehmer)"));
+						doBoldFormat(getFirstRunOfParagraph(getLastParagraph(mdp)));
+						centerParagraph(mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "und"));
+						centerParagraph(mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "Firma oder Person"));
+						doBoldFormat(getFirstRunOfParagraph(getLastParagraph(mdp)));
+		
 								
 				mdp.addParagraphOfText(AG+" chartert das Luftfahrzeug "+Typ+" "+Kennzeichen+" für die Zeit vom "+Beginndatum+" zum "+Endedatum+" zu einer Reise von "+FlugAnfang+" nach "+FlugEnde+" über "+Zwischen1+", "+Zwischen2+", "+Zwischen3+".");
 				mdp.addStyledParagraphOfText(styleUeberschrift2.getStyleId(), "Flugplan:");
@@ -2443,14 +2731,36 @@ public class MyFlightController {
 				mdp.addParagraphOfText("Datum, Ort                                                                                               Datum, Ort");
 				mdp.addParagraphOfText("");
 				mdp.addParagraphOfText("HINOTORI Executive AG                                                                         Auftraggeber");
+		
+				break;
+			case "Mahnung" :
+			
+				//centerParagraph(mdp.addParagraphOfText(
+				//		"Ganz normaler Text."));
+				mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "Mahnung");
+				doBoldFormat(getFirstRunOfParagraph(getLastParagraph(mdp)));
+				mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "Sehr geehrte(r) "+AG+",");
+				mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "nachdem Sie auf unsere Erinnerungen zur Begleichung unserer Rechnung nicht reagiert haben, mahnen wir Sie nun an, die Rechnung binnen 7 Tage zu begleichen. Andernfalls sehen wir uns gezwungen, gerichtliche Schritte gegen Sie einzuleiten. ");
+				// doBoldFormat(getFirstRunOfParagraph(getLastParagraph(mdp)));
+				mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "Mit freundlichen Grüßen,");
+				mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "HINOTORI Executive AG");
+				// doBoldFormat(getFirstRunOfParagraph(getLastParagraph(mdp)));
+
 				
+			break;
 				
+											
+				
+			default:
+			
+				
+			}
 				
 				// speichern
-				String filename = System.getProperty("user.dir") + "/"+Integer.toString(angebot_id)+".docx";
 				File file = new java.io.File(filename);
 				Docx4J.save(wordMLPackage, file, Docx4J.FLAG_SAVE_ZIP_FILE);
 				System.out.println("Saved " + file.getCanonicalPath());
+					
 			}
 
 			private static R getFirstRunOfParagraph(P lastParagraph) {
@@ -2700,7 +3010,7 @@ public class MyFlightController {
 				System.out.println(rs.getString(1));
 				String Kunde = rs.getString(1);
 			//Datum von
-				sql = "select angebotstermin.datum_von from angebotstermin inner join angebote on angebote.angebote_id=angebotstermin.angebote_angebote_id where angebote.angebote_id='"+angebot_id+"'";
+				sql = "select angebote.angebotsdatum from angebote where angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				// Create an instance of SimpleDateFormat used for formatting 
@@ -2739,10 +3049,12 @@ public class MyFlightController {
 @FXML		public void saveorderchange() throws SQLException {
 					int angebot_id = Nummerorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
 					String orderchange = choiceorderstatus.getValue().toString();
+					System.out.println(orderchange);
 					Statement stmt = conn.createStatement();
 					try {
-					stmt.executeUpdate("Update angebote set Angebotsstatus_Angebotsstatus='"+orderchange+"' where angebote.angebote_id='"+angebot_id+"'");
-					lbl_dbconnect.setText("Änderung gespeichert");		
+					stmt.executeUpdate("Update auftraege set Auftragsstatus_Auftragsstatus='"+orderchange+"' where auftraege.auftraege_id='"+angebot_id+"'");
+					lbl_dbconnect.setText("Änderung gespeichert");	
+					actiongetaufträge();					
 				} catch (SQLException sqle) {
 
 					lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
@@ -2755,7 +3067,7 @@ public class MyFlightController {
 	public void action_createbill(ActionEvent event) throws Exception {
 		// gewählter Auftrag dessen Daten für Speicherung Rechnung übernehmen
 		int auftrag_id = Nummerorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
-		int tmpflgztyp = Flgztyporder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
+		String tmpflgztyp = Flgztyporder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
 		String tmpAart = Aartorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
 		String tmpkdgruppe = Kdgruppeorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
 		String tmpauftragstatus = Statusorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
@@ -2777,27 +3089,29 @@ public class MyFlightController {
 
 			String tmprechnungstatus = "erstellt";
 
-			// ermittle Kunden_ID, Angebote_ID, Angebotsstatus von tabelle
-			// auftraege
-			sql = "select Auftraege.Angebote_Kunden_Kunde_ID, Auftraege.Angebote_Angebotsstatus_Angebotsstatus, Auftraege.Angebote_Angebote_ID  from auftraege where auftraege.auftraege_id='"
-					+ auftrag_id + "'";
-			rs = stmt.executeQuery(sql);
-			rs.next();
-			int tmpkunde_id = rs.getInt(1);
-			String tmpangebotstatus = rs.getString(2);
-			int tmpangebot_id = rs.getInt(3);
+			// ermittle Rechnungsdatum
+		
+		     GregorianCalendar now = new GregorianCalendar();
 
-			System.out.println(" " + newrechnungen_id + " " + tmprechnungstatus + " " + auftrag_id + " " + " "
-					+ tmpauftragstatus + " " + tmpangebot_id + " " + tmpangebotstatus + " " + tmpAart + " "
-					+ tmpkunde_id + " " + tmpkdgruppe);
-
+		     
+		      //   date.add(GregorianCalendar.DAY_OF_MONTH, +7);
+		     String tagesdatum = now.get(GregorianCalendar.YEAR)+ "-"+ (now.get(GregorianCalendar.MONTH) + 1) + "-"+now.get(GregorianCalendar.DAY_OF_MONTH);
+		     //    	System.out.println(mahndate.before(date));
+			
+			 // ermittle Zahlungstermin
+	        GregorianCalendar target = new GregorianCalendar();
+	        target.add(GregorianCalendar.DAY_OF_MONTH, -14);
+	        String zahlungstermin = target.get(GregorianCalendar.YEAR)+ "-"+ (target.get(GregorianCalendar.MONTH) + 1) + "-"+target.get(GregorianCalendar.DAY_OF_MONTH);
+	        	       
+			
+			System.out.println(" " + newrechnungen_id + " " + tagesdatum + " " + zahlungstermin + " " + " "
+					+ tmprechnungstatus + " " + auftrag_id);
 			// speichere Rechnungsdaten
 			try {
 				stmt.executeUpdate(
-						"insert into rechnungen (Rechnungen_ID ,Rechnungsstatus_Rechnungsstatus, Auftraege_Auftraege_ID , Auftraege_Auftragsstatus_Auftragsstatus ,Auftraege_Angebote_Angebote_ID , Auftraege_Angebote_Angebotsstatus_Angebotsstatus ,Auftraege_Angebote_Chartertyp_Chartertyp , Auftraege_Angebote_Kunden_Kunde_ID , Auftraege_Angebote_Kunden_Kundengruppen_Kundengruppen) values ('"
-								+ newrechnungen_id + "','" + tmprechnungstatus + "','" + auftrag_id + "','"
-								+ tmpauftragstatus + "','" + tmpangebot_id + "','" + tmpangebotstatus + "','" + tmpAart
-								+ "','" + tmpkunde_id + "','" + tmpkdgruppe + "')");
+						"insert into rechnungen (Rechnungen_ID ,Rechnungsdatum,Zahlungstermin,Rechnungsstatus_Rechnungsstatus,Auftraege_Auftraege_ID ) values ('"
+								+ newrechnungen_id + "','" + tagesdatum + "','" + zahlungstermin + "','"
+								+ tmprechnungstatus + "','" + auftrag_id + "')");
 				lbl_dbconnect.setText("Rechnung gespeichert");
 			} catch (SQLException sqle) {
 
@@ -2863,7 +3177,9 @@ public class MyFlightController {
 		Statement stmt = conn.createStatement();
 		try {
 		stmt.executeUpdate("Update rechnungen set rechnungsstatus_Rechnungsstatus='"+billstatuschange+"' where rechnungen.rechnungen_id='"+rechnung_id+"'");
-		lbl_dbconnect.setText("Änderung gespeichert");		
+		lbl_dbconnect.setText("Änderung gespeichert");	
+		actiongetrechnungen();
+		
 	} catch (SQLException sqle) {
 
 		lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
@@ -2871,5 +3187,41 @@ public class MyFlightController {
 		sqle.printStackTrace();
 	}
 	}	
+	
+	@FXML		public void action_save_costtrackingedit() throws SQLException {
+		int rechnung_id = Nummercostbill.getCellData(costbilltable.getSelectionModel().getSelectedIndex());
+		String costbillstatuschange = choicecostbillstatus.getValue().toString();
+		Statement stmt = conn.createStatement();
+		try {
+		stmt.executeUpdate("Update rechnungen set rechnungsstatus_Rechnungsstatus='"+costbillstatuschange+"' where rechnungen.rechnungen_id='"+rechnung_id+"'");
+		lbl_dbconnect.setText("Änderung gespeichert");	
+		actiongetcosttrackingoverview();
+	} catch (SQLException sqle) {
+
+		lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
+		// System.out.println("geht nicht");
+		sqle.printStackTrace();
+	}
+	}	
+	
+	
+	@FXML		public void action_save_costextracostedit() throws SQLException {
+		int rechnung_id = Nummercostreminder_warnings_bill.getCellData(costreminder_warnings_billtable.getSelectionModel().getSelectedIndex());
+		float tmpzusatzkostenextracostedit = Float.parseFloat(zusatzkostenextracostedit.getText());
+		Statement stmt = conn.createStatement();
+		try {
+		stmt.executeUpdate("Update rechnungen set zusatzkosten_mahnungen='"+tmpzusatzkostenextracostedit+"' where rechnungen.rechnungen_id='"+rechnung_id+"'");
+		lbl_dbconnect.setText("Änderung gespeichert");	
+		actiongetcosttrackingreminder_warnings();
+	} catch (SQLException sqle) {
+
+		lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
+		// System.out.println("geht nicht");
+		sqle.printStackTrace();
+	}
+	}	
+	
+	
+	
 	
 }

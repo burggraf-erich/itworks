@@ -15,6 +15,7 @@ public class RechnungenCostreminder {
 
 	private SimpleIntegerProperty Nummercostreminder_warnings_bill = null;
 	private SimpleStringProperty Statuscostreminder_warnings_bill = null;
+	private SimpleStringProperty Kdnamecostreminder_warnings_bill = null;
 	private SimpleStringProperty Datumcostreminder_warnings_topay = null;
 	private SimpleFloatProperty Preiscostreminder_warnings_bill = null;
 	private SimpleFloatProperty Preiscostreminder_warnings_bill_aufschlag = null;
@@ -25,14 +26,14 @@ public class RechnungenCostreminder {
 	
 	
 	
-
-	public RechnungenCostreminder(Integer Nummer, String Status, String Datum, Float Preis, Float Preisaufschlag, Float Zusatzkosten, String Kdgruppe) {
+	public RechnungenCostreminder(Integer Nummer, String Status, String Kdname, String zahltermin, float Preis, float preisaufschlag, float zusatzkosten, String Kdgruppe) {
 		this.Nummercostreminder_warnings_bill = new SimpleIntegerProperty(Nummer);
 		this.Statuscostreminder_warnings_bill = new SimpleStringProperty(Status) ;
-		this.Datumcostreminder_warnings_topay = new SimpleStringProperty(Datum) ;
+		this.Kdnamecostreminder_warnings_bill = new SimpleStringProperty(Kdname) ;
+		this.Datumcostreminder_warnings_topay = new SimpleStringProperty(zahltermin) ;
 		this.Preiscostreminder_warnings_bill = new SimpleFloatProperty(Preis);
-		this.Preiscostreminder_warnings_bill_aufschlag = new SimpleFloatProperty(Preisaufschlag);
-		this.Preiscostreminder_warnings_bill_zusatzkosten = new SimpleFloatProperty(Zusatzkosten);
+		this.Preiscostreminder_warnings_bill_aufschlag = new SimpleFloatProperty(preisaufschlag);
+		this.Preiscostreminder_warnings_bill_zusatzkosten = new SimpleFloatProperty(zusatzkosten);
 		this.Kdgruppecostreminder_warnings_bill = new SimpleStringProperty(Kdgruppe);
 		}
 	public int getNummercostreminder_warnings_bill() {
@@ -41,6 +42,10 @@ public class RechnungenCostreminder {
 	public String getStatuscostreminder_warnings_bill() {
         return Statuscostreminder_warnings_bill.get();
     }
+	public String getKdnamecostreminder_warnings_bill() {
+        return Kdnamecostreminder_warnings_bill.get();
+    }
+	
 	public String getDatumcostreminder_warnings_topay() {
         return Datumcostreminder_warnings_topay.get();
     }
@@ -61,6 +66,9 @@ public class RechnungenCostreminder {
     }
     public void setStatuscostreminder_warnings_bill(String Status) {
         this.Statuscostreminder_warnings_bill.set(Status);
+    }
+    public void setKdnamecostreminder_warnings_bill(String Kdname) {
+        this.Kdnamecostreminder_warnings_bill.set(Kdname);
     }
     public void setDatumcostreminder_warnings_topay(String Datum) {
         this.Datumcostreminder_warnings_topay.set(Datum);
@@ -84,6 +92,10 @@ public class RechnungenCostreminder {
     public StringProperty Statuscostreminder_warnings_billProperty() {
         return Statuscostreminder_warnings_bill;
     }
+    public StringProperty Kdnamecostreminder_warnings_billProperty() {
+        return Kdnamecostreminder_warnings_bill;
+    }
+    
     public StringProperty Datumcostreminder_warnings_topayProperty() {
         return Datumcostreminder_warnings_topay;
     }
