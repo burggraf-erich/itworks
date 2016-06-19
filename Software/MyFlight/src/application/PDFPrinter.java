@@ -65,6 +65,7 @@ public class PDFPrinter {
             }
         } catch (IOException e) {
             e.printStackTrace();
+         
         } catch (PrinterException e) {
             JOptionPane.showMessageDialog(null, "Printing Error: "
                     + e.getMessage(), "Print Aborted",

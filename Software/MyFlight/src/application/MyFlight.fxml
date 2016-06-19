@@ -290,7 +290,7 @@
                                                 <TableColumn fx:id="Datumcostreminder_warnings_topay" prefWidth="89.0" text="Zahltermin" />
                                                 <TableColumn fx:id="Preiscostreminder_warnings_bill" prefWidth="34.5" text="Preis" />
                                                 <TableColumn fx:id="Preiscostreminder_warnings_bill_aufschlag" prefWidth="84.5" text="Preis-Aufschlag" />
-                                                <TableColumn fx:id="Preiscostreminder_warnings_bill_zusatzkosten" prefWidth="78.5" text="Zusatzkosten" />
+                                                <TableColumn fx:id="Preiscostreminder_warnings_bill_zusatzkosten" prefWidth="78.5" text="Mahnung Zusatzkosten" />
                                                 <TableColumn fx:id="Kdgruppecostreminder_warnings_bill" prefWidth="72.0" text="Kundengruppe" />
                                             </columns>
                                           </TableView>

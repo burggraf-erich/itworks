@@ -1,5 +1,5 @@
 package application;
-// V1.20
+// V1.21
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -1263,12 +1263,12 @@ public class MyFlightController {
 			 // Testende
 			
 			while ((rs != null) && (rs.next())) {
-				System.out.println(i++ + " " + rs.getInt(46) + " " + rs.getString(49) + " " + rs.getString(33) + " " + rs.getString(48) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(13)+ " " + rs.getString(44) );
+				System.out.println(i++ + " " + rs.getInt(46) + " " + rs.getString(49) + " " + rs.getString(33) + " " + rs.getString(48) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(51)+ " " + rs.getString(44) );
 			
 		//		if (now.after(rs.getDate(48))) {
 				System.out.println(now.after(rs.getDate(48)));
 				System.out.println(now.getTime());
-				costreminder_warnings_billdata.add(new RechnungenCostreminder(rs.getInt(46), rs.getString(49), rs.getString(33), rs.getString(48), rs.getFloat(11), rs.getFloat(17), rs.getFloat(13), rs.getString(44)));
+				costreminder_warnings_billdata.add(new RechnungenCostreminder(rs.getInt(46), rs.getString(49), rs.getString(33), rs.getString(48), rs.getFloat(11), rs.getFloat(17), rs.getFloat(51), rs.getString(44)));
 				}
 				
 		//	}
@@ -1608,6 +1608,10 @@ public class MyFlightController {
 			tmprechnungstatusextracostedit = "Erinnerung 2";
 			change = true;
 			break;
+		case "Erinnerung 2":
+			tmprechnungstatusextracostedit = "Mahnung 1";
+			change = true;
+			break;
 		case "Mahnung 1":
 			tmprechnungstatusextracostedit = "Mahnung 2";
 			change = true;
@@ -1655,11 +1659,11 @@ public class MyFlightController {
 		}
 
 		if (AuswahlDokutyp == "PDF") {
-			erzeugePdf(angebot_id, "Mahnung");
+			erzeugePdf(angebot_id, tmprechnungstatusextracostedit);
 		}
 
 		if (AuswahlDokutyp == "Word") {
-			erzeugeWord(angebot_id, "Mahnung");
+			erzeugeWord(angebot_id, tmprechnungstatusextracostedit);
 
 		}
 
@@ -1831,7 +1835,7 @@ public class MyFlightController {
 		String tmpkdgruppe = Kdgruppe.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
 
 		// Prüfung, ob Auftrag bereits angelegt ist
-		String sql = "select auftraege.auftraege_id from auftraege where auftraege.angebote_angebote_id='" + angebot_id
+		String sql = "select auftraege.angebote_angebote_id from auftraege where auftraege.angebote_angebote_id='" + angebot_id
 				+ "'";
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery(sql);
@@ -1960,7 +1964,7 @@ public class MyFlightController {
 				String kundenanrede = rs.getString(1);
 
 				// Kundenname
-				sql = "select kunden.kundename from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
+				sql = "select kunden.kundename from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id angebote.angebote_id = '"
 						+ angebot_id + "'";
 
 				stmt = conn.createStatement();
@@ -2462,14 +2466,14 @@ public class MyFlightController {
 
 				
 		break;		
-		case "Mahnung":
+		default:
 
 			p = new Paragraph(" ", styleText);
 			p.setAlignment(Element.ALIGN_CENTER);
 			// etwas abstand hinter der überschrift
 			p.setSpacingAfter(6f);
 			document.add(p);
-			p = new Paragraph("Mahnung", styleUeberschrift1);
+			p = new Paragraph(modus, styleUeberschrift1);
 			p.setAlignment(Element.ALIGN_LEFT);
 			// etwas abstand hinter der überschrift
 			p.setSpacingAfter(6f);
@@ -2499,7 +2503,7 @@ public class MyFlightController {
 					// step 5
 					break;
 		
-		default:		
+				
 		}
 		document.close();
 
@@ -2733,11 +2737,11 @@ public class MyFlightController {
 				mdp.addParagraphOfText("HINOTORI Executive AG                                                                         Auftraggeber");
 		
 				break;
-			case "Mahnung" :
+			default :
 			
 				//centerParagraph(mdp.addParagraphOfText(
 				//		"Ganz normaler Text."));
-				mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "Mahnung");
+				mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), modus);
 				doBoldFormat(getFirstRunOfParagraph(getLastParagraph(mdp)));
 				mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "Sehr geehrte(r) "+AG+",");
 				mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "nachdem Sie auf unsere Erinnerungen zur Begleichung unserer Rechnung nicht reagiert haben, mahnen wir Sie nun an, die Rechnung binnen 7 Tage zu begleichen. Andernfalls sehen wir uns gezwungen, gerichtliche Schritte gegen Sie einzuleiten. ");
@@ -2748,10 +2752,8 @@ public class MyFlightController {
 
 				
 			break;
-				
-											
-				
-			default:
+			
+			
 			
 				
 			}
@@ -2991,7 +2993,7 @@ public class MyFlightController {
 				
 				
 				// Kundenanrede
-				String sql = "select kunden.KundeAnrede from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
+				String sql = "select kunden.KundeAnrede from kunden inner join angebote inner join auftraege on kunden.kunde_id=angebote.kunden_kunde_id and auftraege.angebote_angebote_id=angebote.angebote_id and auftraege.auftraege_id='"
 						+ angebot_id + "'";
 
 				Statement stmt = conn.createStatement();
@@ -3001,7 +3003,7 @@ public class MyFlightController {
 				String kundenanrede = rs.getString(1);
 				
 			// Kundenname
-				sql = "select kunden.kundename from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
+				sql = "select kunden.kundename from kunden inner join angebote inner join auftraege on kunden.kunde_id=angebote.kunden_kunde_id and auftraege.angebote_angebote_id=angebote.angebote_id and auftraege.auftraege_id='"
 						+ angebot_id + "'";
 
 				stmt = conn.createStatement();
@@ -3010,7 +3012,7 @@ public class MyFlightController {
 				System.out.println(rs.getString(1));
 				String Kunde = rs.getString(1);
 			//Datum von
-				sql = "select angebote.angebotsdatum from angebote where angebote.angebote_id='"+angebot_id+"'";
+				sql = "select angebote.angebotsdatum from angebote inner join auftraege on auftraege.angebote_angebote_id=angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				// Create an instance of SimpleDateFormat used for formatting 
@@ -3024,7 +3026,7 @@ public class MyFlightController {
 				System.out.println(reportDate);
 				String Datum = reportDate;
 			// Kundenmailadresse
-				sql = "select kunden.kundeemail from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
+				sql = "select kunden.kundeemail from kunden inner join angebote inner join auftraege on kunden.kunde_id=angebote.kunden_kunde_id and auftraege.angebote_angebote_id=angebote.angebote_id and auftraege.auftraege_id='"
 						+ angebot_id + "'";
 
 				stmt = conn.createStatement();
