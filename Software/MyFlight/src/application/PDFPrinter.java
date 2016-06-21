@@ -22,8 +22,13 @@ import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
 import com.sun.pdfview.PDFRenderer;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+
 public class PDFPrinter {
 
+	@FXML Label lbl_dbconnect;
+	
     public PDFPrinter(File file) {
         try {
             FileInputStream fis = new FileInputStream(file);
@@ -64,6 +69,7 @@ public class PDFPrinter {
             pjob.print();
             }
         } catch (IOException e) {
+        	lbl_dbconnect.setText("Druckdatei nicht vorhanden");
             e.printStackTrace();
          
         } catch (PrinterException e) {

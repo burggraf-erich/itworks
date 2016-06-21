@@ -33,7 +33,7 @@
                <children>
                   <Accordion layoutY="8.0" prefHeight="481.0" prefWidth="201.0" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <panes>
-                      <TitledPane fx:id="mnudashboard" animated="false" disable="true" onMouseClicked="#action_get_dashboard" text="Dashboard">
+                      <TitledPane fx:id="mnudashboard" animated="false" disable="true" onMouseClicked="#action_get_dashboard" text="Home">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         </content>
@@ -233,6 +233,7 @@
                                        </font>
                                     </Label>
                                     <Label layoutX="121.0" layoutY="201.0" text="Benutzername:" />
+                                    <Label fx:id="Version" layoutX="534.0" layoutY="443.0" text="Label" />
                                     <Label layoutX="121.0" layoutY="228.0" text="Passwort:" />
                                     <TextField fx:id="txt_username" focusTraversable="false" layoutX="220.0" layoutY="197.0" promptText="vorname.nachname" />
                                     <PasswordField fx:id="pwf_password" layoutX="220.0" layoutY="224.0" />
@@ -1102,7 +1103,7 @@
                                     <HBox layoutX="206.0" layoutY="22.0" spacing="5.0">
                                        <children>
                                           <Button fx:id="btn_costextracostedit" disable="true" mnemonicParsing="false" onAction="#action_costextracostedit" text="Zusatzkosten bearbeiten" />
-                                          <Button fx:id="btn_createreminder" mnemonicParsing="false" onAction="#action_createreminder" text="Erinnerungs-/Mahnschreiben erstellen" />
+                                          <Button fx:id="btn_createreminder" disable="true" mnemonicParsing="false" onAction="#action_createreminder" text="Erinnerungs-/Mahnschreiben erstellen" />
                                        </children>
                                        <opaqueInsets>
                                           <Insets />

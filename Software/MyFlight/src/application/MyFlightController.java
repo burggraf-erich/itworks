@@ -4,6 +4,10 @@ package application;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import application.PDFPrinter;
 
@@ -237,6 +241,7 @@ public class MyFlightController {
 	@FXML Label lblrolle;
 	@FXML Label lblberechtigung;
 	@FXML Label maskentitel;
+	@FXML Label Version;
 	
 	
 	@FXML TitledPane mnudashboard;
@@ -441,6 +446,7 @@ public class MyFlightController {
 
 	@FXML	
 	private void initialize() {
+		Version.setText("V1.22");
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
 		Flgztyp.setCellValueFactory(cellData -> cellData.getValue().FlgztypProperty());
@@ -606,6 +612,9 @@ public class MyFlightController {
 							Bindings.isEmpty(costreminder_warnings_billtable.getSelectionModel().getSelectedIndices()));
 					btn_delete_order.disableProperty()
 							.bind(Bindings.isEmpty(auftragtable.getSelectionModel().getSelectedIndices()));
+					btn_createreminder.disableProperty().bind(
+							Bindings.isEmpty(costreminder_warnings_billtable.getSelectionModel().getSelectedIndices()));
+					
 				}
 				if (userobject.getberechtigung() == 3) {
 					mnuadministration.setDisable(false);
@@ -619,7 +628,7 @@ public class MyFlightController {
 				// System.out.println("geht nicht");
 				sqle.printStackTrace();
 
-				// Anwendung auch bei fehlenden Berechtigungen freischalten -
+/*				// Anwendung auch bei fehlenden Berechtigungen freischalten -
 				// Beginn
 				apa_login.setVisible(false);
 				apa_welcome.setVisible(true);
@@ -647,10 +656,10 @@ public class MyFlightController {
 				if (userobject.getberechtigung() == 3) {
 					mnuadministration.setDisable(false);
 				}
-
+				Anwendung auch bei fehlenden Berechtigungen freischalten - Ende */
 			}
 		}
-		// Anwendung auch bei fehlenden Berechtigungen freischalten - Ende
+ 
 	}
 
 	// private char[] substringBefore(Object setText, String string) {
@@ -667,7 +676,7 @@ public class MyFlightController {
 	public void actiongetangebote() {
 		// lbl_dbconnect.setText("Mouse geklickt!");
 
-		set_allunvisible();
+		set_allunvisible(false);
 		scroll_pane_angebotübersicht.setVisible(true);
 		angebotübersicht.setVisible(true);
 		maskentitel.setVisible(true);
@@ -698,6 +707,50 @@ public class MyFlightController {
 			Statement stmt = conn.createStatement();
 			
 			// angebote-übersicht abrufen
+		/*	//Testschleife
+			String sql = "Select angebote.angebotsdatum from angebote where angebote.angebote_id = '13'";
+			ResultSet rs = stmt.executeQuery(sql);
+			rs.next();
+			System.out.println(rs.getDate(1));
+			Calendar myCal2 = new GregorianCalendar();
+			String tagesdatum2 = myCal2.get(Calendar.YEAR)+ "-"+ (myCal2.get(Calendar.MONTH) + 1) + "-"+myCal2.get(Calendar.DAY_OF_MONTH);
+			 System.out.println("tagesdatum2:"+tagesdatum2);
+			 int date1y = rs.getDate(1).getYear()+1900;
+			 int date1m = rs.getDate(1).getMonth();
+			 int date1d = rs.getDate(1).getDay();
+			 int datevalue = date1y*365+date1m*12+date1d;
+			 System.out.println(datevalue);
+			 int date2y = myCal2.get(Calendar.YEAR);
+			 int date2m = myCal2.get(Calendar.MONTH);
+			 int date2d = myCal2.get(Calendar.DATE);
+			 int datevalue1 = date2y*365+date2m*12+date2d;
+			 System.out.println(datevalue1);
+			 System.out.println(datevalue1>datevalue);
+			 
+			 /*DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	        Calendar myCal13 = df.getCalendar();
+	        myCal13.add(Calendar.DAY_OF_MONTH,+2);
+			
+			System.out.println(myCal13);
+			System.out.println(myCal2);
+			System.out.println(myCal13.before(myCal2));
+			 //myCal2.setTimeInMillis(System.currentTimeMillis());
+			 //myCal13.setTimeInMillis(System.currentTimeMillis());
+			
+		        
+		        String tagesdatum13 = myCal13.get(Calendar.YEAR)+ "-"+ (myCal13.get(Calendar.MONTH) + 1) + "-"+myCal13.get(Calendar.DAY_OF_MONTH);
+			   + "tagesdatum13: "+tagesdatum13 );
+		        java.util.Date utilDate = new java.util.Date();
+			    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+			    System.out.println("utilDate:" + utilDate);
+			    System.out.println("sqlDate:" + sqlDate);
+			
+			    myCal2.add( Calendar.DATE, 2 );
+			    //Date myDate = (Date) myCal2.getTime();
+			//System.out.println(myDate.after(rs.getDate(1)));
+			*/
+			// Ende Testschleife
+			
 			ResultSet rs = stmt.executeQuery("SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID group by angebote.angebote_id");
 					
 			angebotedata.remove(0, angebotedata.size());
@@ -734,7 +787,7 @@ public class MyFlightController {
 
 	@FXML public void hlk_create_offer(ActionEvent event) {
 		
-		set_allunvisible();
+		set_allunvisible(false);
 		apa_create_offer.setVisible(true);
 		apa_btn_createoffer.setVisible(true);
 		
@@ -742,7 +795,7 @@ public class MyFlightController {
 		
 	}
 	
-	public void set_allunvisible(){
+	public void set_allunvisible(boolean showmessage){
 	
 	    apa_login.setVisible(false);
 	    apa_welcome.setVisible(false);
@@ -756,7 +809,7 @@ public class MyFlightController {
 	    Aufträgeübersicht.setVisible(false);
 		auftragübersichtbuttons.setVisible(false);
 		apa_charter.setVisible(false);
-		lbl_dbconnect.setText("");
+		if (!showmessage) lbl_dbconnect.setText("");
 		maskentitel.setVisible(false);
 		panebtnangebotübersicht.setVisible(false);
 		ancpanebtn_createorder.setVisible(false);
@@ -834,7 +887,7 @@ public class MyFlightController {
 		//int i = 0;
 		String new_custID;
 		
-		set_allunvisible();
+		set_allunvisible(false);
 		apa_create_cust.setVisible(true);
 		apa_btn_create_cust.setVisible(true);
 		
@@ -915,10 +968,13 @@ public class MyFlightController {
 
 	@FXML public void btn_stop_click(ActionEvent event) {}
 	
-	@FXML	public void actiongetaufträge() {
+	@FXML  public void actiongetaufträge(){
+		actiongetaufträgepgm(false);
+	}
+	public void actiongetaufträgepgm(boolean showmessage) {
 		// lbl_dbconnect.setText("Mouse geklickt!");
 
-		set_allunvisible();
+		set_allunvisible(showmessage);
 		scroll_pane_auftragübersicht.setVisible(true);
 		Aufträgeübersicht.setVisible(true);
 		auftragübersichtbuttons.setVisible(true);
@@ -1013,7 +1069,7 @@ public class MyFlightController {
 	@FXML	public void actiongetrechnungen() {
 		// lbl_dbconnect.setText("Mouse geklickt!");
 
-		set_allunvisible();
+		set_allunvisible(false);
 		scroll_pane_rechnungenübersicht.setVisible(true);
 		Rechnungenübersicht.setVisible(true);
 		Rechnungenübersichtbuttons.setVisible(true);
@@ -1113,7 +1169,7 @@ public class MyFlightController {
 	@FXML	public void actiongetcosttrackingoverview() {
 		// lbl_dbconnect.setText("Mouse geklickt!");
 
-		set_allunvisible();
+		set_allunvisible(false);
 		scroll_pane_costtrackingoverview.setVisible(true);
 		costtrackingoverview.setVisible(true);
 		apa_btn_costtrackingoverview.setVisible(true);
@@ -1220,7 +1276,7 @@ public class MyFlightController {
 	@FXML	public void actiongetcosttrackingreminder_warnings() {
 		// lbl_dbconnect.setText("Mouse geklickt!");
 
-		set_allunvisible();
+		set_allunvisible(false);
 		scroll_pane_costtrackingreminder_warnings.setVisible(true);
 		costtrackingreminder_warnings.setVisible(true);
 		apa_btn_costtrackingreminder.setVisible(true);
@@ -1332,7 +1388,7 @@ public class MyFlightController {
 	@FXML	public void angebotedit_click(ActionEvent event) throws SQLException {
 
 		// System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
-		set_allunvisible(); 
+		set_allunvisible(false); 
 		auftragändernform.setVisible(true);
 		ancpanebtn_changeorder.setVisible(true);
 		scroll_pane_changeorder.setVisible(true);
@@ -1453,7 +1509,7 @@ public class MyFlightController {
 	@FXML	public void action_costtrackingedit(ActionEvent event) throws SQLException {
 
 		 // System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
-		set_allunvisible(); 
+		set_allunvisible(false); 
 		costtrackingedit.setVisible(true);
 		apa_btn_costtrackingedit.setVisible(true);
 		maskentitel.setVisible(true);
@@ -1521,7 +1577,7 @@ public class MyFlightController {
 	@FXML	public void action_costextracostedit(ActionEvent event) throws SQLException {
 
 		 // System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
-		set_allunvisible(); 
+		set_allunvisible(false); 
 		costextracostedit.setVisible(true);
 		apa_btn_costextracostedit.setVisible(true);
 		maskentitel.setVisible(true);
@@ -1591,7 +1647,7 @@ public class MyFlightController {
 				.getCellData(costreminder_warnings_billtable.getSelectionModel().getSelectedIndex());
 
 		// angebote_id ermitteln
-		String sql = "select angebote.angebote_id from angebote inner join rechnungen inner join auftraege on angebote.angebote_id = auftraege.angebote_angebote_id and auftraege.auftraege_id = rechnungen.auftraege_auftraege_id where rechnungen.rechnungen_ID = '"+rechnung_id+"'";
+		String sql = "select auftraege.auftraege_id from auftraege inner join rechnungen on auftraege.auftraege_id = rechnungen.auftraege_auftraege_id where rechnungen.rechnungen_ID = '"+rechnung_id+"'";
 
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery(sql);
@@ -1656,17 +1712,17 @@ public class MyFlightController {
 
 		if (result1.isPresent()) {
 			AuswahlDokutyp = result1.get();
+
+			if (AuswahlDokutyp == "PDF") {
+				erzeugePdf(angebot_id, tmprechnungstatusextracostedit);
+			}
+
+			if (AuswahlDokutyp == "Word") {
+				erzeugeWord(angebot_id, tmprechnungstatusextracostedit);
+
+			}
 		}
-
-		if (AuswahlDokutyp == "PDF") {
-			erzeugePdf(angebot_id, tmprechnungstatusextracostedit);
-		}
-
-		if (AuswahlDokutyp == "Word") {
-			erzeugeWord(angebot_id, tmprechnungstatusextracostedit);
-
-		}
-
+		
 		choices.clear();
 		choices.add("Drucken");
 		choices.add("keine Aktion");
@@ -1683,15 +1739,22 @@ public class MyFlightController {
 
 		if (result2.isPresent()) {
 			AuswahlAktion = result2.get();
-		}
+		
 
 		if (AuswahlAktion == "Drucken" && AuswahlDokutyp == "PDF") {
 
 			filename = System.getProperty("user.dir") + "/" + Integer.toString(angebot_id) + "m.pdf";
 			f = new File(filename);
 
-			PDFPrinter druck = new PDFPrinter(f);
-			lbl_dbconnect.setText("PDF-Ausdruck gestartet");
+			
+			try {
+				PDFPrinter druck = new PDFPrinter(f);
+				lbl_dbconnect.setText("PDF-Ausdruck gestartet");
+			} catch (Exception e) {
+				lbl_dbconnect.setText("Druckdatei nicht vorhanden");
+				e.printStackTrace();
+			}
+			
 
 		}
 		if (AuswahlAktion == "Drucken" && AuswahlDokutyp == "Word") {
@@ -1701,7 +1764,7 @@ public class MyFlightController {
 			lbl_dbconnect.setText("Docx-Ausdruck gestartet");
 
 		}
-
+		}
 	}
 	
 	@FXML public void actiongetcosttrackingreminder (ActionEvent event) {
@@ -1740,7 +1803,7 @@ public class MyFlightController {
 	@FXML
 	public void createorder(ActionEvent event) throws SQLException {
 		System.out.println(Nummer.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
-		set_allunvisible();
+		set_allunvisible(false);
 		scroll_pane_order.setVisible(true);
 		scroll_pane_order.setVvalue(0);;
 		ancpane_createorder.setVisible(true);
@@ -1848,8 +1911,9 @@ public class MyFlightController {
 			sql = "select max(auftraege_id) from auftraege";
 			rs = stmt.executeQuery(sql);
 			rs.next();
-			int newauftraege_id = (rs.getInt(1) / 10000 + 1) * 10000 + 2016;
-
+			//int newauftraege_id = (rs.getInt(1) / 10000 + 1) * 10000 + 2016;
+			int newauftraege_id = rs.getInt(1) +1;
+			
 			System.out.println(newauftraege_id);
 
 			String tmpAuftragstatus = "offen";
@@ -1882,7 +1946,9 @@ public class MyFlightController {
 				// System.out.println("geht nicht");
 				sqle.printStackTrace();
 			}
-
+			// angebot_id von auftraege_id übernehmen
+			angebot_id = newauftraege_id;
+			
 			List<String> choices = new ArrayList<>();
 			choices.clear();
 			choices.add("PDF");
@@ -1905,9 +1971,7 @@ public class MyFlightController {
 
 			if (result1.isPresent()) {
 				AuswahlDokutyp = result1.get();
-			}
-
-			if (AuswahlDokutyp == "PDF") {
+				if (AuswahlDokutyp == "PDF") {
 				erzeugePdf(angebot_id,"Auftrag");
 			}
 
@@ -1915,6 +1979,9 @@ public class MyFlightController {
 				erzeugeWord(angebot_id, "Auftrag");
 
 			}
+			}
+
+			
 
 			choices.clear();
 			choices.add("Drucken");
@@ -1933,7 +2000,7 @@ public class MyFlightController {
 
 			if (result2.isPresent()) {
 				AuswahlAktion = result2.get();
-			}
+			
 
 			if (AuswahlAktion == "Drucken" && AuswahlDokutyp == "PDF") {
 
@@ -1964,7 +2031,7 @@ public class MyFlightController {
 				String kundenanrede = rs.getString(1);
 
 				// Kundenname
-				sql = "select kunden.kundename from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id angebote.angebote_id = '"
+				sql = "select kunden.kundename from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id where angebote.angebote_id = '"
 						+ angebot_id + "'";
 
 				stmt = conn.createStatement();
@@ -1973,8 +2040,7 @@ public class MyFlightController {
 				System.out.println(rs.getString(1));
 				String Kunde = rs.getString(1);
 				// Datum von
-				sql = "select angebotstermin.datum_von from angebotstermin inner join angebote on angebote.angebote_id=angebotstermin.angebote_angebote_id where angebote.angebote_id='"
-						+ angebot_id + "'";
+				sql = "select angebote.angebotsdatum from angebote inner join auftraege on auftraege.angebote_angebote_id=angebote.angebote_id and auftraege.auftraege_id='"+ angebot_id + "'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				// Create an instance of SimpleDateFormat used for formatting
@@ -2002,6 +2068,7 @@ public class MyFlightController {
 				Mainmail mail = new Mainmail(kundenanrede, Kunde, angebot_id, Datum, mailadresse);
 
 			}
+			}
 		}
 
 	}
@@ -2011,7 +2078,7 @@ public class MyFlightController {
 	
 	@FXML
 	public void change_billstatus(ActionEvent event) throws SQLException {
-		set_allunvisible();
+		set_allunvisible(false);
 		scrollpane_changebillstatus.setVisible(true);
 		scrollpane_changebillstatus.setVvalue(0);;
 		apa_formchangebillstatus.setVisible(true);
@@ -2180,7 +2247,7 @@ public class MyFlightController {
 		styleKursiv.setSize(12);
 		styleKursiv.setStyle(FontStyle.ITALIC.name());
 
-		Image image = Image.getInstance(PdfGenerator.class.getResource("logo2.jpg"));
+		Image image = Image.getInstance(PdfGenerator.class.getResource("Logo2.jpg"));
 		image.scaleAbsolute(507,40);
 		document.add(image);
 		// Dokumententitel (mit Rahmen!)
@@ -2193,7 +2260,7 @@ public class MyFlightController {
 		
 	
 		// Daten für Auftrag erstellen einlesen
-		String sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID where angebote.angebote_id = '"+ angebot_id + "'";
+		String sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, auftraege.auftraege_id FROM angebote INNER JOIN fluege inner join auftraege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID where auftraege.auftraege_id = '"+ angebot_id + "'";
 
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery(sql);
@@ -2607,7 +2674,7 @@ public class MyFlightController {
 				
 				// Parameter für Dokumenterstellung
 				
-				String sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID where angebote.angebote_id = '"+ angebot_id + "'";
+				String sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, auftraege.auftraege_id FROM angebote INNER JOIN fluege inner join auftraege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID where auftraege.auftraege_id = '"+ angebot_id + "'";
 
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);
@@ -2776,7 +2843,7 @@ public class MyFlightController {
 			}
 
 			private static void addLogo(MainDocumentPart mdp, WordprocessingMLPackage wordMLPackage) throws Exception {
-				InputStream inputStream = WordGenerator.class.getResourceAsStream("logo2.jpg");
+				InputStream inputStream = WordGenerator.class.getResourceAsStream("Logo2.jpg");
 				long fileLength = 94712; // 97kB
 
 				byte[] bytes = new byte[(int) fileLength];
@@ -2975,16 +3042,23 @@ public class MyFlightController {
 				return run;
 			}
 			
-			public void action_drucken() {
+			public void action_drucken() throws Exception {
 				int angebot_id = Nummerorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
 
 				filename = System.getProperty("user.dir") + "/"+Integer.toString(angebot_id)+".pdf";
 				f = new File(filename);
 
 				
+				erzeugePdf(angebot_id, "Auftrag");
 				
-				PDFPrinter druck = new PDFPrinter(f);
-				lbl_dbconnect.setText("Ausdruck gestartet");
+				try {
+					PDFPrinter druck = new PDFPrinter(f);
+					lbl_dbconnect.setText("Ausdruck gestartet");
+				} catch (Exception e) {
+					lbl_dbconnect.setText("Druckdatei nicht vorhanden");
+					e.printStackTrace();
+				}
+				
 				
 				}
 		
@@ -3056,7 +3130,7 @@ public class MyFlightController {
 					try {
 					stmt.executeUpdate("Update auftraege set Auftragsstatus_Auftragsstatus='"+orderchange+"' where auftraege.auftraege_id='"+angebot_id+"'");
 					lbl_dbconnect.setText("Änderung gespeichert");	
-					actiongetaufträge();					
+					actiongetaufträgepgm(true);					
 				} catch (SQLException sqle) {
 
 					lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
@@ -3136,7 +3210,7 @@ public class MyFlightController {
 		try {
 			statement.executeUpdate(sql);
 			lbl_dbconnect.setText("Auftrag gelöscht");
-			actiongetaufträge();
+			actiongetaufträgepgm(true);
 		} catch (SQLException sqle) {
 
 			lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
@@ -3146,7 +3220,7 @@ public class MyFlightController {
 
 	@FXML public void action_get_dashboard () {
 		 	
-			set_allunvisible();
+			set_allunvisible(false);
 			apa_login.setVisible(false);
 			apa_btn_login.setVisible(true);
 		    apa_welcome.setVisible(true);
@@ -3158,7 +3232,7 @@ public class MyFlightController {
 	}
 	@FXML public void action_change_user (ActionEvent event) {
 	 	
-		set_allunvisible();
+		set_allunvisible(false);
 		apa_btn_login.setVisible(true);
 		apa_login.setVisible(true);
 		btn_change_user.setVisible(false);
@@ -3171,6 +3245,12 @@ public class MyFlightController {
 		mnureporting.setDisable(true);
 		mnucharter.setDisable(true);
 		mnuadministration.setDisable(true);
+		btn_costextracostedit.disableProperty().unbind();
+		btn_delete_order.disableProperty().unbind();
+		btn_createreminder.disableProperty().unbind();
+		btn_costextracostedit.setDisable(true);
+		btn_delete_order.setDisable(true);
+		btn_createreminder.setDisable(true);
 	}
 
 	@FXML		public void action_save_billstatus() throws SQLException {
