@@ -159,7 +159,7 @@
                                                    <children>
                                                       <Accordion prefHeight="348.0" prefWidth="212.0">
                                                          <panes>
-                                                            <TitledPane animated="false" prefHeight="0.0" prefWidth="202.0" text="Personaldaten verwalten" underline="true">
+                                                            <TitledPane fx:id="personal" animated="false" onMouseClicked="#actiongetpersonaldaten" prefHeight="0.0" prefWidth="202.0" text="Personaldaten verwalten" underline="true">
                                                                <content>
                                                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                                                </content>
@@ -370,6 +370,30 @@
                               </AnchorPane>
                                  </content>
                               </ScrollPane>
+ 
+                              <ScrollPane fx:id="scroll_pane_personaldaten" prefHeight="481.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                              <AnchorPane fx:id="anc_pane_personaldatenübersicht" minHeight="0.0" minWidth="0.0" prefHeight="640.0" prefWidth="825.0" visible="false">
+                                 <children>
+                                    <TableView fx:id="personaltable" layoutX="131.0" layoutY="-14.0" prefHeight="634.0" prefWidth="900.0" AnchorPane.bottomAnchor="-160.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-309.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                        <TableColumn fx:id="Personal_ID" prefWidth="108.5" text="Personal_ID" />
+                                        <TableColumn fx:id="PersonalName" prefWidth="117.0" text="Name" />
+                                          <TableColumn fx:id="PersonalVorname" minWidth="0.0" prefWidth="97.5" text="Vorname" />
+                                          <TableColumn fx:id="Position_Gehalt_Position" prefWidth="54.0" text="Position" />
+                                          <TableColumn fx:id="Personalstatus_Personalstatus" minWidth="0.0" prefWidth="40.0" text="Status" />
+                                          <TableColumn fx:id="Gehalt" prefWidth="75.0" text="Gehalt" />
+                    
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                                 </content>
+                              </ScrollPane>
+ 
+ 
+ 
+ 
                               <AnchorPane fx:id="apa_charter" layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Label prefHeight="35.0" prefWidth="200.0" text="Charterverwaltung">
@@ -467,7 +491,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="artcharter" layoutX="454.0" layoutY="61.0" text="Fixpreis" textFill="#dd2c0c">
+                              <Label fx:id="artcharter" layoutX="392.0" layoutY="61.0" text="Fixpreis" textFill="#dd2c0c">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -611,18 +635,18 @@
                                     </TextField>
                                  </children>
                               </HBox>
-                              <Text layoutX="416.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kennzeichen">
+                              <Text layoutX="414.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kennzeichen">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Text>
                                           <ComboBox fx:id="choiceorderstatus" layoutX="376.0" layoutY="650.0" prefWidth="150.0" promptText="bitte auswählen" />
-                              <Label fx:id="flgzkz1" layoutX="442.0" layoutY="156.0" text="EBE-BH-Z64">
+                              <Label fx:id="flgzkz1" layoutX="440.0" layoutY="143.0" text="EBE-BH-Z64">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="artcharter1" layoutX="454.0" layoutY="61.0" text="Fixpreis" textFill="#dd2c0c">
+                              <Label fx:id="artcharter1" layoutX="386.0" layoutY="61.0" text="Fixpreis" textFill="#dd2c0c">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -1098,6 +1122,23 @@
                                     </HBox>
                                  </children>
                               </AnchorPane>
+                              
+                              <AnchorPane fx:id="apa_btn_personaldatenoverview" prefHeight="68.0" prefWidth="589.0" visible="false">
+                                 <children>
+                                    <HBox alignment="TOP_RIGHT" layoutX="18.0" layoutY="22.0" prefHeight="25.0" prefWidth="557.0" spacing="5.0">
+                                       <children>
+                                         <Button fx:id="btncreatepersonal" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false" onAction="#action_createpersonal" text="Neue Mitarbeiter anlegen" textAlignment="CENTER" />
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                    </HBox>
+                                 </children>
+                              </AnchorPane>
+                              
+                              
+                              
+                              
                               <AnchorPane fx:id="apa_btn_costtrackingreminder" prefHeight="68.0" prefWidth="589.0" visible="false">
                                  <children>
                                     <HBox layoutX="206.0" layoutY="22.0" spacing="5.0">

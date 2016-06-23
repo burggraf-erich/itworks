@@ -1,5 +1,5 @@
 package application;
-// V1.21
+// V1.23
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -160,6 +160,12 @@ public class MyFlightController {
 	public ObservableList<RechnungenCostreminder> getcostreminder_warnings_billdata() {
 		return costreminder_warnings_billdata;
 	}
+	private ObservableList<Personaldaten> personaldata = FXCollections.observableArrayList();
+	
+	public ObservableList<Personaldaten> getpersonaldata() {
+		return personaldata;
+	}
+
 	
 	// zu Beginn besteht keine Autentifizierung und damit sind alle Menüpunkte und Buttons deaktiviert
 	private boolean authenticated = false;
@@ -194,6 +200,7 @@ public class MyFlightController {
 	@FXML Button btn_change_user;
 	@FXML Button btn_save_billstatus;
 	@FXML Button btn_save_costtrackingedit;
+	@FXML Button btncreatepersonal;
 	
 	@FXML AnchorPane apa_welcome;
 	@FXML AnchorPane apa_login;
@@ -219,11 +226,14 @@ public class MyFlightController {
 	@FXML AnchorPane apa_create_cust;
 	@FXML AnchorPane apa_btn_create_cust;
 	@FXML AnchorPane apa_formchangebillstatus;
+	@FXML AnchorPane anc_pane_personaldatenübersicht;
 	@FXML AnchorPane ancpanebtn_changebillstatus;
 	@FXML AnchorPane apa_btn_costtrackingreminder;
 	@FXML AnchorPane apa_btn_costtrackingedit;
 	@FXML AnchorPane apa_btn_costtrackingoverview;
 	@FXML AnchorPane apa_btn_costextracostedit;
+	@FXML AnchorPane apa_btn_personaldatenoverview;
+	
 	
 	@FXML ScrollPane scroll_pane_order;
 	@FXML ScrollPane scroll_pane_changeorder;
@@ -233,6 +243,7 @@ public class MyFlightController {
 	@FXML ScrollPane scroll_pane_rechnungenübersicht;
 	@FXML ScrollPane scroll_pane_costtrackingoverview;
 	@FXML ScrollPane scroll_pane_costtrackingreminder_warnings;
+	@FXML ScrollPane scroll_pane_personaldaten;
 	
 	
 	
@@ -441,12 +452,19 @@ public class MyFlightController {
 	@FXML	TableColumn<RechnungenCostreminder, String> Kdgruppecostreminder_warnings_bill;
 	@FXML	TableColumn<RechnungenCostreminder, Integer> Nummerorder_forcostreminder_warnings_billtable;
 	@FXML	TableColumn<RechnungenCostreminder, String> Statusorder_forcostreminder_warnings_billtable;
-	
 
+	@FXML	TableView<Personaldaten> personaltable;
+	@FXML	TableColumn<Personaldaten, Integer> Personal_ID;
+	@FXML	TableColumn<Personaldaten, Integer> Gehalt;
+	@FXML	TableColumn<Personaldaten, String> PersonalName;
+	@FXML	TableColumn<Personaldaten, String> PersonalVorname;
+	@FXML	TableColumn<Personaldaten, String> Position_Gehalt_Position;
+	@FXML	TableColumn<Personaldaten, String> Personalstatus_Personalstatus;
+      
 
 	@FXML	
 	private void initialize() {
-		Version.setText("V1.22");
+		Version.setText("V1.23");
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
 		Flgztyp.setCellValueFactory(cellData -> cellData.getValue().FlgztypProperty());
@@ -500,12 +518,21 @@ public class MyFlightController {
 		Preiscostreminder_warnings_bill_zusatzkosten.setCellValueFactory(cellData -> cellData.getValue().Preiscostreminder_warnings_bill_zusatzkostenProperty().asObject());
 		Kdgruppecostreminder_warnings_bill.setCellValueFactory(cellData -> cellData.getValue().Kdgruppecostreminder_warnings_billProperty());
 		
+		// Datenverknüpfung personaltable
+		Personal_ID.setCellValueFactory(cellData -> cellData.getValue().pidProperty().asObject());
+		PersonalName.setCellValueFactory(cellData -> cellData.getValue().pnameProperty());
+		PersonalVorname.setCellValueFactory(cellData -> cellData.getValue().pvnameProperty());
+		Position_Gehalt_Position.setCellValueFactory(cellData -> cellData.getValue().pposProperty());
+		Gehalt.setCellValueFactory(cellData -> cellData.getValue().pgehaltProperty().asObject());
+		Personalstatus_Personalstatus.setCellValueFactory(cellData -> cellData.getValue().pstatusProperty());
+		
 		
 		angebotetabelle.setItems(getangebotedata());
 		auftragtable.setItems(getauftraegedata());
 		billtable.setItems(getbilldata());
 		costbilltable.setItems(getcostbilldata());
 		costreminder_warnings_billtable.setItems(getcostreminder_warnings_billdata());
+		personaltable.setItems(getpersonaldata());
 		
 		apa_btn_login.setVisible(true);
 		apa_login.setVisible(true);
@@ -518,7 +545,7 @@ public class MyFlightController {
 		btn_costtrackingedit.disableProperty().bind(Bindings.isEmpty(costbilltable.getSelectionModel().getSelectedIndices()));
 	//	btn_costextracostedit.disableProperty().bind(Bindings.isEmpty(costreminder_warnings_billtable.getSelectionModel().getSelectedIndices()));
 		btn_createreminder.disableProperty().bind(Bindings.isEmpty(costreminder_warnings_billtable.getSelectionModel().getSelectedIndices()));
-
+		btncreatepersonal.disableProperty().bind(Bindings.isEmpty(personaltable.getSelectionModel().getSelectedIndices()));
 				
 	}
 	 
@@ -760,9 +787,9 @@ public class MyFlightController {
 			 // Testende
 			
 			while ((rs != null) && (rs.next())) {
-				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(4) + " " + rs.getString(40) + " "
-						+ rs.getString(41) + " " + rs.getString(21) + " " + rs.getString(22) + " " + rs.getString(29) + " " + rs.getString(30));
-				angebotedata.add(new Angebote(rs.getInt(1), rs.getString(4), rs.getString(40), rs.getString(41), rs.getString(21),rs.getString(22), rs.getString(29), rs.getString(30)));
+				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(4) + " " + rs.getString(41) + " "
+						+ rs.getString(42) + " " + rs.getString(21) + " " + rs.getString(22) + " " + rs.getString(30) + " " + rs.getString(31));
+				angebotedata.add(new Angebote(rs.getInt(1), rs.getString(4), rs.getString(40), rs.getString(42), rs.getString(21),rs.getString(22), rs.getString(30), rs.getString(31)));
 			}
 			
 			//wenn die Datenbank bei der Entwicklung leer ist
@@ -809,7 +836,10 @@ public class MyFlightController {
 	    Aufträgeübersicht.setVisible(false);
 		auftragübersichtbuttons.setVisible(false);
 		apa_charter.setVisible(false);
+		
+		//wenn showmessage = true, dann wird weiterhin die Statusmeldung vom Vorgänger-GV angezeigt
 		if (!showmessage) lbl_dbconnect.setText("");
+		
 		maskentitel.setVisible(false);
 		panebtnangebotübersicht.setVisible(false);
 		ancpanebtn_createorder.setVisible(false);
@@ -831,10 +861,12 @@ public class MyFlightController {
 		apa_btn_costtrackingedit.setVisible(false);
 		apa_btn_costtrackingoverview.setVisible(false);
 		apa_btn_costextracostedit.setVisible(false);
+		apa_btn_personaldatenoverview.setVisible(false);
 		scroll_pane_costtrackingoverview.setVisible(false);
 		scroll_pane_costtrackingreminder_warnings.setVisible(false);
 		scroll_pane_rechnungenübersicht.setVisible(false);	
-		
+		scroll_pane_personaldaten.setVisible(false);
+		anc_pane_personaldatenübersicht.setVisible(false);
 	}
 
 	@FXML public void btn_createoffer_click(ActionEvent event) {
@@ -1013,8 +1045,8 @@ public class MyFlightController {
 			
 			while ((rs != null) && (rs.next())) {
 				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
-						+ rs.getString(8) + " " + rs.getString(44) + " " + rs.getString(33) + " " + rs.getString(34) + " " + rs.getString(45)+ " " + rs.getString(25)+ " " + rs.getString(26));
-				auftraegedata.add(new Aufträge(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(8), rs.getString(44),rs.getString(33), rs.getString(34), rs.getString(45), rs.getString(25), rs.getString(26)));
+						+ rs.getString(8) + " " + rs.getString(45) + " " + rs.getString(34) + " " + rs.getString(35) + " " + rs.getString(46)+ " " + rs.getString(25)+ " " + rs.getString(26));
+				auftraegedata.add(new Aufträge(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(8), rs.getString(45),rs.getString(34), rs.getString(35), rs.getString(46), rs.getString(25), rs.getString(26)));
 			}
 			
 			//wenn die Datenbank bei der Entwicklung leer ist
@@ -1099,7 +1131,7 @@ public class MyFlightController {
 			Statement stmt = conn.createStatement();
 			
 			// Rechnungen-übersicht abrufen
-			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id = angebote.angebote_id");
+			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id = angebote.angebote_id group by rechnungen.rechnungen_id");
 		
 			
 			
@@ -1111,9 +1143,9 @@ public class MyFlightController {
 			 // Testende
 			
 			while ((rs != null) && (rs.next())) {
-				System.out.println(i++ + " " + rs.getInt(46) + " " + rs.getString(49) + " " + rs.getString(33) + " "
-						+ rs.getString(48) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(13)+ " " + rs.getString(44) );
-				billdata.add(new Rechnungen(rs.getInt(46), rs.getString(49), rs.getString(33), rs.getString(48), rs.getFloat(11), rs.getFloat(17), rs.getFloat(13), rs.getString(44)));
+				System.out.println(i++ + " " + rs.getInt(47) + " " + rs.getString(50) + " " + rs.getString(34) + " "
+						+ rs.getString(49) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(13)+ " " + rs.getString(45) );
+				billdata.add(new Rechnungen(rs.getInt(47), rs.getString(50), rs.getString(34), rs.getString(49), rs.getFloat(11), rs.getFloat(17), rs.getFloat(13), rs.getString(45)));
 			}
 		//wenn die Datenbank bei der Entwicklung leer ist
 //			billdata.remove(0, billdata.size());
@@ -1820,16 +1852,16 @@ public class MyFlightController {
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);
 				rs.next();
-			kdname.setText(rs.getString(29));
-			System.out.println(rs.getString(29));
+			kdname.setText(rs.getString(30));
+			System.out.println(rs.getString(30));
 
-			kdvname.setText(rs.getString(30));
-				System.out.println(rs.getString(30));
+			kdvname.setText(rs.getString(31));
+				System.out.println(rs.getString(31));
 
 			artcharter.setText(rs.getString(4));
 				System.out.println(rs.getString(4));
-			flgztyp.setText(rs.getString(41));
-				System.out.println(rs.getString(41));
+			flgztyp.setText(rs.getString(42));
+				System.out.println(rs.getString(42));
 			flgzkz.setText(rs.getString(16));
 				System.out.println(rs.getString(16));
 				// Create an instance of SimpleDateFormat used for formatting 
@@ -1838,7 +1870,7 @@ public class MyFlightController {
 				
 				// Using DateFormat format method we can create a string 
 				// representation of a date with the defined format.
-				String reportDate = df.format(rs.getObject(25));
+				String reportDate = df.format(rs.getObject(21));
 				System.out.println(reportDate);
 				datumvon.setPromptText(reportDate);
 				// Create an instance of SimpleDateFormat used for formatting 
@@ -1849,7 +1881,7 @@ public class MyFlightController {
 				// Using DateFormat format method we can create a string 
 				// representation of a date with the defined format.
 				
-				reportDate = df.format(rs.getObject(26));
+				reportDate = df.format(rs.getObject(22));
 				System.out.println(reportDate);
 				datumbis.setPromptText(reportDate);
 				//Charterdauer
@@ -2096,7 +2128,7 @@ public class MyFlightController {
 		
 		
 		// Kundenname
-				String sql = "select kunden.kundename from kunden inner join angebote inner join rechnungen on kunden.kunde_id=angebote.kunden_kunde_id and rechnungen.rechnungen_id='"
+				String sql = "select kunden.kundename from kunden inner join angebote inner join rechnungen inner join auftraege on rechnungen.auftraege_auftraege_id = auftraege.auftraege_id and auftraege.angebote_angebote_id = angebote.angebote_id and kunden.kunde_id=angebote.kunden_kunde_id and rechnungen.rechnungen_id='"
 				+ rechnung_id + "'";
 
 				Statement stmt = conn.createStatement();
@@ -2106,7 +2138,7 @@ public class MyFlightController {
 			System.out.println(rs.getString(1));
 
 		// Kundenvorname
-				sql = "select kunden.kundevorname from kunden inner join angebote inner join rechnungen on kunden.kunde_id=angebote.kunden_kunde_id and rechnungen.rechnungen_id='"
+				sql = "select kunden.kundevorname from kunden inner join angebote inner join rechnungen inner join auftraege on rechnungen.auftraege_auftraege_id = auftraege.auftraege_id and auftraege.angebote_angebote_id = angebote.angebote_id and kunden.kunde_id=angebote.kunden_kunde_id and rechnungen.rechnungen_id='"
 				+ rechnung_id + "'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
@@ -2265,9 +2297,9 @@ public class MyFlightController {
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery(sql);
 		rs.next();
-	String AG = rs.getString(30);
-	AG = AG+" "+rs.getString(29);
-	String Typ=rs.getString(41);
+	String AG = rs.getString(31);
+	AG = AG+" "+rs.getString(30);
+	String Typ=rs.getString(42);
 	String Kennzeichen =rs.getString(16);
 	
 	 //artcharter.setText(rs.getString(4));
@@ -2278,7 +2310,7 @@ public class MyFlightController {
 		
 		// Using DateFormat format method we can create a string 
 		// representation of a date with the defined format.
-		String Beginndatum = df.format(rs.getObject(25));
+		String Beginndatum = df.format(rs.getObject(21));
 		
 		// Create an instance of SimpleDateFormat used for formatting 
 		// the string representation of date (month/day/year)
@@ -2288,7 +2320,7 @@ public class MyFlightController {
 		// Using DateFormat format method we can create a string 
 		// representation of a date with the defined format.
 		
-		String Endedatum = df.format(rs.getObject(26));
+		String Endedatum = df.format(rs.getObject(22));
 		//Charterdauer
 	//	System.out.println(rs.getTime(14));		
 //		charterdauer.setText(Object.toString(rs.getObject(14)));
@@ -3302,8 +3334,111 @@ public class MyFlightController {
 		sqle.printStackTrace();
 	}
 	}	
+//***************************************************************************************************************************************
+//***************************************************************************************************************************************
 	
+	@FXML  public void actiongetpersonaldaten(){
+		System.out.println("geklickt");
+		actiongetpersonaldatenpgm(false);
+	}
+	public void actiongetpersonaldatenpgm(boolean showmessage) {
+		// lbl_dbconnect.setText("Mouse geklickt!");
+
+		set_allunvisible(showmessage);
+		scroll_pane_personaldaten.setVisible(true);
+		anc_pane_personaldatenübersicht.setVisible(true);
+		apa_btn_personaldatenoverview.setVisible(true);
+		maskentitel.setVisible(true);
+		maskentitel.setText("Übersicht Personaldaten");
 	
+		try {
+
+			// connect method #1 - embedded driver
+			
+		    
+			
+			//String dbURL1 = "jdbc:derby:c:/daten/wirtschaftsinformatik/4. semester/Wirtschaftsinformatikprojekt - Einführung/eigenes Projekt/entwicklung/db/codejava/webdb1;create=true";
+			//Connection conn1 = DriverManager.getConnection(dbURL1);
+			//if (conn1 != null) {
+			//	System.out.println("Connected to database #1");
+			//}
+
+			// Statement stmt = conn1.createStatement();
+			final String hostname = "172.20.1.24"; 
+	        final String port = "3306"; 
+	        String dbname = "myflight";
+			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+		    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+			
+			Statement stmt = conn.createStatement();
+			
+			// Aufträge-übersicht abrufen
+			ResultSet rs = stmt.executeQuery("select personal.*, position_gehalt.* from personal inner join position_gehalt on personal.Position_Gehalt_Position=position_gehalt.Position");
+			
+			personaldata.remove(0, personaldata.size());
+			int i = 1;
+			// Testbeginn
+			// rs = null;
+			 // Testende
+			
+			while ((rs != null) && (rs.next())) {
+				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
+						+ rs.getString(4) + " " + rs.getString(5) + " " + rs.getInt(7));
+				personaldata.add(new Personaldaten(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(7)));
+			}
+			
+			//wenn die Datenbank bei der Entwicklung leer ist
+			//angebotedata.add(new Angebote(303043,"22.05.2016","Einzelflug","CORP"));
+			
+			if (auftraegedata.size()== 0 ) lbl_dbconnect.setText("keine Personaldaten vorhanden");
+						
+			if (rs != null) rs.close();
+			stmt.close();
+
+			// conn1.close();
+
+		} catch (SQLException ex) {
+			lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
+			ex.printStackTrace();
+		}
+		
+
+
+		
+	/*	try {
+
+		 connect method #1 - embedded driver
+			String dbURL1 = "jdbc:derby:c:/daten/wirtschaftsinformatik/4. semester/Wirtschaftsinformatikprojekt - Einführung/eigenes Projekt/entwicklung/db/codejava/webdb1;create=true";
+			Connection conn1 = DriverManager.getConnection(dbURL1);
+			if (conn1 != null) {
+				System.out.println("Connected to database #1");
+			}
+
+			Statement stmt = conn1.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Angebote");
+			angebotedata.remove(1, angebotedata.size());
+			int i = 1;
+			while (rs.next()) {
+				angebotedata.add(new Angebote(rs.getInt(1), rs.getString(2), rs.getString(5)));
+				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
+						+ rs.getString(4) + " " + rs.getString(5) + " " + rs.getString(6) + " " + rs.getString(7) + " "
+						+ rs.getString(8) + " " + rs.getDate(9) + " " + rs.getDate(10));
+			}
+
+			rs.close();
+			stmt.close();
+
+			conn1.close();
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+*/
+	}
+
+@FXML public void action_createpersonal() {
+	// just do nothing
+	}
 	
 	
 }
