@@ -1097,6 +1097,32 @@
                                  </children>
                               </AnchorPane>      
 
+          <AnchorPane fx:id="apa_personaledit" layoutX="10.0" layoutY="10.0" prefHeight="484.0" prefWidth="599.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Personaldaten:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="14.0" layoutY="45.0" text="Personal-ID: *" />
+                                    <Label layoutX="15.0" layoutY="72.0" text="Name: " />
+                                    <Label layoutX="16.0" layoutY="97.0" text="Vorname: " />
+                                    <TextField fx:id="pid" disable="true" editable="false" layoutX="110.0" layoutY="41.0" />
+                                    <TextField fx:id="pname" layoutX="110.0" layoutY="68.0" />
+                                    <TextField fx:id="pvname" layoutX="110.0" layoutY="95.0" />
+                                    <TextField fx:id="ppos" layoutX="138.0" layoutY="226.0" prefHeight="25.0" prefWidth="115.0" />
+                                    <TextField fx:id="pstatus" layoutX="360.0" layoutY="41.0" prefHeight="25.0" prefWidth="150.0" />
+                                    <Label layoutX="17.0" layoutY="284.0" text="Gehalt: " />
+                                    <Label layoutX="14.0" layoutY="230.0" text="Position: *" />
+                                    <Label layoutX="269.0" layoutY="45.0" text="Status: *" />
+                                    <TextField fx:id="pgehalt" layoutX="190.0" layoutY="280.0" prefHeight="25.0" prefWidth="63.0" />
+                                    <Separator layoutX="14.0" layoutY="164.0" prefHeight="2.0" prefWidth="493.0" />
+                                    <Label layoutX="269.0" layoutY="74.0" text="Lizenz:" />
+                                    <TextField fx:id="plizenz" disable="true" editable="false" layoutX="360.0" layoutY="70.0" />
+                                    <Label layoutX="269.0" layoutY="100.0" text="Flugzeugtyp:" />
+                                    <TextField fx:id="pflugzeugtyp" layoutX="360.0" layoutY="96.0" />
+                                 </children>
+                              </AnchorPane>      
 
  
                              </children>
@@ -1127,7 +1153,9 @@
                                  <children>
                                     <HBox alignment="TOP_RIGHT" layoutX="18.0" layoutY="22.0" prefHeight="25.0" prefWidth="557.0" spacing="5.0">
                                        <children>
-                                         <Button fx:id="btncreatepersonal" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false" onAction="#action_createpersonal" text="Neue Mitarbeiter anlegen" textAlignment="CENTER" />
+                                         <Button fx:id="btnpersonaledit" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false" onAction="#action_editpersonal" text="Profil ändern" textAlignment="CENTER" />
+                                         <Button fx:id="btncreatepersonal" alignment="CENTER_RIGHT" disable="false" mnemonicParsing="false" onAction="#action_createpersonal" text="Neue Mitarbeiter anlegen" textAlignment="CENTER" />
+                                      
                                        </children>
                                        <opaqueInsets>
                                           <Insets />
@@ -1174,6 +1202,15 @@
                                     <Button fx:id="btn_save_order" layoutX="506.0" layoutY="22.0" mnemonicParsing="false" onAction="#action_createorder" text="Speichern" />
                                  </children>
                               </AnchorPane>
+     						  <AnchorPane fx:id="apa_btn_personaledit" prefHeight="68.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button fx:id="btn_cancel_personaledit" cancelButton="true" layoutX="422.0" layoutY="22.0" mnemonicParsing="false" onAction="#actiongetpersonaldaten" text="Abbrechen" />
+                                    <Button fx:id="btn_save_personal" layoutX="506.0" layoutY="22.0" mnemonicParsing="false" onAction="#action_save_personaledit" text="Speichern" />
+                                    <Button fx:id="btn_save_personalcreate" layoutX="506.0" layoutY="22.0" mnemonicParsing="false" onAction="#action_save_personalcreate" text="Speichern" visible="false" />
+                                 </children>
+                              </AnchorPane>
+      
+      
                               <AnchorPane fx:id="ancpanebtn_changeorder" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Button defaultButton="true" layoutX="514.0" layoutY="27.0" mnemonicParsing="false" onAction="#saveorderchange" text="Speichern" />

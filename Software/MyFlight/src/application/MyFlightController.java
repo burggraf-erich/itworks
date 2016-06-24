@@ -1,5 +1,5 @@
 package application;
-// V1.23
+// V1.24
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -201,6 +201,11 @@ public class MyFlightController {
 	@FXML Button btn_save_billstatus;
 	@FXML Button btn_save_costtrackingedit;
 	@FXML Button btncreatepersonal;
+	@FXML Button btnpersonaledit;
+	@FXML Button btn_cancel_personaledit;
+	@FXML Button btn_save_personal;
+	@FXML Button btn_save_personalcreate;
+	
 	
 	@FXML AnchorPane apa_welcome;
 	@FXML AnchorPane apa_login;
@@ -233,6 +238,9 @@ public class MyFlightController {
 	@FXML AnchorPane apa_btn_costtrackingoverview;
 	@FXML AnchorPane apa_btn_costextracostedit;
 	@FXML AnchorPane apa_btn_personaldatenoverview;
+	@FXML AnchorPane apa_personaledit;
+	@FXML AnchorPane apa_btn_personaledit;
+
 	
 	
 	@FXML ScrollPane scroll_pane_order;
@@ -352,6 +360,18 @@ public class MyFlightController {
         @FXML TextField rechnungstatusextracostedit;
       //Felder für Maske Zusatzkosten für Rechnung - Ende
      
+        //Felder für Maske Personaledit  - Beginn
+      	 @FXML TextField pid;
+           @FXML TextField pname;
+           @FXML TextField pvname;
+           @FXML TextField ppos;
+           @FXML TextField pstatus;
+           @FXML TextField pgehalt;
+           @FXML TextField plizenz;
+           @FXML TextField pflugzeugtyp;
+           
+                    //Felder für Maske Personaledit  - Ende
+           
     @FXML TextField txt_mail;
 	@FXML TextField txt_mobile;
 	@FXML TextField txt_name;
@@ -464,7 +484,7 @@ public class MyFlightController {
 
 	@FXML	
 	private void initialize() {
-		Version.setText("V1.23");
+		Version.setText("V1.24");
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
 		Flgztyp.setCellValueFactory(cellData -> cellData.getValue().FlgztypProperty());
@@ -536,7 +556,9 @@ public class MyFlightController {
 		
 		apa_btn_login.setVisible(true);
 		apa_login.setVisible(true);
-	    btncreateorder.disableProperty().bind(Bindings.isEmpty(angebotetabelle.getSelectionModel().getSelectedIndices()));
+	    
+		//Buttons werden erst aktiv, wenn in der Tabelle ein Eintrag ausgewählt wurde
+		btncreateorder.disableProperty().bind(Bindings.isEmpty(angebotetabelle.getSelectionModel().getSelectedIndices()));
 	    btnprint.disableProperty().bind(Bindings.isEmpty(auftragtable.getSelectionModel().getSelectedIndices()));
 		btnsend.disableProperty().bind(Bindings.isEmpty(auftragtable.getSelectionModel().getSelectedIndices()));
 		btncreatebill.disableProperty().bind(Bindings.isEmpty(auftragtable.getSelectionModel().getSelectedIndices()));
@@ -545,7 +567,8 @@ public class MyFlightController {
 		btn_costtrackingedit.disableProperty().bind(Bindings.isEmpty(costbilltable.getSelectionModel().getSelectedIndices()));
 	//	btn_costextracostedit.disableProperty().bind(Bindings.isEmpty(costreminder_warnings_billtable.getSelectionModel().getSelectedIndices()));
 		btn_createreminder.disableProperty().bind(Bindings.isEmpty(costreminder_warnings_billtable.getSelectionModel().getSelectedIndices()));
-		btncreatepersonal.disableProperty().bind(Bindings.isEmpty(personaltable.getSelectionModel().getSelectedIndices()));
+	//	btncreatepersonal.disableProperty().bind(Bindings.isEmpty(personaltable.getSelectionModel().getSelectedIndices()));
+		btnpersonaledit.disableProperty().bind(Bindings.isEmpty(personaltable.getSelectionModel().getSelectedIndices()));
 				
 	}
 	 
@@ -867,6 +890,8 @@ public class MyFlightController {
 		scroll_pane_rechnungenübersicht.setVisible(false);	
 		scroll_pane_personaldaten.setVisible(false);
 		anc_pane_personaldatenübersicht.setVisible(false);
+		apa_personaledit.setVisible(false);
+		apa_btn_personaledit.setVisible(false);
 	}
 
 	@FXML public void btn_createoffer_click(ActionEvent event) {
@@ -1232,7 +1257,7 @@ public class MyFlightController {
 			// Rechnungen-übersicht abrufen, die noch nicht bezahlt sind
 			
 			// Rechnungen-übersicht abrufen
-			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id = angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt'");
+			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id = angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt' group by rechnungen.rechnungen_id");
 		
 
 		
@@ -1246,9 +1271,9 @@ public class MyFlightController {
 			 // Testende
 			
 			while ((rs != null) && (rs.next())) {
-				System.out.println(i++ + " " + rs.getInt(46) + " " + rs.getString(49) + " " + rs.getString(33) + " " + rs.getString(48) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(13)+ " " + rs.getString(44) );
+				System.out.println(i++ + " " + rs.getInt(47) + " " + rs.getString(50) + " " + rs.getString(34) + " " + rs.getString(49) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(13)+ " " + rs.getString(45) );
 				
-				costbilldata.add(new RechnungenCost(rs.getInt(46), rs.getString(49), rs.getString(33), rs.getString(48), rs.getFloat(11), rs.getFloat(17), rs.getFloat(13), rs.getString(44)));
+				costbilldata.add(new RechnungenCost(rs.getInt(47), rs.getString(50), rs.getString(34), rs.getString(49), rs.getFloat(11), rs.getFloat(17), rs.getFloat(13), rs.getString(45)));
 		
 				
 		}
@@ -1339,7 +1364,7 @@ public class MyFlightController {
 			
 			// Rechnungen-übersicht abrufen, deren Zahlungstermin überschritten ist
 			
-			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt'");
+			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt' group by rechnungen.rechnungen_id");
 		
 			
 			GregorianCalendar now = new GregorianCalendar();
@@ -1351,12 +1376,12 @@ public class MyFlightController {
 			 // Testende
 			
 			while ((rs != null) && (rs.next())) {
-				System.out.println(i++ + " " + rs.getInt(46) + " " + rs.getString(49) + " " + rs.getString(33) + " " + rs.getString(48) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(51)+ " " + rs.getString(44) );
+				System.out.println(i++ + " " + rs.getInt(47) + " " + rs.getString(50) + " " + rs.getString(34) + " " + rs.getString(49) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(52)+ " " + rs.getString(45) );
 			
 		//		if (now.after(rs.getDate(48))) {
-				System.out.println(now.after(rs.getDate(48)));
+				System.out.println(now.after(rs.getDate(49)));
 				System.out.println(now.getTime());
-				costreminder_warnings_billdata.add(new RechnungenCostreminder(rs.getInt(46), rs.getString(49), rs.getString(33), rs.getString(48), rs.getFloat(11), rs.getFloat(17), rs.getFloat(51), rs.getString(44)));
+				costreminder_warnings_billdata.add(new RechnungenCostreminder(rs.getInt(47), rs.getString(50), rs.getString(34), rs.getString(49), rs.getFloat(11), rs.getFloat(17), rs.getFloat(52), rs.getString(45)));
 				}
 				
 		//	}
@@ -3390,7 +3415,7 @@ public class MyFlightController {
 			//wenn die Datenbank bei der Entwicklung leer ist
 			//angebotedata.add(new Angebote(303043,"22.05.2016","Einzelflug","CORP"));
 			
-			if (auftraegedata.size()== 0 ) lbl_dbconnect.setText("keine Personaldaten vorhanden");
+			if (personaldata.size()== 0 ) lbl_dbconnect.setText("keine Personaldaten vorhanden");
 						
 			if (rs != null) rs.close();
 			stmt.close();
@@ -3436,9 +3461,197 @@ public class MyFlightController {
 */
 	}
 
-@FXML public void action_createpersonal() {
-	// just do nothing
-	}
+
+
+@FXML	public void action_editpersonal(ActionEvent event) throws SQLException {
+
+	 // System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
+	set_allunvisible(false); 
+	apa_personaledit.setVisible(true);
+	apa_btn_personaledit.setVisible(true);
+	btn_save_personal.setVisible(true);
+	btn_save_personalcreate.setVisible(false);
+	maskentitel.setVisible(true);
+	maskentitel.setText("Profil ändern");
+
+	//Werte aus ausgewählter Tabellenzeile übernehmen
 	
+		
+	int tmppid = Personal_ID.getCellData(personaltable.getSelectionModel().getSelectedIndex());
+	int tmppgehalt = Gehalt.getCellData(personaltable.getSelectionModel().getSelectedIndex());
+	
+	String tmppname = PersonalName.getCellData(personaltable.getSelectionModel().getSelectedIndex());
+	String tmppvname = PersonalVorname.getCellData(personaltable.getSelectionModel().getSelectedIndex());
+	String tmppos = Position_Gehalt_Position.getCellData(personaltable.getSelectionModel().getSelectedIndex());
+	String tmppstatus = Personalstatus_Personalstatus.getCellData(personaltable.getSelectionModel().getSelectedIndex());
+	
+	
+	
+
+	//Felder für Maske Personaldaten belegen - Beginn
+
+	pid.setText(Integer.toString(tmppid));
+	pname.setText(tmppname);
+	pvname.setText(tmppvname);
+	ppos.setText(tmppos);
+	pstatus.setText(tmppstatus);
+	pgehalt.setText(Integer.toString(tmppgehalt));
+	
+	
+	
+  
+  
+	//Felder für Maske Personaldaten belegen - Ende
+	
+	// Lizenz & Flugzeugztyp
+			String sql = "select lizenz.lizenz, lizenz.flugzeugtypen_flugzeugtypen_id from lizenz inner join personal_has_lizenz on lizenz.lizenz = personal_has_lizenz.lizenz_lizenz and personal_has_lizenz.personal_personal_id= '"+tmppid+"'";
+
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			if ((rs != null) && (rs.next())) {
+			plizenz.setText(rs.getString(1));
+			pflugzeugtyp.setText(rs.getString(2));
+			}
+	}
+
+@FXML	public void action_createpersonal(ActionEvent event) throws SQLException {
+
+	 // System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
+	set_allunvisible(false); 
+	apa_personaledit.setVisible(true);
+	apa_btn_personaledit.setVisible(true);
+	btn_save_personal.setVisible(false);
+	btn_save_personalcreate.setVisible(true);
+	maskentitel.setVisible(true);
+	maskentitel.setText("Profil anlegen");
+
+
+	Statement stmt = conn.createStatement();
+	// ermittle nächste Personal-ID für Speichern eines Mitarbeiters
+
+		String sql = "select max(personal_id) from personal";
+		ResultSet rs = stmt.executeQuery(sql);
+		rs.next();
+		//int newauftraege_id = (rs.getInt(1) / 10000 + 1) * 10000 + 2016;
+		int newpersonal_id = rs.getInt(1) +1;
+		
+				
+	int tmppid = newpersonal_id;
+	int tmppgehalt = 0;
+	
+	String tmppname = "";
+	String tmppvname = "";
+	String tmppos = "";
+	String tmppstatus = "";
+	
+	
+	
+
+	//Felder für Maske Personaldaten belegen - Beginn
+
+	pid.setText(Integer.toString(tmppid));
+	pname.setText(tmppname);
+	pvname.setText(tmppvname);
+	ppos.setText(tmppos);
+	pstatus.setText(tmppstatus);
+	pgehalt.setText("");
+	plizenz.setText("");
+	pflugzeugtyp.setText("");
+
+	}
+
+@FXML
+public void action_save_personaledit(ActionEvent event) throws Exception {
+	System.out.println("Update!");
+	if (pid.getText().length()==0 || Integer.parseInt(pid.getText())==0 || ppos.getText().length()==0 || pstatus.getText().length()==0) {
+	
+		lbl_dbconnect.setText("Pflichtfeld(er) füllen");
+	}
+	else {
+		try {
+
+
+			System.out.println(pid.getText()+pname.getText()+pvname.getText()+ppos.getText()+pstatus.getText()+pgehalt.getText());
+			System.out.println(plizenz.getText()+pflugzeugtyp.getText());
+			System.out.println(pstatus.getText().length()==0);	    
+			
+			
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate("Update personal set "
+					+ "personalname = '"+ pname.getText()+"', "
+							+ "personalvorname = '"+pvname.getText()+"', "
+									+ "position_gehalt_position = '"+ppos.getText()+"', "
+											+ "personalstatus_personalstatus = '"+pstatus.getText()+"' "
+													+ "where personal.personal_id = '"+Integer.parseInt(pid.getText())+"'");
+				    
+			stmt.executeUpdate("Update personal_has_lizenz set "
+					+ "lizenz_lizenz = '"+ plizenz.getText()+"', "
+							+ "Lizenz_Flugzeugtypen_flugzeugtypen_id = '"+pflugzeugtyp.getText()+"' "
+									+ "where personal_has_lizenz.personal_personal_id = '"+Integer.parseInt(pid.getText())+"'");
+				    
+			
+			
+			lbl_dbconnect.setText("Personaldaten gespeichert");
+			actiongetpersonaldatenpgm(true);
+		} catch (SQLException sqle) {
+
+			lbl_dbconnect.setText("Ungültige(r) Wert(e) erfasst");
+			// System.out.println("geht nicht");
+			sqle.printStackTrace();
+		}
+		}
+	
+}
+
+@FXML
+public void action_save_personalcreate(ActionEvent event) throws Exception {
+System.out.println("Neuanlage!");
+	if (pid.getText().length()==0 || Integer.parseInt(pid.getText())==0 || ppos.getText().length()==0 || pstatus.getText().length()==0) {
+	
+		lbl_dbconnect.setText("Pflichtfeld(er) füllen");
+	}
+	else {
+		try {
+
+
+			System.out.println(pid.getText()+pname.getText()+pvname.getText()+ppos.getText()+pstatus.getText()+pgehalt.getText());
+			System.out.println(plizenz.getText()+pflugzeugtyp.getText());
+			System.out.println(pstatus.getText().length()==0);	    
+			
+			
+			Statement stmt = conn.createStatement();
+//			stmt.executeUpdate("insert into personal (personalname,personalvorname,position_gehalt_position,personalstatus_personalstatus,personal_id) values ('"+pname.getText()+"', '"+pvname.getText()+"',' "+ppos.getText()+"',' "+pstatus.getText()+"',' "+ Integer.parseInt(pid.getText())+"')");
+
+			
+			stmt.executeUpdate("insert into personal (personalname,"
+					+ "personalvorname,"
+					+"position_gehalt_position,"
+					+ "personalstatus_personalstatus,"
+					+ "personal_id) "
+					+ "values ('"+pname.getText()+"', '"
+							+pvname.getText()+"',' "
+									+ppos.getText()+"',' "		
+							+pstatus.getText()+"',' "
+													+ Integer.parseInt(pid.getText())+"')");
+
+			stmt.executeUpdate("insert into personal_has_lizenz (lizenz_lizenz,"
+					+ "Lizenz_Flugzeugtypen_flugzeugtypen_id ,"
+					+ "personal_personal_id) "
+					+ "values ('"+plizenz.getText()+"', '"
+							+pflugzeugtyp.getText()+"',' "
+									+ Integer.parseInt(pid.getText())+"')");
+			
+			
+			lbl_dbconnect.setText("Personaldaten gespeichert");
+			actiongetpersonaldatenpgm(true);
+		} catch (SQLException sqle) {
+
+			lbl_dbconnect.setText("Ungültige(r) Wert(e) erfasst");
+			// System.out.println("geht nicht");
+			sqle.printStackTrace();
+		}
+		}
+	
+}
 	
 }
