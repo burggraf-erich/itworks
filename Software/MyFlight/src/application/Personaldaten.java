@@ -1,5 +1,5 @@
 package application;
-//V1.23
+//V2.00
 //wird benötigt für Datenversorgung Tabellen mit Variablen
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.IntegerProperty;

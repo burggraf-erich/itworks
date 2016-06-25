@@ -78,6 +78,7 @@ public class PDFPrinter {
                     JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
+        
     }
 
     class PDFPrintPage implements Printable {

@@ -136,7 +136,24 @@ public class MyFlightController {
 	public ObservableList<Angebote> getangebotedata() {
 		return angebotedata;
 	}
+	private ObservableList<Flugzeugdaten> flugzeugdata = FXCollections.observableArrayList();
 
+	// gib Daten der ArrayListe zurück
+	public ObservableList<Flugzeugdaten> getflugzeugdata() {
+		return flugzeugdata;
+	}
+	private ObservableList<Flugziele> flugzieledata = FXCollections.observableArrayList();
+
+	// gib Daten der ArrayListe zurück
+	public ObservableList<Flugziele> getflugzieledata() {
+		return flugzieledata;
+	}
+	private ObservableList<Kundendaten> kundendatendata = FXCollections.observableArrayList();
+
+	// gib Daten der ArrayListe zurück
+	public ObservableList<Kundendaten> getkundendatendata() {
+		return kundendatendata;
+	}
 	private ObservableList<Aufträge> auftraegedata = FXCollections.observableArrayList();
 
 	public ObservableList<Aufträge> getauftraegedata() {
@@ -206,6 +223,20 @@ public class MyFlightController {
 	@FXML Button btn_save_personal;
 	@FXML Button btn_save_personalcreate;
 	
+	@FXML Button btnflugzeugedit;
+	@FXML Button btn_cancel_flugzeugedit;
+	@FXML Button btn_save_flugzeug;
+	@FXML Button btn_save_flugzeugcreate;
+	
+	@FXML Button btnflugzieleedit;
+	@FXML Button btn_cancel_flugzieleedit;
+	@FXML Button btn_save_flugziele;
+	@FXML Button btn_save_flugzielecreate;
+	
+	@FXML Button btnkundendatenedit;
+	@FXML Button btn_cancel_kundendatenedit;
+	@FXML Button btn_save_kundendaten;
+	@FXML Button btn_save_kundendatencreate;
 	
 	@FXML AnchorPane apa_welcome;
 	@FXML AnchorPane apa_login;
@@ -241,7 +272,20 @@ public class MyFlightController {
 	@FXML AnchorPane apa_personaledit;
 	@FXML AnchorPane apa_btn_personaledit;
 
+	@FXML AnchorPane anc_pane_flugzeugdatenübersicht;
+	@FXML AnchorPane apa_btn_flugzeugdatenoverview;
+	@FXML AnchorPane apa_flugzeugedit;
+	@FXML AnchorPane apa_btn_flugzeugedit;
+
+	@FXML AnchorPane anc_pane_flugzieleübersicht;
+	@FXML AnchorPane apa_btn_flugzieleoverview;
+	@FXML AnchorPane apa_flugzieleedit;
+	@FXML AnchorPane apa_btn_flugzieleedit;
 	
+	@FXML AnchorPane anc_pane_kundendatenübersicht;
+	@FXML AnchorPane apa_btn_kundendatenoverview;
+	@FXML AnchorPane apa_kundendatenedit;
+	@FXML AnchorPane apa_btn_kundendatenedit;
 	
 	@FXML ScrollPane scroll_pane_order;
 	@FXML ScrollPane scroll_pane_changeorder;
@@ -253,7 +297,11 @@ public class MyFlightController {
 	@FXML ScrollPane scroll_pane_costtrackingreminder_warnings;
 	@FXML ScrollPane scroll_pane_personaldaten;
 	
+	@FXML ScrollPane scroll_pane_flugzeugdaten;
 	
+	@FXML ScrollPane scroll_pane_flugziele;
+	
+	@FXML ScrollPane scroll_pane_kundendaten;
 	
 	@FXML Label lbl_dbconnect;
 	@FXML Label lbl_username;
@@ -370,13 +418,56 @@ public class MyFlightController {
            @FXML TextField plizenz;
            @FXML TextField pflugzeugtyp;
            
-                    //Felder für Maske Personaledit  - Ende
+         //Felder für Maske Personaledit  - Ende
            
+           //Felder für Maske Flugzeugedit  - Beginn
+        	 @FXML TextField fid;
+             @FXML TextField fstatus;
+             @FXML TextField fname;
+             @FXML TextField ftypid;
+             @FXML TextField ftyp;
+             
+             
+             @FXML TextField freichw;
+             @FXML TextField fkm;
+             @FXML TextField fpax;
+             @FXML TextField ftrieb;
+             @FXML TextField ftriebanz;
+             @FXML TextField ffixk;
+             @FXML TextField fbetriebk;
+             @FXML TextField fgeschw;
+             @FXML TextField fpilot;
+             @FXML TextField fcopilot;
+             @FXML TextField fcrew;
+             
+           //Felder für Maske Flugzeugedit  - Ende
+
+             //Felder für Maske Flugzieleedit  - Beginn
+             @FXML TextField fzflgh;
+             @FXML TextField fzname;
+             @FXML TextField fzstadt;
+             @FXML TextField fzland;
+             @FXML TextField fzlon;
+             @FXML TextField fzlat;
+             
+             //Felder für Maske Flugzieleedit  - Ende
+
+             //Felder für Maske Kundendatenedit  - Beginn
+             @FXML TextField kdid;
+             @FXML TextField kdverwname;
+             @FXML TextField kdverwvname;
+             @FXML TextField kdfirma;
+             @FXML TextField kdgruppe;
+             
+                     
     @FXML TextField txt_mail;
 	@FXML TextField txt_mobile;
 	@FXML TextField txt_name;
 	@FXML TextField txt_phone;
 	@FXML TextField txt_prename;
+    //Felder für Maske Kundendatenedit  - Ende
+
+	
 	@FXML ComboBox<String> cbo_salutation;
 	@FXML ComboBox<String> cbo_title;
 	@FXML ComboBox<String> choiceorderstatus;
@@ -397,15 +488,15 @@ public class MyFlightController {
 	@FXML TextField txt_phone_new;
 	@FXML TextField txt_prename_new;
 	@FXML TextField txt_postcode_new;
-	
+	@FXML TextField txt_country_new;
 
-	@FXML Hyperlink hlk_create_cust;
+	//@FXML Hyperlink hlk_create_cust;
 
 	
 
 	
 	@FXML ComboBox<String> cbo_country_new;
-	@FXML ComboBox<String> cbo_custstatus_new;
+	@FXML ComboBox<String> cbo_kdgruppe;
 	@FXML ComboBox<String> cbo_salutation_new;
 	
 
@@ -481,10 +572,32 @@ public class MyFlightController {
 	@FXML	TableColumn<Personaldaten, String> Position_Gehalt_Position;
 	@FXML	TableColumn<Personaldaten, String> Personalstatus_Personalstatus;
       
-
+	@FXML	TableView<Flugzeugdaten> flugzeugtable;
+	@FXML	TableColumn<Flugzeugdaten, Integer>  Flugzeug_ID;
+	@FXML	TableColumn<Flugzeugdaten, String>  Flugzeugstatus_Flugzeugstatus;
+	@FXML	TableColumn<Flugzeugdaten, String>  FlugzeugHersteller;
+	@FXML	TableColumn<Flugzeugdaten, String>  FlugzeugTyp;
+	
+	@FXML	TableView<Flugziele> flugzieletable;
+	@FXML	TableColumn<Flugziele, String>  FlughafenKuerzel;
+	@FXML	TableColumn<Flugziele, String>   FlughafenName;
+	@FXML	TableColumn<Flugziele, String>   FlughafenStadt;
+	@FXML	TableColumn<Flugziele, String>   FlughafenLand;
+	@FXML	TableColumn<Flugziele, Float>   FlughafenLon;
+	@FXML	TableColumn<Flugziele, Float>   FlughafenLat;
+	
+	@FXML	TableView<Kundendaten> kundendatentable;
+	@FXML	TableColumn<Kundendaten, Integer>  Kunde_ID;
+	@FXML	TableColumn<Kundendaten, String>   KundeName;
+	@FXML	TableColumn<Kundendaten, String>   KundeVorname;
+	@FXML	TableColumn<Kundendaten, String>   KundeFirmenname;
+	@FXML	TableColumn<Kundendaten, String>   Kundengruppen_Kundengruppen;
+	
+	
+	
 	@FXML	
 	private void initialize() {
-		Version.setText("V1.24");
+		Version.setText("V2.00");
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
 		Flgztyp.setCellValueFactory(cellData -> cellData.getValue().FlgztypProperty());
@@ -546,6 +659,34 @@ public class MyFlightController {
 		Gehalt.setCellValueFactory(cellData -> cellData.getValue().pgehaltProperty().asObject());
 		Personalstatus_Personalstatus.setCellValueFactory(cellData -> cellData.getValue().pstatusProperty());
 		
+		// Datenverknüpfung flugzeugtable
+		
+	
+		Flugzeug_ID.setCellValueFactory(cellData -> cellData.getValue().fidProperty().asObject());
+		Flugzeugstatus_Flugzeugstatus.setCellValueFactory(cellData -> cellData.getValue().fstatusProperty());
+		FlugzeugHersteller.setCellValueFactory(cellData -> cellData.getValue().fnameProperty());
+		FlugzeugTyp.setCellValueFactory(cellData -> cellData.getValue().ftypProperty());
+	
+		// Datenverknüpfung flugzieletable
+		
+		FlughafenKuerzel.setCellValueFactory(cellData -> cellData.getValue().fzflghProperty());
+		FlughafenName.setCellValueFactory(cellData -> cellData.getValue().fznameProperty());	
+		FlughafenStadt.setCellValueFactory(cellData -> cellData.getValue().fzstadtProperty());
+		FlughafenLand.setCellValueFactory(cellData -> cellData.getValue().fzlandProperty());
+		FlughafenLon.setCellValueFactory(cellData -> cellData.getValue().fzlonProperty().asObject());
+		FlughafenLat.setCellValueFactory(cellData -> cellData.getValue().fzlatProperty().asObject());
+		
+		// Datenverknüpfung kundendatentable
+		
+	
+		Kunde_ID.setCellValueFactory(cellData -> cellData.getValue().kdidProperty().asObject());
+		KundeName.setCellValueFactory(cellData -> cellData.getValue().kdverwnameProperty());
+		KundeVorname.setCellValueFactory(cellData -> cellData.getValue().kdverwvnameProperty());	
+		KundeFirmenname.setCellValueFactory(cellData -> cellData.getValue().kdfirmaProperty());
+		Kundengruppen_Kundengruppen.setCellValueFactory(cellData -> cellData.getValue().kdgruppeProperty());
+		
+		
+		
 		
 		angebotetabelle.setItems(getangebotedata());
 		auftragtable.setItems(getauftraegedata());
@@ -553,6 +694,12 @@ public class MyFlightController {
 		costbilltable.setItems(getcostbilldata());
 		costreminder_warnings_billtable.setItems(getcostreminder_warnings_billdata());
 		personaltable.setItems(getpersonaldata());
+		
+		flugzeugtable.setItems(getflugzeugdata());
+		
+		flugzieletable.setItems(getflugzieledata());
+		
+		kundendatentable.setItems(getkundendatendata());
 		
 		apa_btn_login.setVisible(true);
 		apa_login.setVisible(true);
@@ -569,7 +716,10 @@ public class MyFlightController {
 		btn_createreminder.disableProperty().bind(Bindings.isEmpty(costreminder_warnings_billtable.getSelectionModel().getSelectedIndices()));
 	//	btncreatepersonal.disableProperty().bind(Bindings.isEmpty(personaltable.getSelectionModel().getSelectedIndices()));
 		btnpersonaledit.disableProperty().bind(Bindings.isEmpty(personaltable.getSelectionModel().getSelectedIndices()));
-				
+
+		btnflugzeugedit.disableProperty().bind(Bindings.isEmpty(flugzeugtable.getSelectionModel().getSelectedIndices()));
+		btnflugzieleedit.disableProperty().bind(Bindings.isEmpty(flugzieletable.getSelectionModel().getSelectedIndices()));
+		btnkundendatenedit.disableProperty().bind(Bindings.isEmpty(kundendatentable.getSelectionModel().getSelectedIndices()));
 	}
 	 
 	
@@ -852,7 +1002,6 @@ public class MyFlightController {
 	    apa_create_offer.setVisible(false);
 	    apa_btn_login.setVisible(false);
 	    apa_btn_createoffer.setVisible(false);
-	    apa_create_cust.setVisible(false);
 	    apa_btn_create_cust.setVisible(false);
 	    auftragändernform.setVisible(false);
 	    angebotübersicht.setVisible(false);
@@ -892,6 +1041,26 @@ public class MyFlightController {
 		anc_pane_personaldatenübersicht.setVisible(false);
 		apa_personaledit.setVisible(false);
 		apa_btn_personaledit.setVisible(false);
+		
+		scroll_pane_flugzeugdaten.setVisible(false);
+		anc_pane_flugzeugdatenübersicht.setVisible(false);
+		apa_btn_flugzeugdatenoverview.setVisible(false);
+		apa_flugzeugedit.setVisible(false);
+		apa_btn_flugzeugedit.setVisible(false);
+		
+		scroll_pane_flugziele.setVisible(false);
+		anc_pane_flugzieleübersicht.setVisible(false);
+		apa_btn_flugzieleoverview.setVisible(false);
+		apa_flugzieleedit.setVisible(false);
+		apa_btn_flugzieleedit.setVisible(false);
+
+		scroll_pane_kundendaten.setVisible(false);
+		anc_pane_kundendatenübersicht.setVisible(false);
+		apa_btn_kundendatenoverview.setVisible(false);
+		apa_kundendatenedit.setVisible(false);
+		apa_btn_kundendatenedit.setVisible(false);
+
+		
 	}
 
 	@FXML public void btn_createoffer_click(ActionEvent event) {
@@ -950,7 +1119,7 @@ public class MyFlightController {
 		
 		cbo_salutation_new.getItems().addAll("Herr","Frau");
 		cbo_country_new.getItems().addAll("Germany", "United States", "China");
-		cbo_custstatus_new.getItems().addAll("PRE","CORP","VIP");
+		cbo_kdgruppe.getItems().addAll("PRE","CORP","VIP");
 		
 		
 		try { 
@@ -993,9 +1162,9 @@ public class MyFlightController {
 		final String email_new = txt_mail_new.getText();
 		final String postcode_new = txt_postcode_new.getText();
 		final String country_new = cbo_country_new.getValue().toString();
-		final String custstatus_new = cbo_custstatus_new.getValue().toString();
+	//	final String custstatus_new = cbo_custstatus_new.getValue().toString();
 		
-		try { 
+	/*	try { 
 
 			Statement statement = conn.createStatement();			
 			statement.executeUpdate(
@@ -1012,7 +1181,7 @@ public class MyFlightController {
 							+postcode_new+"','"
 							+place_new+"','"
 							+country_new+"','"
-							+custstatus_new+"')");
+				//			+custstatus_new+"')");
 
 			}
 	
@@ -1021,8 +1190,8 @@ public class MyFlightController {
             System.err.println(e.getMessage()); 
 			}
 //	
-}
-
+} */
+	}
 	@FXML public void btn_stop_click(ActionEvent event) {}
 	
 	@FXML  public void actiongetaufträge(){
@@ -3461,8 +3630,316 @@ public class MyFlightController {
 */
 	}
 
+	//***************************************************************************************************************************************
+	//***************************************************************************************************************************************
+		
+		@FXML  public void actiongetflugzeugdaten(){
+			System.out.println("geklickt");
+			actiongetflugzeugdatenpgm(false);
+		}
+		public void actiongetflugzeugdatenpgm(boolean showmessage) {
+			// lbl_dbconnect.setText("Mouse geklickt!");
+
+			set_allunvisible(showmessage);
+			scroll_pane_flugzeugdaten.setVisible(true);
+			anc_pane_flugzeugdatenübersicht.setVisible(true);
+			apa_btn_flugzeugdatenoverview.setVisible(true);
+			maskentitel.setVisible(true);
+			maskentitel.setText("Übersicht Flugzeugdaten");
+		
+			try {
+
+				// connect method #1 - embedded driver
+				
+			    
+				
+				//String dbURL1 = "jdbc:derby:c:/daten/wirtschaftsinformatik/4. semester/Wirtschaftsinformatikprojekt - Einführung/eigenes Projekt/entwicklung/db/codejava/webdb1;create=true";
+				//Connection conn1 = DriverManager.getConnection(dbURL1);
+				//if (conn1 != null) {
+				//	System.out.println("Connected to database #1");
+				//}
+
+				// Statement stmt = conn1.createStatement();
+				final String hostname = "172.20.1.24"; 
+		        final String port = "3306"; 
+		        String dbname = "myflight";
+				String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+			    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+				
+				Statement stmt = conn.createStatement();
+				
+				// Aufträge-übersicht abrufen
+	
+				ResultSet rs = stmt.executeQuery("select flugzeuge.*,flugzeugtypen.* from flugzeuge inner join flugzeugtypen on flugzeuge.flugzeugtypen_flugzeugtypen_id=flugzeugtypen.flugzeugtypen_id");
+				
+				flugzeugdata.remove(0, flugzeugdata.size());
+				int i = 1;
+				// Testbeginn
+				// rs = null;
+				 // Testende
+				
+				while ((rs != null) && (rs.next())) {
+					System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(3) + " " + rs.getString(5) + " "
+							+ rs.getString(6));
+					flugzeugdata.add(new Flugzeugdaten(rs.getInt(1), rs.getString(3), rs.getString(5), rs.getString(6)));
+				}
+				
+				//wenn die Datenbank bei der Entwicklung leer ist
+				//angebotedata.add(new Angebote(303043,"22.05.2016","Einzelflug","CORP"));
+				
+				if (flugzeugdata.size()== 0 ) lbl_dbconnect.setText("keine Flugzeugdaten vorhanden");
+							
+				if (rs != null) rs.close();
+				stmt.close();
+
+				// conn1.close();
+
+			} catch (SQLException ex) {
+				lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
+				ex.printStackTrace();
+			}
+			
 
 
+			
+		/*	try {
+
+			 connect method #1 - embedded driver
+				String dbURL1 = "jdbc:derby:c:/daten/wirtschaftsinformatik/4. semester/Wirtschaftsinformatikprojekt - Einführung/eigenes Projekt/entwicklung/db/codejava/webdb1;create=true";
+				Connection conn1 = DriverManager.getConnection(dbURL1);
+				if (conn1 != null) {
+					System.out.println("Connected to database #1");
+				}
+
+				Statement stmt = conn1.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM Angebote");
+				angebotedata.remove(1, angebotedata.size());
+				int i = 1;
+				while (rs.next()) {
+					angebotedata.add(new Angebote(rs.getInt(1), rs.getString(2), rs.getString(5)));
+					System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
+							+ rs.getString(4) + " " + rs.getString(5) + " " + rs.getString(6) + " " + rs.getString(7) + " "
+							+ rs.getString(8) + " " + rs.getDate(9) + " " + rs.getDate(10));
+				}
+
+				rs.close();
+				stmt.close();
+
+				conn1.close();
+
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+	*/
+		}
+
+
+		//***************************************************************************************************************************************
+		//***************************************************************************************************************************************
+			
+			@FXML  public void actiongetflugziele(){
+				System.out.println("geklickt");
+				actiongetflugzielepgm(false);
+			}
+			public void actiongetflugzielepgm(boolean showmessage) {
+				// lbl_dbconnect.setText("Mouse geklickt!");
+
+				set_allunvisible(showmessage);
+				scroll_pane_flugziele.setVisible(true);
+				anc_pane_flugzieleübersicht.setVisible(true);
+				apa_btn_flugzieleoverview.setVisible(true);
+				maskentitel.setVisible(true);
+				maskentitel.setText("Übersicht Flugziele");
+			
+				try {
+
+					// connect method #1 - embedded driver
+					
+				    
+					
+					//String dbURL1 = "jdbc:derby:c:/daten/wirtschaftsinformatik/4. semester/Wirtschaftsinformatikprojekt - Einführung/eigenes Projekt/entwicklung/db/codejava/webdb1;create=true";
+					//Connection conn1 = DriverManager.getConnection(dbURL1);
+					//if (conn1 != null) {
+					//	System.out.println("Connected to database #1");
+					//}
+
+					// Statement stmt = conn1.createStatement();
+					final String hostname = "172.20.1.24"; 
+			        final String port = "3306"; 
+			        String dbname = "myflight";
+					String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+				    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+					
+					Statement stmt = conn.createStatement();
+					
+					// Aufträge-übersicht abrufen
+					ResultSet rs = stmt.executeQuery("select * from flughafen_bis");
+					
+					flugzieledata.remove(0, flugzieledata.size());
+					int i = 1;
+					// Testbeginn
+					// rs = null;
+					 // Testende
+					
+					while ((rs != null) && (rs.next())) {
+						System.out.println(i++ + " " + rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
+								+ rs.getString(4) + " " + rs.getFloat(5) + " " + rs.getFloat(6));
+						flugzieledata.add(new Flugziele(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getFloat(5), rs.getFloat(6)));
+					}
+					
+					//wenn die Datenbank bei der Entwicklung leer ist
+					//angebotedata.add(new Angebote(303043,"22.05.2016","Einzelflug","CORP"));
+					
+					if (flugzieledata.size()== 0 ) lbl_dbconnect.setText("keine Flugziele vorhanden");
+								
+					if (rs != null) rs.close();
+					stmt.close();
+
+					// conn1.close();
+
+				} catch (SQLException ex) {
+					lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
+					ex.printStackTrace();
+				}
+				
+
+
+				
+			/*	try {
+
+				 connect method #1 - embedded driver
+					String dbURL1 = "jdbc:derby:c:/daten/wirtschaftsinformatik/4. semester/Wirtschaftsinformatikprojekt - Einführung/eigenes Projekt/entwicklung/db/codejava/webdb1;create=true";
+					Connection conn1 = DriverManager.getConnection(dbURL1);
+					if (conn1 != null) {
+						System.out.println("Connected to database #1");
+					}
+
+					Statement stmt = conn1.createStatement();
+					ResultSet rs = stmt.executeQuery("SELECT * FROM Angebote");
+					angebotedata.remove(1, angebotedata.size());
+					int i = 1;
+					while (rs.next()) {
+						angebotedata.add(new Angebote(rs.getInt(1), rs.getString(2), rs.getString(5)));
+						System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
+								+ rs.getString(4) + " " + rs.getString(5) + " " + rs.getString(6) + " " + rs.getString(7) + " "
+								+ rs.getString(8) + " " + rs.getDate(9) + " " + rs.getDate(10));
+					}
+
+					rs.close();
+					stmt.close();
+
+					conn1.close();
+
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+		*/
+			}
+
+			//***************************************************************************************************************************************
+			//***************************************************************************************************************************************
+				
+				@FXML  public void actiongetkundendaten(){
+					System.out.println("geklickt");
+					actiongetkundendatenpgm(false);
+				}
+				public void actiongetkundendatenpgm(boolean showmessage) {
+					// lbl_dbconnect.setText("Mouse geklickt!");
+
+					set_allunvisible(showmessage);
+					scroll_pane_kundendaten.setVisible(true);
+					anc_pane_kundendatenübersicht.setVisible(true);
+					apa_btn_kundendatenoverview.setVisible(true);
+					maskentitel.setVisible(true);
+					maskentitel.setText("Übersicht Kundendaten");
+				
+					try {
+
+						// connect method #1 - embedded driver
+						
+					    
+						
+						//String dbURL1 = "jdbc:derby:c:/daten/wirtschaftsinformatik/4. semester/Wirtschaftsinformatikprojekt - Einführung/eigenes Projekt/entwicklung/db/codejava/webdb1;create=true";
+						//Connection conn1 = DriverManager.getConnection(dbURL1);
+						//if (conn1 != null) {
+						//	System.out.println("Connected to database #1");
+						//}
+
+						// Statement stmt = conn1.createStatement();
+						final String hostname = "172.20.1.24"; 
+				        final String port = "3306"; 
+				        String dbname = "myflight";
+						String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+					    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+						
+						Statement stmt = conn.createStatement();
+						
+						// Aufträge-übersicht abrufen
+						ResultSet rs = stmt.executeQuery("select * from kunden");
+						
+						kundendatendata.remove(0, kundendatendata.size());
+						int i = 1;
+						// Testbeginn
+						// rs = null;
+						 // Testende
+						
+						while ((rs != null) && (rs.next())) {
+							System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(3) + " " + rs.getString(4) + " "
+									+ rs.getString(5) + " " + rs.getString(14));
+							kundendatendata.add(new Kundendaten(rs.getInt(1), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(14)));
+						}
+						
+						//wenn die Datenbank bei der Entwicklung leer ist
+						//angebotedata.add(new Angebote(303043,"22.05.2016","Einzelflug","CORP"));
+						
+						if (kundendatendata.size()== 0 ) lbl_dbconnect.setText("keine Kundendaten vorhanden");
+									
+						if (rs != null) rs.close();
+						stmt.close();
+
+						// conn1.close();
+
+					} catch (SQLException ex) {
+						lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
+						ex.printStackTrace();
+					}
+					
+
+
+					
+				/*	try {
+
+					 connect method #1 - embedded driver
+						String dbURL1 = "jdbc:derby:c:/daten/wirtschaftsinformatik/4. semester/Wirtschaftsinformatikprojekt - Einführung/eigenes Projekt/entwicklung/db/codejava/webdb1;create=true";
+						Connection conn1 = DriverManager.getConnection(dbURL1);
+						if (conn1 != null) {
+							System.out.println("Connected to database #1");
+						}
+
+						Statement stmt = conn1.createStatement();
+						ResultSet rs = stmt.executeQuery("SELECT * FROM Angebote");
+						angebotedata.remove(1, angebotedata.size());
+						int i = 1;
+						while (rs.next()) {
+							angebotedata.add(new Angebote(rs.getInt(1), rs.getString(2), rs.getString(5)));
+							System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
+									+ rs.getString(4) + " " + rs.getString(5) + " " + rs.getString(6) + " " + rs.getString(7) + " "
+									+ rs.getString(8) + " " + rs.getDate(9) + " " + rs.getDate(10));
+						}
+
+						rs.close();
+						stmt.close();
+
+						conn1.close();
+
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+			*/
+				}
+
+//****************************************************************************************************************************
+				
 @FXML	public void action_editpersonal(ActionEvent event) throws SQLException {
 
 	 // System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
@@ -3514,6 +3991,173 @@ public class MyFlightController {
 			}
 	}
 
+//****************************************************************************************************************************
+
+@FXML	public void action_editflugzeug(ActionEvent event) throws SQLException {
+
+	 // System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
+	set_allunvisible(false); 
+	apa_flugzeugedit.setVisible(true);
+	apa_btn_flugzeugedit.setVisible(true);
+	btn_save_flugzeug.setVisible(true);
+	btn_save_flugzeugcreate.setVisible(false);
+	maskentitel.setVisible(true);
+	maskentitel.setText("Flugzeug ändern");
+
+	//Werte aus ausgewählter Tabellenzeile übernehmen
+	
+	
+	int tmpfid = Flugzeug_ID.getCellData(flugzeugtable.getSelectionModel().getSelectedIndex());
+	String tmpfstatus = Flugzeugstatus_Flugzeugstatus.getCellData(flugzeugtable.getSelectionModel().getSelectedIndex());
+	
+	String tmpfname = FlugzeugHersteller.getCellData(flugzeugtable.getSelectionModel().getSelectedIndex());
+	String tmpftyp = FlugzeugTyp.getCellData(flugzeugtable.getSelectionModel().getSelectedIndex());
+
+	
+	
+
+	//Felder für Maske Flugzeugdaten belegen - Beginn
+
+	fid.setText(Integer.toString(tmpfid));
+	fstatus.setText(tmpfstatus);
+	fname.setText(tmpfname);
+	ftyp.setText(tmpftyp);
+	
+	
+	
+ 
+ 
+	//Felder für Maske Flugzeugdaten belegen - Ende
+	
+	// Lizenz & Flugzeugztyp
+			String sql = "select flugzeuge.*,flugzeugtypen.* from flugzeuge inner join flugzeugtypen on flugzeuge.flugzeugtypen_flugzeugtypen_id = flugzeugtypen.flugzeugtypen_id and flugzeuge.flugzeug_id = '"+tmpfid+"'";
+
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			if ((rs != null) && (rs.next())) {
+			freichw.setText(Integer.toString(rs.getInt(7)));
+			fkm.setText(Integer.toString(rs.getInt(8)));
+			fpax.setText(Integer.toString(rs.getInt(9)));
+			ftrieb.setText(rs.getString(10));
+			ftriebanz.setText(Integer.toString(rs.getInt(11)));
+			ffixk.setText(Integer.toString(rs.getInt(12)));
+			fbetriebk.setText(Integer.toString(rs.getInt(13)));
+			fgeschw.setText(Integer.toString(rs.getInt(14)));
+			fpilot.setText(Integer.toString(rs.getInt(15)));
+			fcopilot.setText(Integer.toString(rs.getInt(16)));
+			fcrew.setText(Integer.toString(rs.getInt(17)));
+			ftypid.setText(Integer.toString(rs.getInt(2)));
+			}
+	}
+
+//****************************************************************************************************************************
+
+@FXML	public void action_editflugziele(ActionEvent event) throws SQLException {
+
+	 // System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
+	set_allunvisible(false); 
+	apa_flugzieleedit.setVisible(true);
+	apa_btn_flugzieleedit.setVisible(true);
+	btn_save_flugziele.setVisible(true);
+	btn_save_flugzielecreate.setVisible(false);
+	maskentitel.setVisible(true);
+	maskentitel.setText("Flugziele ändern");
+
+	//Werte aus ausgewählter Tabellenzeile übernehmen
+	
+		
+	String tmpfzflgh = FlughafenKuerzel.getCellData(flugzieletable.getSelectionModel().getSelectedIndex());
+	String tmpfzname = FlughafenName.getCellData(flugzieletable.getSelectionModel().getSelectedIndex());
+	
+	String tmpfzstadt = FlughafenStadt.getCellData(flugzieletable.getSelectionModel().getSelectedIndex());
+	String tmpfzland = FlughafenLand.getCellData(flugzieletable.getSelectionModel().getSelectedIndex());
+	Float tmpfzlon = FlughafenLon.getCellData(flugzieletable.getSelectionModel().getSelectedIndex());
+	Float tmpfzlat = FlughafenLat.getCellData(flugzieletable.getSelectionModel().getSelectedIndex());
+	
+	
+
+	//Felder für Maske Flugzieledaten belegen - Beginn
+
+	fzflgh.setText(tmpfzflgh);
+	fzname.setText(tmpfzname);
+	fzstadt.setText(tmpfzstadt);
+	fzland.setText(tmpfzland);
+	fzlon.setText(Float.toString(tmpfzlon));
+	fzlat.setText(Float.toString(tmpfzlat));
+	
+	
+
+	}
+
+
+//****************************************************************************************************************************
+
+@FXML	public void action_editkundendaten(ActionEvent event) throws SQLException {
+
+	 // System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
+	set_allunvisible(false); 
+	apa_kundendatenedit.setVisible(true);
+	apa_btn_kundendatenedit.setVisible(true);
+	btn_save_kundendaten.setVisible(true);
+	btn_save_kundendatencreate.setVisible(false);
+	maskentitel.setVisible(true);
+	maskentitel.setText("Kundendaten ändern");
+
+	//Werte aus ausgewählter Tabellenzeile übernehmen
+	
+		
+	int tmpkdid = Kunde_ID.getCellData(kundendatentable.getSelectionModel().getSelectedIndex());
+	String tmpkdverwname = KundeName.getCellData(kundendatentable.getSelectionModel().getSelectedIndex());
+	
+	String tmpkdverwvname = KundeVorname.getCellData(kundendatentable.getSelectionModel().getSelectedIndex());
+	String tmpkdfirma = KundeFirmenname.getCellData(kundendatentable.getSelectionModel().getSelectedIndex());
+	String tmpkdgruppe = Kundengruppen_Kundengruppen.getCellData(kundendatentable.getSelectionModel().getSelectedIndex());
+	
+	
+
+	//Felder für Maske Kundendaten belegen - Beginn
+
+	kdid.setText(Integer.toString(tmpkdid));
+	kdverwname.setText(tmpkdverwname);
+	kdverwvname.setText(tmpkdverwvname);
+	kdfirma.setText(tmpkdfirma);
+	kdgruppe.setText(tmpkdgruppe);
+	
+	
+	
+
+
+	//Felder für Maske Kundendaten belegen - Ende
+	
+	// Lizenz & Flugzeugztyp
+			String sql = "select * from kunden where kunden.kunde_id = '"+tmpkdid+"'";
+
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			if ((rs != null) && (rs.next())) {
+			
+				txt_street_new.setText(rs.getString(9));
+				txt_homenumber_new.setText(rs.getString(10));
+				//txt_homeext_new.setText(rs.getString(9));
+				txt_place_new.setText(rs.getString(12));
+				txt_phone_new.setText(rs.getString(6));
+				txt_mobile_new.setText(rs.getString(7));
+				txt_mail_new.setText(rs.getString(8));
+				txt_postcode_new.setText(rs.getString(11));
+				
+				txt_country_new.setText(rs.getString(13));
+				// cbo_custstatus_new.getValue().toString();
+					
+				
+			}
+	}
+
+
+
+
+
+//****************************************************************************************************************************
+
 @FXML	public void action_createpersonal(ActionEvent event) throws SQLException {
 
 	 // System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
@@ -3560,6 +4204,7 @@ public class MyFlightController {
 
 	}
 
+//*****************************************************************************************************************************
 @FXML
 public void action_save_personaledit(ActionEvent event) throws Exception {
 	System.out.println("Update!");
@@ -3603,6 +4248,314 @@ public void action_save_personaledit(ActionEvent event) throws Exception {
 	
 }
 
+//****************************************************************************************************************************
+
+//*****************************************************************************************************************************
+@FXML
+public void action_save_kundendatenedit(ActionEvent event) throws Exception {
+	System.out.println("Update!");
+	
+	
+	
+	
+	
+	if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 ) {
+	
+		lbl_dbconnect.setText("Pflichtfeld(er) füllen");
+	}
+	else {
+		try {
+
+					
+					
+					
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate("Update kunden set "
+					+ "KundeName = '"+ kdverwname.getText()+"', "
+							+ "KundeVorname = '"+kdverwvname.getText()+"', "
+									+ "KundeFirmenname = '"+kdfirma.getText()+"', "
+											+ "KundeAdresse1 = '"+txt_street_new.getText()+"', "
+											+ "Kundengruppen_Kundengruppen = '"+kdgruppe.getText()+"', "
+											+ "KundeTelefon ='"+txt_phone_new.getText()+"', "
+											+ "KundeHandy ='"+ txt_mobile_new.getText()+"', "
+													+ "KundeEmail ='"+ txt_mail_new.getText()+"', "
+															+ "KundePLZ ='"+ txt_postcode_new.getText()+"', "
+																	+ "KundenOrt ='"+ txt_place_new.getText()+"' "
+																			+ "where kunden.kunde_id = '"+Integer.parseInt(kdid.getText())+"'");
+				    
+		
+			
+			lbl_dbconnect.setText("Kundendaten gespeichert");
+			actiongetkundendatenpgm(true);
+		} catch (SQLException sqle) {
+
+			lbl_dbconnect.setText("Ungültige(r) Wert(e) erfasst");
+			// System.out.println("geht nicht");
+			sqle.printStackTrace();
+		}
+		}
+	
+}
+
+
+//************************************************************************************************************************
+
+@FXML	public void action_createflugzeug(ActionEvent event) throws SQLException {
+
+	 // System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
+	set_allunvisible(false); 
+	apa_flugzeugedit.setVisible(true);
+	apa_btn_flugzeugedit.setVisible(true);
+	btn_save_flugzeug.setVisible(false);
+	btn_save_flugzeugcreate.setVisible(true);
+	maskentitel.setVisible(true);
+	maskentitel.setText("Flugzeug anlegen");
+
+
+	Statement stmt = conn.createStatement();
+	// ermittle nächste Personal-ID für Speichern eines Mitarbeiters
+
+		String sql = "select max(flugzeug_id) from flugzeuge";
+		ResultSet rs = stmt.executeQuery(sql);
+		rs.next();
+		//int newauftraege_id = (rs.getInt(1) / 10000 + 1) * 10000 + 2016;
+		int newflugzeug_id = rs.getInt(1) +1;
+		
+		
+		int tmpfid = newflugzeug_id;
+		String tmpfstatus = "";
+		
+		String tmpfname = "";
+		String tmpftyp = "";
+
+		
+		
+
+		//Felder für Maske Flugzeugdaten belegen - Beginn
+
+		fid.setText(Integer.toString(tmpfid));
+		fstatus.setText(tmpfstatus);
+		fname.setText(tmpfname);
+		ftyp.setText(tmpftyp);
+		
+		
+		
+	 
+	 
+		//Felder für Maske Flugzeugdaten belegen - Ende
+		
+		// Lizenz & Flugzeugztyp
+				freichw.setText("");
+				fkm.setText("");
+				fpax.setText("");
+				ftrieb.setText("");
+				ftriebanz.setText("");
+				ffixk.setText("");
+				fbetriebk.setText("");
+				fgeschw.setText("");
+				fpilot.setText("");
+				fcopilot.setText("");
+				fcrew.setText("");
+				
+				
+		
+		
+		
+		
+		
+
+	
+	}
+
+//****************************************************************************************************************************************
+@FXML
+public void action_save_flugzeugedit(ActionEvent event) throws Exception {
+	System.out.println("Update!");
+	if (fid.getText().length()==0 || Integer.parseInt(fid.getText())==0 || ftypid.getText().length()==0 || Integer.parseInt(ftypid.getText())==0 || fstatus.getText().length()==0 ) {
+	
+		lbl_dbconnect.setText("Pflichtfeld(er) füllen");
+	}
+	else {
+		try {
+
+
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate("Update flugzeuge set "
+					+ "Flugzeug_ID = '"+ fid.getText()+"', "
+					+"Flugzeugtypen_Flugzeugtypen_ID = '"+Integer.parseInt(ftypid.getText())+"', "
+									+ "Flugzeugstatus_Flugzeugstatus = '"+fstatus.getText()+"' "
+											+ "where flugzeuge.flugzeug_id = '"+Integer.parseInt(fid.getText())+"'");
+				    
+	/*		stmt.executeUpdate("Update flugzeugtypen set "
+					+ "Flugzeugtypen_ID = '"+ plizenz.getText()+"', "
+							+ "Lizenz_Flugzeugtypen_flugzeugtypen_id = '"+pflugzeugtyp.getText()+"' "
+									+ "where flugzeugtypen.flugzeugtypen_id = '"+Integer.parseInt(pid.getText())+"'");
+		*/		    
+			
+			
+			lbl_dbconnect.setText("Flugzeugdaten geändert");
+			actiongetflugzeugdatenpgm(true);
+		} catch (SQLException sqle) {
+
+			lbl_dbconnect.setText("Ungültige(r) Wert(e) erfasst");
+			// System.out.println("geht nicht");
+			sqle.printStackTrace();
+		}
+		}
+	
+}
+
+//****************************************************************************************************************************************
+@FXML
+public void action_save_flugzieleedit(ActionEvent event) throws Exception {
+	System.out.println("Update!");
+	
+		
+	
+	if (fzflgh.getText().length()==0) {
+	
+		lbl_dbconnect.setText("Pflichtfeld(er) füllen");
+	}
+	else {
+		try {
+
+
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate("Update flughafen_bis set "
+					+ "FlughafenKuerzel = '"+ fzflgh.getText()+"', "
+					+"FlughafenName = '"+fzname.getText()+"', "
+									+ "FlughafenStadt = '"+fzstadt.getText()+"', "
+									+ "FlughafenLand = '"+fzland.getText()+"', "
+									+ "FlughafenLon = '"+Float.parseFloat(fzlon.getText())+"', "
+									+ "FlughafenLat = '"+Float.parseFloat(fzlat.getText())+"' "
+											+ "where flughafen_bis.flughafenKuerzel = '"+fzflgh.getText()+"'");
+			
+			
+			stmt.executeUpdate("Update flughafen_von set "
+					+ "FlughafenKuerzel = '"+ fzflgh.getText()+"', "
+					+"FlughafenName = '"+fzname.getText()+"', "
+									+ "FlughafenStadt = '"+fzstadt.getText()+"', "
+									+ "FlughafenLand = '"+fzland.getText()+"', "
+									+ "FlughafenLon = '"+Float.parseFloat(fzlon.getText())+"', "
+									+ "FlughafenLat = '"+Float.parseFloat(fzlat.getText())+"' "
+											+ "where flughafen_von.flughafenKuerzel = '"+fzflgh.getText()+"'");
+	
+			
+			/*		stmt.executeUpdate("Update flugzeugtypen set "
+					+ "Flugzeugtypen_ID = '"+ plizenz.getText()+"', "
+							+ "Lizenz_Flugzeugtypen_flugzeugtypen_id = '"+pflugzeugtyp.getText()+"' "
+									+ "where flugzeugtypen.flugzeugtypen_id = '"+Integer.parseInt(pid.getText())+"'");
+		*/		    
+			
+			
+			lbl_dbconnect.setText("Flugziele geändert");
+			actiongetflugzielepgm(true);
+		} catch (SQLException sqle) {
+
+			lbl_dbconnect.setText("Ungültige(r) Wert(e) erfasst");
+			// System.out.println("geht nicht");
+			sqle.printStackTrace();
+		}
+		}
+	
+}
+
+
+
+
+//****************************************************************************************************************************
+
+@FXML	public void action_createflugziele(ActionEvent event) throws SQLException {
+
+	 // System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
+	set_allunvisible(false); 
+	apa_flugzieleedit.setVisible(true);
+	apa_btn_flugzieleedit.setVisible(true);
+	btn_save_flugziele.setVisible(false);
+	btn_save_flugzielecreate.setVisible(true);
+	maskentitel.setVisible(true);
+	maskentitel.setText("Flugziele anlegen");
+
+
+	String tmpfzflgh = "";
+	String tmpfzname = "";
+	
+	String tmpfzstadt = "";
+	String tmpfzland = "";
+	Float tmpfzlon = 0.F;
+	Float tmpfzlat = 0.F;
+	
+	
+
+	//Felder für Maske Flugzieledaten belegen - Beginn
+
+	fzflgh.setText(tmpfzflgh);
+	fzname.setText(tmpfzname);
+	fzstadt.setText(tmpfzstadt);
+	fzland.setText(tmpfzland);
+	fzlon.setText(Float.toString(tmpfzlon));
+	fzlat.setText(Float.toString(tmpfzlat));
+	
+					
+			}
+
+
+//****************************************************************************************************************************
+
+@FXML	public void action_createkundendaten(ActionEvent event) throws SQLException {
+
+	 // System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
+	set_allunvisible(false); 
+	apa_kundendatenedit.setVisible(true);
+	apa_btn_kundendatenedit.setVisible(true);
+	btn_save_kundendaten.setVisible(false);
+	btn_save_kundendatencreate.setVisible(true);
+	maskentitel.setVisible(true);
+	maskentitel.setText("Kundendaten anlegen");
+
+
+	Statement stmt = conn.createStatement();
+	// ermittle nächste Personal-ID für Speichern eines Mitarbeiters
+
+		String sql = "select max(kunde_id) from kunden";
+		ResultSet rs = stmt.executeQuery(sql);
+		rs.next();
+		//int newauftraege_id = (rs.getInt(1) / 10000 + 1) * 10000 + 2016;
+		int newkunden_id = rs.getInt(1) +1;
+		
+		int tmpkdid = newkunden_id;
+		String tmpkdverwname = "";
+		String tmpkdverwvname = "";
+		String tmpkdfirma = "";
+		String tmpkdgruppe = "";
+		
+
+		kdid.setText(Integer.toString(tmpkdid));
+		kdverwname.setText(tmpkdverwname);
+		kdverwvname.setText(tmpkdverwvname);
+		kdfirma.setText(tmpkdfirma);
+		kdgruppe.setText(tmpkdgruppe);
+		
+		
+		//Felder für Maske Kundendaten belegen - Ende
+						
+					txt_street_new.setText("");
+					txt_homenumber_new.setText("");
+					//txt_homeext_new.setText(rs.getString(9));
+					txt_place_new.setText("");
+					txt_phone_new.setText("");
+					txt_mobile_new.setText("");
+					txt_mail_new.setText("");
+					txt_postcode_new.setText("");
+					
+					//cbo_country_new.getValue().toString();
+					// cbo_custstatus_new.getValue().toString();
+
+	
+	}
+
+
+//****************************************************************************************************************************
 @FXML
 public void action_save_personalcreate(ActionEvent event) throws Exception {
 System.out.println("Neuanlage!");
@@ -3620,26 +4573,10 @@ System.out.println("Neuanlage!");
 			
 			
 			Statement stmt = conn.createStatement();
-//			stmt.executeUpdate("insert into personal (personalname,personalvorname,position_gehalt_position,personalstatus_personalstatus,personal_id) values ('"+pname.getText()+"', '"+pvname.getText()+"',' "+ppos.getText()+"',' "+pstatus.getText()+"',' "+ Integer.parseInt(pid.getText())+"')");
 
+			stmt.executeUpdate("INSERT INTO personal (Personal_ID, PersonalName, PersonalVorname,Position_Gehalt_Position, Personalstatus_Personalstatus) VALUES ("+Integer.parseInt(pid.getText())+",'"+pname.getText()+"', '"+pvname.getText()+"', '"+ppos.getText()+"', '"+pstatus.getText()+"')");
 			
-			stmt.executeUpdate("insert into personal (personalname,"
-					+ "personalvorname,"
-					+"position_gehalt_position,"
-					+ "personalstatus_personalstatus,"
-					+ "personal_id) "
-					+ "values ('"+pname.getText()+"', '"
-							+pvname.getText()+"',' "
-									+ppos.getText()+"',' "		
-							+pstatus.getText()+"',' "
-													+ Integer.parseInt(pid.getText())+"')");
-
-			stmt.executeUpdate("insert into personal_has_lizenz (lizenz_lizenz,"
-					+ "Lizenz_Flugzeugtypen_flugzeugtypen_id ,"
-					+ "personal_personal_id) "
-					+ "values ('"+plizenz.getText()+"', '"
-							+pflugzeugtyp.getText()+"',' "
-									+ Integer.parseInt(pid.getText())+"')");
+			stmt.executeUpdate("INSERT INTO personal_has_lizenz (Personal_Personal_ID, Personal_Position_Gehalt_Position,Lizenz_Lizenz,Lizenz_Flugzeugtypen_Flugzeugtypen_ID) VALUES ("+Integer.parseInt(pid.getText())+", '"+ppos.getText()+"', '"+plizenz.getText()+"','"+pflugzeugtyp.getText()+"')");
 			
 			
 			lbl_dbconnect.setText("Personaldaten gespeichert");
@@ -3654,4 +4591,98 @@ System.out.println("Neuanlage!");
 	
 }
 	
+
+
+//****************************************************************************************************************************
+@FXML
+public void action_save_flugzeugcreate(ActionEvent event) throws Exception {
+System.out.println("Neuanlage!");
+if (fid.getText().length()==0 || Integer.parseInt(fid.getText())==0 || ftypid.getText().length()==0 || Integer.parseInt(ftypid.getText())==0 || fstatus.getText().length()==0 ) {
+	
+	lbl_dbconnect.setText("Pflichtfeld(er) füllen");
+}
+	else {
+		try {
+
+		
+			Statement stmt = conn.createStatement();
+
+			stmt.executeUpdate("INSERT INTO flugzeuge (Flugzeug_ID,Flugzeugtypen_Flugzeugtypen_ID,Flugzeugstatus_Flugzeugstatus) Values ('"+ fid.getText()+"', '"+Integer.parseInt(ftypid.getText())+"', '"+fstatus.getText()+"')");
+			
+			lbl_dbconnect.setText("Flugzeugdaten gespeichert");
+			actiongetflugzeugdatenpgm(true);
+		} catch (SQLException sqle) {
+
+			lbl_dbconnect.setText("Ungültige(r) Wert(e) erfasst");
+			// System.out.println("geht nicht");
+			sqle.printStackTrace();
+		}
+		}
+	
+}
+
+
+//****************************************************************************************************************************
+@FXML
+public void action_save_flugzielecreate(ActionEvent event) throws Exception {
+System.out.println("Neuanlage!");
+if (fzflgh.getText().length()==0) {
+	
+	lbl_dbconnect.setText("Pflichtfeld(er) füllen");
+}
+	else {
+		try {
+
+		
+			Statement stmt = conn.createStatement();
+
+			stmt.executeUpdate("INSERT INTO flughafen_bis (FlughafenKuerzel,FlughafenName,FlughafenStadt ,FlughafenLand,FlughafenLon,FlughafenLat) values('"+ fzflgh.getText()+"', '"+fzname.getText()+"', '"+fzstadt.getText()+"','"+fzland.getText()+"', '"+Float.parseFloat(fzlon.getText())+"', '"+Float.parseFloat(fzlat.getText())+"')");
+			stmt.executeUpdate("INSERT INTO flughafen_von (FlughafenKuerzel,FlughafenName,FlughafenStadt ,FlughafenLand,FlughafenLon,FlughafenLat) values('"+ fzflgh.getText()+"', '"+fzname.getText()+"', '"+fzstadt.getText()+"','"+fzland.getText()+"', '"+Float.parseFloat(fzlon.getText())+"', '"+Float.parseFloat(fzlat.getText())+"')");
+			
+			lbl_dbconnect.setText("Flugziele gespeichert");
+			actiongetflugzielepgm(true);
+		} catch (SQLException sqle) {
+
+			lbl_dbconnect.setText("Ungültige(r) Wert(e) erfasst");
+			// System.out.println("geht nicht");
+			sqle.printStackTrace();
+		}
+		}
+	
+}
+
+//****************************************************************************************************************************
+@FXML
+public void action_save_kundendatencreate(ActionEvent event) throws Exception {
+System.out.println("Neuanlage!");
+if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgruppe.getText().length()==0) {
+	
+	lbl_dbconnect.setText("Pflichtfeld(er) füllen");
+}
+	else {
+		try {
+
+		
+			Statement stmt = conn.createStatement();
+			
+		
+			stmt.executeUpdate("INSERT INTO kunden (Kunde_ID,KundenLand,KundeName,KundeVorname,KundeFirmenname,KundeAdresse1 ,Kundengruppen_Kundengruppen,KundeTelefon,KundeHandy,KundeEmail,KundePLZ,KundenOrt) values('"+Integer.parseInt(kdid.getText())+"', '"+ txt_country_new.getText()+"', '"+ kdverwname.getText()+"', '"+kdverwvname.getText()+"', '"+kdfirma.getText()+"','"+txt_street_new.getText()+"', '"+kdgruppe.getText()+"', '"+txt_phone_new.getText()+"', '"+txt_mobile_new.getText()+"', '"+txt_mail_new.getText()+"', '"+txt_postcode_new.getText()+"', '"+txt_place_new.getText()+"')");
+		
+			
+			lbl_dbconnect.setText("Kundendaten gespeichert");
+			actiongetkundendatenpgm(true);
+		} catch (SQLException sqle) {
+
+			lbl_dbconnect.setText("Ungültige(r) Wert(e) erfasst");
+			// System.out.println("geht nicht");
+			sqle.printStackTrace();
+		}
+		}
+	
+}
+
+
+
+
+
 }

@@ -164,29 +164,19 @@
                                                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                                                </content>
                                                             </TitledPane>
-                                                            <TitledPane animated="false" text="Flugzeugdaten verwalten" underline="true">
+                                                            <TitledPane fx:id="Flugzeuge" animated="false" onMouseClicked="#actiongetflugzeugdaten" text="Flugzeugdaten verwalten" underline="true">
                                                                <content>
                                                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                                                </content>
                                                             </TitledPane>
-                                                            <TitledPane animated="false" text="Flugziele verwalten" underline="true">
+                                                            <TitledPane fx:id="Flugziele" animated="false" onMouseClicked="#actiongetflugziele" text="Flugziele verwalten" underline="true">
                                                                <content>
                                                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                                                </content>
                                                             </TitledPane>
-                                                            <TitledPane animated="false" text="Kundendaten verwalten" underline="true">
+                                                            <TitledPane fx:id="Kundendaten" animated="false" onMouseClicked="#actiongetkundendaten" text="Kundendaten verwalten" underline="true">
                                                                <content>
-                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                                                     <children>
-                                                                        <Hyperlink fx:id="hlk_create_cust" onAction="#hlk_create_cust" prefHeight="55.0" prefWidth="201.0" text="Kunden anlegen">
-                                                                           <opaqueInsets>
-                                                                              <Insets />
-                                                                           </opaqueInsets>
-                                                                           <padding>
-                                                                              <Insets left="30.0" />
-                                                                           </padding>
-                                                                        </Hyperlink>
-                                                                     </children></AnchorPane>
+                                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                                                                </content>
                                                             </TitledPane>
                                                          </panes>
@@ -391,7 +381,70 @@
                                  </content>
                               </ScrollPane>
  
+                              <ScrollPane fx:id="scroll_pane_flugzeugdaten" prefHeight="481.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                              <AnchorPane fx:id="anc_pane_flugzeugdatenübersicht" minHeight="0.0" minWidth="0.0" prefHeight="640.0" prefWidth="825.0" visible="false">
+                                 <children>
+                                    <TableView fx:id="flugzeugtable" layoutX="131.0" layoutY="-14.0" prefHeight="634.0" prefWidth="900.0" AnchorPane.bottomAnchor="-160.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-309.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                     
+                                      
+                                        <TableColumn fx:id="Flugzeug_ID" prefWidth="55.5" text="Flgz_ID" />
+                                        <TableColumn fx:id="Flugzeugstatus_Flugzeugstatus" prefWidth="117.0" text="Status" />
+                                          <TableColumn fx:id="FlugzeugHersteller" minWidth="0.0" prefWidth="97.5" text="Hersteller" />
+                                          <TableColumn fx:id="FlugzeugTyp" prefWidth="110.0" text="Typ" />
+                                          
+                    
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                                 </content>
+                              </ScrollPane>
  
+ 
+                 <ScrollPane fx:id="scroll_pane_flugziele" prefHeight="481.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                              <AnchorPane fx:id="anc_pane_flugzieleübersicht" minHeight="0.0" minWidth="0.0" prefHeight="640.0" prefWidth="825.0" visible="false">
+                                 <children>
+                                    <TableView fx:id="flugzieletable" layoutX="131.0" layoutY="-14.0" prefHeight="634.0" prefWidth="900.0" AnchorPane.bottomAnchor="-160.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-309.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                     
+                                      
+                                        <TableColumn fx:id="FlughafenKuerzel" prefWidth="55.5" text="Flgz_ID" />
+                                        <TableColumn fx:id="FlughafenName" prefWidth="117.0" text="Flughafen-Name" />
+                                          <TableColumn fx:id="FlughafenStadt" minWidth="0.0" prefWidth="97.5" text="Stadt" />
+                                          <TableColumn fx:id="FlughafenLand" prefWidth="100.0" text="Land" />
+                                          <TableColumn fx:id="FlughafenLon" prefWidth="100.0" text="Lon:" />
+                                          <TableColumn fx:id="FlughafenLat" prefWidth="100.0" text="Lat:" />
+                    
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                                 </content>
+                              </ScrollPane>
+ 
+                  <ScrollPane fx:id="scroll_pane_kundendaten" prefHeight="481.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                              <AnchorPane fx:id="anc_pane_kundendatenübersicht" minHeight="0.0" minWidth="0.0" prefHeight="640.0" prefWidth="825.0" visible="false">
+                                 <children>
+                                    <TableView fx:id="kundendatentable" layoutX="131.0" layoutY="-14.0" prefHeight="634.0" prefWidth="900.0" AnchorPane.bottomAnchor="-160.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-309.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                          
+                                        <TableColumn fx:id="Kunde_ID" prefWidth="108.5" text="Kunden-ID" />
+                                        <TableColumn fx:id="KundeVorname" prefWidth="117.0" text="Vorname" />
+                                        <TableColumn fx:id="KundeName" prefWidth="117.0" text="Name" />
+                                          <TableColumn fx:id="KundeFirmenname" minWidth="0.0" prefWidth="97.5" text="Firma" />
+                                          <TableColumn fx:id="Kundengruppen_Kundengruppen" prefWidth="54.0" text="Kundengruppe" />
+                                         
+                    
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                                 </content>
+                              </ScrollPane>
  
  
                               <AnchorPane fx:id="apa_charter" layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -966,7 +1019,7 @@
                                             </children>
                               </AnchorPane>
                               
-                              <AnchorPane fx:id="apa_create_cust" layoutX="10.0" layoutY="10.0" prefHeight="484.0" prefWidth="599.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="apa_kundendatenedit" layoutX="10.0" layoutY="10.0" prefHeight="484.0" prefWidth="599.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Label layoutX="14.0" layoutY="14.0" text="Firma:">
                                        <font>
@@ -976,11 +1029,11 @@
                                     <Label layoutX="14.0" layoutY="45.0" text="Firmenname:" />
                                     <Label layoutX="15.0" layoutY="72.0" text="Straße:" />
                                     <Label layoutX="272.0" layoutY="97.0" text="Postleitzahl:" />
-                                    <TextField fx:id="txt_companyname_new" layoutX="88.0" layoutY="41.0" />
+                                    <TextField fx:id="kdfirma" layoutX="88.0" layoutY="41.0" />
                                     <TextField fx:id="txt_street_new" layoutX="88.0" layoutY="68.0" />
                                     <TextField fx:id="txt_postcode_new" layoutX="361.0" layoutY="95.0" />
                                     <TextField fx:id="txt_homenumber_new" layoutX="360.0" layoutY="68.0" prefHeight="25.0" prefWidth="34.0" />
-                                    <TextField fx:id="txt_customerid_new" disable="true" editable="false" layoutX="360.0" layoutY="41.0" prefHeight="25.0" prefWidth="150.0" />
+                                    <TextField fx:id="kdid" disable="true" editable="false" layoutX="360.0" layoutY="41.0" prefHeight="25.0" prefWidth="150.0" />
                                     <Label layoutX="407.0" layoutY="72.0" text="Zusatz:" />
                                     <Label layoutX="272.0" layoutY="72.0" text="Hausnummer:" />
                                     <Label layoutX="271.0" layoutY="45.0" text="Kundennummer:" />
@@ -988,11 +1041,11 @@
                                     <Separator layoutX="14.0" layoutY="164.0" prefHeight="2.0" prefWidth="493.0" />
                                     <Label layoutX="270.0" layoutY="229.0" text="Name:" />
                                     <Label layoutX="271.0" layoutY="256.0" text="Mobil:" />
-                                    <TextField fx:id="txt_name_new" layoutX="359.0" layoutY="225.0" />
+                                    <TextField fx:id="kdverwname" layoutX="359.0" layoutY="225.0" />
                                     <TextField fx:id="txt_mobile_new" layoutX="359.0" layoutY="252.0" prefHeight="25.0" prefWidth="150.0" />
                                     <TextField fx:id="txt_mail_new" layoutX="87.0" layoutY="279.0" />
                                     <TextField fx:id="txt_phone_new" layoutX="87.0" layoutY="252.0" />
-                                    <TextField fx:id="txt_prename_new" layoutX="87.0" layoutY="225.0" />
+                                    <TextField fx:id="kdverwvname" layoutX="87.0" layoutY="225.0" />
                                     <Label layoutX="13.0" layoutY="283.0" text="Email:" />
                                     <Label layoutX="14.0" layoutY="256.0" text="Telefon:" />
                                     <Label layoutX="13.0" layoutY="229.0" text="Vorname:" />
@@ -1006,9 +1059,9 @@
                                     <TextField fx:id="txt_place_new" layoutX="88.0" layoutY="95.0" />
                                     <Label layoutX="15.0" layoutY="100.0" text="Ort:" />
                                     <Label layoutX="15.0" layoutY="126.0" text="Land:" />
-                                    <ComboBox fx:id="cbo_country_new" layoutX="89.0" layoutY="122.0" prefHeight="25.0" prefWidth="149.0" visibleRowCount="2" />
+                                    <TextField fx:id="txt_country_new" layoutX="89.0" layoutY="122.0" prefHeight="25.0" prefWidth="149.0" />
                                     <Separator layoutX="14.0" layoutY="319.0" prefHeight="2.0" prefWidth="493.0" />
-                                    <ComboBox fx:id="cbo_custstatus_new" layoutX="359.0" layoutY="337.0" prefHeight="25.0" prefWidth="149.0" visibleRowCount="2" />
+                                    <TextField fx:id="kdgruppe" layoutX="359.0" layoutY="337.0" prefHeight="25.0" prefWidth="149.0" />
                                     <Label layoutX="15.0" layoutY="341.0" text="Kundengruppe:" />
                                  </children>
                               </AnchorPane>      
@@ -1115,14 +1168,87 @@
                                     <Label layoutX="17.0" layoutY="284.0" text="Gehalt: " />
                                     <Label layoutX="14.0" layoutY="230.0" text="Position: *" />
                                     <Label layoutX="269.0" layoutY="45.0" text="Status: *" />
-                                    <TextField fx:id="pgehalt" layoutX="190.0" layoutY="280.0" prefHeight="25.0" prefWidth="63.0" />
+                                    <TextField fx:id="pgehalt" editable="false" layoutX="190.0" layoutY="280.0" prefHeight="25.0" prefWidth="63.0" />
                                     <Separator layoutX="14.0" layoutY="164.0" prefHeight="2.0" prefWidth="493.0" />
                                     <Label layoutX="269.0" layoutY="74.0" text="Lizenz:" />
-                                    <TextField fx:id="plizenz" disable="true" editable="false" layoutX="360.0" layoutY="70.0" />
+                                    <TextField fx:id="plizenz" disable="false" editable="true" layoutX="360.0" layoutY="70.0" />
                                     <Label layoutX="269.0" layoutY="100.0" text="Flugzeugtyp:" />
                                     <TextField fx:id="pflugzeugtyp" layoutX="360.0" layoutY="96.0" />
                                  </children>
                               </AnchorPane>      
+
+ <AnchorPane fx:id="apa_flugzeugedit" layoutX="10.0" layoutY="10.0" prefHeight="484.0" prefWidth="599.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Flugzeugdaten:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="14.0" layoutY="45.0" text="Flugzeug-ID: *" />
+                                    <Label layoutX="15.0" layoutY="72.0" text="Flugzeugtyp-ID: *" />
+                                    <Label layoutX="16.0" layoutY="97.0" text="Status: *" />
+                                    <TextField fx:id="fid" layoutX="123.0" layoutY="41.0" />
+                                    <TextField fx:id="ftypid" layoutX="123.0" layoutY="68.0" />
+                                    <TextField fx:id="fstatus" layoutX="123.0" layoutY="95.0" />
+                                    <TextField fx:id="fname" editable="false" layoutX="123.0" layoutY="210.0" prefHeight="25.0" prefWidth="149.0" />
+                                    <TextField fx:id="fpax" editable="false" layoutX="373.0" layoutY="208.0" prefHeight="25.0" prefWidth="150.0" />
+                                    <Label layoutX="17.0" layoutY="243.0" text="Reichweite in km" />
+                                    <Label layoutX="17.0" layoutY="214.0" text="Hersteller" />
+                                    <Label layoutX="282.0" layoutY="212.0" text="Passagiere" />
+                                    <TextField fx:id="freichw" editable="false" layoutX="123.0" layoutY="239.0" prefHeight="25.0" prefWidth="149.0" />
+                                    <Separator layoutX="14.0" layoutY="164.0" prefHeight="2.0" prefWidth="493.0" />
+                                    <Label layoutX="282.0" layoutY="241.0" text="Triebwerk" />
+                                    <TextField fx:id="ftrieb" disable="false" editable="false" layoutX="373.0" layoutY="237.0" />
+                                    <Label layoutX="282.0" layoutY="267.0" text="Anzahl Triebw." />
+                                    <TextField fx:id="ftriebanz" editable="false" layoutX="373.0" layoutY="263.0" />
+                                    <Label layoutX="17.0" layoutY="181.0" text="Flugzeugeigenschaften:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="17.0" layoutY="269.0" text="Kilometerstand" />
+                                    <TextField fx:id="fkm" editable="false" layoutX="123.0" layoutY="265.0" prefHeight="25.0" prefWidth="149.0" />
+                                    <TextField fx:id="ffixk" editable="false" layoutX="123.0" layoutY="293.0" prefHeight="25.0" prefWidth="149.0" />
+                                    <Label layoutX="17.0" layoutY="326.0" text="Betriebskosten /h" />
+                                    <Label layoutX="17.0" layoutY="297.0" text="Fixkosten" />
+                                    <TextField fx:id="fbetriebk" editable="false" layoutX="123.0" layoutY="322.0" prefHeight="25.0" prefWidth="149.0" />
+                                    <TextField fx:id="fpilot" editable="false" layoutX="373.0" layoutY="292.0" prefHeight="25.0" prefWidth="150.0" />
+                                    <Label layoutX="282.0" layoutY="296.0" text="Anz. Pilot" />
+                                    <Label layoutX="282.0" layoutY="325.0" text="Anz. Copilot" />
+                                    <TextField fx:id="fcopilot" disable="false" editable="false" layoutX="373.0" layoutY="321.0" />
+                                    <Label layoutX="282.0" layoutY="351.0" text="Kabinencrew" />
+                                    <TextField fx:id="fcrew" editable="false" layoutX="373.0" layoutY="347.0" />
+                                    <Label layoutX="17.0" layoutY="353.0" text="Reisegeschwindigk." />
+                                    <TextField fx:id="fgeschw" editable="false" layoutX="123.0" layoutY="349.0" prefHeight="25.0" prefWidth="149.0" />
+                                    <TextField fx:id="ftyp" editable="false" layoutX="220.0" layoutY="179.0" />
+                                 </children>
+                              </AnchorPane>      
+
+
+ <AnchorPane fx:id="apa_flugzieleedit" layoutX="10.0" layoutY="10.0" prefHeight="484.0" prefWidth="599.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Flugziele:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="14.0" layoutY="45.0" text="Flughafenkürzel: *" />
+                                    <Label layoutX="15.0" layoutY="72.0" text="Flughafenname: " />
+                                    <Label layoutX="16.0" layoutY="97.0" text="Flughafen-Stadt: " />
+                                    <TextField fx:id="fzflgh" layoutX="110.0" layoutY="41.0" />
+                                    <TextField fx:id="fzname" layoutX="110.0" layoutY="68.0" />
+                                    <TextField fx:id="fzstadt" layoutX="110.0" layoutY="95.0" />
+                                    <TextField fx:id="fzland" layoutX="360.0" layoutY="41.0" prefHeight="25.0" prefWidth="149.0" />
+                                    <TextField fx:id="fzlon" layoutX="110.0" layoutY="174.0" prefHeight="25.0" prefWidth="150.0" />
+                                    <Label layoutX="269.0" layoutY="45.0" text="Flughafen-Land: " />
+                                    <Label layoutX="19.0" layoutY="178.0" text="Flughafen-Lon:" />
+                                    <Label layoutX="269.0" layoutY="178.0" text="Flughafen-Lat: " />
+                                    <TextField fx:id="fzlat" editable="false" layoutX="360.0" layoutY="174.0" prefHeight="25.0" prefWidth="149.0" />
+                                    <Separator layoutX="14.0" layoutY="164.0" prefHeight="2.0" prefWidth="493.0" />
+                                 </children>
+                              </AnchorPane>      
+
+
 
  
                              </children>
@@ -1165,6 +1291,52 @@
                               </AnchorPane>
                               
                               
+                                 <AnchorPane fx:id="apa_btn_flugzeugdatenoverview" prefHeight="68.0" prefWidth="589.0" visible="false">
+                                 <children>
+                                    <HBox alignment="TOP_RIGHT" layoutX="18.0" layoutY="22.0" prefHeight="25.0" prefWidth="557.0" spacing="5.0">
+                                       <children>
+                                         <Button fx:id="btnflugzeugedit" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false" onAction="#action_editflugzeug" text="Flugzeug ändern" textAlignment="CENTER" />
+                                         <Button fx:id="btncreateflugzeug" alignment="CENTER_RIGHT" disable="false" mnemonicParsing="false" onAction="#action_createflugzeug" text="Neues Flugzeug anlegen" textAlignment="CENTER" />
+                                      
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                    </HBox>
+                                 </children>
+                              </AnchorPane>
+                              
+                              
+                                 <AnchorPane fx:id="apa_btn_flugzieleoverview" prefHeight="68.0" prefWidth="589.0" visible="false">
+                                 <children>
+                                    <HBox alignment="TOP_RIGHT" layoutX="18.0" layoutY="22.0" prefHeight="25.0" prefWidth="557.0" spacing="5.0">
+                                       <children>
+                                         <Button fx:id="btnflugzieleedit" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false" onAction="#action_editflugziele" text="Flugziel ändern" textAlignment="CENTER" />
+                                         <Button fx:id="btncreateflugziele" alignment="CENTER_RIGHT" disable="false" mnemonicParsing="false" onAction="#action_createflugziele" text="Neues Flugziel anlegen" textAlignment="CENTER" />
+                                      
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                    </HBox>
+                                 </children>
+                              </AnchorPane>
+                              
+                          <AnchorPane fx:id="apa_btn_kundendatenoverview" prefHeight="68.0" prefWidth="589.0" visible="false">
+                                 <children>
+                                    <HBox alignment="TOP_RIGHT" layoutX="18.0" layoutY="22.0" prefHeight="25.0" prefWidth="557.0" spacing="5.0">
+                                       <children>
+                                         <Button fx:id="btnkundendatenedit" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false" onAction="#action_editkundendaten" text="Kundendaten ändern" textAlignment="CENTER" />
+                                         <Button fx:id="btncreatekundendaten" alignment="CENTER_RIGHT" disable="false" mnemonicParsing="false" onAction="#action_createkundendaten" text="Neuen Kunden anlegen" textAlignment="CENTER" />
+                                      
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                    </HBox>
+                                 </children>
+                              </AnchorPane>
+                                             
                               
                               
                               <AnchorPane fx:id="apa_btn_costtrackingreminder" prefHeight="68.0" prefWidth="589.0" visible="false">
@@ -1210,6 +1382,30 @@
                                  </children>
                               </AnchorPane>
       
+      						 <AnchorPane fx:id="apa_btn_flugzeugedit" prefHeight="68.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button fx:id="btn_cancel_flugzeugedit" cancelButton="true" layoutX="422.0" layoutY="22.0" mnemonicParsing="false" onAction="#actiongetflugzeugdaten" text="Abbrechen" />
+                                    <Button fx:id="btn_save_flugzeug" layoutX="506.0" layoutY="22.0" mnemonicParsing="false" onAction="#action_save_flugzeugedit" text="Speichern" />
+                                    <Button fx:id="btn_save_flugzeugcreate" layoutX="506.0" layoutY="22.0" mnemonicParsing="false" onAction="#action_save_flugzeugcreate" text="Speichern" visible="false" />
+                                 </children>
+                              </AnchorPane>
+
+      						 <AnchorPane fx:id="apa_btn_flugzieleedit" prefHeight="68.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button fx:id="btn_cancel_flugzieleedit" cancelButton="true" layoutX="422.0" layoutY="22.0" mnemonicParsing="false" onAction="#actiongetflugziele" text="Abbrechen" />
+                                    <Button fx:id="btn_save_flugziele" layoutX="506.0" layoutY="22.0" mnemonicParsing="false" onAction="#action_save_flugzieleedit" text="Speichern" />
+                                    <Button fx:id="btn_save_flugzielecreate" layoutX="506.0" layoutY="22.0" mnemonicParsing="false" onAction="#action_save_flugzielecreate" text="Speichern" visible="false" />
+                                 </children>
+                              </AnchorPane>
+
+     						 <AnchorPane fx:id="apa_btn_kundendatenedit" prefHeight="68.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button fx:id="btn_cancel_kundendatenedit" cancelButton="true" layoutX="422.0" layoutY="22.0" mnemonicParsing="false" onAction="#actiongetkundendaten" text="Abbrechen" />
+                                    <Button fx:id="btn_save_kundendaten" layoutX="506.0" layoutY="22.0" mnemonicParsing="false" onAction="#action_save_kundendatenedit" text="Speichern" />
+                                    <Button fx:id="btn_save_kundendatencreate" layoutX="506.0" layoutY="22.0" mnemonicParsing="false" onAction="#action_save_kundendatencreate" text="Speichern" visible="false" />
+                                 </children>
+                              </AnchorPane>
+
       
                               <AnchorPane fx:id="ancpanebtn_changeorder" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
