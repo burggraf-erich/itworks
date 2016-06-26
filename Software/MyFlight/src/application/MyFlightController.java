@@ -1,5 +1,5 @@
 package application;
-// V1.24
+// V2.01
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -309,7 +309,7 @@ public class MyFlightController {
 	@FXML Label lblberechtigung;
 	@FXML Label maskentitel;
 	@FXML Label Version;
-	
+	@FXML Label Version1;
 	
 	@FXML TitledPane mnudashboard;
 	@FXML TitledPane mnufinanzverwaltung;
@@ -522,6 +522,8 @@ public class MyFlightController {
 	@FXML	TableColumn<Aufträge, String> Flgztyporder;
 	@FXML	TableColumn<Aufträge, String> Beginnorder;
 	@FXML	TableColumn<Aufträge, String> Endeorder;
+	@FXML	TableColumn<Aufträge, Integer> billorder;
+	
 	
 	//@FXML	TableColumn<Aufträge, String> Datumorder;
 	@FXML	TableColumn<Aufträge, String> Statusorder;
@@ -597,7 +599,8 @@ public class MyFlightController {
 	
 	@FXML	
 	private void initialize() {
-		Version.setText("V2.00");
+		Version.setText("V2.01");
+		Version1.setText("V2.01");
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
 		Flgztyp.setCellValueFactory(cellData -> cellData.getValue().FlgztypProperty());
@@ -620,6 +623,7 @@ public class MyFlightController {
 		Kdvnameorder.setCellValueFactory(cellData -> cellData.getValue().KdvnameorderProperty());
 		Beginnorder.setCellValueFactory(cellData -> cellData.getValue().BeginnorderProperty());
 		Endeorder.setCellValueFactory(cellData -> cellData.getValue().EndeorderProperty());
+		billorder.setCellValueFactory(cellData -> cellData.getValue().billorderProperty().asObject());
 		
 		// Datenverknüpfung billtable
 		Nummerbill.setCellValueFactory(cellData -> cellData.getValue().NummerbillProperty().asObject());
@@ -951,7 +955,7 @@ public class MyFlightController {
 			*/
 			// Ende Testschleife
 			
-			ResultSet rs = stmt.executeQuery("SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID group by angebote.angebote_id");
+			ResultSet rs = stmt.executeQuery("SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID left outer join auftraege on auftraege.Angebote_Angebote_ID=angebote.Angebote_ID where auftraege.Angebote_Angebote_ID is null  group by angebote.angebote_id");
 					
 			angebotedata.remove(0, angebotedata.size());
 			int i = 1;
@@ -962,7 +966,7 @@ public class MyFlightController {
 			while ((rs != null) && (rs.next())) {
 				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(4) + " " + rs.getString(41) + " "
 						+ rs.getString(42) + " " + rs.getString(21) + " " + rs.getString(22) + " " + rs.getString(30) + " " + rs.getString(31));
-				angebotedata.add(new Angebote(rs.getInt(1), rs.getString(4), rs.getString(40), rs.getString(42), rs.getString(21),rs.getString(22), rs.getString(30), rs.getString(31)));
+				angebotedata.add(new Angebote(rs.getInt(1), rs.getString(4), rs.getString(41), rs.getString(42), rs.getString(21),rs.getString(22), rs.getString(30), rs.getString(31)));
 			}
 			
 			//wenn die Datenbank bei der Entwicklung leer ist
@@ -1229,7 +1233,7 @@ public class MyFlightController {
 			Statement stmt = conn.createStatement();
 			
 			// Aufträge-übersicht abrufen
-			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM auftraege inner join angebote INNER JOIN fluege inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.angebote_id=fluege.angebote_Angebote_ID and angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID group by auftraege.auftraege_id");
+			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.Rechnungen_ID FROM auftraege inner join angebote INNER JOIN fluege inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.angebote_id=fluege.angebote_Angebote_ID and angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID left outer join rechnungen on auftraege.Auftraege_ID=rechnungen.Auftraege_Auftraege_ID group by auftraege.auftraege_id");
 			
 			auftraegedata.remove(0, auftraegedata.size());
 			int i = 1;
@@ -1239,8 +1243,8 @@ public class MyFlightController {
 			
 			while ((rs != null) && (rs.next())) {
 				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
-						+ rs.getString(8) + " " + rs.getString(45) + " " + rs.getString(34) + " " + rs.getString(35) + " " + rs.getString(46)+ " " + rs.getString(25)+ " " + rs.getString(26));
-				auftraegedata.add(new Aufträge(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(8), rs.getString(45),rs.getString(34), rs.getString(35), rs.getString(46), rs.getString(25), rs.getString(26)));
+						+ rs.getString(8) + " " + rs.getString(45) + " " + rs.getString(34) + " " + rs.getString(35) + " " + rs.getString(46)+ " " + rs.getString(25)+ " " + rs.getString(26)+ " " + rs.getInt(47));
+				auftraegedata.add(new Aufträge(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(8), rs.getString(45),rs.getString(34), rs.getString(35), rs.getString(46), rs.getString(25), rs.getString(26), rs.getInt(47)));
 			}
 			
 			//wenn die Datenbank bei der Entwicklung leer ist
@@ -1426,7 +1430,7 @@ public class MyFlightController {
 			// Rechnungen-übersicht abrufen, die noch nicht bezahlt sind
 			
 			// Rechnungen-übersicht abrufen
-			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id = angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt' group by rechnungen.rechnungen_id");
+			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id = angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt' and rechnungen.Rechnungsstatus_Rechnungsstatus<>'erstellt'  group by rechnungen.rechnungen_id");
 		
 
 		
@@ -1533,7 +1537,7 @@ public class MyFlightController {
 			
 			// Rechnungen-übersicht abrufen, deren Zahlungstermin überschritten ist
 			
-			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt' group by rechnungen.rechnungen_id");
+			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt' and rechnungen.Rechnungsstatus_Rechnungsstatus<>'erstellt'  group by rechnungen.rechnungen_id");
 		
 			
 			GregorianCalendar now = new GregorianCalendar();
@@ -1663,7 +1667,7 @@ public class MyFlightController {
 				flgzkz1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));
 		//Datum von
-				sql = "select angebote.termin_von from angebote where angebote.angebote_id='"+angebot_id+"'";
+				sql = "select angebote.datum_von from angebote where angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				// Create an instance of SimpleDateFormat used for formatting 
@@ -1679,7 +1683,7 @@ public class MyFlightController {
 				//datumvon.setPromptText(rs.getString(1));
 				//System.out.println(rs.getString(1));
 		//Datum bis
-				sql = "select angebote.termin_bis from angebote where angebote.angebote_id='"+angebot_id+"'";
+				sql = "select angebote.datum_bis from angebote where angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				// Create an instance of SimpleDateFormat used for formatting 
@@ -2358,7 +2362,7 @@ public class MyFlightController {
 				flgzkz2.setText(rs.getString(1));
 				System.out.println(rs.getString(1));
 		//Datum von
-				sql = "select angebote.termin_von from angebote inner join auftraege inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and auftraege.angebote_angebote_id=angebote.angebote_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				sql = "select angebote.datum_von from angebote inner join auftraege inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and auftraege.angebote_angebote_id=angebote.angebote_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				// Create an instance of SimpleDateFormat used for formatting 
@@ -2374,7 +2378,7 @@ public class MyFlightController {
 				//datumvon.setPromptText(rs.getString(1));
 				//System.out.println(rs.getString(1));
 		//Datum bis
-				sql = "select angebote.termin_bis from angebote inner join auftraege inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and auftraege.angebote_angebote_id=angebote.angebote_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				sql = "select angebote.datum_bis from angebote inner join auftraege inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and auftraege.angebote_angebote_id=angebote.angebote_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				// Create an instance of SimpleDateFormat used for formatting 
@@ -2491,7 +2495,7 @@ public class MyFlightController {
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery(sql);
 		rs.next();
-	String AG = rs.getString(31);
+	String AG = rs.getString(29);
 	AG = AG+" "+rs.getString(30);
 	String Typ=rs.getString(42);
 	String Kennzeichen =rs.getString(16);
@@ -2905,8 +2909,8 @@ public class MyFlightController {
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);
 				rs.next();
-			String AG = rs.getString(30);
-			AG = AG+" "+rs.getString(29);
+			String AG = rs.getString(29);
+			AG = AG+" "+rs.getString(30);
 			String Typ=rs.getString(41);
 			String Kennzeichen =rs.getString(16);
 			
@@ -2918,7 +2922,7 @@ public class MyFlightController {
 				
 				// Using DateFormat format method we can create a string 
 				// representation of a date with the defined format.
-				String Beginndatum = df.format(rs.getObject(25));
+				String Beginndatum = df.format(rs.getObject(21));
 				
 				// Create an instance of SimpleDateFormat used for formatting 
 				// the string representation of date (month/day/year)
@@ -2928,7 +2932,7 @@ public class MyFlightController {
 				// Using DateFormat format method we can create a string 
 				// representation of a date with the defined format.
 				
-				String Endedatum = df.format(rs.getObject(26));
+				String Endedatum = df.format(rs.getObject(22));
 				//Charterdauer
 			//	System.out.println(rs.getTime(14));		
 //				charterdauer.setText(Object.toString(rs.getObject(14)));
@@ -3415,6 +3419,7 @@ public class MyFlightController {
 								+ newrechnungen_id + "','" + tagesdatum + "','" + zahlungstermin + "','"
 								+ tmprechnungstatus + "','" + auftrag_id + "')");
 				lbl_dbconnect.setText("Rechnung gespeichert");
+				actiongetaufträgepgm(true);
 			} catch (SQLException sqle) {
 
 				lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
@@ -3431,17 +3436,51 @@ public class MyFlightController {
 	@FXML
 	public void action_delete_order(ActionEvent event) throws Exception {
 		int auftrag_id = Nummerorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
-		String sql = "delete from auftraege where auftraege.auftraege_id ='" + auftrag_id + "'";
-		Statement statement = conn.createStatement();
-		try {
-			statement.executeUpdate(sql);
-			lbl_dbconnect.setText("Auftrag gelöscht");
-			actiongetaufträgepgm(true);
-		} catch (SQLException sqle) {
+		int tmpbillorder = billorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
+		if (tmpbillorder != 0)
+			lbl_dbconnect.setText("Auftrag nicht löschbar, Rechnung vorhanden");
+		else {
+			List<String> choices = new ArrayList<>();
+			choices.clear();
+			choices.add("Ja");
+			choices.add("Nein");
 
-			lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
-				sqle.printStackTrace();
+			ChoiceDialog<String> dialog1 = new ChoiceDialog<>("Ja", choices);
+			dialog1.setTitle("Auftrag löschen");
+			dialog1.setHeaderText("Wollen Sie den Auftrag \nwirklich löschen?");
+			dialog1.setContentText("Auswahl:");
+
+			// Traditional way to get the response value.
+			Optional<String> result1 = dialog1.showAndWait();
+			// if (result.isPresent()){
+			// System.out.println("Your choice: " + result.get());
+			// }
+
+			// The Java 8 way to get the response value (with lambda
+			// expression).
+			result1.ifPresent(letter -> System.out.println("Your choice: " + letter));
+
+			if (result1.isPresent()) {
+				AuswahlDokutyp = result1.get();
+
+				if (AuswahlDokutyp == "Ja") {
+					String sql = "delete from auftraege where auftraege.auftraege_id ='" + auftrag_id + "'";
+					Statement statement = conn.createStatement();
+					try {
+						statement.executeUpdate(sql);
+						lbl_dbconnect.setText("Auftrag gelöscht");
+						actiongetaufträgepgm(true);
+					} catch (SQLException sqle) {
+
+						lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
+						sqle.printStackTrace();
+					}
+
+				}
+
+			}
 		}
+
 	}
 
 	@FXML public void action_get_dashboard () {

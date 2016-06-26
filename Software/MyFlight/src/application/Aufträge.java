@@ -22,10 +22,12 @@ public class Aufträge {
 	private SimpleStringProperty Flgztyporder = null;
 	private SimpleStringProperty Beginnorder = null;
 	private SimpleStringProperty Endeorder = null;
+	private IntegerProperty billorder = null;
+	
 	
 	
 // Konstruktor für Instanzerzeugung
-	public Aufträge(Integer Nummer, String datumauftragorder, String Status, String Aart, String Kdgruppe, String Kdnameorder, String Kdvnameorder, String Flgztyporder, String Beginnorder, String Endeorder) {
+	public Aufträge(Integer Nummer, String datumauftragorder, String Status, String Aart, String Kdgruppe, String Kdnameorder, String Kdvnameorder, String Flgztyporder, String Beginnorder, String Endeorder, int billorder) {
         this.Nummerorder = new SimpleIntegerProperty(Nummer);
         this.datumauftragorder = new SimpleStringProperty(datumauftragorder);
         this.Statusorder = new SimpleStringProperty(Status);
@@ -36,7 +38,7 @@ public class Aufträge {
         this.Endeorder = new SimpleStringProperty(Endeorder);
         this.Kdnameorder = new SimpleStringProperty(Kdnameorder);
         this.Kdvnameorder = new SimpleStringProperty(Kdvnameorder);
-        
+        this.billorder = new SimpleIntegerProperty(billorder);
         }
 	public int getNummerorder() {
         return Nummerorder.get();
@@ -48,7 +50,17 @@ public class Aufträge {
     public IntegerProperty NummerorderProperty() {
         return Nummerorder;
     }
-	public String getFlgztyporder() {
+	public int getbillorder() {
+        return billorder.get();
+    }
+
+    public void setbillorder(int bill) {
+        this.billorder.set(bill);
+    }    
+    public IntegerProperty billorderProperty() {
+        return billorder;
+    }
+    public String getFlgztyporder() {
         return Flgztyporder.get();
     }
 

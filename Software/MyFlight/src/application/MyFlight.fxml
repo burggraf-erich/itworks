@@ -59,36 +59,9 @@
                                                    </children></AnchorPane>
                                              </content>
                                           </TitledPane>
-                                          <TitledPane fx:id="übersichtaufträge" animated="false" onMouseClicked="#actiongetaufträge" text="Übersicht Aufträge" underline="true">
+                                          <TitledPane fx:id="übersichtaufträge" animated="false" onMouseClicked="#actiongetaufträge" prefHeight="80.0" prefWidth="200.0" text="Übersicht Aufträge" underline="true">
                                              <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                                   <children>
-                                                      <Hyperlink prefHeight="55.0" prefWidth="201.0" text="Auftrag erstellen">
-                                                         <opaqueInsets>
-                                                            <Insets />
-                                                         </opaqueInsets>
-                                                         <padding>
-                                                            <Insets left="30.0" />
-                                                         </padding>
-                                                      </Hyperlink>
-                                                      <Hyperlink layoutY="-6.0" prefHeight="172.0" prefWidth="201.0" text="Rechnung erstellen">
-                                                         <opaqueInsets>
-                                                            <Insets />
-                                                         </opaqueInsets>
-                                                         <padding>
-                                                            <Insets left="30.0" />
-                                                         </padding>
-                                                      </Hyperlink>
-                                                      <Hyperlink layoutX="-1.0" layoutY="110.0" prefHeight="55.0" prefWidth="201.0" text="Auftragsstatus ändern">
-                                                         <opaqueInsets>
-                                                            <Insets />
-                                                         </opaqueInsets>
-                                                         <padding>
-                                                            <Insets left="30.0" />
-                                                         </padding>
-                                                      </Hyperlink>
-                                                   </children>
-                                                </AnchorPane>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="47.0" prefWidth="198.0" />
                                              </content>
                                           </TitledPane>
                                           <TitledPane animated="false" onMouseClicked="#actiongetrechnungen" text="Übersicht Rechnungen" underline="true">
@@ -185,16 +158,6 @@
                                                 </AnchorPane>
                                              </content>
                                           </TitledPane>
-                                          <TitledPane animated="false" text="Einstellungen" underline="true">
-                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                             </content>
-                                          </TitledPane>
-                                          <TitledPane animated="false" text="Informationen" underline="true">
-                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                             </content>
-                                          </TitledPane>
                                        </panes>
                                     </Accordion>
                                  </children></AnchorPane>
@@ -235,11 +198,11 @@
                                        <children>
                                           <TableView fx:id="billtable" prefHeight="640.0" prefWidth="912.0" AnchorPane.bottomAnchor="-159.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-323.0" AnchorPane.topAnchor="0.0">
                                             <columns>
-                                              <TableColumn fx:id="Nummerbill" prefWidth="113.5" text="Rechnungsnummer" />
-                                              <TableColumn fx:id="Statusbill" prefWidth="103.5" text="Rechn.-status" />
+                                              <TableColumn fx:id="Nummerbill" prefWidth="50.5" text="Rechnungsnummer" />
+                                              <TableColumn fx:id="Statusbill" prefWidth="90.5" text="Rechn.-status" />
                                               <TableColumn fx:id="Kdnamebill" prefWidth="103.5" text="Name" />
                                                 <TableColumn fx:id="Datumtopay" prefWidth="89.0" text="Zahltermin" />
-                                                <TableColumn fx:id="Preisbill" prefWidth="34.5" text="Preis" />
+                                                <TableColumn fx:id="Preisbill" prefWidth="55.5" text="Preis" />
                                                 <TableColumn fx:id="Preisbill_aufschlag" prefWidth="84.5" text="Preis-Aufschlag" />
                                                 <TableColumn fx:id="Preisbill_zusatzkosten" prefWidth="78.5" text="Zusatzkosten" />
                                                 <TableColumn fx:id="Kdgruppebill" prefWidth="72.0" text="Kundengruppe" />
@@ -255,11 +218,11 @@
                                        <children>
                                           <TableView fx:id="costbilltable" prefHeight="640.0" prefWidth="912.0" AnchorPane.bottomAnchor="-159.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-323.0" AnchorPane.topAnchor="0.0">
                                             <columns>
-                                              <TableColumn fx:id="Nummercostbill" prefWidth="113.5" text="Rechnungsnummer" />
-                                              <TableColumn fx:id="Statuscostbill" prefWidth="103.5" text="Rechn.-status" />
-                                                <TableColumn fx:id="Kdnamecostbill" prefWidth="75.0" text="Name" />
+                                              <TableColumn fx:id="Nummercostbill" prefWidth="75.5" text="Rechnungsnummer" />
+                                              <TableColumn fx:id="Statuscostbill" prefWidth="90.5" text="Rechn.-status" />
+                                                <TableColumn fx:id="Kdnamecostbill" prefWidth="85.0" text="Name" />
                                                 <TableColumn fx:id="Datumcosttopay" prefWidth="89.0" text="Zahltermin" />
-                                                <TableColumn fx:id="Preiscostbill" prefWidth="34.5" text="Preis" />
+                                                <TableColumn fx:id="Preiscostbill" prefWidth="55.5" text="Preis" />
                                                 <TableColumn fx:id="Preiscostbill_aufschlag" prefWidth="84.5" text="Preis-Aufschlag" />
                                                 <TableColumn fx:id="Preiscostbill_zusatzkosten" prefWidth="78.5" text="Zusatzkosten" />
                                                 <TableColumn fx:id="Kdgruppecostbill" prefWidth="72.0" text="Kundengruppe" />
@@ -275,11 +238,11 @@
                                        <children>
                                           <TableView fx:id="costreminder_warnings_billtable" prefHeight="640.0" prefWidth="912.0" AnchorPane.bottomAnchor="-159.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-323.0" AnchorPane.topAnchor="0.0">
                                             <columns>
-                                              <TableColumn fx:id="Nummercostreminder_warnings_bill" prefWidth="113.5" text="Rechnungsnummer" />
-                                              <TableColumn fx:id="Statuscostreminder_warnings_bill" prefWidth="103.5" text="Rechn.-status" />
-                                                <TableColumn fx:id="Kdnamecostreminder_warnings_bill" prefWidth="75.0" text="Name" />
+                                              <TableColumn fx:id="Nummercostreminder_warnings_bill" prefWidth="75.5" text="Rechnungsnummer" />
+                                              <TableColumn fx:id="Statuscostreminder_warnings_bill" prefWidth="90.5" text="Rechn.-status" />
+                                                <TableColumn fx:id="Kdnamecostreminder_warnings_bill" prefWidth="85.0" text="Name" />
                                                 <TableColumn fx:id="Datumcostreminder_warnings_topay" prefWidth="89.0" text="Zahltermin" />
-                                                <TableColumn fx:id="Preiscostreminder_warnings_bill" prefWidth="34.5" text="Preis" />
+                                                <TableColumn fx:id="Preiscostreminder_warnings_bill" prefWidth="55.5" text="Preis" />
                                                 <TableColumn fx:id="Preiscostreminder_warnings_bill_aufschlag" prefWidth="84.5" text="Preis-Aufschlag" />
                                                 <TableColumn fx:id="Preiscostreminder_warnings_bill_zusatzkosten" prefWidth="78.5" text="Mahnung Zusatzkosten" />
                                                 <TableColumn fx:id="Kdgruppecostreminder_warnings_bill" prefWidth="72.0" text="Kundengruppe" />
@@ -313,6 +276,7 @@
                                     <Label layoutX="119.0" layoutY="229.0" text="Benutzerrolle:" />
                                     <Label fx:id="lblrolle" alignment="CENTER_RIGHT" layoutX="235.0" layoutY="225.0" prefHeight="25.0" prefWidth="140.0" textAlignment="RIGHT" />
                                     <Label layoutX="119.0" layoutY="256.0" text="Berechtigungsstufe:" />
+                                    <Label fx:id="Version1" layoutX="530.0" layoutY="439.0" text="Label" />
                                     <Label fx:id="lblberechtigung" alignment="CENTER_RIGHT" layoutX="349.0" layoutY="256.0" prefHeight="17.0" prefWidth="26.0" textAlignment="RIGHT" />
                                  </children>
                               </AnchorPane>
@@ -344,14 +308,15 @@
                                  <children>
                                     <TableView fx:id="auftragtable" layoutX="131.0" layoutY="-14.0" prefHeight="634.0" prefWidth="900.0" AnchorPane.bottomAnchor="-160.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-309.0" AnchorPane.topAnchor="0.0">
                                       <columns>
-                                        <TableColumn fx:id="Nummerorder" prefWidth="108.5" text="Auftragsnummer" />
-                                        <TableColumn fx:id="datumauftragorder" prefWidth="117.0" text="Auftragsdatum" />
-                                          <TableColumn fx:id="Statusorder" minWidth="0.0" prefWidth="97.5" text="Auftragsstatus" />
+                                        <TableColumn fx:id="Nummerorder" prefWidth="50.5" text="Auftragsnummer" />
+                                        <TableColumn fx:id="datumauftragorder" prefWidth="60.0" text="Auftragsdatum" />
+                                          <TableColumn fx:id="Statusorder" minWidth="0.0" prefWidth="60.5" text="Auftragsstatus" />
+                                          <TableColumn fx:id="billorder" minWidth="0.0" prefWidth="50.5" text="Rechnung-Nr." />
                                           <TableColumn fx:id="Kdgruppeorder" prefWidth="54.0" text="Kd-Gruppe" />
-                                          <TableColumn fx:id="Kdnameorder" minWidth="0.0" prefWidth="40.0" text="Name" />
+                                          <TableColumn fx:id="Kdnameorder" minWidth="0.0" prefWidth="75.0" text="Name" />
                                           <TableColumn fx:id="Kdvnameorder" prefWidth="75.0" text="Vorname" />
-                                          <TableColumn fx:id="Aartorder" prefWidth="54.5" text="Art" />
-                                          <TableColumn fx:id="Flgztyporder" prefWidth="55.5" text="Flgz-Typ" />
+                                          <TableColumn fx:id="Aartorder" prefWidth="70.5" text="Art" />
+                                          <TableColumn fx:id="Flgztyporder" prefWidth="75.5" text="Flgz-Typ" />
                                           <TableColumn fx:id="Beginnorder" prefWidth="75.0" text="Beginn-Datum" />
                                           <TableColumn fx:id="Endeorder" prefWidth="75.0" text="Ende-Datum" />
                                       </columns>
@@ -1280,7 +1245,7 @@
                                     <HBox alignment="TOP_RIGHT" layoutX="18.0" layoutY="22.0" prefHeight="25.0" prefWidth="557.0" spacing="5.0">
                                        <children>
                                          <Button fx:id="btnpersonaledit" alignment="CENTER_RIGHT" disable="true" mnemonicParsing="false" onAction="#action_editpersonal" text="Profil ändern" textAlignment="CENTER" />
-                                         <Button fx:id="btncreatepersonal" alignment="CENTER_RIGHT" disable="false" mnemonicParsing="false" onAction="#action_createpersonal" text="Neue Mitarbeiter anlegen" textAlignment="CENTER" />
+                                         <Button fx:id="btncreatepersonal" alignment="CENTER_RIGHT" disable="false" mnemonicParsing="false" onAction="#action_createpersonal" text="Neues Personal anlegen" textAlignment="CENTER" />
                                       
                                        </children>
                                        <opaqueInsets>
