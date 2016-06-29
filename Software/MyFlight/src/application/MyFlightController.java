@@ -1,5 +1,5 @@
 package application;
-// V2.02
+// V2.03
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -225,6 +225,7 @@ public ObservableList<FHSuche> getFHData() {
 	private boolean authenticated = false;
 	
 	Connection conn;
+	Connection conn_new;
 	int highest_custID = 0;
 	
 	//Variablen für Angebot erstellen
@@ -870,8 +871,8 @@ public ObservableList<FHSuche> getFHData() {
     KundenSuche Kunde_neu;
 	@FXML	
 	private void initialize() {
-		Version.setText("V2.02");
-		Version1.setText("V2.02");
+		Version.setText("V2.03");
+		Version1.setText("V2.03");
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
 		Flgztyp.setCellValueFactory(cellData -> cellData.getValue().FlgztypProperty());
@@ -1008,6 +1009,12 @@ public ObservableList<FHSuche> getFHData() {
 	
 	
 	public void connectDB(){
+		
+		String new_dbname = "myflight";
+		String new_host = "172.20.1.24";
+		String new_port = "3306";
+
+ 		
 		try { 
 	      	 Class.forName("org.gjt.mm.mysql.Driver").newInstance(); 
 	        } 
@@ -1017,8 +1024,8 @@ public ObservableList<FHSuche> getFHData() {
 	        } 
 	        try 
 	        { 
-		    String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
-		    conn = DriverManager.getConnection(url, user, password); 
+		    String url = "jdbc:mysql://"+new_host+":"+port+"/"+new_dbname;
+		    conn_new = DriverManager.getConnection(url, user, password); 
 		    		    
 //		    if (firstLogon == true){
 //		    
@@ -1036,7 +1043,7 @@ public ObservableList<FHSuche> getFHData() {
 //	        if (firstLogon == true){	
 //	        lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
 //	        }
-//	        System.out.println("geht nicht");   
+  //      System.out.println("geht nicht");   
 //	        sqle.printStackTrace();
 	        
 	                
@@ -1384,7 +1391,7 @@ public ObservableList<FHSuche> getFHData() {
 		
 		apa_search_fh.setVisible(false);
 		apa_sonder.setVisible(false);
-		apa_zws.setVisible(false);
+		apa_zws_new.setVisible(false);
 		
 		apa_calendar.setVisible(false);
 
@@ -3484,6 +3491,7 @@ public ObservableList<FHSuche> getFHData() {
 				@FXML TextField txt_zwsan_h;
 				@FXML TextField txt_zwsan_m;
 				@FXML TitledPane acc_cal;
+				@FXML AnchorPane apa_zws_new;
 			private static Tbl getSampleTable(WordprocessingMLPackage wPMLpackage) {
 				int writableWidthTwips = wPMLpackage.getDocumentModel().getSections().get(0).getPageDimensions()
 						.getWritableWidthTwips();
@@ -5570,7 +5578,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			@FXML public void btn_zw_click() {
 				
 				set_allunvisible(false);
-				apa_zws.setDisable(false);
+				System.out.println("ZW klickt");
+				apa_zws_new.setVisible(true);
 			}
 
 			@FXML public void btn_sw_click() {
@@ -7113,6 +7122,9 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 
 			@FXML public void btn_zwscount_click() {
 				
+				cbo_zws.getItems().clear();
+				cbo_zws.setValue(null);
+				
 				 if (txt_countzws.getText().matches("[0-5]") || txt_countzws.getText() == ""){//TODO
 				 
 				countzw = Integer.valueOf(txt_countzws.getText());
@@ -7134,7 +7146,18 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 			}
 
-			@FXML public void btn_zws_save_click() {}
+			@FXML public void btn_zws_save_click() {
+				
+				FHzw[arrayzw] = txt_fh_zws.getText();
+				zw_an_h[arrayzw] = txt_zwsan_h.getText();
+				zw_an_m[arrayzw] = txt_zwsan_m.getText();
+				zw_ab_h[arrayzw] = txt_zwsab_h.getText();
+				zw_ab_m[arrayzw] = txt_zwsab_m.getText();
+				zw_an[arrayzw] = dpi_zws_an.getValue();
+				zw_ab[arrayzw] = dpi_zws_ab.getValue();
+				
+				
+			}
 
 			@FXML public void btn_zws_ok_click() {}
 
@@ -7143,6 +7166,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 
 			@FXML public void cbo_zws_click() {
 				
+				arrayzw = Integer.parseInt(cbo_zws.getValue().toString());	
+				btn_zws_save.setText("Station " + arrayzw + " übernehmen");
 				
 				
 				

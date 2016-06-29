@@ -1445,7 +1445,7 @@
                                        </children>
       
                                     </AnchorPane>
-                                    <AnchorPane fx:id="apa_zws" prefHeight="486.0" prefWidth="591.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <AnchorPane fx:id="apa_zws_new" prefHeight="486.0" prefWidth="591.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
                                           <Label layoutX="14.0" layoutY="14.0" text="Zwischenstationen:">
                                              <font>
