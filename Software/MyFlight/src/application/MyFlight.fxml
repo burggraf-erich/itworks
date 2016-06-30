@@ -1051,25 +1051,7 @@
                                     <Button fx:id="btn_zielfh" disable="true" layoutX="486.0" layoutY="327.0" mnemonicParsing="false" onAction="#btn_zielfh_click" prefHeight="25.0" prefWidth="20.0" text="..." />
                                     <TextField fx:id="txt_zielfh" disable="true" layoutX="360.0" layoutY="327.0" prefHeight="25.0" prefWidth="126.0" />
                                  </children>
-                              </AnchorPane>
-                              <AnchorPane fx:id="angebotübersicht" prefHeight="474.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <TableView fx:id="angebotetabelle" editable="true" onMouseClicked="#setbtnenable" prefHeight="487.0" prefWidth="589.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <columns>
-                                        <TableColumn fx:id="Nummer" prefWidth="108.5" text="Auftragsnummer" />
-                                        <TableColumn fx:id="Datum" prefWidth="117.0" text="Auftragsdatum" />
-                                          <TableColumn fx:id="Status" minWidth="0.0" prefWidth="0.0" text="Auftragsstatus" />
-                                          <TableColumn fx:id="Kdgruppe" prefWidth="75.0" text="Kd-Gruppe" />
-                                          <TableColumn fx:id="Kdname" prefWidth="75.0" text="Name" />
-                                          <TableColumn fx:id="Kdvname" prefWidth="75.0" text="Vorname" visible="false" />
-                                          <TableColumn fx:id="Aart" prefWidth="75.0" text="Art" />
-                                          <TableColumn fx:id="Flgztyp" prefWidth="75.0" text="Flgz-Typ" />
-                                          <TableColumn fx:id="Beginn" prefWidth="75.0" text="Beginn-Datum" />
-                                          <TableColumn fx:id="Ende" prefWidth="75.0" text="Ende-Datum" />
-                                      </columns>
-                                    </TableView>
-                                 </children>
-                              </AnchorPane>
+   								</AnchorPane>
                               
                               <AnchorPane fx:id="apa_create_order" prefHeight="474.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
@@ -1479,13 +1461,11 @@
                                        </children>
                                     </AnchorPane>      
 
-
+ 								   </children>
+                                    </AnchorPane>    
 
  
-                             </children>
-          
-              </AnchorPane>      
-			
+      	
    
 						 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="61.0" prefWidth="589.0">
 						   <children>

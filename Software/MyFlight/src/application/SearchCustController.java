@@ -191,17 +191,23 @@ public class SearchCustController extends MyFlightController{
 	public void buildData(){        
 		
 		//int i
-	    
+		String new_dbname = "myflight";
+		String new_host = "172.20.1.24";
+		String new_port = "3306";
+		String url = "jdbc:mysql://" + new_host + ":" + new_port + "/" + new_dbname;
+				
 	    try{
+	    	  conn_new = DriverManager.getConnection(url, user, password); 
+  		    	    	
+	    	Statement statement_new = conn_new.createStatement(); 
 	    	
-	    	Statement statement_new = conn_new.createStatement();
-	    	ResultSet rs_new = statement_new.executeQuery("SELECT Kunde_ID, KundeName, KundeVorname, IFNULL(KundeFirmenname,' ' ), KundeAdresse1, KundePLZ, KundenOrt, KundeTelefon, KundeEmail, KundenLand, Kundengruppen_Kundengruppen FROM myflight.kunden " + where);      
-	        while((rs_new != null) && (rs_new.next())){
+	 	ResultSet rs_new = statement_new.executeQuery("SELECT Kunde_ID, KundeName, KundeVorname, IFNULL(KundeFirmenname,' ' ), KundeAdresse1, KundePLZ, KundenOrt, KundeTelefon, KundeEmail, KundenLand, Kundengruppen_Kundengruppen FROM myflight.kunden " + where);      
+	     while((rs_new != null) && (rs_new.next())){
 	        	
-	        	KundenData.add(new Kunden(rs_new.getInt(1), rs_new.getString(2), rs_new.getString(3), rs_new.getString(4), rs_new.getString(5), rs_new.getString(6), rs_new.getString(7), rs_new.getString(8), rs_new.getString(9), rs_new.getString(10), rs_new.getString(11)));
+	       	KundenData.add(new Kunden(rs_new.getInt(1), rs_new.getString(2), rs_new.getString(3), rs_new.getString(4), rs_new.getString(5), rs_new.getString(6), rs_new.getString(7), rs_new.getString(8), rs_new.getString(9), rs_new.getString(10), rs_new.getString(11)));
 	
                   
-	        }
+	       }
 	        
 	    }
 	    catch(Exception e){
