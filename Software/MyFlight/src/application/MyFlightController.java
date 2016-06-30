@@ -1,5 +1,6 @@
 package application;
-// V2.05
+// V2.06
+
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -885,8 +886,10 @@ public ObservableList<FHSuche> getFHData() {
     KundenSuche Kunde_neu;
 	@FXML	
 	private void initialize() {
-		Version.setText("V2.05");
-		Version1.setText("V2.05");
+
+		Version.setText("V2.06");
+		Version1.setText("V2.06");
+
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
 		Flgztyp.setCellValueFactory(cellData -> cellData.getValue().FlgztypProperty());
@@ -1423,7 +1426,7 @@ public ObservableList<FHSuche> getFHData() {
 //		final String name = txt_name.getText();
 //		final String phone = txt_phone.getText();
 //		final String mobile = txt_mobile.getText();
-//		final String email = txt_mail.getText();
+//		final String email = txt_mail.getText();	
 //		int i = 0;
 //		String new_custID;
 //	
@@ -5803,16 +5806,19 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				else{
 				StartFH = false;
 				ZielFH = false;
+				
 				FHData.remove(0, FHData.size());
 				txt_iata_search.clear();
 				txt_stadt_search.clear();
 				
+
+				
 				set_allunvisible(false);
 				apa_create_offer.setVisible(true);
 				apa_btn_createoffer.setVisible(true);
-
+				}
 			}
-			}
+			
 			@FXML public void btn_close_fh_click() {
 				
 				if (zwFH == true){
@@ -5922,114 +5928,118 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			          e.printStackTrace();
 			          System.out.println("Error on Building Data");            
 			    }
+		    	
+		    	
 		    	if(charterart.equals("Flug mit Zwischenstationen")){
 					
 		    		
-					String	Str_StartFH_zw = txt_startfh.getText();
-					String	Str_ZielFH_zw = txt_zielfh.getText();
-				    		
-				    		hochentf = new float[countzw+1];
+			String	Str_StartFH_zw = txt_startfh.getText();
+			String	Str_ZielFH_zw = txt_zielfh.getText();
+		    		
+		    		hochentf = new float[countzw+1];
+			
+		    		for (int i=0;i<=countzw;i++){
+		    			
+		    			if(i==0){
+		    				
+		    				txt_zielfh.setText(FHzw[i]);
+		    				
+		    			}
+		    			else if(i==(countzw)){
+		    				
+		    				txt_startfh.setText(FHzw[i-1]);
+		    				txt_zielfh.setText(Str_ZielFH_zw);
+		    				
+		    			}
+		    			else{
+		    				
+		    				txt_startfh.setText(FHzw[i-1]);
+		    				txt_zielfh.setText(FHzw[i]);
+		    				
+		    			}
+		    			getEntfernung();
+		    			hochentf[i] = entfernung;
+		    			if(i != 0){
+		    			for(int z=0;z<hochentf.length;z++){
+		    				
+		    				if(hochentf[i]>hochentf[i-1]){
+		    					
+		    					float abl = 0;
+		    					abl = hochentf[i-1] ;		    					
+		    					hochentf[i-1]=hochentf[i];
+		    					hochentf[i] = abl;
+		    				}
+		    				
+		    				}
+		    			}		    			
+		    			
+				    	
+				    	
+		    			entfernung_zw = entfernung_zw + entfernung;
+		    			
+		    			if(StartKont.equals("Amerika") || ZielKont.equals("Amerika") && StartKont_zw.equals("Europa")){
+		    				
+		    				ZielKont_zw = "Amerika";
+		    				
+		    			}
+		    	}
 					
-				    		for (int i=0;i<countzw+1;i++){
-				    			
-				    			if(i==0){
-				    				
-				    				txt_zielfh.setText(FHzw[i]);
-				    				
-				    			}
-				    			else if(i==(countzw-1)){
-				    				
-				    				txt_startfh.setText(FHzw[i]);
-				    				txt_zielfh.setText(Str_ZielFH_zw);
-				    				
-				    			}
-				    			else{
-				    				
-				    				txt_startfh.setText(FHzw[i-1]);
-				    				txt_zielfh.setText(FHzw[i]);
-				    				
-				    			}
-				    			getEntfernung();
-				    			hochentf[i] = entfernung;
-				    			if(i != 0){
-				    			for(int z=0;z<hochentf.length;z++){
-				    				
-				    				if(hochentf[i]>hochentf[i-1]){
-				    					
-				    					float abl = 0;
-				    					abl = hochentf[i-1] ;		    					
-				    					hochentf[i-1]=hochentf[i];
-				    					hochentf[i] = abl;
-				    				}
-				    				
-				    				}
-				    			}		    			
-				    			
-						    	
-						    	
-				    			entfernung_zw = entfernung_zw + entfernung;
-				    			
-				    			if(StartKont.equals("Amerika") || ZielKont.equals("Amerika") && StartKont_zw.equals("Europa")){
-				    				
-				    				ZielKont_zw = "Amerika";
-				    				
-				    			}
-				    	}
-							
-				    		txt_startfh.setText(Str_StartFH_zw);
-				    		txt_zielfh.setText(Str_ZielFH_zw);
-							StartKont = StartKont_zw;
-							ZielKont = ZielKont_zw;
-							
-							
-//							zw_an_h[arrayzw] = txt_zwsan_h.getText();
-//							zw_an_m[arrayzw] = txt_zwsan_m.getText();
-//							zw_ab_h[arrayzw] = txt_zwsab_h.getText();
-//							zw_ab_m[arrayzw] = txt_zwsab_m.getText();
-//							zw_an[arrayzw] = dpi_zws_an.getValue();
-//							zw_ab[arrayzw] = dpi_zws_ab.getValue();
-							
-							
-							
-							Str_startzeith = txt_startzeit_h.getText();
-					    	Str_startzeitm = txt_startzeit_m.getText();
-					    	Str_zielzeith = txt_zielzeit_h.getText();
-					    	Str_zielzeitm = txt_zielzeit_m.getText();
-					    	
-//					    	startdate = dpi_startdat.getValue();
-//					    	zieldate = startdate;
-//					    	
-					    	long zwtage = 0;
-					    	long startdat = dpi_startdat.getValue().toEpochDay();
-					    	long zieldat = dpi_zieldat.getValue().toEpochDay();
-					    	zwtage = zieldat - startdat;
-					    	System.out.println("TAGE dazwisch " + zwtage);
-							
-					    	//dauer = (entfernung/speed)*60;
-					    	//int idauer = Double.valueOf(dauer).intValue();
-					    	
-					    	double szh = Double.parseDouble(Str_startzeith);
-					    	double szm = Double.parseDouble(Str_startzeitm);
-					    	
-					    	double szg = (szh * 60)+szm;
-					    	
-					    	
-					    	double zzh =  Double.parseDouble(Str_zielzeith);
-					    	double zzm =  Double.parseDouble(Str_zielzeitm);
-					    	
-					    	double zzg = (zzh * 60) +zzm;
-					    	
-					    	
-					    	System.out.println("DAUER GESAMT: " + szg);
-					    	System.out.println("DAUER GESAMT: " + zzg);
-					    	
-					    	double rest = 0;
-					    	rest = zzg - szg;
-					    	dauercharter = (float) ((zwtage * 1440) + rest )/60;
-					    			    	
-					    	
-					    	
-						}
+		    		txt_startfh.setText(Str_StartFH_zw);
+		    		txt_zielfh.setText(Str_ZielFH_zw);
+					StartKont = StartKont_zw;
+					ZielKont = ZielKont_zw;
+					
+					
+//					zw_an_h[arrayzw] = txt_zwsan_h.getText();
+//					zw_an_m[arrayzw] = txt_zwsan_m.getText();
+//					zw_ab_h[arrayzw] = txt_zwsab_h.getText();
+//					zw_ab_m[arrayzw] = txt_zwsab_m.getText();
+//					zw_an[arrayzw] = dpi_zws_an.getValue();
+//					zw_ab[arrayzw] = dpi_zws_ab.getValue();
+					
+					
+					
+					Str_startzeith = txt_startzeit_h.getText();
+			    	Str_startzeitm = txt_startzeit_m.getText();
+			    	Str_zielzeith = txt_zielzeit_h.getText();
+			    	Str_zielzeitm = txt_zielzeit_m.getText();
+			    	
+//			    	startdate = dpi_startdat.getValue();
+//			    	zieldate = startdate;
+//			    	
+			    	long zwtage = 0;
+			    	long startdat = dpi_startdat.getValue().toEpochDay();
+			    	long zieldat = dpi_zieldat.getValue().toEpochDay();
+			    	zwtage = zieldat - startdat;
+			    	System.out.println("TAGE dazwisch " + zwtage);
+					
+			    	//dauer = (entfernung/speed)*60;
+			    	//int idauer = Double.valueOf(dauer).intValue();
+			    	
+			    	double szh = Double.parseDouble(Str_startzeith);
+			    	double szm = Double.parseDouble(Str_startzeitm);
+			    	
+			    	double szg = (szh * 60)+szm;
+			    	
+			    	
+			    	double zzh =  Double.parseDouble(Str_zielzeith);
+			    	double zzm =  Double.parseDouble(Str_zielzeitm);
+			    	
+			    	double zzg = (zzh * 60) +zzm;
+			    	
+			    	
+			    	System.out.println("DAUER GESAMT: " + szg);
+			    	System.out.println("DAUER GESAMT: " + zzg);
+			    	
+			    	double rest = 0;
+			    	rest = zzg - szg;
+			    	dauercharter = (float) ((zwtage * 1440) + rest )/60;
+			    			    	
+			    	
+			    	
+				}
+				
+
 		    	else if(charterart.equals("Zeitcharter")){
 					
 					entfernung = 4500;
@@ -6253,6 +6263,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 						Ziel_offer = dpi_zieldat.getValue();
 						
 					}
+
 					getBestFZ();
 			    	getBestPerson();
 					
@@ -6441,6 +6452,103 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    	
 			    	
 				}
+				
+				if(charterart.equals("Flug mit Zwischenstationen")){			    	
+			    	   	
+			    	
+		    	
+			    	dauer = (entfernung_zw/speed)*60;
+			    	int idauer = Double.valueOf(dauer).intValue();
+			    	
+			    	
+			    	//dauerflug = dauerflug.plusMinutes(idauer);
+			    	dauerflug = dauerflug + idauer;
+			    	System.out.println("FLUG DAUER " + dauerflug);
+			    	
+//			    	
+//			    	
+//			    	System.out.println("idauer: " +idauer);
+//			    	System.out.println(dauer);
+//			    	System.out.println(szg);
+//			    	System.out.println(tage);
+//			    	System.out.println("Zielzeit: "+ zieldate);
+//			    	System.out.println(zielzeit);
+			    	
+			
+			    	
+			    	
+			    	
+			    	
+			    	float dauerh = (float)dauer;
+			    	dauerh = dauerh / 60;
+			    	
+			    	for(int t = 0;t<hochentf.length; t++){
+			    		
+			    		zwischenstop_zw = (int) (zwischenstop_zw + (hochentf[t]/reichweite));
+			    		
+			    		
+			    	}
+			    	
+			    	
+			    	int zwischenstop = zwischenstop_zw + countzw;
+			    	
+			    	
+			    	
+			    	System.out.println("Stopps   " + zwischenstop);
+			    	
+			    	angbetr = BetriebskFZ * dauerh;
+			    	
+			    	
+			    	angfix = (FixkostenFZ/2000) *(dauerh + 1.5F);
+			    	
+			    	dauercharter = dauercharter + 1.5F + (zwischenstop * 0.75F);
+			    	
+			    	angpers = ((gehcap/1600) + ((count_cop*gehcop)/1600) + ((count_fa*gehfa)/1600))* dauercharter;
+			    	angpers = angpers*pers_aufschlag;
+			    	
+			    	angnetto = angpers + angbetr + angfix + KostenSW;
+			    	
+			    	try{
+				    	
+				    	Statement statement = conn.createStatement();
+				    	ResultSet rs = statement.executeQuery("SELECT Kundengruppen_Kundengruppen FROM myflight.kunden WHERE Kunde_ID="+Str_cust_id_chosen);      
+				        while((rs != null) && (rs.next())){
+				        	
+				        	//cbo_fz.setValue(rs.getString(3));
+				        	CustState = rs.getString(1);
+			        }
+				        
+				    }
+				    catch(Exception e){
+				          e.printStackTrace();
+				          System.out.println("Error on Building Data");            
+				    }
+			    	
+			    	if(CustState.equals("PRE")){
+			    		
+			    		angpre = angnetto * angpre_fakt;
+			    		
+			    	}
+			  
+			    	
+
+			    	angnetto = angnetto + angpre;
+			    	angbrutto = angnetto * mwst;
+			    	
+			    	SW = "";
+			    	if(sonderw ==true){
+			    	SW = "Speisen:( " + SWspeisen + " ) Getränke:( " + SWgetr + " )";
+			    	}
+			    	
+			    	pax_fix = Integer.parseInt(txt_pass.getText());
+			    	
+			    	dauerflug = dauerflug/60;
+			    	
+			    	charterart = "Flug m. Zw.";
+				}
+				
+				
+				
 				
 				if(charterart.equals("Flug mit Zwischenstationen")){			    	
 		    	   	
@@ -7412,7 +7520,13 @@ try{
 				
 			}
 
-			@FXML public void btn_fh_zws_click() {}
+			@FXML public void btn_fh_zws_click() {
+				
+				zwFH = true;
+				set_allunvisible(false);
+				apa_search_fh.setVisible(true);
+				
+			}
 
 			@FXML public void btn_zwscount_click() {
 				
@@ -7424,14 +7538,15 @@ try{
 				countzw = Integer.valueOf(txt_countzws.getText());
 				 }
 				 
-				 	FHzw = new String[countzw];
-					zw_an_h = new String[countzw];
-					zw_an_m = new String[countzw];
-					zw_ab_h = new String[countzw];
-					zw_ab_m = new String[countzw];
-					zw_an = new LocalDate[countzw];
-					zw_ab = new LocalDate[countzw];
-				 
+
+				FHzw = new String[countzw];
+				zw_an_h = new String[countzw];
+				zw_an_m = new String[countzw];
+				zw_ab_h = new String[countzw];
+				zw_ab_m = new String[countzw];
+				zw_an = new LocalDate[countzw];
+				zw_ab = new LocalDate[countzw];
+
 				
 				int x = 1;
 				for(int i = 0; i < countzw; i++){
@@ -7450,6 +7565,10 @@ try{
 
 			@FXML public void btn_zws_save_click() {
 				
+				System.out.println("Array: " + arrayzw);
+				
+				System.out.println(txt_fh_zws.getText());
+				
 				FHzw[arrayzw] = txt_fh_zws.getText();
 				zw_an_h[arrayzw] = txt_zwsan_h.getText();
 				zw_an_m[arrayzw] = txt_zwsan_m.getText();
@@ -7462,18 +7581,31 @@ try{
 			}
 
 			@FXML public void btn_zws_ok_click() {
+
+				
+
 				set_allunvisible(false);
 				apa_create_offer.setVisible(true);
-				apa_btn_createoffer.setVisible(true);}
-			
+				apa_btn_createoffer.setVisible(true);
+				
+			}
 
 
 			@FXML public void btn_zws_stop_click() {}
 
 			@FXML public void cbo_zws_click() {
 				
-				arrayzw = Integer.parseInt(cbo_zws.getValue().toString());	
-				btn_zws_save.setText("Station " + arrayzw + " übernehmen");
+				arrayzw = Integer.parseInt(cbo_zws.getValue().toString()) - 1;	
+				btn_zws_save.setText("Station " + (arrayzw + 1) + " übernehmen");
+				
+				txt_fh_zws.setText(FHzw[arrayzw]);
+				txt_zwsan_h.setText(zw_an_h[arrayzw]);
+				txt_zwsan_m.setText(zw_an_m[arrayzw]);
+				txt_zwsab_h.setText(zw_ab_h[arrayzw]);
+				txt_zwsab_m.setText(zw_ab_m[arrayzw]);
+				dpi_zws_an.setValue(zw_an[arrayzw]);
+				dpi_zws_ab.setValue(zw_ab[arrayzw]);
+				
 				
 				txt_fh_zws.setText(FHzw[arrayzw]);
 				txt_zwsan_h.setText(zw_an_h[arrayzw]);
