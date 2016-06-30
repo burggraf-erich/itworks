@@ -1,5 +1,5 @@
 package application;
-// V2.05
+// V2.06
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -878,8 +878,8 @@ public ObservableList<FHSuche> getFHData() {
     KundenSuche Kunde_neu;
 	@FXML	
 	private void initialize() {
-		Version.setText("V2.05");
-		Version1.setText("V2.05");
+		Version.setText("V2.06");
+		Version1.setText("V2.06");
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
 		Flgztyp.setCellValueFactory(cellData -> cellData.getValue().FlgztypProperty());
@@ -5871,16 +5871,16 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 		    		
 		    		hochentf = new float[countzw+1];
 			
-		    		for (int i=0;i<countzw+1;i++){
+		    		for (int i=0;i<=countzw;i++){
 		    			
 		    			if(i==0){
 		    				
 		    				txt_zielfh.setText(FHzw[i]);
 		    				
 		    			}
-		    			else if(i==(countzw-1)){
+		    			else if(i==(countzw)){
 		    				
-		    				txt_startfh.setText(FHzw[i]);
+		    				txt_startfh.setText(FHzw[i-1]);
 		    				txt_zielfh.setText(Str_ZielFH_zw);
 		    				
 		    			}
@@ -6476,7 +6476,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    	
 			    	dauerflug = dauerflug/60;
 			    	
-			    	
+			    	charterart = "Flug m. Zw.";
 				}
 				
 				
