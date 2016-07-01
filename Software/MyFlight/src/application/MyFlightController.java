@@ -1,5 +1,5 @@
 package application;
-// V2.06
+// V2.07
 
 
 import java.sql.*;
@@ -129,6 +129,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.CheckBox;
 import javafx.scene.input.InputMethodEvent;
 import org.joda.time.LocalTime;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.ChoiceBox;
 
 public class MyFlightController {
 
@@ -865,6 +867,59 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML Label lbl_sam;
 	@FXML Label lbl_son;
 	
+	@FXML Button btn_create_offer;
+	@FXML AnchorPane apa_sonder;
+	@FXML ListView lst_crew;
+	@FXML TextArea txa_getr;
+	@FXML TextArea txa_speisen;
+	@FXML CheckBox chb_getr;
+	@FXML CheckBox chb_speisen;
+	@FXML ComboBox cbo_fz;
+	@FXML ComboBox cbo_cap;
+	@FXML ComboBox cbo_cop;
+	@FXML TextField txt_kostensw;
+	@FXML AnchorPane apa_btn_sonder;
+	@FXML Button btn_sonder_stop;
+	@FXML Button btn_sonder_ok;
+	@FXML TextField txt_pax_sw;
+	@FXML ComboBox cbo_fa1;
+	@FXML ComboBox cbo_fa2;
+	@FXML ComboBox cbo_fa3;
+	@FXML AnchorPane apa_zws;
+	@FXML Button btn_zws_save;
+	@FXML Button btn_zwscount;
+	@FXML DatePicker dpi_zws_ab;
+	@FXML Button btn_fh_zws;
+	@FXML DatePicker dpi_zws_an;
+	@FXML TextField txt_fh_zws;
+	@FXML ComboBox cbo_zws;
+	@FXML TextField txt_countzws;
+	@FXML AnchorPane apa_btn_zws;
+	@FXML Button btn_zws_stop;
+	@FXML Button btn_zws_ok;
+	@FXML TextField txt_zwsab_m;
+	@FXML TextField txt_zwsab_h;
+	@FXML TextField txt_zwsan_h;
+	@FXML TextField txt_zwsan_m;
+	@FXML TitledPane acc_cal;
+	@FXML AnchorPane apa_zws_new;
+	@FXML AnchorPane apa_kf;
+	@FXML RadioButton tgl_sg_per;
+	@FXML ToggleGroup tgg_pers;
+	@FXML RadioButton tgl_g_per;
+	@FXML RadioButton tgl_b_per;
+	@FXML RadioButton tgl_s_per;
+	@FXML RadioButton tgl_ss_per;
+	@FXML RadioButton tgl_na_per;
+	@FXML RadioButton tgl_na_sw;
+	@FXML RadioButton tgl_ss_sw;
+	@FXML RadioButton tgl_s_sw;
+	@FXML RadioButton tgl_b_sw;
+	@FXML RadioButton tgl_g_sw;
+	@FXML RadioButton tgl_sg_sw;
+	@FXML RadioButton tgl_na_kom;
+	@FXML ToggleGroup tgg_kom;
+	
 	//@FXML
 	//private Parent SearchCust; //embeddedElement
 	//@FXML
@@ -887,8 +942,8 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V2.06");
-		Version1.setText("V2.06");
+		Version.setText("V2.07");
+		Version1.setText("V2.07");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
@@ -1041,7 +1096,7 @@ public ObservableList<FHSuche> getFHData() {
 	        } 
 	        try 
 	        { 
-		    String url = "jdbc:mysql://"+new_host+":"+port+"/"+new_dbname;
+		    String url = "jdbc:mysql://"+new_host+":"+new_port+"/"+new_dbname;
 		    conn_new = DriverManager.getConnection(url, user, password); 
 		    		    
 //		    if (firstLogon == true){
@@ -1412,6 +1467,12 @@ public ObservableList<FHSuche> getFHData() {
 		apa_zws_new.setVisible(false);
 		apa_btn_zws.setVisible(false);
 		apa_calendar.setVisible(false);
+		
+		apa_kf.setVisible(false);
+		apa_btn_kf.setVisible(false);
+		
+		apa_zufr.setVisible(false);
+		apa_ableh_ang.setVisible(false);
 
 		
 	}
@@ -3520,42 +3581,47 @@ public ObservableList<FHSuche> getFHData() {
 
 				private static String[][] DATENword = new String[][] { { "20.05.2016","08:00","München","1:30","09:30","Paris","3" },
 					{ "21.05.2016","15:00","Paris","2:00","17:00","London","2" }, { "22.05.2016","09:00","London","2:00","11:00","Reykjavik","5" } };
-				@FXML Button btn_create_offer;
-				@FXML AnchorPane apa_sonder;
-				@FXML ListView lst_crew;
-				@FXML TextArea txa_getr;
-				@FXML TextArea txa_speisen;
-				@FXML CheckBox chb_getr;
-				@FXML CheckBox chb_speisen;
-				@FXML ComboBox cbo_fz;
-				@FXML ComboBox cbo_cap;
-				@FXML ComboBox cbo_cop;
-				@FXML TextField txt_kostensw;
-				@FXML AnchorPane apa_btn_sonder;
-				@FXML Button btn_sonder_stop;
-				@FXML Button btn_sonder_ok;
-				@FXML TextField txt_pax_sw;
-				@FXML ComboBox cbo_fa1;
-				@FXML ComboBox cbo_fa2;
-				@FXML ComboBox cbo_fa3;
-				@FXML AnchorPane apa_zws;
-				@FXML Button btn_zws_save;
-				@FXML Button btn_zwscount;
-				@FXML DatePicker dpi_zws_ab;
-				@FXML Button btn_fh_zws;
-				@FXML DatePicker dpi_zws_an;
-				@FXML TextField txt_fh_zws;
-				@FXML ComboBox cbo_zws;
-				@FXML TextField txt_countzws;
-				@FXML AnchorPane apa_btn_zws;
-				@FXML Button btn_zws_stop;
-				@FXML Button btn_zws_ok;
-				@FXML TextField txt_zwsab_m;
-				@FXML TextField txt_zwsab_h;
-				@FXML TextField txt_zwsan_h;
-				@FXML TextField txt_zwsan_m;
-				@FXML TitledPane acc_cal;
-				@FXML AnchorPane apa_zws_new;
+				@FXML AnchorPane apa_btn_kf;
+				@FXML Button btn_cancel_kf;
+				@FXML Button btn_save_kf;
+				@FXML RadioButton tgl_ss_kom;
+				@FXML RadioButton tgl_s_kom;
+				@FXML RadioButton tgl_b_kom;
+				@FXML RadioButton tgl_g_kom;
+				@FXML RadioButton tgl_sg_kom;
+				@FXML RadioButton tgl_na_pue;
+				@FXML ToggleGroup tgg_pue;
+				@FXML RadioButton tgl_ss_pue;
+				@FXML RadioButton tgl_s_pue;
+				@FXML RadioButton tgl_b_pue;
+				@FXML RadioButton tgl_g_pue;
+				@FXML RadioButton tgl_sg_pue;
+				@FXML RadioButton tgl_na_pre;
+				@FXML ToggleGroup tgg_pre;
+				@FXML RadioButton tgl_ss_pre;
+				@FXML RadioButton tgl_s_pre;
+				@FXML RadioButton tgl_b_pre;
+				@FXML RadioButton tgl_g_pre;
+				@FXML RadioButton tgl_sg_pre;
+				@FXML Hyperlink hlk_create_feedback;
+				@FXML Hyperlink hlk_create_ablehnung;
+				@FXML ToggleGroup tgg_sw;
+				@FXML AnchorPane apa_zufr;
+				@FXML PieChart pie_zufr;
+				@FXML ComboBox cbo_artzuf;
+				@FXML DatePicker dpi_zuf_start;
+				@FXML DatePicker dpi_zufr_end;
+				@FXML Button btn_zufr_start;
+				@FXML Hyperlink hlk_report_feedback;
+				@FXML AnchorPane apa_ableh_ang;
+				@FXML PieChart pie_ablehn;
+				@FXML DatePicker dpi_ableh_start;
+				@FXML DatePicker dpi_ableh_end;
+				@FXML Button btn_ableh_start;
+				@FXML ComboBox cbo_ang;
+				@FXML ComboBox cbo_ablehn;
+				@FXML Button btn_ablehn_ang_save;
+				
 			private static Tbl getSampleTable(WordprocessingMLPackage wPMLpackage) {
 				int writableWidthTwips = wPMLpackage.getDocumentModel().getSections().get(0).getPageDimensions()
 						.getWritableWidthTwips();
@@ -3917,6 +3983,9 @@ public ObservableList<FHSuche> getFHData() {
 				
 				apa_calendar.setVisible(true);
 				dap_cal.setValue(LocalDate.now());
+				cbo_cal_ma.setDisable(true);
+				cbo_cal_fz.setDisable(true);
+				
 				setCal();
 				
 				
@@ -6544,7 +6613,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    	
 			    	dauerflug = dauerflug/60;
 			    	
-			    	charterart = "Flug m. Zw.";
+			    	charterart = "Flug m Zwischenstops";
 				}
 				
 				
@@ -7619,6 +7688,490 @@ try{
 			@FXML public void acc_cal_click() {
 				
 				action_get_calendar();
+				
+			}
+			@FXML public void btn_cancel_kf_click() {}
+			@FXML public void btn_save_kf_click() {
+				
+				int z_id = 0;
+				String per = null;
+				String sw = null;
+				String kom = null;
+				String pre = null;
+				String pue = null;
+				LocalDate heute = LocalDate.now();
+				
+				String tgg_per = tgg_pers.getSelectedToggle().toString();
+				String tgg_sws = tgg_sw.getSelectedToggle().toString();
+				String tgg_koms = tgg_kom.getSelectedToggle().toString();
+				String tgg_pres = tgg_pre.getSelectedToggle().toString();
+				String tgg_pues = tgg_pue.getSelectedToggle().toString();
+				
+				if(tgg_per.contains("_sg_")){
+					per = "sehr gut";					
+				}
+				else if(tgg_per.contains("_g_")){
+					per = "gut";					
+				}
+				else if(tgg_per.contains("_b_")){
+					per = "befriedigend";					
+				}
+				else if(tgg_per.contains("_s_")){
+					per = "schlecht";	
+				}
+				else if(tgg_per.contains("_ss_")){
+					per = "sehr schlecht";					
+				}
+				else{
+					per = "keine Bewertung";					
+				}
+				
+				
+				
+				if(tgg_sws.contains("_sg_")){
+					sw = "sehr gut";					
+				}
+				else if(tgg_sws.contains("_g_")){
+					sw = "gut";					
+				}
+				else if(tgg_sws.contains("_b_")){
+					sw = "befriedigend";					
+				}
+				else if(tgg_sws.contains("_s_")){
+					sw = "schlecht";	
+				}
+				else if(tgg_sws.contains("_ss_")){
+					sw = "sehr schlecht";					
+				}
+				else{
+					sw = "keine Bewertung";					
+				}
+				
+				
+				
+				if(tgg_koms.contains("_sg_")){
+					kom = "sehr gut";					
+				}
+				else if(tgg_koms.contains("_g_")){
+					kom = "gut";					
+				}
+				else if(tgg_koms.contains("_b_")){
+					kom = "befriedigend";					
+				}
+				else if(tgg_koms.contains("_s_")){
+					kom = "schlecht";	
+				}
+				else if(tgg_koms.contains("_ss_")){
+					kom = "sehr schlecht";					
+				}
+				else{
+					kom = "keine Bewertung";					
+				}
+				
+				
+				if(tgg_pres.contains("_sg_")){
+					pre = "sehr gut";					
+				}
+				else if(tgg_pres.contains("_g_")){
+					pre = "gut";					
+				}
+				else if(tgg_pres.contains("_b_")){
+					pre = "befriedigend";					
+				}
+				else if(tgg_pres.contains("_s_")){
+					pre = "schlecht";	
+				}
+				else if(tgg_pres.contains("_ss_")){
+					pre = "sehr schlecht";					
+				}
+				else{
+					pre = "keine Bewertung";					
+				}
+				
+				
+				if(tgg_pues.contains("_sg_")){
+					pue = "sehr gut";					
+				}
+				else if(tgg_pues.contains("_g_")){
+					pue = "gut";					
+				}
+				else if(tgg_pues.contains("_b_")){
+					pue = "befriedigend";					
+				}
+				else if(tgg_pues.contains("_s_")){
+					pue = "schlecht";	
+				}
+				else if(tgg_pues.contains("_ss_")){
+					pue = "sehr schlecht";					
+				}
+				else{
+					pue = "keine Bewertung";					
+				}
+				
+				try{
+			    	
+			    	Statement statement_zid = conn.createStatement();
+			    	ResultSet rs = statement_zid.executeQuery("SELECT MAX(Z_ID) FROM myflight.zufriedenheit");      
+			        while((rs != null) && (rs.next())){
+			        	
+			        	//cbo_fz.setValue(rs.getString(3));
+			        	z_id = rs.getInt(1);
+
+			        }
+			        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				if(z_id != 0){
+				z_id = z_id +1;
+				}
+				try { 
+
+					Statement statement = conn.createStatement();			
+					statement.executeUpdate(
+							"INSERT INTO myflight.zufriedenheit " + "VALUES("
+									+z_id+",'"
+									+per+"','" 
+									+sw+"','"
+									+kom+"','"
+									+pue+"','"
+									+pre+"','"
+									+heute+"')");
+					
+					}
+			
+				catch(Exception e){
+					System.err.println("Got an exception! "); 
+		            System.err.println(e.getMessage()); 
+					}
+				
+				
+			}
+			@FXML public void hlk_create_feedback() {
+				
+				set_allunvisible(false);
+				apa_kf.setVisible(true);
+				apa_btn_kf.setVisible(true);
+				btn_cancel_kf.setVisible(false);
+				
+			}
+			@FXML public void hlk_create_ablehnung() {
+				
+				set_allunvisible(false);
+				apa_ableh_ang.setVisible(true);
+				cbo_ang.getItems().clear();
+				cbo_ang.setValue(null);
+				
+				
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+			    	ResultSet rs = statement_rep.executeQuery("Select Angebote_ID from myflight.angebote Where Angebotsstatus_Angebotsstatus = 'Negativ' and angebote.Angebote_ID not in (SELECT Angebote_ID FROM myflight.ablehnungen);");      
+			        while((rs != null) && (rs.next())){
+			        	
+			        	cbo_ang.getItems().add(rs.getInt(1)); }
+			    				        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				
+				
+			}
+			@FXML public void btn_zufr_start_click() {
+				//connectDB();
+				int sg = 0;
+				int g = 0;
+				int b = 0;
+				int s = 0;
+				int ss = 0;
+				int na = 0;
+				
+				LocalDate start = dpi_zuf_start.getValue();
+				LocalDate end = dpi_zufr_end.getValue();
+				
+//				<String fx:value="Personal" />
+//				<String fx:value="Sonderwünsche" />
+//				<String fx:value="Komfort" />
+//				<String fx:value="Pünktlichkeit" />
+//				<String fx:value="Preis" />
+				
+				String art = cbo_artzuf.getValue().toString();
+				if(art.equals("Sonderwünsche"))art="Sonderwuensche";
+				if(art.equals("Pünktlichkeit"))art="Puenktlichkeit";
+								
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+			    	ResultSet rs = statement_rep.executeQuery("SELECT Count("+art+") FROM myflight.zufriedenheit Where "+art+" = 'sehr gut' AND Datum between '"+start+"' and  '"+end+"'  ");      
+			        while((rs != null) && (rs.next())){sg=rs.getInt(1); }
+			    				        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+					ResultSet rs1 = statement_rep.executeQuery("SELECT Count("+art+") FROM myflight.zufriedenheit Where "+art+" = 'gut' AND Datum between '"+start+"' and  '"+end+"'  ");      
+			        while((rs1 != null) && (rs1.next())){g=rs1.getInt(1); }
+			    				        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+					ResultSet rs2 = statement_rep.executeQuery("SELECT Count("+art+") FROM myflight.zufriedenheit Where "+art+" = 'befriedigend' AND Datum between '"+start+"' and  '"+end+"'  ");      
+			        while((rs2 != null) && (rs2.next())){b=rs2.getInt(1); }
+			    			        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+					ResultSet rs3 = statement_rep.executeQuery("SELECT Count("+art+") FROM myflight.zufriedenheit Where "+art+" = 'schlecht' AND Datum between '"+start+"' and  '"+end+"'  ");      
+			        while((rs3 != null) && (rs3.next())){s=rs3.getInt(1); }
+			    	}
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+					ResultSet rs4 = statement_rep.executeQuery("SELECT Count("+art+") FROM myflight.zufriedenheit Where "+art+" = 'sehr schlecht' AND Datum between '"+start+"' and  '"+end+"'  ");      
+			        while((rs4 != null) && (rs4.next())){ss=rs4.getInt(1); }
+			    			        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+					ResultSet rs5 = statement_rep.executeQuery("SELECT Count("+art+") FROM myflight.zufriedenheit Where "+art+" = 'keine Bewertung' AND Datum between '"+start+"' and  '"+end+"'  ");      
+			        while((rs5 != null) && (rs5.next())){na=rs5.getInt(1); }			        
+			    			        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				
+				
+				ObservableList<PieChart.Data> pieChartData =
+			            FXCollections.observableArrayList(
+			            new PieChart.Data("sehr gut", sg),
+			            new PieChart.Data("gut", g),
+			            new PieChart.Data("befriedigend", b),
+			            new PieChart.Data("schlecht", s),
+			            new PieChart.Data("sehr schlecht", ss),
+			            new PieChart.Data("keine Bewertung", na));
+				
+				pieChartData.forEach(data ->data.nameProperty().bind(Bindings.concat(data.getName(), " ", data.pieValueProperty())));
+
+			 pie_zufr.setData(pieChartData);
+
+			        
+				
+				
+			}
+			@FXML public void hlk_report_feedback() {
+				
+				set_allunvisible(false);
+				apa_zufr.setVisible(true);
+				
+			}
+			@FXML public void btn_ablehn_ang_save_click() {
+				
+				int a_id = Integer.parseInt(cbo_ang.getValue().toString());
+				String agr = cbo_ablehn.getValue().toString();
+				LocalDate heute = LocalDate.now();
+				
+				if(agr.equals("Angebotsqualität"))agr = "Angebotsqualitaet";
+				
+				try { 
+
+					Statement statement = conn.createStatement();			
+					statement.executeUpdate(
+							"INSERT INTO myflight.ablehnungen " + "VALUES("
+									+a_id+",'"
+									+agr+"','" 
+									+heute+"')");
+					
+					}
+			
+				catch(Exception e){
+					System.err.println("Got an exception! "); 
+		            System.err.println(e.getMessage()); 
+					}
+				
+				
+				cbo_ang.getItems().clear();
+				cbo_ang.setValue(null);
+				cbo_ablehn.setValue(" ");
+				
+				
+				
+				
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+			    	ResultSet rs = statement_rep.executeQuery("Select Angebote_ID from myflight.angebote Where Angebotsstatus_Angebotsstatus = 'Negativ' and angebote.Angebote_ID not in (SELECT Angebote_ID FROM myflight.ablehnungen);");      
+			        while((rs != null) && (rs.next())){
+			        	
+			        	cbo_ang.getItems().add(rs.getInt(1)); }
+			    				        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				
+				
+			}
+			
+			
+			@FXML public void btn_ableh_start_click() {
+				
+//				<String fx:value=" " />
+//					<String fx:value="Preis" />
+//					<String fx:value="Konkurrenz" />
+//					<String fx:value="Angebotsqualität" />
+//					<String fx:value="Termin nicht passend" />
+//					<String fx:value="Sonstiges" />
+				
+				
+				int pre = 0;
+				int kon = 0;
+				int anq = 0;
+				int term = 0;
+				int son = 0;
+				
+				
+				LocalDate start = dpi_ableh_start.getValue();
+				LocalDate end = dpi_ableh_end.getValue();
+				
+//				<String fx:value="Personal" />
+//				<String fx:value="Sonderwünsche" />
+//				<String fx:value="Komfort" />
+//				<String fx:value="Pünktlichkeit" />
+//				<String fx:value="Preis" />
+				
+//				String art = cbo_ablehn.getValue().toString();
+//				if(art.equals("Angebots"))art="Sonderwuensche";
+//				if(art.equals("Pünktlichkeit"))art="Puenktlichkeit";
+								
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+			    	ResultSet rs = statement_rep.executeQuery("SELECT Count(Angebote_ID) FROM myflight.ablehnungen Where Ablehnungsgrund = 'Preis' AND Datum between '"+start+"' and  '"+end+"'  ");      
+			        while((rs != null) && (rs.next())){pre=rs.getInt(1); }
+			    				        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+					ResultSet rs1 = statement_rep.executeQuery("SELECT Count(Angebote_ID) FROM myflight.ablehnungen Where Ablehnungsgrund = 'Konkurrenz' AND Datum between '"+start+"' and  '"+end+"'  ");      
+			        while((rs1 != null) && (rs1.next())){kon=rs1.getInt(1); }
+			    				        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+					ResultSet rs2 = statement_rep.executeQuery("SELECT Count(Angebote_ID) FROM myflight.ablehnungen Where Ablehnungsgrund = 'Angebotsqualitaet'  AND Datum between '"+start+"' and  '"+end+"'  ");      
+			        while((rs2 != null) && (rs2.next())){anq=rs2.getInt(1); }
+			    			        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+					ResultSet rs3 = statement_rep.executeQuery("SELECT Count(Angebote_ID) FROM myflight.ablehnungen Where Ablehnungsgrund = 'Termin nicht passend' AND Datum between '"+start+"' and  '"+end+"'  ");      
+			        while((rs3 != null) && (rs3.next())){term=rs3.getInt(1); }
+			    	}
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+					ResultSet rs4 = statement_rep.executeQuery("SELECT Count(Angebote_ID) FROM myflight.ablehnungen Where Ablehnungsgrund = 'Sonstiges' AND Datum between '"+start+"' and  '"+end+"'  ");      
+			        while((rs4 != null) && (rs4.next())){son=rs4.getInt(1); }
+			    			        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				
+				
+				ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+			            new PieChart.Data("Preis", pre),
+			            new PieChart.Data("Konkurrenz", kon),
+			            new PieChart.Data("Angebotsqualität", anq),
+			            new PieChart.Data("Termin nicht passend", term ),
+			            new PieChart.Data("Sonstiges", son));
+				
+				pieChartData.forEach(data ->data.nameProperty().bind(Bindings.concat(data.getName(), " ", data.pieValueProperty())));
+
+			 pie_ablehn.setData(pieChartData);
+
+				
+				
+			}
+			@FXML public void rbt_cal_all_clcik() {
+								
+				cbo_cal_ma.setDisable(true);
+				cbo_cal_fz.setDisable(true);
+				
+			}
+			@FXML public void rbt_cal_ma_click() {
+				
+				cbo_cal_fz.setDisable(true);
+				cbo_cal_ma.setDisable(false);
+				
+			}
+			@FXML public void rbt_cal_fz_click() {
+				
+				cbo_cal_ma.setDisable(true);
+				cbo_cal_fz.setDisable(false);
 				
 			}
 
