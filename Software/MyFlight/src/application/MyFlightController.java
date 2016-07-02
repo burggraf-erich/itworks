@@ -3358,7 +3358,7 @@ public ObservableList<FHSuche> getFHData() {
 				rs.next();
 			String AG = rs.getString(29);
 			AG = AG+" "+rs.getString(30);
-			String Typ=rs.getString(41);
+			String Typ=rs.getString(42);
 			String Kennzeichen =rs.getString(16);
 			String vorname = rs.getString(31);
 			String nachname = rs.getString(30);
