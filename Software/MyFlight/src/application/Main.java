@@ -28,6 +28,7 @@ public class Main extends Application {
 			AnchorPane root = (AnchorPane) loader.load();
 			application.MyFlightController controller = loader.getController();
 	
+			
 	// definiert Größe des Anwendungsfensters		
 			Scene scene = new Scene(root, 800, 600);
 	// lädt CSS-Datei für Designvorgaben		
@@ -36,7 +37,7 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("MyFlight!");
 			primaryStage.getIcons().add(new Image("icon1.png"));
-
+			
 			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
