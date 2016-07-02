@@ -1,5 +1,5 @@
 package application;
-// V2.06
+// V2.07
 
 
 import java.sql.*;
@@ -887,8 +887,8 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V2.06");
-		Version1.setText("V2.06");
+		Version.setText("V2.07");
+		Version1.setText("V2.07");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
@@ -3295,7 +3295,7 @@ public ObservableList<FHSuche> getFHData() {
 				rs.next();
 			String AG = rs.getString(29);
 			AG = AG+" "+rs.getString(30);
-			String Typ=rs.getString(41);
+			String Typ=rs.getString(42);
 			String Kennzeichen =rs.getString(16);
 			String vorname = rs.getString(31);
 			String nachname = rs.getString(30);
