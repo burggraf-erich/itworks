@@ -132,9 +132,39 @@ public class SearchCustController extends MyFlightController{
     	lbl_cust2.setVisible(true);
     	lbl_cust3.setVisible(true);
 		
+    	
+    	
+		String new_dbname = "benutzerverwaltung";
+		String new_host = "172.20.1.24";
+		String new_port = "3306";
+
+		Connection conn_cust = null;
+ 		
+		try { 
+	      	 Class.forName("org.gjt.mm.mysql.Driver").newInstance(); 
+	        } 
+	        catch (Exception e) 
+	        { 
+	         e.printStackTrace(); 
+	        } 
+	        try 
+	        { 
+		    String url = "jdbc:mysql://"+new_host+":"+new_port+"/"+new_dbname;
+		    conn_cust = DriverManager.getConnection(url, user, password); 
+		    		    
+//		    
+		    } 
+	        catch (SQLException sqle) 
+        { 
+           
+	        }
+		
+	
+    	
+    	
 		try { 
 			
-			Statement statement = conn.createStatement();
+			Statement statement = conn_cust.createStatement();
 			statement.executeUpdate("DELETE FROM benutzerverwaltung.kunde_auswahl");
 			statement.executeUpdate("INSERT INTO benutzerverwaltung.kunde_auswahl " + "VALUES('"+Str_cust_id_chosen+"')");
 			//conn.close();

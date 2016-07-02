@@ -3,6 +3,7 @@ package application;
 // import application.MyFlightController;
 import javafx.application.Application;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -34,6 +35,7 @@ public class Main extends Application {
 			// Scene scene = new Scene(root,800,600);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("MyFlight!");
+			primaryStage.getIcons().add(new Image("icon1.png"));
 
 			primaryStage.show();
 		} catch (Exception e) {

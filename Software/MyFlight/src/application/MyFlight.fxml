@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -110,12 +111,40 @@
                                        <panes>
                                           <TitledPane animated="false" prefHeight="0.0" prefWidth="202.0" text="Kundenzufriedenheit" underline="true">
                                              <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                   <children>
+                                                      <Hyperlink fx:id="hlk_create_feedback" onAction="#hlk_create_feedback" prefHeight="55.0" prefWidth="201.0" text="Feedback erfassen">
+                                                         <opaqueInsets>
+                                                            <Insets />
+                                                         </opaqueInsets>
+                                                         <padding>
+                                                            <Insets left="30.0" />
+                                                         </padding>
+                                                      </Hyperlink>
+                                                      <Hyperlink fx:id="hlk_report_feedback" layoutY="33.0" onAction="#hlk_report_feedback" prefHeight="55.0" prefWidth="201.0" text="Feedback auswerten">
+                                                         <opaqueInsets>
+                                                            <Insets />
+                                                         </opaqueInsets>
+                                                         <padding>
+                                                            <Insets left="30.0" />
+                                                         </padding>
+                                                      </Hyperlink>
+                                                   </children></AnchorPane>
                                              </content>
                                           </TitledPane>
                                           <TitledPane animated="false" text="Ablehnungsgründe Angebote" underline="true">
                                              <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                   <children>
+                                                      <Hyperlink fx:id="hlk_create_ablehnung" onAction="#hlk_create_ablehnung" prefHeight="55.0" prefWidth="201.0" text="Ablehnungsgründe">
+                                                         <opaqueInsets>
+                                                            <Insets />
+                                                         </opaqueInsets>
+                                                         <padding>
+                                                            <Insets left="30.0" />
+                                                         </padding>
+                                                      </Hyperlink>
+                                                   </children></AnchorPane>
                                              </content>
                                           </TitledPane>
                                           <TitledPane animated="false" text="Profitabilität" underline="true">
@@ -1416,13 +1445,13 @@
                                              </font>
                                           </Label>
       
-                                          <RadioButton fx:id="rbt_cal_all" layoutX="90.0" layoutY="127.0" mnemonicParsing="false" selected="true" text="Alle">
+                                          <RadioButton fx:id="rbt_cal_all" layoutX="90.0" layoutY="127.0" mnemonicParsing="false" onAction="#rbt_cal_all_clcik" selected="true" text="Alle">
                                              <toggleGroup>
                                                 <ToggleGroup fx:id="tgr_cal" />
                                              </toggleGroup>
                                           </RadioButton>
-                                          <RadioButton fx:id="rbt_cal_ma" layoutX="155.0" layoutY="127.0" mnemonicParsing="false" text="nur Mitarbeiter" toggleGroup="$tgr_cal" />
-                                          <RadioButton fx:id="rbt_cal_fz" layoutX="267.0" layoutY="126.0" mnemonicParsing="false" text="nur Flugzeuge" toggleGroup="$tgr_cal" />
+                                          <RadioButton fx:id="rbt_cal_ma" layoutX="155.0" layoutY="127.0" mnemonicParsing="false" onAction="#rbt_cal_ma_click" text="nur Mitarbeiter" toggleGroup="$tgr_cal" />
+                                          <RadioButton fx:id="rbt_cal_fz" layoutX="267.0" layoutY="126.0" mnemonicParsing="false" onAction="#rbt_cal_fz_click" text="nur Flugzeuge" toggleGroup="$tgr_cal" />
                                           <Separator layoutX="14.0" layoutY="110.0" prefHeight="3.0" prefWidth="549.0" />
                                        </children>
       
@@ -1459,7 +1488,144 @@
                                           <TextField fx:id="txt_zwsab_m" alignment="CENTER" disable="true" layoutX="497.0" layoutY="288.0" prefHeight="25.0" prefWidth="68.0" promptText="mm" />
                                           <Label layoutX="487.0" layoutY="292.0" text=":" />
                                        </children>
-                                    </AnchorPane>      
+                                    </AnchorPane>
+                              <AnchorPane fx:id="apa_kf" prefHeight="486.0" prefWidth="591.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Kundenfeedback erfassen:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="15.0" layoutY="168.0" text="Zufriedenheit Personal:" />
+                                    <Label layoutX="300.0" layoutY="119.0" style="-fx-rotate: -60;" text="sehr gut" />
+                                    <Label layoutX="340.0" layoutY="130.0" style="-fx-rotate: -60;" text="gut" />
+                                    <Label layoutX="367.0" layoutY="110.0" style="-fx-rotate: -60;" text="befriedigend" />
+                                    <Label layoutX="416.0" layoutY="119.0" style="-fx-rotate: -60;" text="schlecht" />
+                                    <Label layoutX="451.0" layoutY="108.0" style="-fx-rotate: -60;" text="sehr schlecht" />
+                                    <Label layoutX="486.0" layoutY="101.0" style="-fx-rotate: -60;" text="keine Bewertung" />
+                                    <RadioButton fx:id="tgl_sg_per" layoutX="300.0" layoutY="168.0" mnemonicParsing="false">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="tgg_pers" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="tgl_g_per" layoutX="340.0" layoutY="168.0" mnemonicParsing="false" toggleGroup="$tgg_pers" />
+                                    <RadioButton fx:id="tgl_b_per" layoutX="380.0" layoutY="168.0" mnemonicParsing="false" toggleGroup="$tgg_pers" />
+                                    <RadioButton fx:id="tgl_s_per" layoutX="420.0" layoutY="168.0" mnemonicParsing="false" toggleGroup="$tgg_pers" />
+                                    <RadioButton fx:id="tgl_ss_per" layoutX="460.0" layoutY="168.0" mnemonicParsing="false" toggleGroup="$tgg_pers" />
+                                    <RadioButton fx:id="tgl_na_per" layoutX="500.0" layoutY="168.0" mnemonicParsing="false" selected="true" toggleGroup="$tgg_pers" />
+                                    <RadioButton fx:id="tgl_na_sw" layoutX="501.0" layoutY="198.0" mnemonicParsing="false" selected="true">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="tgg_sw" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="tgl_ss_sw" layoutX="461.0" layoutY="198.0" mnemonicParsing="false" toggleGroup="$tgg_sw" />
+                                    <RadioButton fx:id="tgl_s_sw" layoutX="421.0" layoutY="198.0" mnemonicParsing="false" toggleGroup="$tgg_sw" />
+                                    <RadioButton fx:id="tgl_b_sw" layoutX="381.0" layoutY="198.0" mnemonicParsing="false" toggleGroup="$tgg_sw" />
+                                    <RadioButton fx:id="tgl_g_sw" layoutX="341.0" layoutY="198.0" mnemonicParsing="false" toggleGroup="$tgg_sw" />
+                                    <RadioButton fx:id="tgl_sg_sw" layoutX="301.0" layoutY="198.0" mnemonicParsing="false" toggleGroup="$tgg_sw" />
+                                    <Label layoutX="16.0" layoutY="198.0" text="Zufriedenheit Sonderwünsche:" />
+                                    <RadioButton fx:id="tgl_na_kom" layoutX="501.0" layoutY="228.0" mnemonicParsing="false" selected="true">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="tgg_kom" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="tgl_ss_kom" layoutX="461.0" layoutY="228.0" mnemonicParsing="false" toggleGroup="$tgg_kom" />
+                                    <RadioButton fx:id="tgl_s_kom" layoutX="421.0" layoutY="228.0" mnemonicParsing="false" toggleGroup="$tgg_kom" />
+                                    <RadioButton fx:id="tgl_b_kom" layoutX="381.0" layoutY="228.0" mnemonicParsing="false" toggleGroup="$tgg_kom" />
+                                    <RadioButton fx:id="tgl_g_kom" layoutX="341.0" layoutY="228.0" mnemonicParsing="false" toggleGroup="$tgg_kom" />
+                                    <RadioButton fx:id="tgl_sg_kom" layoutX="301.0" layoutY="228.0" mnemonicParsing="false" toggleGroup="$tgg_kom" />
+                                    <Label layoutX="16.0" layoutY="228.0" text="Zufriedenheit Komfort:" />
+                                    <RadioButton fx:id="tgl_na_pue" layoutX="501.0" layoutY="258.0" mnemonicParsing="false" selected="true">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="tgg_pue" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="tgl_ss_pue" layoutX="461.0" layoutY="258.0" mnemonicParsing="false" toggleGroup="$tgg_pue" />
+                                    <RadioButton fx:id="tgl_s_pue" layoutX="421.0" layoutY="258.0" mnemonicParsing="false" toggleGroup="$tgg_pue" />
+                                    <RadioButton fx:id="tgl_b_pue" layoutX="381.0" layoutY="258.0" mnemonicParsing="false" toggleGroup="$tgg_pue" />
+                                    <RadioButton fx:id="tgl_g_pue" layoutX="341.0" layoutY="258.0" mnemonicParsing="false" toggleGroup="$tgg_pue" />
+                                    <RadioButton fx:id="tgl_sg_pue" layoutX="301.0" layoutY="258.0" mnemonicParsing="false" toggleGroup="$tgg_pue" />
+                                    <Label layoutX="16.0" layoutY="258.0" text="Zufriedenheit Pünktlichkeit:" />
+                                    <RadioButton fx:id="tgl_na_pre" layoutX="501.0" layoutY="288.0" mnemonicParsing="false" selected="true">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="tgg_pre" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="tgl_ss_pre" layoutX="461.0" layoutY="288.0" mnemonicParsing="false" toggleGroup="$tgg_pre" />
+                                    <RadioButton fx:id="tgl_s_pre" layoutX="421.0" layoutY="288.0" mnemonicParsing="false" toggleGroup="$tgg_pre" />
+                                    <RadioButton fx:id="tgl_b_pre" layoutX="381.0" layoutY="288.0" mnemonicParsing="false" toggleGroup="$tgg_pre" />
+                                    <RadioButton fx:id="tgl_g_pre" layoutX="341.0" layoutY="288.0" mnemonicParsing="false" toggleGroup="$tgg_pre" />
+                                    <RadioButton fx:id="tgl_sg_pre" layoutX="301.0" layoutY="288.0" mnemonicParsing="false" toggleGroup="$tgg_pre" />
+                                    <Label layoutX="16.0" layoutY="288.0" text="Zufriedenheit Preis:" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="apa_zufr" prefHeight="486.0" prefWidth="591.0" visible="false">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Kundenfeedback auswerten:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <PieChart fx:id="pie_zufr" layoutX="22.0" layoutY="126.0" prefHeight="342.0" prefWidth="544.0" title="Kundenzufriedenheit" />
+                                    <ComboBox fx:id="cbo_artzuf" layoutX="187.0" layoutY="34.0" prefHeight="25.0" prefWidth="174.0" visibleRowCount="6">
+                                       <items>
+        									<FXCollections fx:factory="observableArrayList">
+        										<String fx:value=" " />
+          										<String fx:value="Personal" />
+          										<String fx:value="Sonderwünsche" />
+          										<String fx:value="Komfort" />
+          										<String fx:value="Pünktlichkeit" />
+          										<String fx:value="Preis" />
+          									</FXCollections>
+      									</items>
+      										<value>
+        										<String fx:value=" " />
+    										</value>
+    									</ComboBox>
+                                    <Label layoutX="14.0" layoutY="38.0" text="Art der Kundenzufriedenheit:" />
+                                    <DatePicker fx:id="dpi_zuf_start" layoutX="187.0" layoutY="62.0" />
+                                    <DatePicker fx:id="dpi_zufr_end" layoutX="187.0" layoutY="87.0" />
+                                    <Label layoutX="14.0" layoutY="66.0" text="Startdatum:" />
+                                    <Label layoutX="14.0" layoutY="91.0" text="Enddatum:" />
+                                    <Button fx:id="btn_zufr_start" layoutX="446.0" layoutY="87.0" mnemonicParsing="false" onAction="#btn_zufr_start_click" text="Auswertung starten" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="apa_ableh_ang" prefHeight="486.0" prefWidth="591.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Ablehnungsgründe Angebote:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <PieChart fx:id="pie_ablehn" layoutX="22.0" layoutY="161.0" prefHeight="307.0" prefWidth="544.0" title="Ablehnungsgründe Angebote" />
+                                    <DatePicker fx:id="dpi_ableh_start" layoutX="187.0" layoutY="95.0" />
+                                    <DatePicker fx:id="dpi_ableh_end" layoutX="187.0" layoutY="120.0" />
+                                    <Label layoutX="14.0" layoutY="99.0" text="Startdatum:" />
+                                    <Label layoutX="14.0" layoutY="124.0" text="Enddatum:" />
+                                    <Button fx:id="btn_ableh_start" layoutX="446.0" layoutY="120.0" mnemonicParsing="false" onAction="#btn_ableh_start_click" text="Auswertung starten" />
+                                    <Label layoutX="14.0" layoutY="49.0" text="Angebot:" />
+                                    <ComboBox fx:id="cbo_ang" layoutX="76.0" layoutY="45.0" prefHeight="25.0" prefWidth="76.0">
+                                    </ComboBox>	
+                                    <Label layoutX="187.0" layoutY="49.0" text="Ablehnungsgrund:" />
+                                    <ComboBox fx:id="cbo_ablehn" layoutX="299.0" layoutY="45.0" prefHeight="25.0" prefWidth="114.0" visibleRowCount="6">
+                                    <items>
+        									<FXCollections fx:factory="observableArrayList">
+        										<String fx:value=" " />
+          										<String fx:value="Preis" />
+          										<String fx:value="Konkurrenz" />
+          										<String fx:value="Angebotsqualität" />
+          										<String fx:value="Termin nicht passend" />
+          										<String fx:value="Sonstiges" />
+          									</FXCollections>
+      									</items>
+      										<value>
+        										<String fx:value=" " />
+    										</value>
+    									</ComboBox>	
+                                    <Button fx:id="btn_ablehn_ang_save" layoutX="490.0" layoutY="45.0" mnemonicParsing="false" onAction="#btn_ablehn_ang_save_click" prefHeight="25.0" prefWidth="76.0" text="speichern" />
+                                    <Separator layoutX="14.0" layoutY="86.0" prefHeight="3.0" prefWidth="553.0" />
+                                 </children>
+                              </AnchorPane>      
 
  								   </children>
                                     </AnchorPane>    
@@ -1689,6 +1855,14 @@
                                  <children>
                                     <Button fx:id="btn_costtrackingedit" disable="true" layoutX="421.0" layoutY="22.0" mnemonicParsing="false" onAction="#action_costtrackingedit" text="Zahlungseingang bearbeiten" />
                                  </children></AnchorPane>
+                              <AnchorPane fx:id="apa_btn_kf" layoutX="10.0" layoutY="10.0" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button fx:id="btn_cancel_kf" layoutX="437.0" layoutY="28.0" mnemonicParsing="false" onAction="#btn_cancel_kf_click" text="Abbrechen" />
+                                    <Button fx:id="btn_save_kf" layoutX="516.0" layoutY="28.0" mnemonicParsing="false" onAction="#btn_save_kf_click" text="Speichern" />
+                                 </children>
+                              </AnchorPane>
+
+
 
 
 
