@@ -1,5 +1,5 @@
 package application;
-// V2.07
+// V2.08
 
 
 import java.sql.*;
@@ -942,8 +942,8 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V2.07");
-		Version1.setText("V2.07");
+		Version.setText("V2.08");
+		Version1.setText("V2.08");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
@@ -6741,6 +6741,19 @@ try{
 										+zielzeit+"','"
 										+SW+"')");
 
+				
+						System.out.println(startdate);
+						statement.executeUpdate(
+								"INSERT INTO myflight.fluege " + "VALUES('"
+										+startdate+"','"
+										+zieldate+"','"
+										+startzeit+"','"
+										+zielzeit+"','"
+										+Str_StartFH+"','"
+										+Str_ZielFH+"','" 
+										+dauerflug+"','"
+										+AngeboteID+"')");
+						
 
 						}
 				
