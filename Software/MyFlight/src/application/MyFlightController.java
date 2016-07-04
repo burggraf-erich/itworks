@@ -1,5 +1,5 @@
 package application;
-// V2.08
+// V2.09
 
 
 import java.sql.*;
@@ -942,8 +942,8 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V2.08");
-		Version1.setText("V2.08");
+		Version.setText("V2.09");
+		Version1.setText("V2.09");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
@@ -1051,8 +1051,9 @@ public ObservableList<FHSuche> getFHData() {
 		
 		//btn_login.setDefaultButton(true); 
 		
-		apa_btn_login.setVisible(true);
 		apa_login.setVisible(true);
+		apa_btn_login.setVisible(true);
+		
 	    
 		//Buttons werden erst aktiv, wenn in der Tabelle ein Eintrag ausgewählt wurde
 		btncreateorder.disableProperty().bind(Bindings.isEmpty(angebotetabelle.getSelectionModel().getSelectedIndices()));
@@ -1301,7 +1302,10 @@ public ObservableList<FHSuche> getFHData() {
 			//	System.out.println("Connected to database #1");
 			//}
 
+			
+			
 			// Statement stmt = conn1.createStatement();
+		
 			final String hostname = "172.20.1.24"; 
 	        final String port = "3306"; 
 	        String dbname = "myflight";
@@ -1309,7 +1313,8 @@ public ObservableList<FHSuche> getFHData() {
 		    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
 			
 			Statement stmt = conn.createStatement();
-			
+		
+		
 			// angebote-übersicht abrufen
 		/*	//Testschleife
 			String sql = "Select angebote.angebotsdatum from angebote where angebote.angebote_id = '13'";
@@ -3512,12 +3517,16 @@ public ObservableList<FHSuche> getFHData() {
 			
 				
 			}
-				
+				try {
 				// speichern
 				File file = new java.io.File(filename);
 				Docx4J.save(wordMLPackage, file, Docx4J.FLAG_SAVE_ZIP_FILE);
 				System.out.println("Saved " + file.getCanonicalPath());
-					
+				}
+				catch (Exception e) {
+					lbl_dbconnect.setText("Es ist ein Fehler aufgetreten");
+					e.printStackTrace();
+				}
 			}
 
 			private static R getFirstRunOfParagraph(P lastParagraph) {
@@ -5186,7 +5195,9 @@ public ObservableList<FHSuche> getFHData() {
 				
 				txt_country_new.setText(rs.getString(13));
 				// cbo_custstatus_new.getValue().toString();
-					
+				cbo_salutation_new.getItems().clear();
+				cbo_salutation_new.getItems().addAll("Herr","Frau");
+				cbo_salutation_new.setPromptText(rs.getString(2));
 				
 			}
 	}
@@ -5311,6 +5322,7 @@ public void action_save_kundendatenedit(ActionEvent event) throws Exception {
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("Update kunden set "
 					+ "KundeName = '"+ kdverwname.getText()+"', "
+					  + "KundeAnrede = '"+ cbo_salutation_new.getValue().toString()+"', "
 							+ "KundeVorname = '"+kdverwvname.getText()+"', "
 									+ "KundeFirmenname = '"+kdfirma.getText()+"', "
 											+ "KundeAdresse1 = '"+txt_street_new.getText()+"', "
@@ -5586,6 +5598,7 @@ public void action_save_flugzieleedit(ActionEvent event) throws Exception {
 					txt_mobile_new.setText("");
 					txt_mail_new.setText("");
 					txt_postcode_new.setText("");
+					cbo_salutation_new.getItems().addAll("Herr","Frau");
 					
 					//cbo_country_new.getValue().toString();
 					// cbo_custstatus_new.getValue().toString();
@@ -5705,7 +5718,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			Statement stmt = conn.createStatement();
 			
 		
-			stmt.executeUpdate("INSERT INTO kunden (Kunde_ID,KundenLand,KundeName,KundeVorname,KundeFirmenname,KundeAdresse1 ,Kundengruppen_Kundengruppen,KundeTelefon,KundeHandy,KundeEmail,KundePLZ,KundenOrt) values('"+Integer.parseInt(kdid.getText())+"', '"+ txt_country_new.getText()+"', '"+ kdverwname.getText()+"', '"+kdverwvname.getText()+"', '"+kdfirma.getText()+"','"+txt_street_new.getText()+"', '"+kdgruppe.getText()+"', '"+txt_phone_new.getText()+"', '"+txt_mobile_new.getText()+"', '"+txt_mail_new.getText()+"', '"+txt_postcode_new.getText()+"', '"+txt_place_new.getText()+"')");
+			stmt.executeUpdate("INSERT INTO kunden (Kunde_ID,KundeAnrede,KundenLand,KundeName,KundeVorname,KundeFirmenname,KundeAdresse1 ,Kundengruppen_Kundengruppen,KundeTelefon,KundeHandy,KundeEmail,KundePLZ,KundenOrt) values('"+Integer.parseInt(kdid.getText())+"', '"+ cbo_salutation_new.getValue().toString()+"', '"+txt_country_new.getText()+"', '"+ kdverwname.getText()+"', '"+kdverwvname.getText()+"', '"+kdfirma.getText()+"','"+txt_street_new.getText()+"', '"+kdgruppe.getText()+"', '"+txt_phone_new.getText()+"', '"+txt_mobile_new.getText()+"', '"+txt_mail_new.getText()+"', '"+txt_postcode_new.getText()+"', '"+txt_place_new.getText()+"')");
 		
 			
 			lbl_dbconnect.setText("Kundendaten gespeichert");

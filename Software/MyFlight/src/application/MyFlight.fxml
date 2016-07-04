@@ -1180,7 +1180,7 @@
                                     <TextField fx:id="txt_country_new" layoutX="89.0" layoutY="122.0" prefHeight="25.0" prefWidth="149.0" />
                                     <Separator layoutX="14.0" layoutY="319.0" prefHeight="2.0" prefWidth="493.0" />
                                     <TextField fx:id="kdgruppe" layoutX="359.0" layoutY="337.0" prefHeight="25.0" prefWidth="149.0" />
-                                    <Label layoutX="15.0" layoutY="341.0" text="Kundengruppe:" />
+                                    <Label layoutX="15.0" layoutY="341.0" text="Kundengruppe:  *" />
                                  </children>
                               </AnchorPane>      
                               
@@ -1808,7 +1808,7 @@
                               </AnchorPane>
                               <AnchorPane fx:id="apa_btn_login" prefHeight="68.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Button fx:id="btn_change_user" defaultButton="true" layoutX="453.0" layoutY="30.0" mnemonicParsing="false" onAction="#action_change_user" text="Anwender wechseln" visible="false" />
+                                    <Button fx:id="btn_change_user" defaultButton="true" layoutX="453.0" layoutY="30.0" mnemonicParsing="false" onAction="#action_change_user" text="Anwender wechseln" visible="false" />   
                                     <Button fx:id="btn_close" cancelButton="true" layoutX="377.0" layoutY="30.0" mnemonicParsing="false" onAction="#btn_close_click" text="schließen" AnchorPane.rightAnchor="146.0" />
                                     <Button fx:id="btn_login" defaultButton="true" layoutX="458.0" layoutY="30.0" mnemonicParsing="false" onAction="#btn_login_click" text="anmelden" />
                                  </children>
