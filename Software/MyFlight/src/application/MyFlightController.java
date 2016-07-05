@@ -1,5 +1,5 @@
 package application;
-// V2.09
+// V2.1
 
 
 import java.sql.*;
@@ -942,8 +942,8 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V2.09");
-		Version1.setText("V2.09");
+		Version.setText("V2.1");
+		Version1.setText("V2.1");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
