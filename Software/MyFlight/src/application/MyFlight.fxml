@@ -231,7 +231,7 @@
                                     <Label layoutX="14.0" layoutY="87.0" text="Flugzeug" />
                                     <ComboBox fx:id="cbo_cap" disable="true" layoutX="72.0" layoutY="158.0" onAction="#cbo_cap_click" prefWidth="150.0" />
                                     <ComboBox fx:id="cbo_cop" disable="true" layoutX="72.0" layoutY="189.0" onAction="#cbo_cop_click" prefWidth="150.0" />
-                                    <Label layoutX="14.0" layoutY="162.0" text="Captian" />
+                                    <Label layoutX="14.0" layoutY="162.0" text="Captain" />
                                     <Label layoutX="15.0" layoutY="193.0" text="Co-Pilot" />
                                     <Label layoutX="17.0" layoutY="237.0" text="Cabin Crew:" />
                                     <Label layoutX="17.0" layoutY="438.0" text="Gesamtkosten Sonderwünsche:" />
@@ -1625,6 +1625,78 @@
                                     <Button fx:id="btn_ablehn_ang_save" layoutX="490.0" layoutY="45.0" mnemonicParsing="false" onAction="#btn_ablehn_ang_save_click" prefHeight="25.0" prefWidth="76.0" text="speichern" />
                                     <Separator layoutX="14.0" layoutY="86.0" prefHeight="3.0" prefWidth="553.0" />
                                  </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="apa_term_new" prefHeight="486.0" prefWidth="591.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="neuer Termin:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <DatePicker fx:id="dpi_term_ma_start" layoutX="113.0" layoutY="115.0" />
+                                    <DatePicker fx:id="dpi_term_ma_end" layoutX="113.0" layoutY="142.0" />
+                                    <Label layoutX="19.0" layoutY="115.0" text="Startdatum:" />
+                                    <Label layoutX="19.0" layoutY="142.0" text="Enddatum:" />
+                                    <Label layoutX="19.0" layoutY="74.0" text="Mitarbeiter:" />
+                                    <ComboBox fx:id="cbo_term_ma" layoutX="113.0" layoutY="70.0" prefHeight="25.0" prefWidth="174.0" />
+                                    <Separator layoutX="19.0" layoutY="233.0" prefHeight="3.0" prefWidth="553.0" />
+                                    <Label layoutX="308.0" layoutY="145.0" text="Endzeit:" />
+                                    <Label layoutX="308.0" layoutY="118.0" text="Startzeit:" />
+                                    <TextField fx:id="txt_term_ma_starth" alignment="CENTER" layoutX="376.0" layoutY="115.0" prefHeight="25.0" prefWidth="42.0" promptText="hh" />
+                                    <TextField fx:id="txt_term_ma_endh" alignment="CENTER" layoutX="376.0" layoutY="142.0" prefHeight="25.0" prefWidth="42.0" promptText="hh" />
+                                    <TextField fx:id="txt_term_ma_endm" alignment="CENTER" layoutX="436.0" layoutY="142.0" prefHeight="25.0" prefWidth="42.0" promptText="mm" />
+                                    <TextField fx:id="txt_term_ma_startm" alignment="CENTER" layoutX="436.0" layoutY="114.0" prefHeight="25.0" prefWidth="42.0" promptText="mm" />
+                                    <Label layoutX="425.0" layoutY="119.0" text=":" />
+                                    <Label layoutX="426.0" layoutY="145.0" text=":" />
+                                    <CheckBox fx:id="chb_term_ma" layoutX="391.0" layoutY="87.0" mnemonicParsing="false" onAction="#chb_term_ma_click" text="ganztägig" />
+                                    <CheckBox fx:id="chb_term_fz" disable="true" layoutX="391.0" layoutY="288.0" mnemonicParsing="false" onAction="#chb_term_fz_click" text="ganztägig" />
+                                    <Label layoutX="426.0" layoutY="346.0" text=":" />
+                                    <Label layoutX="425.0" layoutY="320.0" text=":" />
+                                    <TextField fx:id="txt_term_fz_startm" alignment="CENTER" disable="true" layoutX="436.0" layoutY="315.0" prefHeight="25.0" prefWidth="42.0" promptText="mm" />
+                                    <TextField fx:id="txt_term_fz_endm" alignment="CENTER" disable="true" layoutX="436.0" layoutY="343.0" prefHeight="25.0" prefWidth="42.0" promptText="mm" />
+                                    <TextField fx:id="txt_term_fz_endh" alignment="CENTER" disable="true" layoutX="376.0" layoutY="343.0" prefHeight="25.0" prefWidth="42.0" promptText="hh" />
+                                    <TextField fx:id="txt_term_fz_starth" alignment="CENTER" disable="true" layoutX="376.0" layoutY="316.0" prefHeight="25.0" prefWidth="42.0" promptText="hh" />
+                                    <Label layoutX="308.0" layoutY="319.0" text="Startzeit:" />
+                                    <Label layoutX="308.0" layoutY="346.0" text="Endzeit:" />
+                                    <ComboBox fx:id="cbo_term_fz" disable="true" layoutX="113.0" layoutY="271.0" prefHeight="25.0" prefWidth="174.0" />
+                                    <Label layoutX="21.0" layoutY="275.0" text="Flugzeug:" />
+                                    <Label layoutX="19.0" layoutY="343.0" text="Enddatum:" />
+                                    <Label layoutX="19.0" layoutY="316.0" text="Startdatum:" />
+                                    <DatePicker fx:id="dpi_term_fz_end" disable="true" layoutX="113.0" layoutY="343.0" />
+                                    <DatePicker fx:id="dpi_term_fz_start" disable="true" layoutX="113.0" layoutY="316.0" />
+                                    <ComboBox fx:id="cbo_term_maart" layoutX="113.0" layoutY="185.0" prefHeight="25.0" prefWidth="174.0" visibleRowCount="3">
+                                    <items>
+        									<FXCollections fx:factory="observableArrayList">
+        										<String fx:value=" " />
+          										<String fx:value="Urlaub" />
+          										<String fx:value="Krankheit" />
+          									</FXCollections>
+      									</items>
+      										<value>
+        										<String fx:value=" " />
+    										</value>
+    									</ComboBox>	
+                                    <Label layoutX="20.0" layoutY="189.0" text="Terminart:" />
+                                    <Label layoutX="20.0" layoutY="389.0" text="Terminart:" />
+                                    <ComboBox fx:id="cbo_term_fzart" disable="true" layoutX="113.0" layoutY="385.0" prefHeight="25.0" prefWidth="174.0" visibleRowCount="3">
+                                    <items>
+        									<FXCollections fx:factory="observableArrayList">
+        										<String fx:value=" " />
+          										<String fx:value="Reparatur" />
+          										<String fx:value="Wartung" />
+          									</FXCollections>
+      									</items>
+      										<value>
+        										<String fx:value=" " />
+    										</value>
+    									</ComboBox>	
+                                    <RadioButton fx:id="tgb_term_ma" layoutX="17.0" layoutY="41.0" mnemonicParsing="false" onAction="#tgb_term_ma_click" selected="true" text="Mitarbeitertermin">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="tgg_term" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="tgb_term_fz" layoutX="15.0" layoutY="243.0" mnemonicParsing="false" onAction="#tgb_term_fz_click" text="Flugzeugtermin:" toggleGroup="$tgg_term" />
+                                 </children>
                               </AnchorPane>      
 
  								   </children>
@@ -1859,6 +1931,18 @@
                                  <children>
                                     <Button fx:id="btn_cancel_kf" layoutX="437.0" layoutY="28.0" mnemonicParsing="false" onAction="#btn_cancel_kf_click" text="Abbrechen" />
                                     <Button fx:id="btn_save_kf" layoutX="516.0" layoutY="28.0" mnemonicParsing="false" onAction="#btn_save_kf_click" text="Speichern" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="apa_btn_term" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button fx:id="btn_term_edit" layoutX="464.0" layoutY="28.0" mnemonicParsing="false" onAction="#btn_term_edit_click" text="Termin bearbeiten" />
+                                    <Button fx:id="btn_term_create" layoutX="358.0" layoutY="28.0" mnemonicParsing="false" onAction="#btn_term_create_click" text="Termin erstellen" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="apa_termnew_btn" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button fx:id="btn_newterm_save" layoutX="511.0" layoutY="27.0" mnemonicParsing="false" onAction="#btn_newterm_save_click" text="speichern" />
+                                    <Button fx:id="btn_newterm_cancel" layoutX="432.0" layoutY="27.0" mnemonicParsing="false" onAction="#btn_newterm_cancel_click" text="abbrechen" />
                                  </children>
                               </AnchorPane>
 

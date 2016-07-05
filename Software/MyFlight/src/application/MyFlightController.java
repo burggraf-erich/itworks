@@ -1466,6 +1466,7 @@ public ObservableList<FHSuche> getFHData() {
 		
 		apa_search_fh.setVisible(false);
 		apa_sonder.setVisible(false);
+		apa_btn_sonder.setVisible(false);
 		apa_zws_new.setVisible(false);
 		apa_btn_zws.setVisible(false);
 		apa_calendar.setVisible(false);
@@ -1476,6 +1477,9 @@ public ObservableList<FHSuche> getFHData() {
 		apa_zufr.setVisible(false);
 		apa_ableh_ang.setVisible(false);
 
+		apa_termnew_btn.setVisible(false);
+		apa_term_new.setVisible(false);
+		apa_btn_term.setVisible(false);
 		
 	}
 
@@ -3623,6 +3627,34 @@ public ObservableList<FHSuche> getFHData() {
 				@FXML ComboBox cbo_ang;
 				@FXML ComboBox cbo_ablehn;
 				@FXML Button btn_ablehn_ang_save;
+				@FXML AnchorPane apa_btn_term;
+				@FXML Button btn_term_edit;
+				@FXML Button btn_term_create;
+				@FXML AnchorPane apa_termnew_btn;
+				@FXML Button btn_newterm_save;
+				@FXML Button btn_newterm_cancel;
+				@FXML AnchorPane apa_term_new;
+				@FXML DatePicker dpi_term_ma_start;
+				@FXML DatePicker dpi_term_ma_end;
+				@FXML ComboBox cbo_term_ma;
+				@FXML TextField txt_term_ma_starth;
+				@FXML TextField txt_term_ma_endh;
+				@FXML TextField txt_term_ma_endm;
+				@FXML TextField txt_term_ma_startm;
+				@FXML CheckBox chb_term_ma;
+				@FXML CheckBox chb_term_fz;
+				@FXML TextField txt_term_fz_startm;
+				@FXML TextField txt_term_fz_endm;
+				@FXML TextField txt_term_fz_endh;
+				@FXML TextField txt_term_fz_starth;
+				@FXML ComboBox cbo_term_fz;
+				@FXML DatePicker dpi_term_fz_end;
+				@FXML DatePicker dpi_term_fz_start;
+				@FXML ComboBox cbo_term_maart;
+				@FXML ComboBox cbo_term_fzart;
+				@FXML RadioButton tgb_term_ma;
+				@FXML ToggleGroup tgg_term;
+				@FXML RadioButton tgb_term_fz;
 				
 			private static Tbl getSampleTable(WordprocessingMLPackage wPMLpackage) {
 				int writableWidthTwips = wPMLpackage.getDocumentModel().getSections().get(0).getPageDimensions()
@@ -3984,6 +4016,7 @@ public ObservableList<FHSuche> getFHData() {
 				set_allunvisible(false);
 				
 				apa_calendar.setVisible(true);
+				apa_btn_term.setVisible(true);
 				dap_cal.setValue(LocalDate.now());
 				cbo_cal_ma.setDisable(true);
 				cbo_cal_fz.setDisable(true);
@@ -6671,7 +6704,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    	angpers = angpers*pers_aufschlag;
 			    	
 			    	angnetto = angpers + angbetr + angfix + KostenSW;
-try{
+			    	try{
 				    	
 				    	Statement statement = conn.createStatement();
 				    	ResultSet rs = statement.executeQuery("SELECT Kundengruppen_Kundengruppen FROM myflight.kunden WHERE Kunde_ID="+Str_cust_id_chosen);      
@@ -8189,7 +8222,315 @@ try{
 				cbo_cal_fz.setDisable(false);
 				
 			}
+			@FXML public void btn_newterm_cancel_click() {}
+			@FXML public void btn_newterm_save_click() {
+				
+				String sek = "59";
+				int FZid = 0;
+				int MAid = 0;
+				LocalTime t_start;
+				LocalTime t_end;
+				LocalDate d_start;
+				LocalDate d_end;
+				
+				
+				if(tgb_term_ma.isSelected()){
+					
+					
+					
+					String MA = cbo_term_ma.getValue().toString();
+					int pos1 = MA.indexOf(" ");
+				    MAid = Integer.parseInt(MA.substring(0, pos1));
+				    
+				    if(chb_term_ma.isSelected()){
+				    
+				    	t_start = LocalTime.parse(txt_term_ma_starth.getText() + ":" + txt_term_ma_startm.getText());
+				    	t_end = LocalTime.parse(txt_term_ma_endh.getText() + ":" + txt_term_ma_endm.getText() + ":" + sek );
+				    	
+				    }
+				    else{
+				    	
+				    	t_start = LocalTime.parse(txt_term_ma_starth.getText() + ":" + txt_term_ma_startm.getText());
+				    	t_end = LocalTime.parse(txt_term_ma_endh.getText() + ":" + txt_term_ma_endm.getText());
+				    }
+				    
+				    d_start = dpi_term_ma_start.getValue();
+				    d_end = dpi_term_ma_end.getValue();
+				    
+				    if(cbo_term_maart.getValue().toString().equals("Krankheit")){
+				    					    
+				    try { 
 
+						Statement statement = conn.createStatement();			
+						statement.executeUpdate(
+								"INSERT INTO benutzerverwaltung.personal_termine_krankheit " + "VALUES('"
+										+"Krankheit"+"',"
+										+MAid+",'"
+										+d_start+"','"
+										+d_end+"','"
+										+t_start+"','"
+										+t_end+"')");
+
+						}
+				
+					catch(Exception e){
+						System.err.println("Got an exception! "); 
+			            System.err.println(e.getMessage()); 
+						}
+				    
+				    if(cbo_term_maart.getValue().toString().equals("Urlaub")){
+					    
+					    try { 
+
+							Statement statement = conn.createStatement();			
+							statement.executeUpdate(
+									"INSERT INTO benutzerverwaltung.personal_termine_urlaub " + "VALUES('"
+											+"Urlaub"+"',"
+											+MAid+",'"
+											+d_start+"','"
+											+d_end+"','"
+											+t_start+"','"
+											+t_end+"')");
+
+							}
+					
+						catch(Exception e){
+							System.err.println("Got an exception! "); 
+				            System.err.println(e.getMessage()); 
+							}
+				
+				    }
+				    
+					
+					
+				}
+				    
+				}    
+				    
+				    
+				
+				if(tgb_term_fz.isSelected()){
+					
+					String FZ = cbo_term_fz.getValue().toString();
+					int pos = FZ.indexOf(" ");
+				    FZid = Integer.parseInt(FZ.substring(0, pos));
+				    
+				    
+				    if(chb_term_fz.isSelected()){
+					    
+				    	t_start = LocalTime.parse(txt_term_fz_starth.getText() + ":" + txt_term_fz_startm.getText());
+				    	t_end = LocalTime.parse(txt_term_fz_endh.getText() + ":" + txt_term_fz_endm.getText() + ":" + sek );
+				    	
+				    }
+				    else{
+				    	
+				    	t_start = LocalTime.parse(txt_term_fz_starth.getText() + ":" + txt_term_fz_startm.getText());
+				    	t_end = LocalTime.parse(txt_term_fz_endh.getText() + ":" + txt_term_fz_endm.getText());
+				    }
+				    
+				    d_start = dpi_term_fz_start.getValue();
+				    d_end = dpi_term_fz_end.getValue();
+				    
+				    if(cbo_term_fzart.getValue().toString().equals("Reparatur")){
+				    					    
+				    try { 
+
+						Statement statement = conn.createStatement();			
+						statement.executeUpdate(
+								"INSERT INTO benutzerverwaltung.flugzeug_termine_reparatur " + "VALUES('"
+										+"Reparatur"+"',"
+										+FZid+",'"
+										+d_start+"','"
+										+d_end+"','"
+										+t_start+"','"
+										+t_end+"')");
+
+						}
+				
+					catch(Exception e){
+						System.err.println("Got an exception! "); 
+			            System.err.println(e.getMessage()); 
+						}
+				    
+				    if(cbo_term_maart.getValue().toString().equals("Urlaub")){
+					    
+					    try { 
+
+							Statement statement = conn.createStatement();			
+							statement.executeUpdate(
+									"INSERT INTO benutzerverwaltung.flugzeug_termine_wartung " + "VALUES('"
+											+"Wartung"+"',"
+											+FZid+",'"
+											+d_start+"','"
+											+d_end+"','"
+											+t_start+"','"
+											+t_end+"')");
+
+							}
+					
+						catch(Exception e){
+							System.err.println("Got an exception! "); 
+				            System.err.println(e.getMessage()); 
+							}
+				
+				    }
+				    
+					
+					
+				}
+				
+				    }
+				    
+					
+					
+				
+				
+			    
+
+			    
+			    
+			    
+			    
+				
+				
+				
+			}
+			@FXML public void btn_term_create_click() {
+				
+				set_allunvisible(false);
+				apa_term_new.setVisible(true);
+				apa_termnew_btn.setVisible(true);
+				
+				cbo_term_ma.getItems().clear();
+				cbo_term_ma.setValue(null);
+				
+				cbo_term_fz.getItems().clear();
+				cbo_term_fz.setValue(null);
+				
+				try{
+			    	
+			    	Statement statement = conn.createStatement();
+			    	ResultSet rs = statement.executeQuery("SELECT * FROM myflight.personal");      
+			        while((rs != null) && (rs.next())){
+			        	
+			        	cbo_term_ma.getItems().add(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3));
+		        }
+			        ResultSet rs2 = statement.executeQuery("SELECT * FROM myflight.flugzeuge join myflight.flugzeugtypen on Flugzeug_ID = myflight.flugzeugtypen.Flugzeugtypen_ID");      
+			        while((rs2 != null) && (rs2.next())){
+			        	
+			        	cbo_term_fz.getItems().add(rs2.getInt(1) + " " + rs2.getString(5) + " " + rs2.getString(6));
+		        }
+			        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				
+				
+			}
+			@FXML public void btn_term_edit_click() {}
+			@FXML public void chb_term_ma_click() {
+				
+				if(chb_term_ma.isSelected()){
+					
+					txt_term_ma_starth.setText("00");
+					txt_term_ma_startm.setText("00");
+					txt_term_ma_endh.setText("23");
+					txt_term_ma_endm.setText("59");
+					txt_term_ma_starth.setDisable(true);
+					txt_term_ma_startm.setDisable(true);
+					txt_term_ma_endh.setDisable(true);
+					txt_term_ma_endm.setDisable(true);
+										
+				}
+				else{
+				txt_term_ma_starth.setText("");
+				txt_term_ma_startm.setText("");
+				txt_term_ma_endh.setText("");
+				txt_term_ma_endm.setText("");
+				txt_term_ma_starth.setDisable(false);
+				txt_term_ma_startm.setDisable(false);
+				txt_term_ma_endh.setDisable(false);
+				txt_term_ma_endm.setDisable(false);
+				}
+				
+			}
+			@FXML public void chb_term_fz_click() {
+				
+				if(chb_term_fz.isSelected()){
+					
+					txt_term_fz_starth.setText("00");
+					txt_term_fz_startm.setText("00");
+					txt_term_fz_endh.setText("23");
+					txt_term_fz_endm.setText("59");
+					txt_term_fz_starth.setDisable(true);
+					txt_term_fz_startm.setDisable(true);
+					txt_term_fz_endh.setDisable(true);
+					txt_term_fz_endm.setDisable(true);
+					
+				}
+				else{
+				txt_term_fz_starth.setText("");
+				txt_term_fz_startm.setText("");
+				txt_term_fz_endh.setText("");
+				txt_term_fz_endm.setText("");
+				txt_term_fz_starth.setDisable(false);
+				txt_term_fz_startm.setDisable(false);
+				txt_term_fz_endh.setDisable(false);
+				txt_term_fz_endm.setDisable(false);
+				}
+				
+			}
+			@FXML public void tgb_term_ma_click() {
+				
+
+				dpi_term_ma_start.setDisable(false);
+				dpi_term_ma_end.setDisable(false);
+				cbo_term_ma.setDisable(false);
+				txt_term_ma_starth.setDisable(false);
+				txt_term_ma_startm.setDisable(false);
+				txt_term_ma_endh.setDisable(false);
+				txt_term_ma_endm.setDisable(false);
+				chb_term_ma.setDisable(false);
+				cbo_term_maart.setDisable(false);
+				
+				dpi_term_fz_start.setDisable(true);
+				dpi_term_fz_end.setDisable(true);
+				cbo_term_fz.setDisable(true);
+				txt_term_fz_starth.setDisable(true);
+				txt_term_fz_startm.setDisable(true);
+				txt_term_fz_endh.setDisable(true);
+				txt_term_fz_endm.setDisable(true);
+				chb_term_fz.setDisable(true);
+				cbo_term_fzart.setDisable(true);				
+				
+			}
+			@FXML public void tgb_term_fz_click() {
+				
+				dpi_term_ma_start.setDisable(true);
+				dpi_term_ma_end.setDisable(true);
+				cbo_term_ma.setDisable(true);
+				txt_term_ma_starth.setDisable(true);
+				txt_term_ma_startm.setDisable(true);
+				txt_term_ma_endh.setDisable(true);
+				txt_term_ma_endm.setDisable(true);
+				chb_term_ma.setDisable(true);
+				cbo_term_maart.setDisable(true);
+				
+				dpi_term_fz_start.setDisable(false);
+				dpi_term_fz_end.setDisable(false);
+				cbo_term_fz.setDisable(false);
+				txt_term_fz_starth.setDisable(false);
+				txt_term_fz_startm.setDisable(false);
+				txt_term_fz_endh.setDisable(false);
+				txt_term_fz_endm.setDisable(false);
+				chb_term_fz.setDisable(false);
+				cbo_term_fzart.setDisable(false);
+				
+			}
+			
 
 
 }
