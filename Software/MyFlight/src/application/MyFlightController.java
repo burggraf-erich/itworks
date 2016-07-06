@@ -35,6 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TableCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -49,6 +50,8 @@ import java.net.URISyntaxException;
 
 import javafx.util.Callback;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableRow;
 import javafx.beans.value.ChangeListener;
@@ -66,8 +69,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
+import java.awt.image.BufferedImage;
 // imports für PDF-Generator
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -87,6 +96,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.levigo.jbig2.Bitmap;
 import com.itextpdf.text.TabSettings;
 
 import application.ParagraphBorder;
@@ -234,9 +244,12 @@ public ObservableList<FHSuche> getFHData() {
 	// zu Beginn besteht keine Autentifizierung und damit sind alle Menüpunkte und Buttons deaktiviert
 	private boolean authenticated = false;
 	
-	Connection conn;
+	public Connection conn;
+	public Connection conn_benutzerverwaltung;
 	Connection conn_new;
 	int highest_custID = 0;
+	public Statement stmt;
+	public Statement stmt_benutzerverwaltung;
 	
 	//Variablen für Angebot erstellen
 	
@@ -598,6 +611,7 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML TextField kdvname1;
 	@FXML Label artcharter1;
 	@FXML TextField flgztyp1;
+	@FXML ImageView flgzpicture1;
 	@FXML Label flgzkz1;
 	@FXML DatePicker datumvon1;
 	@FXML DatePicker datumbis1;
@@ -1155,17 +1169,17 @@ public ObservableList<FHSuche> getFHData() {
 			}
 			try {
 				String url = "jdbc:mysql://" + hostname + ":" + port + "/" + dbname;
-				conn = DriverManager.getConnection(url, user, password);
+				conn_benutzerverwaltung = DriverManager.getConnection(url, user, password);
 
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt
+				stmt_benutzerverwaltung = conn_benutzerverwaltung.createStatement();
+				ResultSet rs = stmt_benutzerverwaltung
 						.executeQuery("SELECT berechtigungen_berechtigungen_id FROM benutzer where benutzervorname='"
 								+ vorname + "' and benutzernachname='" + nachname + "'");
 
 				if ((rs != null) && (rs.next())) {
 
 					berechtigungsstufe = rs.getInt(1);
-					rs = stmt.executeQuery("SELECT Berechtigungen FROM berechtigungen where Berechtigungen_ID='"
+					rs = stmt_benutzerverwaltung.executeQuery("SELECT Berechtigungen FROM berechtigungen where Berechtigungen_ID='"
 							+ berechtigungsstufe + "'");
 					rs.next();
 					switch (rs.getString(1)) {
@@ -1225,7 +1239,7 @@ public ObservableList<FHSuche> getFHData() {
 					mnuadministration.setDisable(false);
 				}
 
-				conn.close();
+				// conn.close();
 				//
 			} catch (SQLException sqle) {
 
@@ -1310,9 +1324,10 @@ public ObservableList<FHSuche> getFHData() {
 	        final String port = "3306"; 
 	        String dbname = "myflight";
 			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
-		    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+			conn = DriverManager.getConnection(url, user, password);
+			//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
 			
-			Statement stmt = conn.createStatement();
+			stmt = conn.createStatement();
 		
 		
 			// angebote-übersicht abrufen
@@ -1380,7 +1395,7 @@ public ObservableList<FHSuche> getFHData() {
 			if (angebotedata.size()== 0 ) lbl_dbconnect.setText("keine Angebote vorhanden");
 			
 			if (rs != null) rs.close();
-			stmt.close();
+			//stmt.close();
 
 			// conn1.close();
 
@@ -1641,13 +1656,25 @@ public ObservableList<FHSuche> getFHData() {
 			//}
 
 			// Statement stmt = conn1.createStatement();
-			final String hostname = "172.20.1.24"; 
+	/*		final String hostname = "172.20.1.24"; 
 	        final String port = "3306"; 
 	        String dbname = "myflight";
 			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
 		    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+		*/	
+		//	Statement stmt = conn.createStatement();
 			
-			Statement stmt = conn.createStatement();
+			final String hostname = "172.20.1.24"; 
+	        final String port = "3306"; 
+	        String dbname = "myflight";
+			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+			conn = DriverManager.getConnection(url, user, password);
+			//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+			
+			stmt = conn.createStatement();
+			dbname = "benutzerverwaltung";
+			conn_benutzerverwaltung = DriverManager.getConnection(url, user, password);
+			stmt_benutzerverwaltung = conn_benutzerverwaltung.createStatement();
 			
 			// Aufträge-übersicht abrufen
 			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.Rechnungen_ID FROM auftraege inner join angebote INNER JOIN fluege inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.angebote_id=fluege.angebote_Angebote_ID and angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID left outer join rechnungen on auftraege.Auftraege_ID=rechnungen.Auftraege_Auftraege_ID group by auftraege.auftraege_id");
@@ -1670,7 +1697,7 @@ public ObservableList<FHSuche> getFHData() {
 			if (auftraegedata.size()== 0 ) lbl_dbconnect.setText("keine Aufträge vorhanden");
 						
 			if (rs != null) rs.close();
-			stmt.close();
+			//stmt.close();
 
 			// conn1.close();
 
@@ -1741,9 +1768,9 @@ public ObservableList<FHSuche> getFHData() {
 	        final String port = "3306"; 
 	        String dbname = "myflight";
 			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
-		    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+		    //if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
 			
-			Statement stmt = conn.createStatement();
+			//Statement stmt = conn.createStatement();
 			
 			// Rechnungen-übersicht abrufen
 			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id = angebote.angebote_id group by rechnungen.rechnungen_id");
@@ -1771,7 +1798,7 @@ public ObservableList<FHSuche> getFHData() {
 			if (billdata.size()== 0 ) lbl_dbconnect.setText("keine Rechnungen vorhanden");
 			
 			if (rs != null) rs.close();
-			stmt.close();
+		//	stmt.close();
 
 			// conn1.close();
 
@@ -1842,7 +1869,7 @@ public ObservableList<FHSuche> getFHData() {
 			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
 		    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
 			
-			Statement stmt = conn.createStatement();
+		//	Statement stmt = conn.createStatement();
 			
 			// Rechnungen-übersicht abrufen, die noch nicht bezahlt sind
 			
@@ -1876,7 +1903,7 @@ public ObservableList<FHSuche> getFHData() {
 			if (costbilldata.size()== 0 ) lbl_dbconnect.setText("keine Rechnungen vorhanden");
 			
 			if (rs != null) rs.close();
-			stmt.close();
+		//	stmt.close();
 
 			// conn1.close();
 
@@ -1952,7 +1979,7 @@ public ObservableList<FHSuche> getFHData() {
 			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
 		    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
 			
-			Statement stmt = conn.createStatement();
+	//		Statement stmt = conn.createStatement();
 			
 			// Rechnungen-übersicht abrufen, deren Zahlungstermin überschritten ist
 			
@@ -1986,7 +2013,7 @@ public ObservableList<FHSuche> getFHData() {
 			if (costreminder_warnings_billdata.size()== 0 ) lbl_dbconnect.setText("keine Rechnungen vorhanden");
 			
 			if (rs != null) rs.close();
-			stmt.close();
+		//	stmt.close();
 
 			// conn1.close();
 
@@ -2034,7 +2061,7 @@ public ObservableList<FHSuche> getFHData() {
 		
 	
 	
-	@FXML	public void angebotedit_click(ActionEvent event) throws SQLException {
+	@FXML	public void angebotedit_click(ActionEvent event) throws SQLException, IOException {
 
 		// System.out.println(Kdname.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
 		set_allunvisible(false); 
@@ -2046,15 +2073,33 @@ public ObservableList<FHSuche> getFHData() {
 		choiceorderstatus.getItems().clear();
 		choiceorderstatus.getItems().addAll("offen","positiv","negativ");
 	
-		//angebote_id übernehmen
-		int angebot_id = Nummerorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
 		
+		final String hostname = "172.20.1.24"; 
+        final String port = "3306"; 
+        String dbname = "myflight";
+		String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+		conn = DriverManager.getConnection(url, user, password);
+		//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+		
+		stmt = conn.createStatement();
+		dbname = "benutzerverwaltung";
+		conn_benutzerverwaltung = DriverManager.getConnection(url, user, password);
+		stmt_benutzerverwaltung = conn_benutzerverwaltung.createStatement();
+		
+		//angebote_id übernehmen
+		int auftrag_id = Nummerorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
+		String sql = "select auftraege.Angebote_Angebote_ID from auftraege where auftraege.auftraege_id = '"+auftrag_id+"'";
+		ResultSet rs = stmt.executeQuery(sql);
+		rs.next();
+	int angebot_id = rs.getInt(1);
+	System.out.println(rs.getInt(1));
+
 		// Kundenname
-				String sql = "select kunden.kundename from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
+				sql = "select kunden.kundename from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
 				+ angebot_id + "'";
 
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery(sql);
+		//		Statement stmt = conn.createStatement();
+				rs = stmt.executeQuery(sql);
 				rs.next();
 			kdname1.setText(rs.getString(1));
 			System.out.println(rs.getString(1));
@@ -2074,7 +2119,7 @@ public ObservableList<FHSuche> getFHData() {
 				artcharter1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));
 		//Flugzeugtyp
-				sql = "select Flugzeugtyp from flugzeugtypen inner join flugzeuge inner join angebote on flugzeuge.flugzeug_ID = angebote.flugzeuge_Flugzeug_ID where angebote.angebote_id='"+angebot_id+"'";
+				sql = "select Flugzeugtyp from flugzeugtypen inner join flugzeuge inner join angebote on flugzeugtypen.Flugzeugtypen_ID =flugzeuge.Flugzeugtypen_Flugzeugtypen_ID and flugzeuge.flugzeug_ID = angebote.flugzeuge_Flugzeug_ID where angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				flgztyp1.setText(rs.getString(1));
@@ -2084,7 +2129,37 @@ public ObservableList<FHSuche> getFHData() {
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				flgzkz1.setText(rs.getString(1));
+				int flgzid = rs.getInt(1);
 				System.out.println(rs.getString(1));
+
+			//    	stmt = conn_benutzerverwaltung.createStatement();
+			    
+		//Flugzeugbild
+				sql = "select benutzerverwaltung.flugzeug_bilder.flugzeuge_Flugzeug_ID from benutzerverwaltung.flugzeug_bilder where benutzerverwaltung.flugzeug_bilder.flugzeuge_flugzeug_id = '"+flgzid+"'";
+				rs = stmt_benutzerverwaltung.executeQuery(sql);
+				rs.next();
+				String filenamepic = System.getProperty("user.dir") + "/picture"+rs.getString(1)+".jpg";
+				File image = new File (filenamepic);
+	//			FileOutputStream fos = new FileOutputStream(image);
+
+		//	      byte[] buffer = new byte[1];
+		//	      InputStream is = rs.getBinaryStream(1);
+		//	      while (is.read(buffer) > 0) {
+			//        fos.write(buffer);
+			//      }
+		//	      fos.close();
+			  //    Bitmap imagepic = BitmapFactory.decodeStream(is);
+			      BufferedImage imgbuf = ImageIO.read(new File(filenamepic));
+			      BufferedImage tempCard = imgbuf.getSubimage(100,100,700,100);
+			      
+			      //Image picture = new ImageIcon(imgbuf).getImage();
+			      //Image picture = (Image) imgbuf;
+			      javafx.scene.image.Image picture = SwingFXUtils.toFXImage(imgbuf, null);
+			      flgzpicture1.setImage(picture);
+				
+			
+				
+			//    	stmt = conn.createStatement();
 		//Datum von
 				sql = "select angebote.datum_von from angebote where angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
@@ -2117,13 +2192,13 @@ public ObservableList<FHSuche> getFHData() {
 				datumbis1.setPromptText(reportDate);
 
 		//Abflugort
-				sql = "select flughafen_von.flughafenname from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
+				sql = "select flughafen_von.flughafenname from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on fluege.angebote_Angebote_ID = angebote.angebote_id and angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				abflugort1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));				
 		//Ankunftort
-				sql = "select flughafen_bis.flughafenname from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
+				sql = "select flughafen_bis.flughafenname from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on fluege.angebote_Angebote_ID = angebote.angebote_id and angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				ankunftort1.setText(rs.getString(1));
