@@ -3513,13 +3513,7 @@ public ObservableList<FHSuche> getFHData() {
 				
 				String[][] DATEN = new String[10][7];
 
-				final String hostname = "172.20.1.24"; 
-				Connection conn;
-		        final String port = "3306"; 
-		        String dbname = "myflight";
-				String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
-				conn = DriverManager.getConnection(url, user, password);
-				//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password)
+		
 				
 				// Flüge zum Angebot ermitteln
 				
