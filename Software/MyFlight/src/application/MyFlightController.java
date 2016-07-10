@@ -1,5 +1,5 @@
 package application;
-// V2.27
+// V2.28
 
 
 import java.sql.*;
@@ -1058,8 +1058,8 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V2.27");
-		Version1.setText("V2.27");
+		Version.setText("V2.28");
+		Version1.setText("V2.28");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
@@ -9532,7 +9532,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 	set_allunvisible(false);
 	scroll_pane_konfig.setVisible(true);
 	apa_konfig.setVisible(true);
-	Versionsnr.setText("V2.27");
+	Versionsnr.setText("V2.28");
 	txa_history.setText("neue Funktion: Änderung Angebotstatus \nneue Funktion: Änderung Karenztage für Mahnungen");
 	
 }
