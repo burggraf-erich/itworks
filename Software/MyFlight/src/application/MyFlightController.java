@@ -1,5 +1,5 @@
 package application;
-// V2.1
+// V2.21
 
 
 import java.sql.*;
@@ -32,12 +32,14 @@ import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
 import javafx.scene.control.TableCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
@@ -205,6 +207,12 @@ public class MyFlightController {
 	// gib Daten der ArrayListe zurück
 	public ObservableList<Kundendaten> getkundendatendata() {
 		return kundendatendata;
+	}
+	private ObservableList<Fluege> tablefluegedata = FXCollections.observableArrayList();
+
+	// gib Daten der ArrayListe zurück
+	public ObservableList<Fluege> gettablefluegedata() {
+		return tablefluegedata;
 	}
 	private ObservableList<Aufträge> auftraegedata = FXCollections.observableArrayList();
 
@@ -392,6 +400,7 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML Button btn_searchcustid;
 	@FXML Button btn_stop_cust;
 	@FXML Button angebotedit;
+	@FXML Button btn_angebotstatusedit;
 	@FXML Button btn_creat_cust;
 	@FXML Button btn_changebillstatus;
 	@FXML Button btn_cancelchangebillstatus;
@@ -474,6 +483,10 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML AnchorPane apa_kundendatenedit;
 	@FXML AnchorPane apa_btn_kundendatenedit;
 	
+	@FXML AnchorPane apa_konfig;
+	@FXML TextArea txa_history;
+	@FXML Label Versionsnr;
+	
 	@FXML ScrollPane scroll_pane_order;
 	@FXML ScrollPane scroll_pane_changeorder;
 	@FXML ScrollPane scrollpane_changebillstatus;
@@ -484,11 +497,15 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML ScrollPane scroll_pane_costtrackingreminder_warnings;
 	@FXML ScrollPane scroll_pane_personaldaten;
 	
+	
+	
 	@FXML ScrollPane scroll_pane_flugzeugdaten;
 	
 	@FXML ScrollPane scroll_pane_flugziele;
 	
 	@FXML ScrollPane scroll_pane_kundendaten;
+	
+	@FXML ScrollPane scroll_pane_konfig;
 	
 	@FXML Label lbl_dbconnect;
 	@FXML Label lbl_username;
@@ -507,7 +524,9 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML TitledPane übersichtaufträge;
 	@FXML Hyperlink hlk_create_offer;
 	@FXML Hyperlink mnuzusatzkosten;
-
+	@FXML Hyperlink hlk_konfig;
+	@FXML Hyperlink hlk_karenz_mahnung;
+	
 //Angebot erstellem
 	@FXML TextField txt_username;
 	@FXML TextField txt_companyname;
@@ -566,8 +585,10 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML TextField preisbrutto;
 	@FXML TextField charterdauer;
 	@FXML TextField flugzeit;
-	
-	
+	@FXML ImageView flgzpicture;
+	@FXML TextField zwischenstop1; 
+	@FXML TextField zwischenstop2;
+	@FXML TextField zwischenstop3;
 	
 	@FXML TextField txt_zielzeit_h;
 	@FXML Button btn_sw;
@@ -620,6 +641,7 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML TextField preisnetto1;
 	@FXML TextField preismwst1;
 	@FXML TextField preisbrutto1;
+	
 	//Felder für Maske Ändere Auftrag - Ende
 
 	//Felder für Maske Rechnungsstatus ändern - Beginn
@@ -729,8 +751,8 @@ public ObservableList<FHSuche> getFHData() {
 
 	
 	@FXML ComboBox<String> cbo_salutation;
-	@FXML ComboBox<String> cbo_title;
-	@FXML ComboBox<String> choiceorderstatus;
+	@FXML ComboBox<String> cbo_title;  
+	@FXML ComboBox<String> choiceorderstatus; 
 	@FXML ComboBox<String> choicebillstatus;
 	@FXML ComboBox<String> choicecostbillstatus;
 	
@@ -783,6 +805,15 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML	TableColumn<Aufträge, String> Beginnorder;
 	@FXML	TableColumn<Aufträge, String> Endeorder;
 	@FXML	TableColumn<Aufträge, Integer> billorder;
+	
+	@FXML	TableView<Fluege> tablefluege;
+	@FXML	TableColumn<Fluege, String> tablecoldateabflug;
+	@FXML	TableColumn<Fluege, String> tablecoltimeabflug;
+	@FXML	TableColumn<Fluege, String> tablecolortabflug;
+	@FXML	TableColumn<Fluege, Float> tablecolflugzeit;
+	@FXML	TableColumn<Fluege, String> tablecoltimeankunft;
+	@FXML	TableColumn<Fluege, String> tablecolortankunft;
+	@FXML	TableColumn<Fluege, Integer> tablecolanzahlpax;
 	
 	
 	//@FXML	TableColumn<Aufträge, String> Datumorder;
@@ -882,6 +913,7 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML Label lbl_son;
 	
 	@FXML Button btn_create_offer;
+	@FXML HBox hbox_show_status;
 	@FXML AnchorPane apa_sonder;
 	@FXML ListView lst_crew;
 	@FXML TextArea txa_getr;
@@ -934,6 +966,76 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML RadioButton tgl_na_kom;
 	@FXML ToggleGroup tgg_kom;
 	
+	
+	@FXML AnchorPane apa_btn_kf;
+	@FXML Button btn_cancel_kf;
+	@FXML Button btn_save_kf;
+	@FXML RadioButton tgl_ss_kom;
+	@FXML RadioButton tgl_s_kom;
+	@FXML RadioButton tgl_b_kom;
+	@FXML RadioButton tgl_g_kom;
+	@FXML RadioButton tgl_sg_kom;
+	@FXML RadioButton tgl_na_pue;
+	@FXML ToggleGroup tgg_pue;
+	@FXML RadioButton tgl_ss_pue;
+	@FXML RadioButton tgl_s_pue;
+	@FXML RadioButton tgl_b_pue;
+	@FXML RadioButton tgl_g_pue;
+	@FXML RadioButton tgl_sg_pue;
+	@FXML RadioButton tgl_na_pre;
+	@FXML ToggleGroup tgg_pre;
+	@FXML RadioButton tgl_ss_pre;
+	@FXML RadioButton tgl_s_pre;
+	@FXML RadioButton tgl_b_pre;
+	@FXML RadioButton tgl_g_pre;
+	@FXML RadioButton tgl_sg_pre;
+	@FXML Hyperlink hlk_create_feedback;
+	@FXML Hyperlink hlk_create_ablehnung;
+	@FXML ToggleGroup tgg_sw;
+	@FXML AnchorPane apa_zufr;
+	@FXML PieChart pie_zufr;
+	@FXML ComboBox cbo_artzuf;
+	@FXML DatePicker dpi_zuf_start;
+	@FXML DatePicker dpi_zufr_end;
+	@FXML Button btn_zufr_start;
+	@FXML Hyperlink hlk_report_feedback;
+	@FXML AnchorPane apa_ableh_ang;
+	@FXML PieChart pie_ablehn;
+	@FXML DatePicker dpi_ableh_start;
+	@FXML DatePicker dpi_ableh_end;
+	@FXML Button btn_ableh_start;
+	@FXML ComboBox cbo_ang;
+	@FXML ComboBox cbo_ablehn;
+	@FXML Button btn_ablehn_ang_save;
+	@FXML AnchorPane apa_btn_term;
+	@FXML Button btn_term_edit;
+	@FXML Button btn_term_create;
+	@FXML AnchorPane apa_termnew_btn;
+	@FXML Button btn_newterm_save;
+	@FXML Button btn_newterm_cancel;
+	@FXML AnchorPane apa_term_new;
+	@FXML DatePicker dpi_term_ma_start;
+	@FXML DatePicker dpi_term_ma_end;
+	@FXML ComboBox cbo_term_ma;
+	@FXML TextField txt_term_ma_starth;
+	@FXML TextField txt_term_ma_endh;
+	@FXML TextField txt_term_ma_endm;
+	@FXML TextField txt_term_ma_startm;
+	@FXML CheckBox chb_term_ma;
+	@FXML CheckBox chb_term_fz;
+	@FXML TextField txt_term_fz_startm;
+	@FXML TextField txt_term_fz_endm;
+	@FXML TextField txt_term_fz_endh;
+	@FXML TextField txt_term_fz_starth;
+	@FXML ComboBox cbo_term_fz;
+	@FXML DatePicker dpi_term_fz_end;
+	@FXML DatePicker dpi_term_fz_start;
+	@FXML ComboBox cbo_term_maart;
+	@FXML ComboBox cbo_term_fzart;
+	@FXML RadioButton tgb_term_ma;
+	@FXML ToggleGroup tgg_term;
+	@FXML RadioButton tgb_term_fz;
+	
 	//@FXML
 	//private Parent SearchCust; //embeddedElement
 	//@FXML
@@ -956,11 +1058,12 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V2.1");
-		Version1.setText("V2.1");
+		Version.setText("V2.21");
+		Version1.setText("V2.21");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
+		Status.setCellValueFactory(cellData -> cellData.getValue().StatusProperty());
 		Flgztyp.setCellValueFactory(cellData -> cellData.getValue().FlgztypProperty());
 		Beginn.setCellValueFactory(cellData -> cellData.getValue().Datum_vonProperty());
 		Ende.setCellValueFactory(cellData -> cellData.getValue().Datum_bisProperty());
@@ -1047,9 +1150,19 @@ public ObservableList<FHSuche> getFHData() {
 		KundeFirmenname.setCellValueFactory(cellData -> cellData.getValue().kdfirmaProperty());
 		Kundengruppen_Kundengruppen.setCellValueFactory(cellData -> cellData.getValue().kdgruppeProperty());
 		
+		// Datenverknüpfung tablefluege
 		
 		
+		tablecolanzahlpax.setCellValueFactory(cellData -> cellData.getValue().tablecolanzahlpaxProperty().asObject());
+		tablecolflugzeit.setCellValueFactory(cellData -> cellData.getValue().tablecolflugzeitProperty().asObject());
+		tablecoldateabflug.setCellValueFactory(cellData -> cellData.getValue().tablecoldateabflugProperty());
+		tablecoltimeabflug.setCellValueFactory(cellData -> cellData.getValue().tablecoltimeabflugProperty());
+		tablecolortabflug.setCellValueFactory(cellData -> cellData.getValue().tablecolortabflugProperty());
+		tablecoltimeankunft.setCellValueFactory(cellData -> cellData.getValue().tablecoltimeankunftProperty());
+		tablecolortankunft.setCellValueFactory(cellData -> cellData.getValue().tablecolortankunftProperty());
 		
+//*********************************************************************************************************************************************
+//*********************************************************************************************************************************************		
 		angebotetabelle.setItems(getangebotedata());
 		auftragtable.setItems(getauftraegedata());
 		billtable.setItems(getbilldata());
@@ -1063,11 +1176,12 @@ public ObservableList<FHSuche> getFHData() {
 		
 		kundendatentable.setItems(getkundendatendata());
 		
+		tablefluege.setItems(gettablefluegedata());
+		
+		
 		//btn_login.setDefaultButton(true); 
 		
-		apa_login.setVisible(true);
-		apa_btn_login.setVisible(true);
-		
+	
 	    
 		//Buttons werden erst aktiv, wenn in der Tabelle ein Eintrag ausgewählt wurde
 		btncreateorder.disableProperty().bind(Bindings.isEmpty(angebotetabelle.getSelectionModel().getSelectedIndices()));
@@ -1081,7 +1195,8 @@ public ObservableList<FHSuche> getFHData() {
 		btn_createreminder.disableProperty().bind(Bindings.isEmpty(costreminder_warnings_billtable.getSelectionModel().getSelectedIndices()));
 	//	btncreatepersonal.disableProperty().bind(Bindings.isEmpty(personaltable.getSelectionModel().getSelectedIndices()));
 		btnpersonaledit.disableProperty().bind(Bindings.isEmpty(personaltable.getSelectionModel().getSelectedIndices()));
-
+		btn_angebotstatusedit.disableProperty().bind(Bindings.isEmpty(angebotetabelle.getSelectionModel().getSelectedIndices()));
+		
 		btnflugzeugedit.disableProperty().bind(Bindings.isEmpty(flugzeugtable.getSelectionModel().getSelectedIndices()));
 		btnflugzieleedit.disableProperty().bind(Bindings.isEmpty(flugzieletable.getSelectionModel().getSelectedIndices()));
 		btnkundendatenedit.disableProperty().bind(Bindings.isEmpty(kundendatentable.getSelectionModel().getSelectedIndices()));
@@ -1093,7 +1208,11 @@ public ObservableList<FHSuche> getFHData() {
 	     tbc_land.setCellValueFactory (cellData -> cellData.getValue().LandProperty());
 		 tbl_fh.setItems(getFHData());
 		
+			apa_login.setVisible(true);
+			apa_btn_login.setVisible(true);
+			btn_login.setDefaultButton(true); 
 } 
+	
 	
 	
 	
@@ -1247,35 +1366,7 @@ public ObservableList<FHSuche> getFHData() {
 				// System.out.println("geht nicht");
 				sqle.printStackTrace();
 
-/*				// Anwendung auch bei fehlenden Berechtigungen freischalten -
-				// Beginn
-				apa_login.setVisible(false);
-				apa_welcome.setVisible(true);
-				lbl_username.setText(user);
 
-				btn_login.setVisible(false);
-				btn_change_user.setVisible(true);
-
-				User userobject = new User(vorname, nachname, "Mitarbeiter", 3);
-				authenticated = true;
-				String userrolle = userobject.getrolle();
-				lblrolle.setText(userrolle);
-				lblberechtigung.setText(String.valueOf(userobject.getberechtigung()));
-				authenticated = true;
-				if (authenticated) {
-					mnudashboard.setDisable(false);
-					mnufinanzverwaltung.setDisable(false);
-					mnureporting.setDisable(false);
-					mnucharter.setDisable(false);
-				}
-
-				if (userobject.getberechtigung() >= 2) {
-					// mnuzusatzkosten.setDisable(false);
-				}
-				if (userobject.getberechtigung() == 3) {
-					mnuadministration.setDisable(false);
-				}
-				Anwendung auch bei fehlenden Berechtigungen freischalten - Ende */
 			}
 		}
  
@@ -1291,12 +1382,17 @@ public ObservableList<FHSuche> getFHData() {
 		System.exit(0);
 	}
 
+	@FXML  public void actiongetangebote(){
+		actiongetangebotepgm(false);
+	}
+	
 	@FXML
-	public void actiongetangebote() {
+	public void actiongetangebotepgm(boolean showmessage) {
 		// lbl_dbconnect.setText("Mouse geklickt!");
 
-		set_allunvisible(false);
+		set_allunvisible(showmessage);
 		scroll_pane_angebotübersicht.setVisible(true);
+		scroll_pane_angebotübersicht.setVvalue(0);
 		angebotübersicht.setVisible(true);
 		maskentitel.setVisible(true);
 		maskentitel.setText("Übersicht Angebote");
@@ -1331,52 +1427,10 @@ public ObservableList<FHSuche> getFHData() {
 		
 		
 			// angebote-übersicht abrufen
-		/*	//Testschleife
-			String sql = "Select angebote.angebotsdatum from angebote where angebote.angebote_id = '13'";
-			ResultSet rs = stmt.executeQuery(sql);
-			rs.next();
-			System.out.println(rs.getDate(1));
-			Calendar myCal2 = new GregorianCalendar();
-			String tagesdatum2 = myCal2.get(Calendar.YEAR)+ "-"+ (myCal2.get(Calendar.MONTH) + 1) + "-"+myCal2.get(Calendar.DAY_OF_MONTH);
-			 System.out.println("tagesdatum2:"+tagesdatum2);
-			 int date1y = rs.getDate(1).getYear()+1900;
-			 int date1m = rs.getDate(1).getMonth();
-			 int date1d = rs.getDate(1).getDay();
-			 int datevalue = date1y*365+date1m*12+date1d;
-			 System.out.println(datevalue);
-			 int date2y = myCal2.get(Calendar.YEAR);
-			 int date2m = myCal2.get(Calendar.MONTH);
-			 int date2d = myCal2.get(Calendar.DATE);
-			 int datevalue1 = date2y*365+date2m*12+date2d;
-			 System.out.println(datevalue1);
-			 System.out.println(datevalue1>datevalue);
-			 
-			 /*DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-	        Calendar myCal13 = df.getCalendar();
-	        myCal13.add(Calendar.DAY_OF_MONTH,+2);
+
 			
-			System.out.println(myCal13);
-			System.out.println(myCal2);
-			System.out.println(myCal13.before(myCal2));
-			 //myCal2.setTimeInMillis(System.currentTimeMillis());
-			 //myCal13.setTimeInMillis(System.currentTimeMillis());
-			
-		        
-		        String tagesdatum13 = myCal13.get(Calendar.YEAR)+ "-"+ (myCal13.get(Calendar.MONTH) + 1) + "-"+myCal13.get(Calendar.DAY_OF_MONTH);
-			   + "tagesdatum13: "+tagesdatum13 );
-		        java.util.Date utilDate = new java.util.Date();
-			    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-			    System.out.println("utilDate:" + utilDate);
-			    System.out.println("sqlDate:" + sqlDate);
-			
-			    myCal2.add( Calendar.DATE, 2 );
-			    //Date myDate = (Date) myCal2.getTime();
-			//System.out.println(myDate.after(rs.getDate(1)));
-			*/
-			// Ende Testschleife
-			
-			ResultSet rs = stmt.executeQuery("SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID left outer join auftraege on auftraege.Angebote_Angebote_ID=angebote.Angebote_ID where auftraege.Angebote_Angebote_ID is null  group by angebote.angebote_id");
-					
+//			ResultSet rs = stmt.executeQuery("SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID left outer join auftraege on auftraege.Angebote_Angebote_ID=angebote.Angebote_ID where auftraege.Angebote_Angebote_ID is null  group by angebote.angebote_id");
+			ResultSet rs = stmt.executeQuery("SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID left outer join auftraege on auftraege.Angebote_Angebote_ID=angebote.Angebote_ID where auftraege.Angebote_Angebote_ID is null  group by angebote.angebote_id");		
 			angebotedata.remove(0, angebotedata.size());
 			int i = 1;
 			// Testbeginn
@@ -1384,9 +1438,9 @@ public ObservableList<FHSuche> getFHData() {
 			 // Testende
 			
 			while ((rs != null) && (rs.next())) {
-				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(4) + " " + rs.getString(41) + " "
+				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(3) + " " +rs.getString(4) + " " + rs.getString(41) + " "
 						+ rs.getString(42) + " " + rs.getString(21) + " " + rs.getString(22) + " " + rs.getString(30) + " " + rs.getString(31));
-				angebotedata.add(new Angebote(rs.getInt(1), rs.getString(4), rs.getString(41), rs.getString(42), rs.getString(21),rs.getString(22), rs.getString(30), rs.getString(31)));
+				angebotedata.add(new Angebote(rs.getInt(1), rs.getString(3), rs.getString(4), rs.getString(41), rs.getString(42), rs.getString(21),rs.getString(22), rs.getString(30), rs.getString(31)));
 			}
 			
 			//wenn die Datenbank bei der Entwicklung leer ist
@@ -1439,13 +1493,13 @@ public ObservableList<FHSuche> getFHData() {
 		maskentitel.setVisible(false);
 		panebtnangebotübersicht.setVisible(false);
 		ancpanebtn_createorder.setVisible(false);
-		scroll_pane_order.setVisible(false);
+	//  scroll_pane_order.setVisible(false);
 		ancpanebtn_changeorder.setVisible(false);
 		scroll_pane_changeorder.setVisible(false);
 		Rechnungenübersichtbuttons.setVisible(false);
 		Rechnungenübersicht.setVisible(false);
-		scrollpane_changebillstatus.setVisible(false);
-		apa_formchangebillstatus.setVisible(false);
+	//	scrollpane_changebillstatus.setVisible(false);
+	//	apa_formchangebillstatus.setVisible(false);
 		ancpanebtn_changebillstatus.setVisible(false);	
 		scroll_pane_angebotübersicht.setVisible(false);
 		scroll_pane_auftragübersicht.setVisible(false);
@@ -1500,6 +1554,9 @@ public ObservableList<FHSuche> getFHData() {
 		apa_termnew_btn.setVisible(false);
 		apa_term_new.setVisible(false);
 		apa_btn_term.setVisible(false);
+		
+		scroll_pane_konfig.setVisible(false);
+		apa_konfig.setVisible(false);
 		
 	}
 
@@ -1642,6 +1699,7 @@ public ObservableList<FHSuche> getFHData() {
 
 		set_allunvisible(showmessage);
 		scroll_pane_auftragübersicht.setVisible(true);
+		scroll_pane_auftragübersicht.setVvalue(0);
 		Aufträgeübersicht.setVisible(true);
 		auftragübersichtbuttons.setVisible(true);
 		maskentitel.setVisible(true);
@@ -1749,6 +1807,7 @@ public ObservableList<FHSuche> getFHData() {
 
 		set_allunvisible(false);
 		scroll_pane_rechnungenübersicht.setVisible(true);
+		scroll_pane_rechnungenübersicht.setVvalue(0);
 		Rechnungenübersicht.setVisible(true);
 		Rechnungenübersichtbuttons.setVisible(true);
 		maskentitel.setVisible(true);
@@ -1772,9 +1831,16 @@ public ObservableList<FHSuche> getFHData() {
 	        final String port = "3306"; 
 	        String dbname = "myflight";
 			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
-		    //if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+			conn = DriverManager.getConnection(url, user, password);
+			//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
 			
-			//Statement stmt = conn.createStatement();
+			stmt = conn.createStatement();
+			dbname = "benutzerverwaltung";
+			conn_benutzerverwaltung = DriverManager.getConnection(url, user, password);
+			stmt_benutzerverwaltung = conn_benutzerverwaltung.createStatement();
+		
+			
+			
 			
 			// Rechnungen-übersicht abrufen
 			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id = angebote.angebote_id group by rechnungen.rechnungen_id");
@@ -1793,10 +1859,6 @@ public ObservableList<FHSuche> getFHData() {
 						+ rs.getString(49) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(13)+ " " + rs.getString(45) );
 				billdata.add(new Rechnungen(rs.getInt(47), rs.getString(50), rs.getString(34), rs.getString(49), rs.getFloat(11), rs.getFloat(17), rs.getFloat(13), rs.getString(45)));
 			}
-		//wenn die Datenbank bei der Entwicklung leer ist
-//			billdata.remove(0, billdata.size());
-//			billdata.add(new Rechnungen(30302,"erstellt","2016-05-16",2450.45F,150.00F,15.00F,"PRE"));
-//			billdata.add(new Rechnungen(30514,"verschickt","2016-05-14",5300.00F,0.00F,0.00F,"CORP"));
 						
 			
 			if (billdata.size()== 0 ) lbl_dbconnect.setText("keine Rechnungen vorhanden");
@@ -1849,6 +1911,7 @@ public ObservableList<FHSuche> getFHData() {
 
 		set_allunvisible(false);
 		scroll_pane_costtrackingoverview.setVisible(true);
+		scroll_pane_costtrackingoverview.setVvalue(0);
 		costtrackingoverview.setVisible(true);
 		apa_btn_costtrackingoverview.setVisible(true);
 		maskentitel.setVisible(true);
@@ -1871,7 +1934,9 @@ public ObservableList<FHSuche> getFHData() {
 	        final String port = "3306"; 
 	        String dbname = "myflight";
 			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+			Connection conn = DriverManager.getConnection(url, user, password);
 		    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+		    Statement stmt = conn.createStatement();
 			
 		//	Statement stmt = conn.createStatement();
 			
@@ -1958,10 +2023,17 @@ public ObservableList<FHSuche> getFHData() {
 
 		set_allunvisible(showmessage);
 		scroll_pane_costtrackingreminder_warnings.setVisible(true);
+		scroll_pane_costtrackingreminder_warnings.setVvalue(0);
 		costtrackingreminder_warnings.setVisible(true);
 		apa_btn_costtrackingreminder.setVisible(true);
 		maskentitel.setVisible(true);
 		maskentitel.setText("Zahlungserinnerungen/-Mahnungen");
+		
+		LocalDate tagheute;
+		tagheute = LocalDate.now( );
+		
+		
+	
 		
 		try {
 
@@ -1981,17 +2053,21 @@ public ObservableList<FHSuche> getFHData() {
 	        final String port = "3306"; 
 	        String dbname = "myflight";
 			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+			Connection conn = DriverManager.getConnection(url, user, password);
 		    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
-			
+		    Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select mahndauer.dauer from mahndauer");
+			rs.next();
+			int karenz_mahntage = rs.getInt(1);
+		    
 	//		Statement stmt = conn.createStatement();
 			
 			// Rechnungen-übersicht abrufen, deren Zahlungstermin überschritten ist
 			
-			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt' and rechnungen.Rechnungsstatus_Rechnungsstatus<>'erstellt'  group by rechnungen.rechnungen_id");
+			rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt' and rechnungen.Rechnungsstatus_Rechnungsstatus<>'erstellt'  group by rechnungen.rechnungen_id");
 		
 			
-			GregorianCalendar now = new GregorianCalendar();
-			
+				
 			costreminder_warnings_billdata.remove(0, costreminder_warnings_billdata.size());
 			int i = 1;
 			// Testbeginn
@@ -2001,12 +2077,17 @@ public ObservableList<FHSuche> getFHData() {
 			while ((rs != null) && (rs.next())) {
 				System.out.println(i++ + " " + rs.getInt(47) + " " + rs.getString(50) + " " + rs.getString(34) + " " + rs.getString(49) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(52)+ " " + rs.getString(45) );
 			
-		//		if (now.after(rs.getDate(48))) {
-				System.out.println(now.after(rs.getDate(49)));
-				System.out.println(now.getTime());
+				LocalDate zahlungstermin = rs.getDate(49).toLocalDate();
+				LocalDate mahnungstermin = zahlungstermin.plusDays(karenz_mahntage);
+				System.out.println(mahnungstermin.toString());
+				
+				
+				if(mahnungstermin.isBefore(tagheute))
+				{
+						
 				costreminder_warnings_billdata.add(new RechnungenCostreminder(rs.getInt(47), rs.getString(50), rs.getString(34), rs.getString(49), rs.getFloat(11), rs.getFloat(17), rs.getFloat(52), rs.getString(45)));
 				}
-				
+			}
 		//	}
 		//wenn die Datenbank bei der Entwicklung leer ist
 //			billdata.remove(0, billdata.size());
@@ -2074,9 +2155,14 @@ public ObservableList<FHSuche> getFHData() {
 		scroll_pane_changeorder.setVisible(true);
 		maskentitel.setVisible(true);
 		maskentitel.setText("Auftragstatus ändern");
+		choiceorderstatus.setVisible(true);
+		hbox_show_status.setVisible(true);
+		choicebillstatus.setVisible(false);
 		choiceorderstatus.getItems().clear();
 		choiceorderstatus.getItems().addAll("offen","positiv","negativ");
-	
+		String tmpAuftragstatus = Statusorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
+		choiceorderstatus.setPromptText(tmpAuftragstatus);
+		
 		
 		final String hostname = "172.20.1.24"; 
         final String port = "3306"; 
@@ -2135,6 +2221,22 @@ public ObservableList<FHSuche> getFHData() {
 				flgzkz1.setText(rs.getString(1));
 				int flgzid = rs.getInt(1);
 				System.out.println(rs.getString(1));
+				
+				
+		//Charterdauer
+				sql = "select angebote.charterdauer from angebote where angebote.angebote_id='"+angebot_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+			//	System.out.println(rs.getTime(1));		
+				charterdauer.setText(Float.toString(rs.getFloat(1)));
+		//Flugzeit
+				sql = "select angebote.flugzeit from angebote where angebote.angebote_id='"+angebot_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+	
+		//		System.out.println(rs.getString(1));		
+				flugzeit.setText(Float.toString(rs.getFloat(1)));
+		
 
 			//    	stmt = conn_benutzerverwaltung.createStatement();
 			    
@@ -2143,21 +2245,8 @@ public ObservableList<FHSuche> getFHData() {
 				rs = stmt_benutzerverwaltung.executeQuery(sql);
 				rs.next();
 				String filenamepic = System.getProperty("user.dir") + "/picture"+rs.getString(1)+".jpg";
-				File image = new File (filenamepic);
-	//			FileOutputStream fos = new FileOutputStream(image);
-
-		//	      byte[] buffer = new byte[1];
-		//	      InputStream is = rs.getBinaryStream(1);
-		//	      while (is.read(buffer) > 0) {
-			//        fos.write(buffer);
-			//      }
-		//	      fos.close();
-			  //    Bitmap imagepic = BitmapFactory.decodeStream(is);
+		//		File image = new File (filenamepic);
 			      BufferedImage imgbuf = ImageIO.read(new File(filenamepic));
-			      BufferedImage tempCard = imgbuf.getSubimage(100,100,700,100);
-			      
-			      //Image picture = new ImageIcon(imgbuf).getImage();
-			      //Image picture = (Image) imgbuf;
 			      javafx.scene.image.Image picture = SwingFXUtils.toFXImage(imgbuf, null);
 			      flgzpicture1.setImage(picture);
 				
@@ -2195,19 +2284,91 @@ public ObservableList<FHSuche> getFHData() {
 				System.out.println(reportDate);
 				datumbis1.setPromptText(reportDate);
 
+				// Flüge zum Angebot ermitteln
+				// Anzahl Passagiere ermitteln
+				sql = "select angebote.pax from angebote where angebote.angebote_id='" + angebot_id + "'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				int pax = rs.getInt(1);
+
+				// Fluege ermitteln
+				ResultSet rs1;
+				String zielflughafen = "";
+				String zwischenflughafen = "";
+				zwischenstop1.clear();
+				zwischenstop2.clear();
+				zwischenstop3.clear();
+				int zaehler = 0;
+				Statement stmt1 = conn.createStatement();
+				sql = "select fluege.*, flughafen_von.FlughafenStadt from fluege left outer join flughafen_von on fluege.flughafen_von_FlughafenKuerzel = flughafen_von.FlughafenKuerzel  where fluege.angebote_Angebote_ID ='"
+						+ angebot_id + "'";
+				rs = stmt.executeQuery(sql);
+				tablefluegedata.remove(0, tablefluegedata.size());
+				int i = 1;
+				// Testbeginn
+				// rs = null;
+				// Testende
+
+				while ((rs != null) && (rs.next())) {
+
+					// Flughafenstadt vom Zielflughafen ermitteln
+					sql = "select flughafen_bis.FlughafenStadt from flughafen_bis where flughafen_bis.FlughafenKuerzel ='"
+							+ rs.getString(6) + "'";
+					rs1 = stmt1.executeQuery(sql);
+					rs1.first();
+					// System.out.println(rs.getString(6));
+					// if (rs1.first()) System.out.println("here it
+					// is:"+rs1.getString(1));
+					if (rs1.first()) {
+						zielflughafen = rs1.getString(1);
+						System.out.println(rs.getString(6) + " " + zielflughafen);
+					} else {
+						zielflughafen = "";
+
+					}
+					System.out.println(i++ + " " + rs.getString(1) + " " + rs.getString(3) + " " + rs.getString(9) + " "
+							+ rs.getFloat(7) + " " + rs.getString(4) + " " + rs.getString(6));
+					tablefluegedata.add(new Fluege(rs.getString(1), rs.getString(3), rs.getString(9), rs.getFloat(7),
+							rs.getString(4), zielflughafen, pax));
+					ankunftort1.setText(zielflughafen);
+					zaehler++;
+					switch (zaehler) {
+					case 1:
+						zwischenflughafen = zielflughafen;
+						break;
+					case 2:
+						zwischenstop1.setText(zwischenflughafen);
+						zwischenflughafen = zielflughafen;
+						break;
+					case 3:
+						zwischenstop2.setText(zwischenflughafen);
+						zwischenflughafen = zielflughafen;
+						break;
+					case 4:
+						zwischenstop3.setText(zwischenflughafen);
+						zwischenflughafen = zielflughafen;
+						break;
+
+					}
+
+				}
+				
+				
+				
+				
 		//Abflugort
-				sql = "select flughafen_von.flughafenname from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on fluege.angebote_Angebote_ID = angebote.angebote_id and angebote.angebote_id='"+angebot_id+"'";
+				sql = "select flughafen_von.flughafenstadt from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on fluege.angebote_Angebote_ID = angebote.angebote_id and angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				abflugort1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));				
-		//Ankunftort
+/*		//Ankunftort
 				sql = "select flughafen_bis.flughafenname from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on fluege.angebote_Angebote_ID = angebote.angebote_id and angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				ankunftort1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));				
-					
+	*/				
 						
 		//Preis netto
 				sql = "select angebote.angebotspreis_netto from angebote where angebote.angebote_id='"+angebot_id+"'";
@@ -2499,45 +2660,29 @@ public ObservableList<FHSuche> getFHData() {
 		actiongetcosttrackingreminder_warnings();
 	}
 	
-	/*
-	@FXML        
-	 
-	 angebotetabelle.setRowFactory((TableView) -> {
-        TableRow<String> row = new TableRow<>();
-        row.setOnMouseClicked((MouseEvent event) -> {
-            if (event.getClickCount()>=1 && (!row.isEmpty())) {
-               btncreateorder.setDisable(false);
-        });
-        return row;
-    });
-	*/
-	
-/*	@FXML 
-	angebotetabelle.setRowFactory( tv -> {
-		   TableRow<String> row = new TableRow<>();
-		   row.setOnMouseClicked(e -> {
-		      if (e.getClickCount() == 2 && (!row.isEmpty()) ) {
-		         System.out.println(angebotetabelle.getSelectionModel().getSelectedItem());                   
-		      }
-		   });
-		   return row;
-		});
-*/
+
+
 
 	@FXML
 	public void setbtnenable() {
 	   	            //   btncreateorder.setDisable(false);
 	            }	
 	@FXML
-	public void createorder(ActionEvent event) throws SQLException {
+	public void createorder(ActionEvent event) throws SQLException, IOException {
 		System.out.println(Nummer.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex()));
 		set_allunvisible(false);
-		scroll_pane_order.setVisible(true);
-		scroll_pane_order.setVvalue(0);;
-		ancpane_createorder.setVisible(true);
+		scroll_pane_changeorder.setVisible(true);
+		scroll_pane_changeorder.setVvalue(0);
+		
+		auftragändernform.setVisible(true);
 		ancpanebtn_createorder.setVisible(true);
 		maskentitel.setVisible(true);
+		choiceorderstatus.setVisible(false);
+		choicebillstatus.setVisible(false);
+		hbox_show_status.setVisible(false);
 		maskentitel.setText("Auftrag erstellen");
+		
+			
 		
 		//angebote_id übernehmen
 		int angebot_id = Nummer.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
@@ -2548,27 +2693,57 @@ public ObservableList<FHSuche> getFHData() {
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);
 				rs.next();
-			kdname.setText(rs.getString(30));
+			kdname1.setText(rs.getString(30));
 			System.out.println(rs.getString(30));
 
-			kdvname.setText(rs.getString(31));
+			kdvname1.setText(rs.getString(31));
 				System.out.println(rs.getString(31));
 
-			artcharter.setText(rs.getString(4));
+			artcharter1.setText(rs.getString(4));
 				System.out.println(rs.getString(4));
-			flgztyp.setText(rs.getString(42));
+			flgztyp1.setText(rs.getString(42));
 				System.out.println(rs.getString(42));
-			flgzkz.setText(rs.getString(16));
+			flgzkz1.setText(rs.getString(16));
+			int flgzid = rs.getInt(16);
 				System.out.println(rs.getString(16));
-				// Create an instance of SimpleDateFormat used for formatting 
-				// the string representation of date (month/day/year)
-				DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 				
-				// Using DateFormat format method we can create a string 
-				// representation of a date with the defined format.
-				String reportDate = df.format(rs.getObject(21));
-				System.out.println(reportDate);
-				datumvon.setPromptText(reportDate);
+				//Charterdauer
+			//	System.out.println(rs.getTime(14));		
+				charterdauer.setText(Float.toString(rs.getFloat(14)));
+				//Flugzeit
+		//		System.out.println(rs.getString(15));		
+				flugzeit.setText(Float.toString(rs.getFloat(15)));
+				
+				//Flugzeugbild
+				sql = "select benutzerverwaltung.flugzeug_bilder.flugzeuge_Flugzeug_ID from benutzerverwaltung.flugzeug_bilder where benutzerverwaltung.flugzeug_bilder.flugzeuge_flugzeug_id = '"+flgzid+"'";
+				rs = stmt_benutzerverwaltung.executeQuery(sql);
+				rs.next();
+				String filenamepic = System.getProperty("user.dir") + "/picture"+rs.getString(1)+".jpg";
+		//		File image = new File (filenamepic);
+			      BufferedImage imgbuf = ImageIO.read(new File(filenamepic));
+			      javafx.scene.image.Image picture = SwingFXUtils.toFXImage(imgbuf, null);
+			      flgzpicture1.setImage(picture);
+			      
+			    //Datum von
+					sql = "select angebote.datum_von from angebote where angebote.angebote_id='"+angebot_id+"'";
+					rs = stmt.executeQuery(sql);
+					rs.next();
+					// Create an instance of SimpleDateFormat used for formatting 
+					// the string representation of date (month/day/year)
+					DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+
+						      
+					// Using DateFormat format method we can create a string 
+					// representation of a date with the defined format.
+					String reportDate = df.format(rs.getObject(1));
+					System.out.println(reportDate);
+					datumvon1.setPromptText(reportDate);
+			    
+			
+				//Datum bis
+				sql = "select angebote.datum_bis from angebote where angebote.angebote_id='"+angebot_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
 				// Create an instance of SimpleDateFormat used for formatting 
 				// the string representation of date (month/day/year)
 				//DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -2576,42 +2751,117 @@ public ObservableList<FHSuche> getFHData() {
 					      
 				// Using DateFormat format method we can create a string 
 				// representation of a date with the defined format.
-				
-				reportDate = df.format(rs.getObject(22));
+				reportDate = df.format(rs.getObject(1));
 				System.out.println(reportDate);
-				datumbis.setPromptText(reportDate);
-				//Charterdauer
-			//	System.out.println(rs.getTime(14));		
-		//		charterdauer.setText(Object.toString(rs.getObject(14)));
-				//Flugzeit
-		//		System.out.println(rs.getString(15));		
-			//	charterdauer.setText(rs.getString(15));
-				//Preis netto
-				System.out.println(rs.getInt(8));		
-				preisnetto.setText(Integer.toString(rs.getInt(8)));
-				int Preisnetto = rs.getInt(8);
-				// Preis Brutto
-				System.out.println(rs.getInt(7));		
-				preisbrutto.setText(Integer.toString(rs.getInt(7)));
-				int Preisbrutto = rs.getInt(7);					
+				datumbis1.setPromptText(reportDate);
+				
+	
+
+				
+		// Flüge zum Angebot ermitteln
+		// Anzahl Passagiere ermitteln
+		sql = "select angebote.pax from angebote where angebote.angebote_id='" + angebot_id + "'";
+		rs = stmt.executeQuery(sql);
+		rs.next();
+		int pax = rs.getInt(1);
+
+		// Fluege ermitteln
+		ResultSet rs1;
+		String zielflughafen = "";
+		String zwischenflughafen = "";
+		zwischenstop1.clear();
+		zwischenstop2.clear();
+		zwischenstop3.clear();
+		int zaehler = 0;
+		Statement stmt1 = conn.createStatement();
+		sql = "select fluege.*, flughafen_von.FlughafenStadt from fluege left outer join flughafen_von on fluege.flughafen_von_FlughafenKuerzel = flughafen_von.FlughafenKuerzel  where fluege.angebote_Angebote_ID ='"
+				+ angebot_id + "'";
+		rs = stmt.executeQuery(sql);
+		tablefluegedata.remove(0, tablefluegedata.size());
+		int i = 1;
+		// Testbeginn
+		// rs = null;
+		// Testende
+
+		while ((rs != null) && (rs.next())) {
+
+			// Flughafenstadt vom Zielflughafen ermitteln
+			sql = "select flughafen_bis.FlughafenStadt from flughafen_bis where flughafen_bis.FlughafenKuerzel ='"
+					+ rs.getString(6) + "'";
+			rs1 = stmt1.executeQuery(sql);
+			rs1.first();
+			// System.out.println(rs.getString(6));
+			// if (rs1.first()) System.out.println("here it
+			// is:"+rs1.getString(1));
+			if (rs1.first()) {
+				zielflughafen = rs1.getString(1);
+				System.out.println(rs.getString(6) + " " + zielflughafen);
+			} else {
+				zielflughafen = "";
+
+			}
+			System.out.println(i++ + " " + rs.getString(1) + " " + rs.getString(3) + " " + rs.getString(9) + " "
+					+ rs.getFloat(7) + " " + rs.getString(4) + " " + rs.getString(6));
+			tablefluegedata.add(new Fluege(rs.getString(1), rs.getString(3), rs.getString(9), rs.getFloat(7),
+					rs.getString(4), zielflughafen, pax));
+			ankunftort1.setText(zielflughafen);
+			zaehler++;
+			switch (zaehler) {
+			case 1:
+				zwischenflughafen = zielflughafen;
+				break;
+			case 2:
+				zwischenstop1.setText(zwischenflughafen);
+				zwischenflughafen = zielflughafen;
+				break;
+			case 3:
+				zwischenstop2.setText(zwischenflughafen);
+				zwischenflughafen = zielflughafen;
+				break;
+			case 4:
+				zwischenstop3.setText(zwischenflughafen);
+				zwischenflughafen = zielflughafen;
+				break;
+
+			}
+
+		}
+				
+		//Preis netto
+				sql = "select angebote.angebotspreis_netto from angebote where angebote.angebote_id='"+angebot_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				System.out.println(rs.getInt(1));		
+				preisnetto1.setText(Integer.toString(rs.getInt(1)));
+				int Preisnetto = rs.getInt(1);
+		//Preis brutto
+				sql = "select angebote.angebotspreis_brutto from angebote where angebote.angebote_id='"+angebot_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				System.out.println(rs.getInt(1));		
+				preisbrutto1.setText(Integer.toString(rs.getInt(1)));
+				int Preisbrutto = rs.getInt(1);					
 		//Preis Mwst
 				int Preismwst = Preisbrutto - Preisnetto;
 				System.out.println(Preismwst);		
-				preismwst.setText(Integer.toString(Preismwst));
+				preismwst1.setText(Integer.toString(Preismwst));
 				
+				
+			
 		//Abflugort
-				sql = "select flughafen_von.flughafenname from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
+				
+				sql = "select flughafen_von.flughafenstadt from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on fluege.angebote_Angebote_ID = angebote.angebote_id and angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
-				abflugort.setText(rs.getString(1));
+				abflugort1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));				
-		//Ankunftort
-				sql = "select flughafen_bis.flughafenname from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
+	/*	//Ankunftort
+				sql = "select flughafen_bis.flughafenname from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on fluege.angebote_Angebote_ID = angebote.angebote_id and angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
-				ankunftort.setText(rs.getString(1));
+				ankunftort1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));				
-					
+		*/			
 
 				
 	}
@@ -2724,7 +2974,7 @@ public ObservableList<FHSuche> getFHData() {
 			// Traditional way to get the response value.
 			Optional<String> result2 = dialog2.showAndWait();
 			result2.ifPresent(letter -> System.out.println("Your choice: " + letter));
-			actiongetangebote();
+			actiongetangebotepgm(false);
 
 			if (result2.isPresent()) {
 				AuswahlAktion = result2.get();
@@ -2805,32 +3055,55 @@ public ObservableList<FHSuche> getFHData() {
 	
 	
 	@FXML
-	public void change_billstatus(ActionEvent event) throws SQLException {
+	public void change_billstatus(ActionEvent event) throws SQLException, IOException {
 		set_allunvisible(false);
-		scrollpane_changebillstatus.setVisible(true);
-		scrollpane_changebillstatus.setVvalue(0);;
-		apa_formchangebillstatus.setVisible(true);
+		scroll_pane_changeorder.setVisible(true);
+		scroll_pane_changeorder.setVvalue(0);
+		auftragändernform.setVisible(true);
 		ancpanebtn_changebillstatus.setVisible(true);
 		maskentitel.setVisible(true);
+		choiceorderstatus.setVisible(false);
+		choicebillstatus.setVisible(true);
+		hbox_show_status.setVisible(true);
 		maskentitel.setText("Rechnungsstatus ändern");
-		choicebillstatus.getItems().clear();
-		choicebillstatus.getItems().addAll("erstellt","verschickt");
-
-		//rechnung_id übernehmen
-		int rechnung_id = Nummerbill.getCellData(billtable.getSelectionModel().getSelectedIndex());
 		
 
-	
+		//rechnung_id übernehmen, Rechnungsstatus anzeigen
+		int rechnung_id = Nummerbill.getCellData(billtable.getSelectionModel().getSelectedIndex());
+		String tmpbillstatus = Statusbill.getCellData(billtable.getSelectionModel().getSelectedIndex());
+		choicebillstatus.getItems().clear();
+		choicebillstatus.getItems().addAll("erstellt","verschickt");
+		choicebillstatus.setPromptText(tmpbillstatus);
+		
+		final String hostname = "172.20.1.24"; 
+        final String port = "3306"; 
+        String dbname = "myflight";
+		String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+		conn = DriverManager.getConnection(url, user, password);
+		//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+		
+		dbname = "benutzerverwaltung";
+		conn_benutzerverwaltung = DriverManager.getConnection(url, user, password);
+		stmt_benutzerverwaltung = conn_benutzerverwaltung.createStatement();		
+		
+		// angebote_id ermitteln
+		String sql = "select angebote.angebote_id from angebote inner join auftraege inner join rechnungen on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id = rechnungen.auftraege_auftraege_id where rechnungen.rechnungen_ID = '"+rechnung_id+"'";
+
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		rs.next();
+		int angebot_id = rs.getInt(1);
+		System.out.println(rs.getInt(1));
 		
 		
 		// Kundenname
-				String sql = "select kunden.kundename from kunden inner join angebote inner join rechnungen inner join auftraege on rechnungen.auftraege_auftraege_id = auftraege.auftraege_id and auftraege.angebote_angebote_id = angebote.angebote_id and kunden.kunde_id=angebote.kunden_kunde_id and rechnungen.rechnungen_id='"
+				sql = "select kunden.kundename from kunden inner join angebote inner join rechnungen inner join auftraege on rechnungen.auftraege_auftraege_id = auftraege.auftraege_id and auftraege.angebote_angebote_id = angebote.angebote_id and kunden.kunde_id=angebote.kunden_kunde_id and rechnungen.rechnungen_id='"
 				+ rechnung_id + "'";
 
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery(sql);
+				stmt = conn.createStatement();
+				rs = stmt.executeQuery(sql);
 				rs.next();
-			kdname2.setText(rs.getString(1));
+			kdname1.setText(rs.getString(1));
 			System.out.println(rs.getString(1));
 
 		// Kundenvorname
@@ -2838,27 +3111,56 @@ public ObservableList<FHSuche> getFHData() {
 				+ rechnung_id + "'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
-				kdvname2.setText(rs.getString(1));
+				kdvname1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));
 
 		//Art des Charters
 				sql = "select angebote.chartertyp_chartertyp from angebote inner join auftraege inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and auftraege.angebote_angebote_id=angebote.angebote_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
-				artcharter2.setText(rs.getString(1));
+				artcharter1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));
 		//Flugzeugtyp
 				sql = "select flugzeugtypen.flugzeugtyp from flugzeugtypen inner join flugzeuge on flugzeugtypen.flugzeugtypen_id=flugzeuge.flugzeugtypen_flugzeugtypen_id inner join angebote on flugzeuge.flugzeug_id=angebote.flugzeuge_flugzeug_id inner join auftraege inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and auftraege.angebote_angebote_id=angebote.angebote_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
-				flgztyp2.setText(rs.getString(1));
+				flgztyp1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));
+				
+		//Charterdauer
+				sql = "select angebote.charterdauer from angebote inner join auftraege inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and auftraege.angebote_angebote_id=angebote.angebote_id where rechnungen.rechnungen_id='"+rechnung_id+"'"; 
+				rs = stmt.executeQuery(sql);
+				rs.next();
+			//	System.out.println(rs.getTime(1));		
+				charterdauer.setText(Float.toString(rs.getFloat(1)));
+		//Flugzeit
+				sql = "select angebote.flugzeit from angebote inner join auftraege inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and auftraege.angebote_angebote_id=angebote.angebote_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+	
+		//		System.out.println(rs.getString(1));		
+				flugzeit.setText(Float.toString(rs.getFloat(1)));		
+				
+				
 		//Flugzeugkennzeichen
 				sql = "select flugzeuge.flugzeug_id from flugzeuge inner join angebote on flugzeuge.flugzeug_id=angebote.flugzeuge_flugzeug_id inner join auftraege inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and auftraege.angebote_angebote_id=angebote.angebote_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
-				flgzkz2.setText(rs.getString(1));
+				flgzkz1.setText(rs.getString(1));
+				int flgzid = rs.getInt(1);
 				System.out.println(rs.getString(1));
+				
+				//Flugzeugbild
+				sql = "select benutzerverwaltung.flugzeug_bilder.flugzeuge_Flugzeug_ID from benutzerverwaltung.flugzeug_bilder where benutzerverwaltung.flugzeug_bilder.flugzeuge_flugzeug_id = '"+flgzid+"'";
+				rs = stmt_benutzerverwaltung.executeQuery(sql);
+				rs.next();
+				String filenamepic = System.getProperty("user.dir") + "/picture"+rs.getString(1)+".jpg";
+				System.out.println(filenamepic);
+		//		File image = new File (filenamepic);
+			      BufferedImage imgbuf = ImageIO.read(new File(filenamepic));
+			      javafx.scene.image.Image picture = SwingFXUtils.toFXImage(imgbuf, null);
+			      flgzpicture1.setImage(picture);
+				
 		//Datum von
 				sql = "select angebote.datum_von from angebote inner join auftraege inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and auftraege.angebote_angebote_id=angebote.angebote_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
@@ -2872,7 +3174,7 @@ public ObservableList<FHSuche> getFHData() {
 				// representation of a date with the defined format.
 				String reportDate = df.format(rs.getObject(1));
 				System.out.println(reportDate);
-				datumvon2.setPromptText(reportDate);
+				datumvon1.setPromptText(reportDate);
 				//datumvon.setPromptText(rs.getString(1));
 				//System.out.println(rs.getString(1));
 		//Datum bis
@@ -2888,37 +3190,108 @@ public ObservableList<FHSuche> getFHData() {
 				// representation of a date with the defined format.
 				reportDate = df.format(rs.getObject(1));
 				System.out.println(reportDate);
-				datumbis2.setPromptText(reportDate);
-		//Abflugort
-				sql = "select flughafen_von.flughafenname from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote inner join rechnungen inner join auftraege on fluege.angebote_angebote_id=angebote.angebote_id and auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.auftraege_auftraege_id=auftraege.auftraege_id where rechnungen.rechnungen_id='"+rechnung_id+"'";    
+				datumbis1.setPromptText(reportDate);
+				
+				// Flüge zum Angebot ermitteln
+				// Anzahl Passagiere ermitteln
+				sql = "select angebote.pax from angebote where angebote.angebote_id='" + angebot_id + "'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
-				abflugort2.setText(rs.getString(1));
+				int pax = rs.getInt(1);
+
+				// Fluege ermitteln
+				ResultSet rs1;
+				String zielflughafen = "";
+				String zwischenflughafen = "";
+				zwischenstop1.clear();
+				zwischenstop2.clear();
+				zwischenstop3.clear();
+				int zaehler = 0;
+				Statement stmt1 = conn.createStatement();
+				sql = "select fluege.*, flughafen_von.FlughafenStadt from fluege left outer join flughafen_von on fluege.flughafen_von_FlughafenKuerzel = flughafen_von.FlughafenKuerzel  where fluege.angebote_Angebote_ID ='"
+						+ angebot_id + "'";
+				rs = stmt.executeQuery(sql);
+				tablefluegedata.remove(0, tablefluegedata.size());
+				int i = 1;
+				// Testbeginn
+				// rs = null;
+				// Testende
+
+				while ((rs != null) && (rs.next())) {
+
+					// Flughafenstadt vom Zielflughafen ermitteln
+					sql = "select flughafen_bis.FlughafenStadt from flughafen_bis where flughafen_bis.FlughafenKuerzel ='"
+							+ rs.getString(6) + "'";
+					rs1 = stmt1.executeQuery(sql);
+					rs1.first();
+					// System.out.println(rs.getString(6));
+					// if (rs1.first()) System.out.println("here it
+					// is:"+rs1.getString(1));
+					if (rs1.first()) {
+						zielflughafen = rs1.getString(1);
+						System.out.println(rs.getString(6) + " " + zielflughafen);
+					} else {
+						zielflughafen = "";
+
+					}
+					System.out.println(i++ + " " + rs.getString(1) + " " + rs.getString(3) + " " + rs.getString(9) + " "
+							+ rs.getFloat(7) + " " + rs.getString(4) + " " + rs.getString(6));
+					tablefluegedata.add(new Fluege(rs.getString(1), rs.getString(3), rs.getString(9), rs.getFloat(7),
+							rs.getString(4), zielflughafen, pax));
+					ankunftort1.setText(zielflughafen);
+					zaehler++;
+					switch (zaehler) {
+					case 1:
+						zwischenflughafen = zielflughafen;
+						break;
+					case 2:
+						zwischenstop1.setText(zwischenflughafen);
+						zwischenflughafen = zielflughafen;
+						break;
+					case 3:
+						zwischenstop2.setText(zwischenflughafen);
+						zwischenflughafen = zielflughafen;
+						break;
+					case 4:
+						zwischenstop3.setText(zwischenflughafen);
+						zwischenflughafen = zielflughafen;
+						break;
+
+					}
+
+				}				
+				
+		//Abflugort
+				sql = "select flughafen_von.flughafenstadt from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote inner join rechnungen inner join auftraege on fluege.angebote_angebote_id=angebote.angebote_id and auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.auftraege_auftraege_id=auftraege.auftraege_id where rechnungen.rechnungen_id='"+rechnung_id+"'";    
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				abflugort1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));				
-		//Ankunftort
+/*		//Ankunftort
 				sql = "select flughafen_bis.flughafenname from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote inner join rechnungen inner join auftraege on fluege.angebote_angebote_id=angebote.angebote_id and auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.auftraege_auftraege_id=auftraege.auftraege_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
-				ankunftort2.setText(rs.getString(1));
-				System.out.println(rs.getString(1));				
+				ankunftort1.setText(rs.getString(1));
+				System.out.println(rs.getString(1));	
+	*/			
 		//Preis netto
 				sql = "select angebote.angebotspreis_netto from angebote inner join rechnungen inner join auftraege on auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.auftraege_auftraege_id=auftraege.auftraege_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				System.out.println(rs.getFloat(1));		
-				preisnetto2.setText(Float.toString(rs.getFloat(1)));
+				preisnetto1.setText(Float.toString(rs.getFloat(1)));
 				float Preisnetto = rs.getFloat(1);
 		//Preis brutto
 				sql = "select angebote.angebotspreis_brutto from angebote inner join rechnungen inner join auftraege on auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.auftraege_auftraege_id=auftraege.auftraege_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				System.out.println(rs.getInt(1));		
-				preisbrutto2.setText(Float.toString(rs.getFloat(1)));
+				preisbrutto1.setText(Float.toString(rs.getFloat(1)));
 				float Preisbrutto = rs.getFloat(1);					
 		//Preis Mwst
 				float Preismwst = Preisbrutto - Preisnetto;
 				System.out.println(Preismwst);		
-				preismwst2.setText(Float.toString(Preismwst));
+				preismwst1.setText(Float.toString(Preismwst));
 
 	
 	
@@ -3024,31 +3397,39 @@ public ObservableList<FHSuche> getFHData() {
 		
 		String Endedatum = df.format(rs.getObject(22));
 		//Charterdauer
-	//	System.out.println(rs.getTime(14));		
-//		charterdauer.setText(Object.toString(rs.getObject(14)));
+		//	System.out.println(rs.getTime(14));		
+			String Charterdauer = Float.toString(rs.getFloat(14));
 		//Flugzeit
-//		System.out.println(rs.getString(15));		
-	//	charterdauer.setText(rs.getString(15));
+	//		System.out.println(rs.getString(15));		
+			String Flugzeit = Float.toString(rs.getFloat(15));
 		//Preis netto
-		System.out.println(rs.getInt(8));		
-		String Preisnetto = Integer.toString(rs.getInt(8))+" EUR";
-		int intpreisnetto = rs.getInt(8);
-		// Preis Brutto
-		System.out.println(rs.getInt(7));		
-		String Preisbrutto = Integer.toString(rs.getInt(7))+ " EUR";
-		int intpreisbrutto = rs.getInt(7);					
-//Preis Mwst
-		int Preismwst = intpreisbrutto - intpreisnetto;
-		String Mwst = Integer.toString(Preismwst)+" EUR";
+				System.out.println(rs.getInt(8));		
+				String Preisnetto = Integer.toString(rs.getInt(8))+" EUR";
+				int intpreisnetto = rs.getInt(8);
+				// Preis Brutto
+				System.out.println(rs.getInt(7));		
+				String Preisbrutto = Integer.toString(rs.getInt(7))+ " EUR";
+				int intpreisbrutto = rs.getInt(7);					
+		//Preis Mwst
+				int Preismwst = intpreisbrutto - intpreisnetto;
+				String Mwst = Integer.toString(Preismwst)+" EUR";
+
+				// Angebot_id ermitteln
+				sql = "select angebote.angebote_id from angebote inner join auftraege on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
+				stmt = conn.createStatement();
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				int angebote_angebote_id = rs.getInt(1);
 		
 		//Abflugort
-		sql = "select flughafen_von.flughafenname from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
+		sql = "select flughafen_von.flughafenstadt from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on fluege.angebote_angebote_id = angebote.angebote_id and angebote.angebote_id='"+angebote_angebote_id+"'";
 		rs = stmt.executeQuery(sql);
 		rs.next();
 		String FlugAnfang = rs.getString(1);
+		System.out.println(rs.getString(1));
 						
-//Ankunftort
-		sql = "select flughafen_bis.flughafenname from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
+		//Ankunftort
+		sql = "select flughafen_bis.flughafenstadt from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on fluege.angebote_angebote_id = angebote.angebote_id and angebote.angebote_id='"+angebote_angebote_id+"'";
 		rs = stmt.executeQuery(sql);
 		rs.next();
 		String FlugEnde = rs.getString(1);
@@ -3065,11 +3446,11 @@ public ObservableList<FHSuche> getFHData() {
 						//String Endedatum = "01.06.2016";
 						//String FlugAnfang = "München";
 						//String FlugEnde = "New York";
-						String Zwischen1 = "Paris";
-						String Zwischen2 = "London";
-						String Zwischen3 = "Reykjavík";
-						String Charterdauer = "124:30 h";
-						String Flugzeit = "24:45";
+						String Zwischen1 = "";
+						String Zwischen2 = "";
+						String Zwischen3 = "";
+					//	String Charterdauer = "124:30 h";
+					//	String Flugzeit = "24:45";
 						//String Preisnetto = "1.450,00 EUR";
 						//String Mwst = "275,50 EUR";
 						//String Preisbrutto = "1.725,50 EUR";
@@ -3112,9 +3493,118 @@ public ObservableList<FHSuche> getFHData() {
 				p.setSpacingAfter(20f);
 				document.add(p);
 				
+				String[][] DATEN = new String[10][7];
+
+				final String hostname = "172.20.1.24"; 
+				Connection conn;
+		        final String port = "3306"; 
+		        String dbname = "myflight";
+				String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+				conn = DriverManager.getConnection(url, user, password);
+				//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password)
 				
-			
+				// Flüge zum Angebot ermitteln
 				
+				// Fluege ermitteln
+				ResultSet rs1;
+				String zielflughafen = "";
+				String zwischenflughafen = "";
+				
+				int zaehler = 0;
+				Statement stmt1 = conn.createStatement();
+				sql = "select fluege.*, flughafen_von.FlughafenStadt from fluege left outer join flughafen_von on fluege.flughafen_von_FlughafenKuerzel = flughafen_von.FlughafenKuerzel where fluege.angebote_Angebote_ID ='"
+						+angebote_angebote_id+ "'";
+				rs = stmt.executeQuery(sql);
+				
+				int i = 1;
+				// Testbeginn
+				// rs = null;
+				// Testende
+				int x = 0; int y = 0;
+				while ((rs != null) && (rs.next())) {
+
+					// Flughafenstadt vom Zielflughafen ermitteln
+					sql = "select flughafen_bis.FlughafenStadt from flughafen_bis where flughafen_bis.FlughafenKuerzel ='"
+							+ rs.getString(6) + "'";
+					rs1 = stmt1.executeQuery(sql);
+					rs1.first();
+					// System.out.println(rs.getString(6));
+					// if (rs1.first()) System.out.println("here it
+					// is:"+rs1.getString(1));
+					if (rs1.first()) {
+						zielflughafen = rs1.getString(1);
+						System.out.println(rs.getString(6) + " " + zielflughafen);
+					} else {
+						zielflughafen = "";
+
+					}
+					System.out.println(i++ + " " + rs.getString(1) + " " + rs.getString(3) + " " + rs.getString(9) + " "
+							+ rs.getFloat(7) + " " + rs.getString(4) + " " + rs.getString(6));
+					
+					DATEN[x][y] = rs.getString(1); y++;
+					DATEN[x][y] = rs.getString(3); y++;
+					DATEN[x][y] = rs.getString(9); y++;
+					DATEN[x][y] = Float.toString(rs.getFloat(7)); y++;
+					DATEN[x][y] = rs.getString(4); y++;
+					DATEN[x][y] = zielflughafen; y++;
+					DATEN[x][y] = Integer.toString(pax); x++;y=0;
+					
+					
+					FlugEnde = zielflughafen;
+					zaehler++;
+					switch (zaehler) {
+					case 1:
+						zwischenflughafen = zielflughafen;
+						break;
+					case 2:
+						Zwischen1 = zwischenflughafen;
+						zwischenflughafen = zielflughafen;
+						break;
+					case 3:
+						Zwischen2 = zwischenflughafen;
+						zwischenflughafen = zielflughafen;
+						break;
+					case 4:
+						Zwischen3 = zwischenflughafen;
+						zwischenflughafen = zielflughafen;
+						break;
+
+					}
+
+				}	
+
+				
+				
+				switch (zaehler) {
+				
+				case 1: 
+					p = new Paragraph(
+							AG+" chartert das Luftfahrzeug "+Typ+" "+Kennzeichen+" für die Zeit vom "+Beginndatum+" zum "+Endedatum+" zu einer Reise von "+FlugAnfang+" nach "+FlugEnde+".",styleText);
+					p.setAlignment(Element.ALIGN_JUSTIFIED);
+					// zeilenabstand kleiner wählen
+					p.setLeading(15f);
+					p.setSpacingAfter(20f);
+					document.add(p);
+					break;
+				case 2:
+					p = new Paragraph(
+							AG+" chartert das Luftfahrzeug "+Typ+" "+Kennzeichen+" für die Zeit vom "+Beginndatum+" zum "+Endedatum+" zu einer Reise von "+FlugAnfang+" nach "+FlugEnde+" über "+Zwischen1+".",styleText);
+					p.setAlignment(Element.ALIGN_JUSTIFIED);
+					// zeilenabstand kleiner wählen
+					p.setLeading(15f);
+					p.setSpacingAfter(20f);
+					document.add(p);
+					break;
+				case 3:
+					p = new Paragraph(
+							AG+" chartert das Luftfahrzeug "+Typ+" "+Kennzeichen+" für die Zeit vom "+Beginndatum+" zum "+Endedatum+" zu einer Reise von "+FlugAnfang+" nach "+FlugEnde+" über "+Zwischen1+", "+Zwischen2+", "+".",styleText);
+					p.setAlignment(Element.ALIGN_JUSTIFIED);
+					// zeilenabstand kleiner wählen
+					p.setLeading(15f);
+					p.setSpacingAfter(20f);
+					document.add(p);
+					break;
+				default:	
 				p = new Paragraph(
 						AG+" chartert das Luftfahrzeug "+Typ+" "+Kennzeichen+" für die Zeit vom "+Beginndatum+" zum "+Endedatum+" zu einer Reise von "+FlugAnfang+" nach "+FlugEnde+" über "+Zwischen1+", "+Zwischen2+", "+Zwischen3+".",styleText);
 				p.setAlignment(Element.ALIGN_JUSTIFIED);
@@ -3122,13 +3612,28 @@ public ObservableList<FHSuche> getFHData() {
 				p.setLeading(15f);
 				p.setSpacingAfter(20f);
 				document.add(p);
-
+				}
+				
 				p = new Paragraph("Flugplan:", styleUeberschrift2);
 				p.setAlignment(Element.ALIGN_LEFT);
 				// etwas abstand hinter der überschrift
-				p.setSpacingAfter(6f);
+				//p.setSpacingAfter(6f);
 				document.add(p);
 
+				//Flugzeugbild
+		//		sql = "select benutzerverwaltung.flugzeug_bilder.flugzeuge_Flugzeug_ID from benutzerverwaltung.flugzeug_bilder where benutzerverwaltung.flugzeug_bilder.flugzeuge_flugzeug_id = '"+Kennzeichen+"'";
+		//		rs = stmt_benutzerverwaltung.executeQuery(sql);
+		//		rs.next();
+				String filenamepic = "picture"+Kennzeichen+".jpg";
+		//		String filenamepic = System.getProperty("user.dir") + "/picture"+Kennzeichen+".jpg";
+		//		image = new File (filenamepic);
+				System.out.println(filenamepic);
+				Image image1 = Image.getInstance(PdfGenerator.class.getResource(filenamepic));
+				image1.scaleAbsolute(250,40);
+				image1.setAbsolutePosition(307,509);
+				document.add(image1);
+			 //     p.setSpacingAfter(6f);
+				//	document.add(p);
 				
 				/*p = new Paragraph();
 				p.add(new Chunk("Dies ist ein ", styleText));
@@ -3143,7 +3648,7 @@ public ObservableList<FHSuche> getFHData() {
 				p.setLeading(15f);
 				document.add(p);
 		*/
-				addTable(document);
+				addTable(document,angebot_id);
 
 				p = new Paragraph(" ", styleText);
 				p.setAlignment(Element.ALIGN_LEFT);
@@ -3347,27 +3852,132 @@ public ObservableList<FHSuche> getFHData() {
 				return border;
 			}
 
-			private static void addTable(Document document) throws DocumentException {
-				document.add(getSampleTable());
-			}
-			String AG = "Erich";
-			String Typ = "Dornier";
-			String Kennzeichen = "120";
-			String Beginndatum = "20.05.2016";
-			String Endedatum = "01.06.2016";
-			String FlugAnfang = "München";
-			String FlugEnde = "New York";
-			String Zwischen1 = "Paris";
-			String Zwischen2 = "London";
-			String Zwischen3 = "Reykjavík";
+			private static void addTable(Document document, int angebot_id) throws DocumentException, SQLException {
 			
-			private static String[] SPALTENKOPF = new String[] { "Datum", "Zeit \n(Abflug)", "Ort \n(von)","Flugzeit","Zeit (Ankunft)","Ort \n(nach)","Anzahl Passagiere"};
+			
+				document.add(getSampleTable(angebot_id));
+			
+			}
+			
+					
+			
+			
+		//	private static String[][] DATEN = new String[][] { { "20.05.2016","08:00","München","1:30","09:30","Paris","3" },
+		//		{ "21.05.2016","15:00","Paris","2:00","17:00","London","2" }, { "22.05.2016","09:00","London","2:00","11:00","Reykjavik","5" } };
 
-			private static String[][] DATEN = new String[][] { { "20.05.2016","08:00","München","1:30","09:30","Paris","3" },
-				{ "21.05.2016","15:00","Paris","2:00","17:00","London","2" }, { "22.05.2016","09:00","London","2:00","11:00","Reykjavik","5" } };
+				
+			
+			private static PdfPTable getSampleTable(int angebot_id) throws DocumentException, SQLException {
 
-			private static PdfPTable getSampleTable() throws DocumentException {
-				int rows = DATEN.length;
+				String AG = "Erich";
+				String Typ = "Dornier";
+				String Kennzeichen = "120";
+				String Beginndatum = "20.05.2016";
+				String Endedatum = "01.06.2016";
+				String FlugAnfang = "München";
+				String FlugEnde = "";
+				String Zwischen1 = "";
+				String Zwischen2 = "";
+				String Zwischen3 = "";
+				String[] SPALTENKOPF = new String[] { "Datum", "Zeit \n(Abflug)", "Ort \n(von)","Flugzeit","Zeit (Ankunft)","Ort \n(nach)","Anzahl Passagiere"};
+
+				String[][] DATEN = new String[10][7];
+
+				final String hostname = "172.20.1.24"; 
+				Connection conn;
+		        final String port = "3306"; 
+		        String dbname = "myflight";
+				String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+				conn = DriverManager.getConnection(url, user, password);
+				//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password)
+				
+				// Flüge zum Angebot ermitteln
+				// Anzahl Passagiere ermitteln
+				String sql = "select angebote.pax from angebote inner join auftraege on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);
+				rs.next();
+				int pax = rs.getInt(1);
+				// Angebot_id ermitteln
+				sql = "select angebote.angebote_id from angebote inner join auftraege on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
+				stmt = conn.createStatement();
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				int angebote_angebote_id = rs.getInt(1);
+				// Fluege ermitteln
+				ResultSet rs1;
+				String zielflughafen = "";
+				String zwischenflughafen = "";
+				
+				int zaehler = 0;
+				Statement stmt1 = conn.createStatement();
+				sql = "select fluege.*, flughafen_von.FlughafenStadt from fluege left outer join flughafen_von on fluege.flughafen_von_FlughafenKuerzel = flughafen_von.FlughafenKuerzel where fluege.angebote_Angebote_ID ='"
+						+angebote_angebote_id+ "'";
+				rs = stmt.executeQuery(sql);
+				
+				int i = 1;
+				// Testbeginn
+				// rs = null;
+				// Testende
+				int x = 0; int y = 0;
+				while ((rs != null) && (rs.next())) {
+
+					// Flughafenstadt vom Zielflughafen ermitteln
+					sql = "select flughafen_bis.FlughafenStadt from flughafen_bis where flughafen_bis.FlughafenKuerzel ='"
+							+ rs.getString(6) + "'";
+					rs1 = stmt1.executeQuery(sql);
+					rs1.first();
+					// System.out.println(rs.getString(6));
+					// if (rs1.first()) System.out.println("here it
+					// is:"+rs1.getString(1));
+					if (rs1.first()) {
+						zielflughafen = rs1.getString(1);
+						System.out.println(rs.getString(6) + " " + zielflughafen);
+					} else {
+						zielflughafen = "";
+
+					}
+					System.out.println(i++ + " " + rs.getString(1) + " " + rs.getString(3) + " " + rs.getString(9) + " "
+							+ rs.getFloat(7) + " " + rs.getString(4) + " " + rs.getString(6));
+					
+					DATEN[x][y] = rs.getString(1); y++;
+					DATEN[x][y] = rs.getString(3); y++;
+					DATEN[x][y] = rs.getString(9); y++;
+					DATEN[x][y] = Float.toString(rs.getFloat(7)); y++;
+					DATEN[x][y] = rs.getString(4); y++;
+					DATEN[x][y] = zielflughafen; y++;
+					DATEN[x][y] = Integer.toString(pax); x++;y=0;
+					
+					
+					FlugEnde = zielflughafen;
+					zaehler++;
+					switch (zaehler) {
+					case 1:
+						zwischenflughafen = zielflughafen;
+						break;
+					case 2:
+						Zwischen1 = zwischenflughafen;
+						zwischenflughafen = zielflughafen;
+						break;
+					case 3:
+						Zwischen2 = zwischenflughafen;
+						zwischenflughafen = zielflughafen;
+						break;
+					case 4:
+						Zwischen3 = zwischenflughafen;
+						zwischenflughafen = zielflughafen;
+						break;
+
+					}
+
+				}	
+
+			
+				
+				
+				
+				//int rows = DATEN.length;
+				int rows = zaehler;
 				int cols = SPALTENKOPF.length;
 				PdfPTable table = new PdfPTable(cols);
 				table.setSpacingBefore(16f);
@@ -3425,7 +4035,7 @@ public ObservableList<FHSuche> getFHData() {
 				
 				// under construction Style orgStyle = createStyle(StyleDefinitionsPart.getKnownStyles().get(WORD_STYLE_HEADING2), " ", 14, true, JcEnumeration.CENTER);
 				// Logo einfügen
-				addLogo(mdp, wordMLPackage);
+			
 				
 				
 				// hier habe ich die Inhalte ins Dokument eingefügt
@@ -3450,6 +4060,7 @@ public ObservableList<FHSuche> getFHData() {
 			String plz = rs.getString(38);
 			String ort = rs.getString(39);
 			
+			addLogo(mdp, wordMLPackage, Kennzeichen);
 			 //artcharter.setText(rs.getString(4));
 				
 				// Create an instance of SimpleDateFormat used for formatting 
@@ -3470,11 +4081,11 @@ public ObservableList<FHSuche> getFHData() {
 				
 				String Endedatum = df.format(rs.getObject(22));
 				//Charterdauer
-			//	System.out.println(rs.getTime(14));		
-//				charterdauer.setText(Object.toString(rs.getObject(14)));
+				//	System.out.println(rs.getTime(14));		
+					String Charterdauer = Float.toString(rs.getFloat(14));
 				//Flugzeit
-//				System.out.println(rs.getString(15));		
-			//	charterdauer.setText(rs.getString(15));
+			//		System.out.println(rs.getString(15));		
+					String Flugzeit = Float.toString(rs.getFloat(15));
 				//Preis netto
 				System.out.println(rs.getInt(8));		
 				String Preisnetto = Integer.toString(rs.getInt(8))+" EUR";
@@ -3486,18 +4097,28 @@ public ObservableList<FHSuche> getFHData() {
 		//Preis Mwst
 				int Preismwst = intpreisbrutto - intpreisnetto;
 				String Mwst = Integer.toString(Preismwst)+" EUR";
-				
-				//Abflugort
-				sql = "select flughafen_von.flughafenname from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
+	
+				// Angebot_id ermitteln
+				sql = "select angebote.angebote_id from angebote inner join auftraege on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
+				stmt = conn.createStatement();
 				rs = stmt.executeQuery(sql);
 				rs.next();
-				String FlugAnfang = rs.getString(1);
-								
+				int angebote_angebote_id = rs.getInt(1);
+		
+		//Abflugort
+		sql = "select flughafen_von.flughafenstadt from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on fluege.angebote_angebote_id = angebote.angebote_id and angebote.angebote_id='"+angebote_angebote_id+"'";
+		rs = stmt.executeQuery(sql);
+		rs.next();
+		String FlugAnfang = rs.getString(1);
+		System.out.println(rs.getString(1));
+						
 		//Ankunftort
-				sql = "select flughafen_bis.flughafenname from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on angebote.angebote_id='"+angebot_id+"'";
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				String FlugEnde = rs.getString(1);
+		sql = "select flughafen_bis.flughafenstadt from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on fluege.angebote_angebote_id = angebote.angebote_id and angebote.angebote_id='"+angebote_angebote_id+"'";
+		rs = stmt.executeQuery(sql);
+		rs.next();
+		String FlugEnde = rs.getString(1);
+					
+	
 								
 						
 				
@@ -3511,11 +4132,11 @@ public ObservableList<FHSuche> getFHData() {
 								//String Endedatum = "01.06.2016";
 								//String FlugAnfang = "München";
 								//String FlugEnde = "New York";
-								String Zwischen1 = "Paris";
-								String Zwischen2 = "London";
-								String Zwischen3 = "Reykjavík";
-								String Charterdauer = "124:30 h";
-								String Flugzeit = "24:45";
+								String Zwischen1 = "";
+								String Zwischen2 = "";
+								String Zwischen3 = "";
+								//String Charterdauer = "124:30 h";
+								//String Flugzeit = "24:45";
 								//String Preisnetto = "1.450,00 EUR";
 								//String Mwst = "275,50 EUR";
 								//String Preisbrutto = "1.725,50 EUR";
@@ -3539,8 +4160,105 @@ public ObservableList<FHSuche> getFHData() {
 						centerParagraph(mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "Firma oder Person"));
 						doBoldFormat(getFirstRunOfParagraph(getLastParagraph(mdp)));
 		
-								
-				mdp.addParagraphOfText(AG+" chartert das Luftfahrzeug "+Typ+" "+Kennzeichen+" für die Zeit vom "+Beginndatum+" zum "+Endedatum+" zu einer Reise von "+FlugAnfang+" nach "+FlugEnde+" über "+Zwischen1+", "+Zwischen2+", "+Zwischen3+".");
+		
+						String[][] DATEN = new String[10][7];
+
+						final String hostname = "172.20.1.24"; 
+						Connection conn;
+				        final String port = "3306"; 
+				        String dbname = "myflight";
+						String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+						conn = DriverManager.getConnection(url, user, password);
+						//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password)
+						
+						// Flüge zum Angebot ermitteln
+						
+						// Fluege ermitteln
+						ResultSet rs1;
+						String zielflughafen = "";
+						String zwischenflughafen = "";
+						
+						int zaehler = 0;
+						Statement stmt1 = conn.createStatement();
+						sql = "select fluege.*, flughafen_von.FlughafenStadt from fluege left outer join flughafen_von on fluege.flughafen_von_FlughafenKuerzel = flughafen_von.FlughafenKuerzel where fluege.angebote_Angebote_ID ='"
+								+angebote_angebote_id+ "'";
+						rs = stmt.executeQuery(sql);
+						
+						int i = 1;
+						// Testbeginn
+						// rs = null;
+						// Testende
+						int x = 0; int y = 0;
+						while ((rs != null) && (rs.next())) {
+
+							// Flughafenstadt vom Zielflughafen ermitteln
+							sql = "select flughafen_bis.FlughafenStadt from flughafen_bis where flughafen_bis.FlughafenKuerzel ='"
+									+ rs.getString(6) + "'";
+							rs1 = stmt1.executeQuery(sql);
+							rs1.first();
+							// System.out.println(rs.getString(6));
+							// if (rs1.first()) System.out.println("here it
+							// is:"+rs1.getString(1));
+							if (rs1.first()) {
+								zielflughafen = rs1.getString(1);
+								System.out.println(rs.getString(6) + " " + zielflughafen);
+							} else {
+								zielflughafen = "";
+
+							}
+							System.out.println(i++ + " " + rs.getString(1) + " " + rs.getString(3) + " " + rs.getString(9) + " "
+									+ rs.getFloat(7) + " " + rs.getString(4) + " " + rs.getString(6));
+							
+							DATEN[x][y] = rs.getString(1); y++;
+							DATEN[x][y] = rs.getString(3); y++;
+							DATEN[x][y] = rs.getString(9); y++;
+							DATEN[x][y] = Float.toString(rs.getFloat(7)); y++;
+							DATEN[x][y] = rs.getString(4); y++;
+							DATEN[x][y] = zielflughafen; y++;
+							DATEN[x][y] = Integer.toString(pax); x++;y=0;
+							
+							
+							FlugEnde = zielflughafen;
+							zaehler++;
+							switch (zaehler) {
+							case 1:
+								zwischenflughafen = zielflughafen;
+								break;
+							case 2:
+								Zwischen1 = zwischenflughafen;
+								zwischenflughafen = zielflughafen;
+								break;
+							case 3:
+								Zwischen2 = zwischenflughafen;
+								zwischenflughafen = zielflughafen;
+								break;
+							case 4:
+								Zwischen3 = zwischenflughafen;
+								zwischenflughafen = zielflughafen;
+								break;
+
+							}
+
+						}	
+						
+						switch (zaehler) {
+						
+						case 1: 
+							mdp.addParagraphOfText(AG+" chartert das Luftfahrzeug "+Typ+" "+Kennzeichen+" für die Zeit vom "+Beginndatum+" zum "+Endedatum+" zu einer Reise von "+FlugAnfang+" nach "+FlugEnde+".");
+							break;
+						case 2:
+							mdp.addParagraphOfText(AG+" chartert das Luftfahrzeug "+Typ+" "+Kennzeichen+" für die Zeit vom "+Beginndatum+" zum "+Endedatum+" zu einer Reise von "+FlugAnfang+" nach "+FlugEnde+" über "+Zwischen1+".");
+							break;
+						case 3:
+							mdp.addParagraphOfText(AG+" chartert das Luftfahrzeug "+Typ+" "+Kennzeichen+" für die Zeit vom "+Beginndatum+" zum "+Endedatum+" zu einer Reise von "+FlugAnfang+" nach "+FlugEnde+" über "+Zwischen1+", "+Zwischen2+".");
+							break;
+						default:	
+							mdp.addParagraphOfText(AG+" chartert das Luftfahrzeug "+Typ+" "+Kennzeichen+" für die Zeit vom "+Beginndatum+" zum "+Endedatum+" zu einer Reise von "+FlugAnfang+" nach "+FlugEnde+" über "+Zwischen1+", "+Zwischen2+", "+Zwischen3+".");
+						}
+							
+						
+				
+				addLogo1(mdp, wordMLPackage, Kennzeichen);
 				mdp.addStyledParagraphOfText(styleUeberschrift2.getStyleId(), "Flugplan:");
 						
 				// das hier zeigt, wie ein ganzer Paragraph relativ einfach fett gemacht werden kann
@@ -3553,7 +4271,7 @@ public ObservableList<FHSuche> getFHData() {
 				// addMixedStyleParagraph(mdp);
 
 				// Tabelle
-				addTable(mdp, wordMLPackage);
+				addTable(mdp, wordMLPackage, angebot_id);
 
 				mdp.addParagraphOfText("");
 				mdp.addParagraphOfText("Charterdauer insgesamt (Stunden): \t\t\t\t"+Charterdauer);
@@ -3618,37 +4336,72 @@ public ObservableList<FHSuche> getFHData() {
 				return lastParagraph;
 			}
 
-			private static void addLogo(MainDocumentPart mdp, WordprocessingMLPackage wordMLPackage) throws Exception {
-				InputStream inputStream = WordGenerator.class.getResourceAsStream("Logo2.jpg");
+			private static void addLogo(MainDocumentPart mdp, WordprocessingMLPackage wordMLPackage, String Kennzeichen) throws Exception {
+				
+						InputStream inputStream = WordGenerator.class.getResourceAsStream("Logo2.jpg");			
+						
 				long fileLength = 94712; // 97kB
-
 				byte[] bytes = new byte[(int) fileLength];
-
+				
 				int offset = 0;
 				int numRead = 0;
 
 				while (offset < bytes.length && (numRead = inputStream.read(bytes, offset, bytes.length - offset)) >= 0) {
 					offset += numRead;
 				}
-
+				
 				inputStream.close();
-
+					
 				String filenameHint = "FreeLogo";
 				String altText = "Einfach nur ein Logo";
 
 				int id1 = 0;
 				int id2 = 1;
 
-				P p = newImage(wordMLPackage, bytes, filenameHint, altText, id1, id2);
-
-				mdp.addObject(p);
-			}
-
-			public static P newImage(WordprocessingMLPackage wordMLPackage, byte[] bytes, String filenameHint, String altText,
-					int id1, int id2) throws Exception {
-				BinaryPartAbstractImage imagePart = BinaryPartAbstractImage.createImagePart(wordMLPackage, bytes);
-				Inline inline = imagePart.createImageInline(filenameHint, altText, id1, id2, 9100, false);
 				
+				P p = newImage(wordMLPackage, bytes, filenameHint, altText, id1, id2, 9100);
+				
+				mdp.addObject(p);
+				
+			}
+			private static void addLogo1(MainDocumentPart mdp, WordprocessingMLPackage wordMLPackage, String Kennzeichen) throws Exception {
+				
+				String filenamepic = "picture"+Kennzeichen+".jpg";
+				//		String filenamepic = System.getProperty("user.dir") + "/picture"+Kennzeichen+".jpg";
+				//		image = new File (filenamepic);
+						System.out.println(filenamepic);
+						InputStream inputStream1 = WordGenerator.class.getResourceAsStream(filenamepic);		
+						
+				long fileLength1 = 1050712; // 480kB
+				byte[] bytes1 = new byte[(int) fileLength1];
+
+				int offset = 0;
+				int numRead = 0;
+
+				while (offset < bytes1.length && (numRead = inputStream1.read(bytes1, offset, bytes1.length - offset)) >= 0) {
+					offset += numRead;
+				}
+
+				inputStream1.close();
+					
+				String filenameHint = "FreeLogo";
+				String altText = "Einfach nur ein Logo";
+
+				int id1 = 0;
+				int id2 = 1;
+
+				
+				P p = newImage(wordMLPackage, bytes1, filenameHint, altText, id1, id2, 5100);
+				mdp.addObject(p);
+				
+			}
+	
+			
+			public static P newImage(WordprocessingMLPackage wordMLPackage, byte[] bytes, String filenameHint, String altText,
+					int id1, int id2, int laenge) throws Exception {
+				BinaryPartAbstractImage imagePart = BinaryPartAbstractImage.createImagePart(wordMLPackage, bytes);
+				Inline inline = imagePart.createImageInline(filenameHint, altText, id1, id2, laenge, false);
+			
 				
 				P p = factory.createP();
 
@@ -3662,89 +4415,127 @@ public ObservableList<FHSuche> getFHData() {
 				return p;
 			}
 
-			private static void addTable(MainDocumentPart mdp, WordprocessingMLPackage wordMLPackage) {
-				mdp.addObject(getSampleTable(wordMLPackage));
+			private static void addTable(MainDocumentPart mdp, WordprocessingMLPackage wordMLPackage, int angebot_id) throws SQLException {
+				mdp.addObject(getSampleTable(wordMLPackage, angebot_id));
 			}
 
 				private static String[] SPALTENKOPFword = new String[] { "Datum", "Zeit \n(Abflug)", "Ort \n(von)","Flugzeit","Zeit (Ankunft)","Ort \n(nach)","Anzahl Passagiere"};
 
 
-				private static String[][] DATENword = new String[][] { { "20.05.2016","08:00","München","1:30","09:30","Paris","3" },
-					{ "21.05.2016","15:00","Paris","2:00","17:00","London","2" }, { "22.05.2016","09:00","London","2:00","11:00","Reykjavik","5" } };
-				@FXML AnchorPane apa_btn_kf;
-				@FXML Button btn_cancel_kf;
-				@FXML Button btn_save_kf;
-				@FXML RadioButton tgl_ss_kom;
-				@FXML RadioButton tgl_s_kom;
-				@FXML RadioButton tgl_b_kom;
-				@FXML RadioButton tgl_g_kom;
-				@FXML RadioButton tgl_sg_kom;
-				@FXML RadioButton tgl_na_pue;
-				@FXML ToggleGroup tgg_pue;
-				@FXML RadioButton tgl_ss_pue;
-				@FXML RadioButton tgl_s_pue;
-				@FXML RadioButton tgl_b_pue;
-				@FXML RadioButton tgl_g_pue;
-				@FXML RadioButton tgl_sg_pue;
-				@FXML RadioButton tgl_na_pre;
-				@FXML ToggleGroup tgg_pre;
-				@FXML RadioButton tgl_ss_pre;
-				@FXML RadioButton tgl_s_pre;
-				@FXML RadioButton tgl_b_pre;
-				@FXML RadioButton tgl_g_pre;
-				@FXML RadioButton tgl_sg_pre;
-				@FXML Hyperlink hlk_create_feedback;
-				@FXML Hyperlink hlk_create_ablehnung;
-				@FXML ToggleGroup tgg_sw;
-				@FXML AnchorPane apa_zufr;
-				@FXML PieChart pie_zufr;
-				@FXML ComboBox cbo_artzuf;
-				@FXML DatePicker dpi_zuf_start;
-				@FXML DatePicker dpi_zufr_end;
-				@FXML Button btn_zufr_start;
-				@FXML Hyperlink hlk_report_feedback;
-				@FXML AnchorPane apa_ableh_ang;
-				@FXML PieChart pie_ablehn;
-				@FXML DatePicker dpi_ableh_start;
-				@FXML DatePicker dpi_ableh_end;
-				@FXML Button btn_ableh_start;
-				@FXML ComboBox cbo_ang;
-				@FXML ComboBox cbo_ablehn;
-				@FXML Button btn_ablehn_ang_save;
-				@FXML AnchorPane apa_btn_term;
-				@FXML Button btn_term_edit;
-				@FXML Button btn_term_create;
-				@FXML AnchorPane apa_termnew_btn;
-				@FXML Button btn_newterm_save;
-				@FXML Button btn_newterm_cancel;
-				@FXML AnchorPane apa_term_new;
-				@FXML DatePicker dpi_term_ma_start;
-				@FXML DatePicker dpi_term_ma_end;
-				@FXML ComboBox cbo_term_ma;
-				@FXML TextField txt_term_ma_starth;
-				@FXML TextField txt_term_ma_endh;
-				@FXML TextField txt_term_ma_endm;
-				@FXML TextField txt_term_ma_startm;
-				@FXML CheckBox chb_term_ma;
-				@FXML CheckBox chb_term_fz;
-				@FXML TextField txt_term_fz_startm;
-				@FXML TextField txt_term_fz_endm;
-				@FXML TextField txt_term_fz_endh;
-				@FXML TextField txt_term_fz_starth;
-				@FXML ComboBox cbo_term_fz;
-				@FXML DatePicker dpi_term_fz_end;
-				@FXML DatePicker dpi_term_fz_start;
-				@FXML ComboBox cbo_term_maart;
-				@FXML ComboBox cbo_term_fzart;
-				@FXML RadioButton tgb_term_ma;
-				@FXML ToggleGroup tgg_term;
-				@FXML RadioButton tgb_term_fz;
+		//		private static String[][] DATENword = new String[][] { { "20.05.2016","08:00","München","1:30","09:30","Paris","3" },
+		//			{ "21.05.2016","15:00","Paris","2:00","17:00","London","2" }, { "22.05.2016","09:00","London","2:00","11:00","Reykjavik","5" } };
+					
+					
 				
-			private static Tbl getSampleTable(WordprocessingMLPackage wPMLpackage) {
+					
+			
+			private static Tbl getSampleTable(WordprocessingMLPackage wPMLpackage, int angebot_id) throws SQLException {
 				int writableWidthTwips = wPMLpackage.getDocumentModel().getSections().get(0).getPageDimensions()
 						.getWritableWidthTwips();
 
-				int rows = DATENword.length;
+				String Zwischen1 = "";
+				String Zwischen2 = "";
+				String Zwischen3 = "";
+				String FlugEnde = "";
+				String[][] DATEN = new String[10][7];
+
+				final String hostname = "172.20.1.24"; 
+				Connection conn;
+		        final String port = "3306"; 
+		        String dbname = "myflight";
+				String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+				conn = DriverManager.getConnection(url, user, password);
+				//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password)
+				
+				// Flüge zum Angebot ermitteln
+				// Anzahl Passagiere ermitteln
+				String sql = "select angebote.pax from angebote inner join auftraege on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);
+				rs.next();
+				int pax = rs.getInt(1);
+				// Angebot_id ermitteln
+				sql = "select angebote.angebote_id from angebote inner join auftraege on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
+				stmt = conn.createStatement();
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				int angebote_angebote_id = rs.getInt(1);
+				// Fluege ermitteln
+				ResultSet rs1;
+				String zielflughafen = "";
+				String zwischenflughafen = "";
+				
+				int zaehler = 0;
+				Statement stmt1 = conn.createStatement();
+				sql = "select fluege.*, flughafen_von.FlughafenStadt from fluege left outer join flughafen_von on fluege.flughafen_von_FlughafenKuerzel = flughafen_von.FlughafenKuerzel where fluege.angebote_Angebote_ID ='"
+						+angebote_angebote_id+ "'";
+				rs = stmt.executeQuery(sql);
+				
+				int i = 1;
+				// Testbeginn
+				// rs = null;
+				// Testende
+				int x = 0; int y = 0;
+				while ((rs != null) && (rs.next())) {
+
+					// Flughafenstadt vom Zielflughafen ermitteln
+					sql = "select flughafen_bis.FlughafenStadt from flughafen_bis where flughafen_bis.FlughafenKuerzel ='"
+							+ rs.getString(6) + "'";
+					rs1 = stmt1.executeQuery(sql);
+					rs1.first();
+					// System.out.println(rs.getString(6));
+					// if (rs1.first()) System.out.println("here it
+					// is:"+rs1.getString(1));
+					if (rs1.first()) {
+						zielflughafen = rs1.getString(1);
+						System.out.println(rs.getString(6) + " " + zielflughafen);
+					} else {
+						zielflughafen = "";
+
+					}
+					System.out.println(i++ + " " + rs.getString(1) + " " + rs.getString(3) + " " + rs.getString(9) + " "
+							+ rs.getFloat(7) + " " + rs.getString(4) + " " + rs.getString(6));
+					
+					DATEN[x][y] = rs.getString(1); y++;
+					DATEN[x][y] = rs.getString(3); y++;
+					DATEN[x][y] = rs.getString(9); y++;
+					DATEN[x][y] = Float.toString(rs.getFloat(7)); y++;
+					DATEN[x][y] = rs.getString(4); y++;
+					DATEN[x][y] = zielflughafen; y++;
+					DATEN[x][y] = Integer.toString(pax); x++;y=0;
+					
+					
+					FlugEnde = zielflughafen;
+					zaehler++;
+					switch (zaehler) {
+					case 1:
+						zwischenflughafen = zielflughafen;
+						break;
+					case 2:
+						Zwischen1 = zwischenflughafen;
+						zwischenflughafen = zielflughafen;
+						break;
+					case 3:
+						Zwischen2 = zwischenflughafen;
+						zwischenflughafen = zielflughafen;
+						break;
+					case 4:
+						Zwischen3 = zwischenflughafen;
+						zwischenflughafen = zielflughafen;
+						break;
+
+					}
+
+				}	
+
+			
+				
+				
+				
+				//int rows = DATEN.length;
+				int rows = zaehler;
+				
+				
 				int cols = SPALTENKOPFword.length;
 				int cellWidthTwips = new Double(Math.floor((writableWidthTwips / cols))).intValue();
 
@@ -3793,7 +4584,7 @@ public ObservableList<FHSuche> getFHData() {
 
 						Text tx = factory.createText();
 						R run = factory.createR();
-						tx.setValue(DATENword[rowIndex][colIndex]);
+						tx.setValue(DATEN[rowIndex][colIndex]);
 						run.getContent().add(tx);
 						columnPara.getContent().add(run);
 					}
@@ -4095,7 +4886,102 @@ public ObservableList<FHSuche> getFHData() {
 
 	}
 	
-	
+	@FXML
+	public void action_editangebotstatus(ActionEvent event) throws Exception {
+		int angebot_id = Nummer.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
+		String tmpangebotstatus = Status.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
+
+		List<String> choices = new ArrayList<>();
+		choices.clear();
+		choices.add("offen");
+		choices.add("positiv");
+		choices.add("negativ");
+
+		ChoiceDialog<String> dialog1 = new ChoiceDialog<>(tmpangebotstatus, choices);
+		dialog1.setTitle("Angebotstatus ändern");
+		dialog1.setHeaderText("Bitte wählen Sie\nden neuen Status aus");
+		dialog1.setContentText("Auswahl:");
+
+		// Traditional way to get the response value.
+		Optional<String> result1 = dialog1.showAndWait();
+		// if (result.isPresent()){
+		// System.out.println("Your choice: " + result.get());
+		// }
+
+		// The Java 8 way to get the response value (with lambda
+		// expression).
+		result1.ifPresent(letter -> System.out.println("Your choice: " + letter));
+
+		if (result1.isPresent()) {
+			String tmp_new_angebotstatus = result1.get();
+
+			String sql = "update angebote set angebote.angebotsstatus_angebotsstatus = '"+tmp_new_angebotstatus+"' where angebote.angebote_id = '"
+					+ angebot_id + "'";
+			Statement statement = conn.createStatement();
+
+			try {
+				statement.executeUpdate(sql);
+				lbl_dbconnect.setText("Angebotstatus geändert");
+				actiongetangebotepgm(true);
+			} catch (SQLException sqle) {
+
+				lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
+				sqle.printStackTrace();
+			}
+		}
+
+	}
+	@FXML
+	public void action_karenz_mahnung(ActionEvent event) throws Exception {
+		
+		final String hostname = "172.20.1.24"; 
+        final String port = "3306"; 
+        String dbname = "myflight";
+		String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+		conn = DriverManager.getConnection(url, user, password);
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("select mahndauer.dauer from mahndauer");
+		rs.next();
+		int karenz_mahntage = rs.getInt(1);
+		
+		List<String> choices = new ArrayList<>();
+		choices.clear();
+		for (int i = 0;i<101;i++) choices.add(Integer.toString(i));
+		
+		ChoiceDialog<String> dialog1 = new ChoiceDialog<>(Integer.toString(karenz_mahntage), choices);
+		dialog1.setTitle("Karenztage für Mahnungen ändern");
+		dialog1.setHeaderText("Bitte wählen Sie\ndie Karenztage für die \nMahnungsüberwachung aus");
+		dialog1.setContentText("Auswahl:");
+
+		// Traditional way to get the response value.
+		Optional<String> result1 = dialog1.showAndWait();
+		// if (result.isPresent()){
+		// System.out.println("Your choice: " + result.get());
+		// }
+
+		// The Java 8 way to get the response value (with lambda
+		// expression).
+		result1.ifPresent(letter -> System.out.println("Your choice: " + letter));
+
+		if (result1.isPresent()) {
+			String tmp_new_mahntage = result1.get();
+
+			String sql = "update mahndauer set dauer = "+Integer.parseInt(tmp_new_mahntage);
+			Statement statement = conn.createStatement();
+
+			try {
+				statement.executeUpdate(sql);
+				lbl_dbconnect.setText("Karenztage geändert");
+				
+			} catch (SQLException sqle) {
+
+				lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
+				sqle.printStackTrace();
+			}
+		}
+
+	}
+
 			@FXML public void action_get_calendar() {
 				set_allunvisible(false);
 				
@@ -4627,10 +5513,11 @@ public ObservableList<FHSuche> getFHData() {
 	        final String port = "3306"; 
 	        String dbname = "myflight";
 			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+			Connection conn = DriverManager.getConnection(url, user, password);
 		    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
-			
-			Statement stmt = conn.createStatement();
-			
+		    Statement stmt = conn.createStatement();
+						
+						
 			// Aufträge-übersicht abrufen
 			ResultSet rs = stmt.executeQuery("select personal.*, position_gehalt.* from personal inner join position_gehalt on personal.Position_Gehalt_Position=position_gehalt.Position");
 			
@@ -4820,9 +5707,9 @@ public ObservableList<FHSuche> getFHData() {
 		        final String port = "3306"; 
 		        String dbname = "myflight";
 				String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+				Connection conn = DriverManager.getConnection(url, user, password);
 			    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
-				
-				Statement stmt = conn.createStatement();
+			    Statement stmt = conn.createStatement();
 				
 				// Aufträge-übersicht abrufen
 	
@@ -4924,9 +5811,10 @@ public ObservableList<FHSuche> getFHData() {
 			        final String port = "3306"; 
 			        String dbname = "myflight";
 					String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+					Connection conn = DriverManager.getConnection(url, user, password);
 				    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+				    Statement stmt = conn.createStatement();
 					
-					Statement stmt = conn.createStatement();
 					
 					// Aufträge-übersicht abrufen
 					ResultSet rs = stmt.executeQuery("select * from flughafen_bis");
@@ -5026,7 +5914,8 @@ public ObservableList<FHSuche> getFHData() {
 				        final String port = "3306"; 
 				        String dbname = "myflight";
 						String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
-					    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+						conn = DriverManager.getConnection(url, user, password);
+						//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
 						
 						Statement stmt = conn.createStatement();
 						
@@ -8619,6 +9508,13 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 			}
 			
-
+@FXML public void action_konfig() {
+	set_allunvisible(false);
+	scroll_pane_konfig.setVisible(true);
+	apa_konfig.setVisible(true);
+	Versionsnr.setText("V2.21");
+	txa_history.setText("neue Funktion: Änderung Angebotstatus \nneue Funktion: Änderung Karenztage für Mahnungen");
+	
+}
 
 }
