@@ -1,5 +1,5 @@
 package application;
-// V2.21
+// V2.27
 
 
 import java.sql.*;
@@ -1058,8 +1058,8 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V2.21");
-		Version1.setText("V2.21");
+		Version.setText("V2.27");
+		Version1.setText("V2.27");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
@@ -1386,7 +1386,6 @@ public ObservableList<FHSuche> getFHData() {
 		actiongetangebotepgm(false);
 	}
 	
-	@FXML
 	public void actiongetangebotepgm(boolean showmessage) throws Exception, SQLException {
 		// lbl_dbconnect.setText("Mouse geklickt!");
 
@@ -1428,8 +1427,8 @@ public ObservableList<FHSuche> getFHData() {
 			// angebote-übersicht abrufen
 
 			
-//			ResultSet rs = stmt.executeQuery("SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID left outer join auftraege on auftraege.Angebote_Angebote_ID=angebote.Angebote_ID where auftraege.Angebote_Angebote_ID is null  group by angebote.angebote_id");
-			ResultSet rs = stmt.executeQuery("SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID left outer join auftraege on auftraege.Angebote_Angebote_ID=angebote.Angebote_ID where auftraege.Angebote_Angebote_ID is null  group by angebote.angebote_id");		
+//			ResultSet rs = stmt.executeQuery("SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID left outer join auftraege on auftraege.Angebote_Angebote_ID=angebote.Angebote_ID where auftraege.Angebote_Angebote_ID is null group by angebote.angebote_id");
+			ResultSet rs = stmt.executeQuery("SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID left outer join auftraege on auftraege.Angebote_Angebote_ID=angebote.Angebote_ID where auftraege.Angebote_Angebote_ID is null group by angebote.angebote_id");		
 			angebotedata.remove(0, angebotedata.size());
 			int i = 1;
 			// Testbeginn
@@ -9533,7 +9532,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 	set_allunvisible(false);
 	scroll_pane_konfig.setVisible(true);
 	apa_konfig.setVisible(true);
-	Versionsnr.setText("V2.21");
+	Versionsnr.setText("V2.27");
 	txa_history.setText("neue Funktion: Änderung Angebotstatus \nneue Funktion: Änderung Karenztage für Mahnungen");
 	
 }
