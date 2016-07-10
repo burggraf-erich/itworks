@@ -2881,10 +2881,17 @@ public ObservableList<FHSuche> getFHData() {
 		String tmpAart = Aart.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
 		String tmpkdgruppe = Kdgruppe.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
 
+		final String hostname = "172.20.1.24"; 
+        final String port = "3306"; 
+        String dbname = "myflight";
+		String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+		Connection conn = DriverManager.getConnection(url, user, password);
+	    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+	    Statement stmt = conn.createStatement();
+		
 		// Prüfung, ob Auftrag bereits angelegt ist
 		String sql = "select auftraege.angebote_angebote_id from auftraege where auftraege.angebote_angebote_id='" + angebot_id
 				+ "'";
-		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery(sql);
 		if ((rs != null) && (rs.next()))
 			lbl_dbconnect.setText("Auftrag bereits vorhanden");
@@ -3368,8 +3375,13 @@ public ObservableList<FHSuche> getFHData() {
 	
 		// Daten für Auftrag erstellen einlesen
 		String sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, auftraege.auftraege_id FROM angebote INNER JOIN fluege inner join auftraege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID where auftraege.auftraege_id = '"+ angebot_id + "'";
-
-		Statement stmt = conn.createStatement();
+		final String hostname = "172.20.1.24"; 
+        final String port = "3306"; 
+        String dbname = "myflight";
+		String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+		Connection conn = DriverManager.getConnection(url, user, password);
+	    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+	    Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery(sql);
 		rs.next();
 	String AG = rs.getString(29);
@@ -4055,8 +4067,13 @@ public ObservableList<FHSuche> getFHData() {
 				// Parameter für Dokumenterstellung
 				
 				String sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, auftraege.auftraege_id FROM angebote INNER JOIN fluege inner join auftraege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID where auftraege.auftraege_id = '"+ angebot_id + "'";
-
-				Statement stmt = conn.createStatement();
+				final String hostname = "172.20.1.24"; 
+		        final String port = "3306"; 
+		        String dbname = "myflight";
+				String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+				Connection conn = DriverManager.getConnection(url, user, password);
+			    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+			   	Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);
 				rs.next();
 			String AG = rs.getString(29);
@@ -4172,12 +4189,7 @@ public ObservableList<FHSuche> getFHData() {
 		
 						String[][] DATEN = new String[10][7];
 
-						final String hostname = "172.20.1.24"; 
-						Connection conn;
-				        final String port = "3306"; 
-				        String dbname = "myflight";
-						String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
-						conn = DriverManager.getConnection(url, user, password);
+				
 						//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password)
 						
 						// Flüge zum Angebot ermitteln
