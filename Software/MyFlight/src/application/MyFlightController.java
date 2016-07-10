@@ -1382,12 +1382,12 @@ public ObservableList<FHSuche> getFHData() {
 		System.exit(0);
 	}
 
-	@FXML  public void actiongetangebote(){
+	@FXML  public void actiongetangebote() throws Exception{
 		actiongetangebotepgm(false);
 	}
 	
 	@FXML
-	public void actiongetangebotepgm(boolean showmessage) {
+	public void actiongetangebotepgm(boolean showmessage) throws Exception, SQLException {
 		// lbl_dbconnect.setText("Mouse geklickt!");
 
 		set_allunvisible(showmessage);
@@ -1420,10 +1420,9 @@ public ObservableList<FHSuche> getFHData() {
 	        final String port = "3306"; 
 	        String dbname = "myflight";
 			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
-			conn = DriverManager.getConnection(url, user, password);
-			//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
-			
-			stmt = conn.createStatement();
+			Connection conn = DriverManager.getConnection(url, user, password);
+		    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+		    Statement stmt = conn.createStatement();
 		
 		
 			// angebote-übersicht abrufen
@@ -2682,6 +2681,13 @@ public ObservableList<FHSuche> getFHData() {
 		hbox_show_status.setVisible(false);
 		maskentitel.setText("Auftrag erstellen");
 		
+		final String hostname = "172.20.1.24"; 
+        final String port = "3306"; 
+        String dbname = "myflight";
+		String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+		Connection conn = DriverManager.getConnection(url, user, password);
+	    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+	    Statement stmt = conn.createStatement();
 			
 		
 		//angebote_id übernehmen
@@ -2690,7 +2696,7 @@ public ObservableList<FHSuche> getFHData() {
 		// Daten für Auftrag erstellen einlesen
 				String sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID where angebote.angebote_id = '"+ angebot_id + "'";
 
-				Statement stmt = conn.createStatement();
+				
 				ResultSet rs = stmt.executeQuery(sql);
 				rs.next();
 			kdname1.setText(rs.getString(30));
@@ -4011,6 +4017,10 @@ public ObservableList<FHSuche> getFHData() {
 	//*********************************************************************************************************************************************		
 			public void erzeugeWord(int angebot_id, String modus) throws Exception {
 				
+				WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
+				MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
+				
+			try {	
 				if (modus=="Auftrag"){
 					filename = System.getProperty("user.dir") + "/"+Integer.toString(angebot_id)+".docx";}
 				else {
@@ -4019,8 +4029,7 @@ public ObservableList<FHSuche> getFHData() {
 					
 				factory = Context.getWmlObjectFactory();
 
-				WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
-				MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
+				
 
 				// mann kann die "vordefinierten" Styles ausgeben, diese wären
 				// Kandidaten für solche Konstanten dann, wie WORD_STYLE_TITLE
@@ -4312,7 +4321,13 @@ public ObservableList<FHSuche> getFHData() {
 			
 			
 			
+			}
+			
 				
+			}
+			catch (Exception e) {
+				lbl_dbconnect.setText("Es ist ein Fehler aufgetreten");
+				e.printStackTrace();
 			}
 				try {
 				// speichern
