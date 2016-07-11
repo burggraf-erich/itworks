@@ -1,5 +1,5 @@
 package application;
-// V2.28
+// V2.29
 
 
 import java.sql.*;
@@ -380,7 +380,13 @@ public ObservableList<FHSuche> getFHData() {
     String CustState = null;
     
     boolean sonderw = false;
-	
+    
+    String anrede;
+    String kdgruppe_string;
+	String lizenz_string;
+	String position_string;
+	String gehalt_string;
+    
 	//Variablen für Kalender
 	
 	Date date;
@@ -692,11 +698,11 @@ public ObservableList<FHSuche> getFHData() {
       	 @FXML TextField pid;
            @FXML TextField pname;
            @FXML TextField pvname;
-           @FXML TextField ppos;
            @FXML TextField pstatus;
-           @FXML TextField pgehalt;
-           @FXML TextField plizenz;
            @FXML TextField pflugzeugtyp;
+           @FXML ComboBox<String> cbo_lizenz;
+           @FXML ComboBox<String> cbo_ppos;
+           @FXML ComboBox<String> cbo_gehalt;
            
          //Felder für Maske Personaledit  - Ende
            
@@ -737,7 +743,7 @@ public ObservableList<FHSuche> getFHData() {
              @FXML TextField kdverwname;
              @FXML TextField kdverwvname;
              @FXML TextField kdfirma;
-             @FXML TextField kdgruppe;
+          
              
                      
     
@@ -1058,8 +1064,8 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V2.28");
-		Version1.setText("V2.28");
+		Version.setText("V2.29");
+		Version1.setText("V2.29");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
@@ -1614,6 +1620,7 @@ public ObservableList<FHSuche> getFHData() {
 		
 		cbo_salutation_new.getItems().addAll("Herr","Frau");
 		cbo_country_new.getItems().addAll("Germany", "United States", "China");
+		cbo_kdgruppe.getItems().clear();
 		cbo_kdgruppe.getItems().addAll("PRE","CORP","VIP");
 		
 		
@@ -6035,25 +6042,52 @@ public ObservableList<FHSuche> getFHData() {
 	pid.setText(Integer.toString(tmppid));
 	pname.setText(tmppname);
 	pvname.setText(tmppvname);
-	ppos.setText(tmppos);
 	pstatus.setText(tmppstatus);
-	pgehalt.setText(Integer.toString(tmppgehalt));
+	gehalt_string=Integer.toString(tmppgehalt);
 	
+	String sql = "select * from position_gehalt";
+	final String hostname = "172.20.1.24"; 
+    final String port = "3306"; 
+    String dbname = "myflight";
+	String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+	Connection conn = DriverManager.getConnection(url, user, password);
+    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+    Statement stmt = conn.createStatement();
+	ResultSet rs = stmt.executeQuery(sql);
+	cbo_ppos.getItems().clear();
+	cbo_gehalt.getItems().clear();
+	while ((rs != null) && (rs.next())) {
+		System.out.println(rs.getString(1));
+		cbo_ppos.getItems().add(rs.getString(1));
+		cbo_gehalt.getItems().add(Integer.toString(rs.getInt(2)));
+		}
 	
+	cbo_ppos.setPromptText(tmppos);
+	cbo_gehalt.setPromptText(gehalt_string);
 	
   
   
 	//Felder für Maske Personaldaten belegen - Ende
 	
 	// Lizenz & Flugzeugztyp
-			String sql = "select lizenz.lizenz, lizenz.flugzeugtypen_flugzeugtypen_id from lizenz inner join personal_has_lizenz on lizenz.lizenz = personal_has_lizenz.lizenz_lizenz and personal_has_lizenz.personal_personal_id= '"+tmppid+"'";
+			sql = "select lizenz.lizenz, lizenz.flugzeugtypen_flugzeugtypen_id from lizenz inner join personal_has_lizenz on lizenz.lizenz = personal_has_lizenz.lizenz_lizenz and personal_has_lizenz.personal_personal_id= '"+tmppid+"'";
 
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
 			if ((rs != null) && (rs.next())) {
-			plizenz.setText(rs.getString(1));
+			lizenz_string = rs.getString(1);
 			pflugzeugtyp.setText(rs.getString(2));
 			}
+			cbo_lizenz.getItems().clear();
+			sql = "select * from lizenz";
+			rs = stmt.executeQuery(sql);
+			while ((rs != null) && (rs.next())) {
+				System.out.println(rs.getString(1));
+				cbo_lizenz.getItems().add(rs.getString(1));
+				}
+			
+			cbo_lizenz.setPromptText(lizenz_string);
+			
 	}
 
 //****************************************************************************************************************************
@@ -6186,7 +6220,19 @@ public ObservableList<FHSuche> getFHData() {
 	kdverwname.setText(tmpkdverwname);
 	kdverwvname.setText(tmpkdverwvname);
 	kdfirma.setText(tmpkdfirma);
-	kdgruppe.setText(tmpkdgruppe);
+	cbo_kdgruppe.getItems().clear();
+	cbo_kdgruppe.getItems().addAll("PRE","CORP","VIP");
+/*	String sql = "select * from kundengruppen";
+	Statement stmt = conn.createStatement();
+	ResultSet rs = stmt.executeQuery(sql);
+	while ((rs != null) && (rs.next())) {
+		System.out.println(rs.getString(1));
+		cbo_kdgruppe.getItems().add(rs.getString(1));
+		}
+	*/
+	cbo_kdgruppe.setPromptText(tmpkdgruppe);
+	kdgruppe_string = tmpkdgruppe;
+	
 	
 	
 	
@@ -6195,8 +6241,12 @@ public ObservableList<FHSuche> getFHData() {
 	//Felder für Maske Kundendaten belegen - Ende
 	
 	// Lizenz & Flugzeugztyp
-			String sql = "select * from kunden where kunden.kunde_id = '"+tmpkdid+"'";
-
+	final String hostname = "172.20.1.24"; 
+    final String port = "3306"; 
+    String dbname = "myflight";		
+	String sql = "select * from kunden where kunden.kunde_id = '"+tmpkdid+"'";
+			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+			Connection conn = DriverManager.getConnection(url, user, password);
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			if ((rs != null) && (rs.next())) {
@@ -6215,7 +6265,7 @@ public ObservableList<FHSuche> getFHData() {
 				cbo_salutation_new.getItems().clear();
 				cbo_salutation_new.getItems().addAll("Herr","Frau");
 				cbo_salutation_new.setPromptText(rs.getString(2));
-				
+				anrede =rs.getString(2); 
 			}
 	}
 
@@ -6236,11 +6286,18 @@ public ObservableList<FHSuche> getFHData() {
 	maskentitel.setVisible(true);
 	maskentitel.setText("Profil anlegen");
 
-
-	Statement stmt = conn.createStatement();
+	String sql = "select * from position_gehalt";
+	final String hostname = "172.20.1.24"; 
+    final String port = "3306"; 
+    String dbname = "myflight";
+	String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+	Connection conn = DriverManager.getConnection(url, user, password);
+    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+    Statement stmt = conn.createStatement();
+	
 	// ermittle nächste Personal-ID für Speichern eines Mitarbeiters
 
-		String sql = "select max(personal_id) from personal";
+		sql = "select max(personal_id) from personal";
 		ResultSet rs = stmt.executeQuery(sql);
 		rs.next();
 		//int newauftraege_id = (rs.getInt(1) / 10000 + 1) * 10000 + 2016;
@@ -6263,19 +6320,54 @@ public ObservableList<FHSuche> getFHData() {
 	pid.setText(Integer.toString(tmppid));
 	pname.setText(tmppname);
 	pvname.setText(tmppvname);
-	ppos.setText(tmppos);
 	pstatus.setText(tmppstatus);
-	pgehalt.setText("");
-	plizenz.setText("");
+	gehalt_string="";
+	lizenz_string = "";
 	pflugzeugtyp.setText("");
 
+	
+	sql = "select * from position_gehalt";
+	stmt = conn.createStatement();
+	rs = stmt.executeQuery(sql);
+	cbo_ppos.getItems().clear();
+	cbo_gehalt.getItems().clear();
+	while ((rs != null) && (rs.next())) {
+		System.out.println(rs.getString(1));
+		cbo_ppos.getItems().add(rs.getString(1));
+		cbo_gehalt.getItems().add(Integer.toString(rs.getInt(2)));
+		}
+	
+	cbo_ppos.setPromptText(tmppos);
+	cbo_lizenz.getItems().clear();
+	sql = "select * from lizenz";
+	rs = stmt.executeQuery(sql);
+	while ((rs != null) && (rs.next())) {
+		System.out.println(rs.getString(1));
+		cbo_lizenz.getItems().add(rs.getString(1));
+		}
+	
+	cbo_lizenz.setPromptText(lizenz_string);
+	cbo_gehalt.setPromptText(gehalt_string);
+	
 	}
 
 //*****************************************************************************************************************************
 @FXML
 public void action_save_personaledit(ActionEvent event) throws Exception {
 	System.out.println("Update!");
-	if (pid.getText().length()==0 || Integer.parseInt(pid.getText())==0 || ppos.getText().length()==0 || pstatus.getText().length()==0) {
+	if (cbo_ppos.getValue() != null && 
+			!cbo_ppos.getValue().toString().isEmpty()) {
+			position_string = cbo_ppos.getValue().toString();
+			}
+			if (cbo_lizenz.getValue() != null && 
+			!cbo_lizenz.getValue().toString().isEmpty()) {
+			lizenz_string = cbo_lizenz.getValue().toString();
+			}
+			if (cbo_gehalt.getValue() != null && 
+					!cbo_gehalt.getValue().toString().isEmpty()) {
+					gehalt_string = cbo_gehalt.getValue().toString();
+					}
+	if (pid.getText().length()==0 || Integer.parseInt(pid.getText())==0 || position_string == "" || pstatus.getText().length()==0) {
 	
 		lbl_dbconnect.setText("Pflichtfeld(er) füllen");
 	}
@@ -6283,16 +6375,23 @@ public void action_save_personaledit(ActionEvent event) throws Exception {
 		try {
 
 
-			System.out.println(pid.getText()+pname.getText()+pvname.getText()+ppos.getText()+pstatus.getText()+pgehalt.getText());
-			System.out.println(plizenz.getText()+pflugzeugtyp.getText());
+			System.out.println(pid.getText()+pname.getText()+pvname.getText()+position_string+pstatus.getText()+gehalt_string);
+			System.out.println(lizenz_string+pflugzeugtyp.getText());
 			System.out.println(pstatus.getText().length()==0);	    
+			String sql = "select * from position_gehalt";
+			final String hostname = "172.20.1.24"; 
+		    final String port = "3306"; 
+		    String dbname = "myflight";
+			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+			Connection conn = DriverManager.getConnection(url, user, password);
+		    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+		    Statement stmt = conn.createStatement();
 			
-			
-			Statement stmt = conn.createStatement();
+		
 			stmt.executeUpdate("Update personal set "
 					+ "personalname = '"+ pname.getText()+"', "
 							+ "personalvorname = '"+pvname.getText()+"', "
-									+ "position_gehalt_position = '"+ppos.getText()+"', "
+									+ "position_gehalt_position = '"+position_string+"', "
 											+ "personalstatus_personalstatus = '"+pstatus.getText()+"' "
 													+ "where personal.personal_id = '"+Integer.parseInt(pid.getText())+"'");
 				    
@@ -6333,17 +6432,24 @@ public void action_save_kundendatenedit(ActionEvent event) throws Exception {
 	else {
 		try {
 
-					
-					
-					
+			  if (cbo_salutation_new.getValue() != null && 
+	                    !cbo_salutation_new.getValue().toString().isEmpty()) {
+				  anrede = cbo_salutation_new.getValue().toString();
+			  }
+			  if (cbo_kdgruppe.getValue() != null && 
+	                    !cbo_kdgruppe.getValue().toString().isEmpty()) {
+				  kdgruppe_string = cbo_kdgruppe.getValue().toString();
+			  }	
+			  
+			System.out.println(anrede);		
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("Update kunden set "
 					+ "KundeName = '"+ kdverwname.getText()+"', "
-					  + "KundeAnrede = '"+ cbo_salutation_new.getValue().toString()+"', "
+					  + "KundeAnrede = '"+anrede+"', "
 							+ "KundeVorname = '"+kdverwvname.getText()+"', "
 									+ "KundeFirmenname = '"+kdfirma.getText()+"', "
 											+ "KundeAdresse1 = '"+txt_street_new.getText()+"', "
-											+ "Kundengruppen_Kundengruppen = '"+kdgruppe.getText()+"', "
+											+ "Kundengruppen_Kundengruppen = '"+kdgruppe_string+"', "
 											+ "KundeTelefon ='"+txt_phone_new.getText()+"', "
 											+ "KundeHandy ='"+ txt_mobile_new.getText()+"', "
 													+ "KundeEmail ='"+ txt_mail_new.getText()+"', "
@@ -6602,7 +6708,19 @@ public void action_save_flugzieleedit(ActionEvent event) throws Exception {
 		kdverwname.setText(tmpkdverwname);
 		kdverwvname.setText(tmpkdverwvname);
 		kdfirma.setText(tmpkdfirma);
-		kdgruppe.setText(tmpkdgruppe);
+		cbo_kdgruppe.getItems().clear();
+		cbo_kdgruppe.getItems().addAll("PRE","CORP","VIP");
+	/*	String sql = "select * from kundengruppen";
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		while ((rs != null) && (rs.next())) {
+			System.out.println(rs.getString(1));
+			cbo_kdgruppe.getItems().add(rs.getString(1));
+			}
+		*/
+		cbo_kdgruppe.setPromptText(tmpkdgruppe);
+		kdgruppe_string = tmpkdgruppe;
+		
 		
 		
 		//Felder für Maske Kundendaten belegen - Ende
@@ -6615,6 +6733,7 @@ public void action_save_flugzieleedit(ActionEvent event) throws Exception {
 					txt_mobile_new.setText("");
 					txt_mail_new.setText("");
 					txt_postcode_new.setText("");
+					cbo_salutation_new.getItems().clear();
 					cbo_salutation_new.getItems().addAll("Herr","Frau");
 					
 					//cbo_country_new.getValue().toString();
@@ -6628,7 +6747,19 @@ public void action_save_flugzieleedit(ActionEvent event) throws Exception {
 @FXML
 public void action_save_personalcreate(ActionEvent event) throws Exception {
 System.out.println("Neuanlage!");
-	if (pid.getText().length()==0 || Integer.parseInt(pid.getText())==0 || ppos.getText().length()==0 || pstatus.getText().length()==0) {
+if (cbo_ppos.getValue() != null && 
+!cbo_ppos.getValue().toString().isEmpty()) {
+position_string = cbo_ppos.getValue().toString();
+}
+if (cbo_lizenz.getValue() != null && 
+!cbo_lizenz.getValue().toString().isEmpty()) {
+lizenz_string = cbo_lizenz.getValue().toString();
+}
+if (cbo_gehalt.getValue() != null && 
+!cbo_gehalt.getValue().toString().isEmpty()) {
+gehalt_string = cbo_gehalt.getValue().toString();
+}
+	if (pid.getText().length()==0 || Integer.parseInt(pid.getText())==0 || position_string == "" || pstatus.getText().length()==0) {
 	
 		lbl_dbconnect.setText("Pflichtfeld(er) füllen");
 	}
@@ -6636,16 +6767,22 @@ System.out.println("Neuanlage!");
 		try {
 
 
-			System.out.println(pid.getText()+pname.getText()+pvname.getText()+ppos.getText()+pstatus.getText()+pgehalt.getText());
-			System.out.println(plizenz.getText()+pflugzeugtyp.getText());
+			System.out.println(pid.getText()+pname.getText()+pvname.getText()+position_string+pstatus.getText()+gehalt_string);
+			System.out.println(lizenz_string+pflugzeugtyp.getText());
 			System.out.println(pstatus.getText().length()==0);	    
 			
+			String sql = "select * from position_gehalt";
+			final String hostname = "172.20.1.24"; 
+		    final String port = "3306"; 
+		    String dbname = "myflight";
+			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+			Connection conn = DriverManager.getConnection(url, user, password);
+		    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+		    Statement stmt = conn.createStatement();
 			
-			Statement stmt = conn.createStatement();
-
-			stmt.executeUpdate("INSERT INTO personal (Personal_ID, PersonalName, PersonalVorname,Position_Gehalt_Position, Personalstatus_Personalstatus) VALUES ("+Integer.parseInt(pid.getText())+",'"+pname.getText()+"', '"+pvname.getText()+"', '"+ppos.getText()+"', '"+pstatus.getText()+"')");
+			stmt.executeUpdate("INSERT INTO personal (Personal_ID, PersonalName, PersonalVorname,Position_Gehalt_Position, Personalstatus_Personalstatus) VALUES ("+Integer.parseInt(pid.getText())+",'"+pname.getText()+"', '"+pvname.getText()+"', '"+position_string+"', '"+pstatus.getText()+"')");
 			
-			stmt.executeUpdate("INSERT INTO personal_has_lizenz (Personal_Personal_ID, Personal_Position_Gehalt_Position,Lizenz_Lizenz,Lizenz_Flugzeugtypen_Flugzeugtypen_ID) VALUES ("+Integer.parseInt(pid.getText())+", '"+ppos.getText()+"', '"+plizenz.getText()+"','"+pflugzeugtyp.getText()+"')");
+			stmt.executeUpdate("INSERT INTO personal_has_lizenz (Personal_Personal_ID, Personal_Position_Gehalt_Position,Lizenz_Lizenz,Lizenz_Flugzeugtypen_Flugzeugtypen_ID) VALUES ("+Integer.parseInt(pid.getText())+", '"+position_string+"', '"+lizenz_string+"','"+pflugzeugtyp.getText()+"')");
 			
 			
 			lbl_dbconnect.setText("Personaldaten gespeichert");
@@ -6724,18 +6861,23 @@ if (fzflgh.getText().length()==0) {
 @FXML
 public void action_save_kundendatencreate(ActionEvent event) throws Exception {
 System.out.println("Neuanlage!");
-if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgruppe.getText().length()==0) {
+if (cbo_kdgruppe.getValue() != null && 
+!cbo_kdgruppe.getValue().toString().isEmpty()) {
+kdgruppe_string = cbo_kdgruppe.getValue().toString();
+}	
+
+if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgruppe_string=="") {
 	
 	lbl_dbconnect.setText("Pflichtfeld(er) füllen");
 }
 	else {
 		try {
 
-		
+			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+			Connection conn = DriverManager.getConnection(url, user, password);
 			Statement stmt = conn.createStatement();
-			
-		
-			stmt.executeUpdate("INSERT INTO kunden (Kunde_ID,KundeAnrede,KundenLand,KundeName,KundeVorname,KundeFirmenname,KundeAdresse1 ,Kundengruppen_Kundengruppen,KundeTelefon,KundeHandy,KundeEmail,KundePLZ,KundenOrt) values('"+Integer.parseInt(kdid.getText())+"', '"+ cbo_salutation_new.getValue().toString()+"', '"+txt_country_new.getText()+"', '"+ kdverwname.getText()+"', '"+kdverwvname.getText()+"', '"+kdfirma.getText()+"','"+txt_street_new.getText()+"', '"+kdgruppe.getText()+"', '"+txt_phone_new.getText()+"', '"+txt_mobile_new.getText()+"', '"+txt_mail_new.getText()+"', '"+txt_postcode_new.getText()+"', '"+txt_place_new.getText()+"')");
+					
+			stmt.executeUpdate("INSERT INTO kunden (Kunde_ID,KundeAnrede,KundenLand,KundeName,KundeVorname,KundeFirmenname,KundeAdresse1 ,Kundengruppen_Kundengruppen,KundeTelefon,KundeHandy,KundeEmail,KundePLZ,KundenOrt) values('"+Integer.parseInt(kdid.getText())+"', '"+ cbo_salutation_new.getValue().toString()+"', '"+txt_country_new.getText()+"', '"+ kdverwname.getText()+"', '"+kdverwvname.getText()+"', '"+kdfirma.getText()+"','"+txt_street_new.getText()+"', '"+kdgruppe_string+"', '"+txt_phone_new.getText()+"', '"+txt_mobile_new.getText()+"', '"+txt_mail_new.getText()+"', '"+txt_postcode_new.getText()+"', '"+txt_place_new.getText()+"')");
 		
 			
 			lbl_dbconnect.setText("Kundendaten gespeichert");
@@ -9532,8 +9674,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 	set_allunvisible(false);
 	scroll_pane_konfig.setVisible(true);
 	apa_konfig.setVisible(true);
-	Versionsnr.setText("V2.28");
-	txa_history.setText("neue Funktion: Änderung Angebotstatus \nneue Funktion: Änderung Karenztage für Mahnungen");
+	Versionsnr.setText("V2.29");
+	txa_history.setText("neue Funktion: Änderung Angebotstatus \nneue Funktion: Änderung Karenztage für Mahnungen \nVerbesserung Usability mit Comboboxen");
 	
 }
 
