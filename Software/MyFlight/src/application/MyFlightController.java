@@ -359,6 +359,10 @@ public ObservableList<FHSuche> getFHData() {
     String CustState = null;
     
     boolean sonderw = false;
+    
+    LocalDate profityear = null;
+    int year = 0;
+    
 	
 	//Variablen für Kalender
 	
@@ -919,6 +923,147 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML RadioButton tgl_sg_sw;
 	@FXML RadioButton tgl_na_kom;
 	@FXML ToggleGroup tgg_kom;
+	
+	@FXML AnchorPane apa_btn_kf;
+	@FXML Button btn_cancel_kf;
+	@FXML Button btn_save_kf;
+	@FXML RadioButton tgl_ss_kom;
+	@FXML RadioButton tgl_s_kom;
+	@FXML RadioButton tgl_b_kom;
+	@FXML RadioButton tgl_g_kom;
+	@FXML RadioButton tgl_sg_kom;
+	@FXML RadioButton tgl_na_pue;
+	@FXML ToggleGroup tgg_pue;
+	@FXML RadioButton tgl_ss_pue;
+	@FXML RadioButton tgl_s_pue;
+	@FXML RadioButton tgl_b_pue;
+	@FXML RadioButton tgl_g_pue;
+	@FXML RadioButton tgl_sg_pue;
+	@FXML RadioButton tgl_na_pre;
+	@FXML ToggleGroup tgg_pre;
+	@FXML RadioButton tgl_ss_pre;
+	@FXML RadioButton tgl_s_pre;
+	@FXML RadioButton tgl_b_pre;
+	@FXML RadioButton tgl_g_pre;
+	@FXML RadioButton tgl_sg_pre;
+	@FXML Hyperlink hlk_create_feedback;
+	@FXML Hyperlink hlk_create_ablehnung;
+	@FXML ToggleGroup tgg_sw;
+	@FXML AnchorPane apa_zufr;
+	@FXML PieChart pie_zufr;
+	@FXML ComboBox cbo_artzuf;
+	@FXML DatePicker dpi_zuf_start;
+	@FXML DatePicker dpi_zufr_end;
+	@FXML Button btn_zufr_start;
+	@FXML Hyperlink hlk_report_feedback;
+	@FXML AnchorPane apa_ableh_ang;
+	@FXML PieChart pie_ablehn;
+	@FXML DatePicker dpi_ableh_start;
+	@FXML DatePicker dpi_ableh_end;
+	@FXML Button btn_ableh_start;
+	@FXML ComboBox cbo_ang;
+	@FXML ComboBox cbo_ablehn;
+	@FXML Button btn_ablehn_ang_save;
+	@FXML AnchorPane apa_btn_term;
+	@FXML Button btn_term_edit;
+	@FXML Button btn_term_create;
+	@FXML AnchorPane apa_termnew_btn;
+	@FXML Button btn_newterm_save;
+	@FXML Button btn_newterm_cancel;
+	@FXML AnchorPane apa_term_new;
+	@FXML DatePicker dpi_term_ma_start;
+	@FXML DatePicker dpi_term_ma_end;
+	@FXML ComboBox cbo_term_ma;
+	@FXML TextField txt_term_ma_starth;
+	@FXML TextField txt_term_ma_endh;
+	@FXML TextField txt_term_ma_endm;
+	@FXML TextField txt_term_ma_startm;
+	@FXML CheckBox chb_term_ma;
+	@FXML CheckBox chb_term_fz;
+	@FXML TextField txt_term_fz_startm;
+	@FXML TextField txt_term_fz_endm;
+	@FXML TextField txt_term_fz_endh;
+	@FXML TextField txt_term_fz_starth;
+	@FXML ComboBox cbo_term_fz;
+	@FXML DatePicker dpi_term_fz_end;
+	@FXML DatePicker dpi_term_fz_start;
+	@FXML ComboBox cbo_term_maart;
+	@FXML ComboBox cbo_term_fzart;
+	@FXML RadioButton tgb_term_ma;
+	@FXML ToggleGroup tgg_term;
+	@FXML RadioButton tgb_term_fz;
+	@FXML AnchorPane apa_term_bearb;
+	@FXML TableView tbl_term;
+	@FXML TableColumn col_term_mafz;
+	@FXML TableColumn col_term_art;
+	@FXML TableColumn col_term_startd;
+	@FXML TableColumn col_term_startz;
+	@FXML TableColumn col_term_endd;
+	@FXML TableColumn col_term_endzeit;
+	@FXML RadioButton tgb_term_bearb_ma;
+	@FXML ToggleGroup tgg_term_bearb;
+	@FXML RadioButton tgb_term_bearb_fz;
+	@FXML DatePicker dpi_term_bearb_start;
+	@FXML DatePicker dpi_term_bearb_end;
+	@FXML ComboBox cbo_terms_bearb_mafz;
+	@FXML Button btn_term_bearb_search;
+	@FXML Button btn_term_bearb_delete;
+	@FXML Button btn_term_bearb_bearb;
+	@FXML Label lbl_term_bearb_mafz;
+	@FXML AnchorPane apa_term_1bearb;
+	@FXML DatePicker dpi_term_1bearb_startd;
+	@FXML DatePicker dpi_term_1bearb_endd;
+	@FXML Label lbl_term_1bearb_mafz;
+	@FXML Label lbl_term_bearb_mafz1;
+	@FXML TextField txt_term_1bearb_mafz;
+	@FXML TextField txt_term_1bearb_art;
+	@FXML TextField txt_term_1bearb_startz_h;
+	@FXML TextField txt_term_1bearb_startz_m;
+	@FXML TextField txt_term_1bearb_endz_m;
+	@FXML TextField txt_term_1bearb_endz_h;
+	@FXML AnchorPane apa_termn_bearb_btn;
+	@FXML Button btn_term_bearb_cancel;
+	@FXML AnchorPane apa_term_1bearb_btn;
+	@FXML Button btn_term_1bearb_save;
+	@FXML Button btn_term_1bearb_cancel;
+	
+	@FXML AnchorPane apa_profit;
+	@FXML ComboBox cbo_profit_year;
+	
+	@FXML Label lbl_profit_topfz1;
+	@FXML Label lbl_profit_topfz2;
+	@FXML Label lbl_profit_topfz3;
+	@FXML Label lbl_profit_topfz4;
+	@FXML Label lbl_profit_topfz5;
+	@FXML Label lbl_profit_topfd4;
+	@FXML Label lbl_profit_topfd5;
+	@FXML Label lbl_profit_topfd3;
+	@FXML Label lbl_profit_topfd2;
+	@FXML Label lbl_profit_topfd1;
+	@FXML Label lbl_profit_toppro1;
+	@FXML Label lbl_profit_toppro2;
+	@FXML Label lbl_profit_toppro3;
+	@FXML Label lbl_profit_toppro4;
+	@FXML Label lbl_profit_toppro5;
+	@FXML Label lbl_profit_floppro1;
+	@FXML Label lbl_profit_flopfd1;
+	@FXML Label lbl_profit_flopfd2;
+	@FXML Label lbl_profit_flopfd3;
+	@FXML Label lbl_profit_flopfd4;
+	@FXML Label lbl_profit_flopfd5;
+	@FXML Label lbl_profit_flopfz5;
+	@FXML Label lbl_profit_flopfz4;
+	@FXML Label lbl_profit_flopfz3;
+	@FXML Label lbl_profit_flopfz2;
+	@FXML Label lbl_profit_flopfz1;
+	@FXML ComboBox cbo_profit_fz;
+	@FXML Label lbl_profit_pro;
+	@FXML Label lbl_profit_dauer;
+	@FXML Hyperlink hlk_profit;
+	@FXML Label lbl_profit_floppro2;
+	@FXML Label lbl_profit_floppro3;
+	@FXML Label lbl_profit_floppro4;
+	@FXML Label lbl_profit_floppro5;
 	
 	//@FXML
 	//private Parent SearchCust; //embeddedElement
@@ -1485,6 +1630,12 @@ public ObservableList<FHSuche> getFHData() {
 		apa_termnew_btn.setVisible(false);
 		apa_term_new.setVisible(false);
 		apa_btn_term.setVisible(false);
+		
+		apa_profit.setVisible(false);
+		apa_termn_bearb_btn.setVisible(false);
+		apa_term_bearb.setVisible(false);
+		apa_term_1bearb.setVisible(false);
+		apa_term_1bearb_btn.setVisible(false);
 		
 	}
 
@@ -3596,74 +3747,8 @@ public ObservableList<FHSuche> getFHData() {
 
 				private static String[][] DATENword = new String[][] { { "20.05.2016","08:00","München","1:30","09:30","Paris","3" },
 					{ "21.05.2016","15:00","Paris","2:00","17:00","London","2" }, { "22.05.2016","09:00","London","2:00","11:00","Reykjavik","5" } };
-				@FXML AnchorPane apa_btn_kf;
-				@FXML Button btn_cancel_kf;
-				@FXML Button btn_save_kf;
-				@FXML RadioButton tgl_ss_kom;
-				@FXML RadioButton tgl_s_kom;
-				@FXML RadioButton tgl_b_kom;
-				@FXML RadioButton tgl_g_kom;
-				@FXML RadioButton tgl_sg_kom;
-				@FXML RadioButton tgl_na_pue;
-				@FXML ToggleGroup tgg_pue;
-				@FXML RadioButton tgl_ss_pue;
-				@FXML RadioButton tgl_s_pue;
-				@FXML RadioButton tgl_b_pue;
-				@FXML RadioButton tgl_g_pue;
-				@FXML RadioButton tgl_sg_pue;
-				@FXML RadioButton tgl_na_pre;
-				@FXML ToggleGroup tgg_pre;
-				@FXML RadioButton tgl_ss_pre;
-				@FXML RadioButton tgl_s_pre;
-				@FXML RadioButton tgl_b_pre;
-				@FXML RadioButton tgl_g_pre;
-				@FXML RadioButton tgl_sg_pre;
-				@FXML Hyperlink hlk_create_feedback;
-				@FXML Hyperlink hlk_create_ablehnung;
-				@FXML ToggleGroup tgg_sw;
-				@FXML AnchorPane apa_zufr;
-				@FXML PieChart pie_zufr;
-				@FXML ComboBox cbo_artzuf;
-				@FXML DatePicker dpi_zuf_start;
-				@FXML DatePicker dpi_zufr_end;
-				@FXML Button btn_zufr_start;
-				@FXML Hyperlink hlk_report_feedback;
-				@FXML AnchorPane apa_ableh_ang;
-				@FXML PieChart pie_ablehn;
-				@FXML DatePicker dpi_ableh_start;
-				@FXML DatePicker dpi_ableh_end;
-				@FXML Button btn_ableh_start;
-				@FXML ComboBox cbo_ang;
-				@FXML ComboBox cbo_ablehn;
-				@FXML Button btn_ablehn_ang_save;
-				@FXML AnchorPane apa_btn_term;
-				@FXML Button btn_term_edit;
-				@FXML Button btn_term_create;
-				@FXML AnchorPane apa_termnew_btn;
-				@FXML Button btn_newterm_save;
-				@FXML Button btn_newterm_cancel;
-				@FXML AnchorPane apa_term_new;
-				@FXML DatePicker dpi_term_ma_start;
-				@FXML DatePicker dpi_term_ma_end;
-				@FXML ComboBox cbo_term_ma;
-				@FXML TextField txt_term_ma_starth;
-				@FXML TextField txt_term_ma_endh;
-				@FXML TextField txt_term_ma_endm;
-				@FXML TextField txt_term_ma_startm;
-				@FXML CheckBox chb_term_ma;
-				@FXML CheckBox chb_term_fz;
-				@FXML TextField txt_term_fz_startm;
-				@FXML TextField txt_term_fz_endm;
-				@FXML TextField txt_term_fz_endh;
-				@FXML TextField txt_term_fz_starth;
-				@FXML ComboBox cbo_term_fz;
-				@FXML DatePicker dpi_term_fz_end;
-				@FXML DatePicker dpi_term_fz_start;
-				@FXML ComboBox cbo_term_maart;
-				@FXML ComboBox cbo_term_fzart;
-				@FXML RadioButton tgb_term_ma;
-				@FXML ToggleGroup tgg_term;
-				@FXML RadioButton tgb_term_fz;
+
+				
 				
 			private static Tbl getSampleTable(WordprocessingMLPackage wPMLpackage) {
 				int writableWidthTwips = wPMLpackage.getDocumentModel().getSections().get(0).getPageDimensions()
@@ -8365,7 +8450,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			            System.err.println(e.getMessage()); 
 						}
 				    
-				    if(cbo_term_maart.getValue().toString().equals("Urlaub")){
+				    if(cbo_term_fzart.getValue().toString().equals("Wartung")){
 					    
 					    try { 
 
@@ -8428,10 +8513,10 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			        	
 			        	cbo_term_ma.getItems().add(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3));
 		        }
-			        ResultSet rs2 = statement.executeQuery("SELECT * FROM myflight.flugzeuge join myflight.flugzeugtypen on Flugzeug_ID = myflight.flugzeugtypen.Flugzeugtypen_ID");      
+			        ResultSet rs2 = statement.executeQuery("SELECT Distinct(Flugzeug_ID), FlugzeugHersteller, FlugzeugTyp  FROM myflight.flugzeuge join myflight.flugzeugtypen on Flugzeugtypen_Flugzeugtypen_ID=Flugzeugtypen_ID order by Flugzeug_ID ");      
 			        while((rs2 != null) && (rs2.next())){
 			        	
-			        	cbo_term_fz.getItems().add(rs2.getInt(1) + " " + rs2.getString(5) + " " + rs2.getString(6));
+			        	cbo_term_fz.getItems().add(rs2.getInt(1) + " " + rs2.getString(2) + " " + rs2.getString(3));
 		        }
 			        
 			    }
@@ -8443,7 +8528,13 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 				
 			}
-			@FXML public void btn_term_edit_click() {}
+			@FXML public void btn_term_edit_click() {
+				
+				set_allunvisible(false);
+				apa_termn_bearb_btn.setVisible(false);
+				apa_term_bearb.setVisible(false);
+				
+			}
 			@FXML public void chb_term_ma_click() {
 				
 				if(chb_term_ma.isSelected()){
@@ -8543,6 +8634,264 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				cbo_term_fzart.setDisable(false);
 				
 			}
+			
+			@FXML public void tgb_term_bearb_ma_click() {}
+			@FXML public void tgb_term_bearb_fz_click() {}
+			@FXML public void btn_term_bearb_search_click() {}
+			@FXML public void btn_term_bearb_delete_click() {}
+			@FXML public void btn_term_bearb_bearb_click() {
+				
+				set_allunvisible(false);
+
+				apa_term_1bearb.setVisible(false);
+				apa_term_1bearb_btn.setVisible(false);
+				
+			}
+			@FXML public void btn_term_bearb_cancel_click() {}
+			@FXML public void btn_term_1bearb_save_click() {}
+			@FXML public void btn_term_1bearb_cancel_click() {}
+			@FXML public void cbo_profit_year_click() {
+			
+				year = Integer.parseInt(cbo_profit_year.getValue().toString());
+				getProfit();		
+		
+			}
+			@FXML public void cbo_profit_fz_click() {
+				
+				String FZ = cbo_profit_fz.getValue().toString();
+				int pos = FZ.indexOf(" ");
+				int fzid =  Integer.parseInt(FZ.substring(0, pos));
+				year = Integer.parseInt(cbo_profit_year.getValue().toString());
+				
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+			    	ResultSet rs = statement_rep.executeQuery("SELECT sum(myflight.fluege.flugzeit), flugzeuge_Flugzeug_ID  FROM myflight.fluege join myflight.angebote on myflight.fluege.angebote_Angebote_ID=myflight.angebote.Angebote_ID WHERE myflight.fluege.Datum_von between '"+year+"-01-01' and '"+year+"-12-31' and flugzeuge_Flugzeug_ID ="+ fzid);      
+			        while((rs != null) && (rs.next())){
+			        	
+			        	lbl_profit_dauer.setText(Integer.toString(rs.getInt(1)/60)); 
+			        	lbl_profit_pro.setText(Integer.toString(((rs.getInt(1)/60)*100)/2000)+" %");
+
+			        }
+			    				        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				
+			}
+		
+			
+			@FXML public void hlk_profit_click() {
+				
+				set_allunvisible(false);
+				apa_profit.setVisible(true);
+				profityear = LocalDate.now();
+				year = profityear.getYear();
+				System.out.println(year);
+				cbo_profit_year.getItems().clear();
+				cbo_profit_year.getItems().addAll(year, year-1, year-2,year-3,year-4,year-5);
+				cbo_profit_year.setValue(year);
+				cbo_profit_fz.getItems().clear();
+				
+				try{
+			    	
+			    	Statement statement = conn.createStatement();
+			    	ResultSet rs2 = statement.executeQuery("SELECT Distinct(Flugzeug_ID), FlugzeugHersteller, FlugzeugTyp  FROM myflight.flugzeuge join myflight.flugzeugtypen on Flugzeugtypen_Flugzeugtypen_ID=Flugzeugtypen_ID order by Flugzeug_ID ");      
+			        while((rs2 != null) && (rs2.next())){
+			        	
+			        	cbo_profit_fz.getItems().add(rs2.getInt(1) + " " + rs2.getString(2) + " " + rs2.getString(3));
+		        }
+			        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				getProfit();
+				
+				
+				
+
+				
+			}
+			
+			public void getProfit(){
+				
+				int countf = 0;
+				
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+			    	ResultSet rs = statement_rep.executeQuery("SELECT count(Flugzeug_ID) FROM myflight.flugzeuge");      
+			        while((rs != null) && (rs.next())){
+			        	
+			        	countf = rs.getInt(1);
+			        	
+			        }
+			    				        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				int profitdaten [][] = new int[countf][2];
+				
+				for(int z=1;z<countf+1;z++){
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+			    	ResultSet rs = statement_rep.executeQuery("SELECT sum(myflight.fluege.flugzeit), flugzeuge_Flugzeug_ID  FROM myflight.fluege join myflight.angebote on myflight.fluege.angebote_Angebote_ID=myflight.angebote.Angebote_ID WHERE myflight.fluege.Datum_von between '"+year+"-01-01' and '"+year+"-12-31' and flugzeuge_Flugzeug_ID ="+ z);      
+			        while((rs != null) && (rs.next())){
+			        	
+			        	profitdaten[z-1][0] = rs.getInt(1);
+			        	profitdaten[z-1][1] = z;
+			        	System.out.println(profitdaten[z-1][0] + " " + profitdaten[z-1][1] );
+			        }
+			    				        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				}
+				
+				int temp1 = 0;
+				int temp2 = 0;
+				boolean getauscht = false;
+				
+				do{
+					getauscht = false;
+				for(int s = 1; s<profitdaten.length;s++){
+					
+					if(profitdaten[s][0]>profitdaten[s-1][0]){
+						
+						temp1 = profitdaten[s-1][0];
+						temp2 = profitdaten[s-1][1];
+						
+						profitdaten[s-1][0] = profitdaten[s][0];
+						profitdaten[s-1][1] = profitdaten[s][1];
+						
+						profitdaten[s][0] = temp1;
+						profitdaten[s][1] = temp2;	
+						
+						getauscht = true;
+						
+					}
+					
+									
+				}
+				
+				for(int i = 0; i<profitdaten.length;i++){
+					
+					
+					System.out.println(profitdaten[i][0] + " " + profitdaten[i][1] );
+									
+				}
+				}while(getauscht);
+				
+				
+				for(int top=0;top<5;top++){
+				try{
+			    	
+					Statement statement_rep = conn.createStatement();
+			    	ResultSet rs = statement_rep.executeQuery("SELECT Distinct(Flugzeug_ID), FlugzeugHersteller, FlugzeugTyp  FROM myflight.flugzeuge join myflight.flugzeugtypen on Flugzeugtypen_Flugzeugtypen_ID=Flugzeugtypen_ID Where Flugzeug_ID ="+profitdaten[top][1]);      
+			        while((rs != null) && (rs.next())){
+			        	
+			        	if(top==0){
+			        	lbl_profit_topfz1.setText(rs.getString(2) +" "+rs.getString(3)+" ("+rs.getInt(1)+")");
+			        	lbl_profit_topfd1.setText(Integer.toString((profitdaten[top][0])/60));
+			        	lbl_profit_toppro1.setText(Integer.toString((((profitdaten[top][0])/60)*100)/2000)+" %");
+			        	
+			        	}
+			        	if(top==1){
+				        	lbl_profit_topfz2.setText(rs.getString(2) +" "+rs.getString(3)+" ("+rs.getInt(1)+")");
+				        	lbl_profit_topfd2.setText(Integer.toString((profitdaten[top][0])/60));
+				        	lbl_profit_toppro2.setText(Integer.toString((((profitdaten[top][0])/60)*100)/2000)+" %");
+				        	
+				       }
+			        	if(top==2){
+				        	lbl_profit_topfz3.setText(rs.getString(2) +" "+rs.getString(3)+" ("+rs.getInt(1)+")");
+				        	lbl_profit_topfd3.setText(Integer.toString((profitdaten[top][0])/60));
+				        	lbl_profit_toppro3.setText(Integer.toString((((profitdaten[top][0])/60)*100)/2000)+" %");
+				        	
+				       }
+			        	if(top==3){
+				        	lbl_profit_topfz4.setText(rs.getString(2) +" "+rs.getString(3)+" ("+rs.getInt(1)+")");
+				        	lbl_profit_topfd4.setText(Integer.toString((profitdaten[top][0])/60));
+				        	lbl_profit_toppro4.setText(Integer.toString((((profitdaten[top][0])/60)*100)/2000)+" %");
+				        	
+				       }
+			        	if(top==4){
+				        	lbl_profit_topfz5.setText(rs.getString(2) +" "+rs.getString(3)+" ("+rs.getInt(1)+")");
+				        	lbl_profit_topfd5.setText(Integer.toString((profitdaten[top][0])/60));
+				        	lbl_profit_toppro5.setText(Integer.toString((((profitdaten[top][0])/60)*100)/2000)+" %");
+				       }
+			        }
+			    				        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				}
+				
+				for(int flop=countf-1;flop>countf-6;flop--){
+					try{
+				    	
+						Statement statement_rep = conn.createStatement();
+				    	ResultSet rs = statement_rep.executeQuery("SELECT Distinct(Flugzeug_ID), FlugzeugHersteller, FlugzeugTyp  FROM myflight.flugzeuge join myflight.flugzeugtypen on Flugzeugtypen_Flugzeugtypen_ID=Flugzeugtypen_ID Where Flugzeug_ID ="+profitdaten[flop][1]);      
+				        while((rs != null) && (rs.next())){
+				        	
+				        	if(flop==countf-1){
+				        	lbl_profit_flopfz1.setText(rs.getString(2) +" "+rs.getString(3)+" ("+rs.getInt(1)+")");
+				        	lbl_profit_flopfd1.setText(Integer.toString((profitdaten[flop][0])/60));
+				        	lbl_profit_floppro1.setText(Integer.toString((((profitdaten[flop][0])/60)*100)/2000)+" %");
+				        	
+				        	}
+				        	if(flop==countf-2){
+					        	lbl_profit_flopfz2.setText(rs.getString(2) +" "+rs.getString(3)+" ("+rs.getInt(1)+")");
+					        	lbl_profit_flopfd2.setText(Integer.toString((profitdaten[flop][0])/60));
+					        	lbl_profit_floppro2.setText(Integer.toString((((profitdaten[flop][0])/60)*100)/2000)+" %");
+					        	
+					       }
+				        	if(flop==countf-3){
+					        	lbl_profit_flopfz3.setText(rs.getString(2) +" "+rs.getString(3)+" ("+rs.getInt(1)+")");
+					        	lbl_profit_flopfd3.setText(Integer.toString((profitdaten[flop][0])/60));
+					        	lbl_profit_floppro3.setText(Integer.toString((((profitdaten[flop][0])/60)*100)/2000)+" %");
+					        	
+					       }
+				        	if(flop==countf-4){
+					        	lbl_profit_flopfz4.setText(rs.getString(2) +" "+rs.getString(3)+" ("+rs.getInt(1)+")");
+					        	lbl_profit_flopfd4.setText(Integer.toString((profitdaten[flop][0])/60));
+					        	lbl_profit_floppro4.setText(Integer.toString((((profitdaten[flop][0])/60)*100)/2000)+" %");
+					        	
+					       }
+				        	if(flop==countf-5){
+					        	lbl_profit_flopfz5.setText(rs.getString(2) +" "+rs.getString(3)+" ("+rs.getInt(1)+")");
+					        	lbl_profit_flopfd5.setText(Integer.toString((profitdaten[flop][0])/60));
+					        	lbl_profit_floppro5.setText(Integer.toString((((profitdaten[flop][0])/60)*100)/2000)+" %");
+					       }
+				        }
+				    				        
+				    }
+				    catch(Exception e){
+				          e.printStackTrace();
+				          System.out.println("Error on Building Data");            
+				    }
+					
+					}
+				
+				
+			}
+			
+
 			
 
 

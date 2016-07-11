@@ -149,7 +149,17 @@
                                           </TitledPane>
                                           <TitledPane animated="false" text="Profitabilität" underline="true">
                                              <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                   <children>
+                                                      <Hyperlink fx:id="hlk_profit" onAction="#hlk_profit_click" prefHeight="55.0" prefWidth="201.0" text="Profitabilität auswerten">
+                                                         <opaqueInsets>
+                                                            <Insets />
+                                                         </opaqueInsets>
+                                                         <padding>
+                                                            <Insets left="30.0" />
+                                                         </padding>
+                                                      </Hyperlink>
+                                                   </children></AnchorPane>
                                              </content>
                                           </TitledPane>
                                        </panes>
@@ -1697,6 +1707,150 @@
                                     </RadioButton>
                                     <RadioButton fx:id="tgb_term_fz" layoutX="15.0" layoutY="243.0" mnemonicParsing="false" onAction="#tgb_term_fz_click" text="Flugzeugtermin:" toggleGroup="$tgg_term" />
                                  </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="apa_term_bearb" prefHeight="486.0" prefWidth="591.0" visible="false">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Termin bearbeiten:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <TableView fx:id="tbl_term" layoutX="14.0" layoutY="154.0" prefHeight="318.0" prefWidth="563.0">
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                       <columns>
+                                          <TableColumn fx:id="col_term_mafz" prefWidth="75.0" text="Mitarbeiter" />
+                                          <TableColumn fx:id="col_term_art" prefWidth="75.0" text="Terminart" />
+                                          <TableColumn fx:id="col_term_startd" prefWidth="75.0" text="Startdatum" />
+                                          <TableColumn fx:id="col_term_startz" prefWidth="75.0" text="Startzeit" />
+                                          <TableColumn fx:id="col_term_endd" prefWidth="75.0" text="Enddatum" />
+                                          <TableColumn fx:id="col_term_endzeit" prefWidth="75.0" text="Endzeit" />
+                                       </columns>
+                                    </TableView>
+                                    <RadioButton fx:id="tgb_term_bearb_ma" layoutX="167.0" layoutY="16.0" mnemonicParsing="false" onAction="#tgb_term_bearb_ma_click" selected="true" text="Mitarbeitertermine">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="tgg_term_bearb" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="tgb_term_bearb_fz" layoutX="302.0" layoutY="16.0" mnemonicParsing="false" onAction="#tgb_term_bearb_fz_click" text="Flugzeugtermine" toggleGroup="$tgg_term_bearb" />
+                                    <DatePicker fx:id="dpi_term_bearb_start" layoutX="164.0" layoutY="59.0" />
+                                    <DatePicker fx:id="dpi_term_bearb_end" layoutX="164.0" layoutY="87.0" />
+                                    <ComboBox fx:id="cbo_term_bearb_mafz" layoutX="164.0" layoutY="115.0" prefHeight="25.0" prefWidth="174.0" />
+                                    <Button fx:id="btn_term_bearb_search" layoutX="457.0" layoutY="59.0" mnemonicParsing="false" onAction="#btn_term_bearb_search_click" prefHeight="25.0" prefWidth="114.0" text="Suchen" />
+                                    <Button fx:id="btn_term_bearb_delete" layoutX="457.0" layoutY="87.0" mnemonicParsing="false" onAction="#btn_term_bearb_delete_click" prefHeight="25.0" prefWidth="114.0" text="Termin löschen" />
+                                    <Button fx:id="btn_term_bearb_bearb" layoutX="457.0" layoutY="115.0" mnemonicParsing="false" onAction="#btn_term_bearb_bearb_click" text="Termin bearbeiten" />
+                                    <Label layoutX="14.0" layoutY="63.0" text="Startdatum:" />
+                                    <Label layoutX="14.0" layoutY="91.0" text="Enddatum:" />
+                                    <Label fx:id="lbl_term_bearb_mafz" layoutX="17.0" layoutY="119.0" text="Mitarbeiter" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="apa_term_1bearb" prefHeight="486.0" prefWidth="591.0" visible="false">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Termin bearbeiten:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <DatePicker fx:id="dpi_term_1bearb_startd" layoutX="167.0" layoutY="114.0" />
+                                    <DatePicker fx:id="dpi_term_1bearb_endd" layoutX="167.0" layoutY="184.0" />
+                                    <Label layoutX="17.0" layoutY="118.0" text="Startdatum:" />
+                                    <Label layoutX="17.0" layoutY="188.0" text="Enddatum:" />
+                                    <Label fx:id="lbl_term_1bearb_mafz" layoutX="17.0" layoutY="57.0" text="Mitarbeiter" />
+                                    <Label fx:id="lbl_term_bearb_mafz1" layoutX="16.0" layoutY="84.0" text="Terminart:" />
+                                    <TextField fx:id="txt_term_1bearb_mafz" editable="false" layoutX="167.0" layoutY="53.0" prefHeight="25.0" prefWidth="174.0" />
+                                    <TextField fx:id="txt_term_1bearb_art" editable="false" layoutX="167.0" layoutY="80.0" prefHeight="25.0" prefWidth="174.0" />
+                                    <TextField fx:id="txt_term_1bearb_startz_h" alignment="CENTER" layoutX="167.0" layoutY="149.0" prefHeight="25.0" prefWidth="40.0" promptText="hh" />
+                                    <Label layoutX="217.0" layoutY="153.0" text=":" />
+                                    <TextField fx:id="txt_term_1bearb_startz_m" alignment="CENTER" layoutX="231.0" layoutY="149.0" prefHeight="25.0" prefWidth="40.0" promptText="mm" />
+                                    <TextField fx:id="txt_term_1bearb_endz_m" alignment="CENTER" layoutX="232.0" layoutY="218.0" prefHeight="25.0" prefWidth="40.0" promptText="mm" />
+                                    <Label layoutX="218.0" layoutY="222.0" text=":" />
+                                    <TextField fx:id="txt_term_1bearb_endz_h" alignment="CENTER" layoutX="168.0" layoutY="218.0" prefHeight="25.0" prefWidth="40.0" promptText="hh" />
+                                    <Label layoutX="17.0" layoutY="153.0" text="Startzeit:" />
+                                    <Label layoutX="18.0" layoutY="222.0" text="Endzeit:" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="apa_profit" prefHeight="486.0" prefWidth="591.0" visible="false">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Profitabilität auswerten:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="cbo_profit_year" layoutX="253.0" layoutY="12.0" onAction="#cbo_profit_year_click" prefWidth="150.0" />
+                                    <Label layoutX="209.0" layoutY="16.0" text="Jahr:" />
+                                    <Label layoutX="12.0" layoutY="49.0" text="Top 5">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="13.0" layoutY="231.0" text="Flop 5">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="14.0" layoutY="100.0" text="1." />
+                                    <Label layoutX="14.0" layoutY="123.0" text="2." />
+                                    <Label layoutX="14.0" layoutY="147.0" text="3." />
+                                    <Label layoutX="14.0" layoutY="171.0" text="4." />
+                                    <Label layoutX="14.0" layoutY="194.0" text="5." />
+                                    <Label fx:id="lbl_profit_topfz1" layoutX="75.0" layoutY="100.0" />
+                                    <Label fx:id="lbl_profit_topfz2" layoutX="75.0" layoutY="123.0" />
+                                    <Label fx:id="lbl_profit_topfz3" layoutX="75.0" layoutY="147.0" />
+                                    <Label fx:id="lbl_profit_topfz4" layoutX="75.0" layoutY="171.0" />
+                                    <Label fx:id="lbl_profit_topfz5" layoutX="75.0" layoutY="194.0" />
+                                    <Label fx:id="lbl_profit_topfd5" layoutX="289.0" layoutY="194.0" />
+                                    <Label fx:id="lbl_profit_topfd4" layoutX="289.0" layoutY="171.0" />
+                                    <Label fx:id="lbl_profit_topfd3" layoutX="289.0" layoutY="147.0" />
+                                    <Label fx:id="lbl_profit_topfd2" layoutX="289.0" layoutY="123.0" />
+                                    <Label fx:id="lbl_profit_topfd1" layoutX="289.0" layoutY="100.0" />
+                                    <Label fx:id="lbl_profit_toppro1" layoutX="387.0" layoutY="100.0" />
+                                    <Label fx:id="lbl_profit_toppro2" layoutX="387.0" layoutY="123.0" />
+                                    <Label fx:id="lbl_profit_toppro3" layoutX="387.0" layoutY="147.0" />
+                                    <Label fx:id="lbl_profit_toppro4" layoutX="387.0" layoutY="171.0" />
+                                    <Label fx:id="lbl_profit_toppro5" layoutX="387.0" layoutY="194.0" />
+                                    <Label layoutX="14.0" layoutY="79.0" text="Nr." />
+                                    <Label layoutX="74.0" layoutY="79.0" text="Flugzeug" />
+                                    <Label layoutX="287.0" layoutY="79.0" text="Flugdauer(h)" />
+                                    <Label layoutX="385.0" layoutY="79.0" text="Profitabilität" />
+                                    <Label layoutX="385.0" layoutY="265.0" text="Profitabilität" />
+                                    <Label layoutX="286.0" layoutY="265.0" text="Flugdauer(h)" />
+                                    <Label layoutX="76.0" layoutY="265.0" text="Flugzeug" />
+                                    <Label layoutX="16.0" layoutY="265.0" text="Nr." />
+                                    <Label fx:id="lbl_profit_floppro5" layoutX="387.0" layoutY="380.0" />
+                                    <Label fx:id="lbl_profit_floppro4" layoutX="387.0" layoutY="357.0" />
+                                    <Label fx:id="lbl_profit_floppro3" layoutX="387.0" layoutY="333.0" />
+                                    <Label fx:id="lbl_profit_floppro2" layoutX="387.0" layoutY="309.0" />
+                                    <Label fx:id="lbl_profit_floppro1" layoutX="387.0" layoutY="286.0" />
+                                    <Label fx:id="lbl_profit_flopfd1" layoutX="286.0" layoutY="286.0" />
+                                    <Label fx:id="lbl_profit_flopfd2" layoutX="286.0" layoutY="309.0" />
+                                    <Label fx:id="lbl_profit_flopfd3" layoutX="286.0" layoutY="333.0" />
+                                    <Label fx:id="lbl_profit_flopfd4" layoutX="286.0" layoutY="357.0" />
+                                    <Label fx:id="lbl_profit_flopfd5" layoutX="286.0" layoutY="380.0" />
+                                    <Label fx:id="lbl_profit_flopfz5" layoutX="77.0" layoutY="380.0" />
+                                    <Label fx:id="lbl_profit_flopfz4" layoutX="77.0" layoutY="357.0" />
+                                    <Label fx:id="lbl_profit_flopfz3" layoutX="77.0" layoutY="333.0" />
+                                    <Label fx:id="lbl_profit_flopfz2" layoutX="77.0" layoutY="309.0" />
+                                    <Label fx:id="lbl_profit_flopfz1" layoutX="77.0" layoutY="286.0" />
+                                    <Label layoutX="16.0" layoutY="380.0" text="5." />
+                                    <Label layoutX="16.0" layoutY="357.0" text="4." />
+                                    <Label layoutX="16.0" layoutY="333.0" text="3." />
+                                    <Label layoutX="16.0" layoutY="309.0" text="2." />
+                                    <Label layoutX="16.0" layoutY="286.0" text="1." />
+                                    <Label layoutX="148.0" layoutY="428.0" text="Flugzeug" />
+                                    <ComboBox fx:id="cbo_profit_fz" layoutX="209.0" layoutY="424.0" onAction="#cbo_profit_fz_click" prefWidth="150.0" />
+                                    <Label layoutX="258.0" layoutY="457.0" text="Profitabilität" />
+                                    <Label layoutX="149.0" layoutY="457.0" text="Flugdauer" />
+                                    <Label fx:id="lbl_profit_pro" layoutX="334.0" layoutY="457.0" />
+                                    <Label fx:id="lbl_profit_dauer" layoutX="209.0" layoutY="457.0" />
+                                    <Label layoutX="14.0" layoutY="427.0" text="Einzelauswertung:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Separator layoutX="12.0" layoutY="396.0" prefHeight="20.0" prefWidth="549.0" />
+                                    <Separator layoutX="10.0" layoutY="211.0" prefHeight="20.0" prefWidth="549.0" />
+                                 </children>
                               </AnchorPane>      
 
  								   </children>
@@ -1943,6 +2097,17 @@
                                  <children>
                                     <Button fx:id="btn_newterm_save" layoutX="511.0" layoutY="27.0" mnemonicParsing="false" onAction="#btn_newterm_save_click" text="speichern" />
                                     <Button fx:id="btn_newterm_cancel" layoutX="432.0" layoutY="27.0" mnemonicParsing="false" onAction="#btn_newterm_cancel_click" text="abbrechen" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="apa_termn_bearb_btn" prefHeight="61.0" prefWidth="589.0" visible="false">
+                                 <children>
+                                    <Button fx:id="btn_term_bearb_cancel" layoutX="511.0" layoutY="27.0" mnemonicParsing="false" onAction="#btn_term_bearb_cancel_click" text="Beenden" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="apa_term_1bearb_btn" prefHeight="61.0" prefWidth="589.0" visible="false">
+                                 <children>
+                                    <Button fx:id="btn_term_1bearb_save" layoutX="511.0" layoutY="27.0" mnemonicParsing="false" onAction="#btn_term_1bearb_save_click" text="speichern" />
+                                    <Button fx:id="btn_term_1bearb_cancel" layoutX="432.0" layoutY="27.0" mnemonicParsing="false" onAction="#btn_term_1bearb_cancel_click" text="abbrechen" />
                                  </children>
                               </AnchorPane>
 
