@@ -567,17 +567,17 @@
                                                 <Font size="14.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="297.0" layoutY="235.0" text="Port:">
+                                          <Label layoutX="315.0" layoutY="237.0" text="Port:">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Label>
-                                          <Text layoutX="95.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="172.20.1.24">
+                                          <Text layoutX="95.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="fww-proj-0204.fww.hs-wismar.de">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Text>
-                                          <Text layoutX="334.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3306">
+                                          <Text layoutX="350.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3306">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -592,77 +592,68 @@
                                                 <Font size="14.0" />
                                              </font>
                                           </Text>
-                                          <ImageView fitHeight="385.0" fitWidth="254.0" layoutX="36.0" layoutY="294.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@tabellen1.jpg" />
-                                             </image>
-                                          </ImageView>
-                                          <Label layoutX="297.0" layoutY="265.0" text="Schema:">
+                                         
+                                          <Label layoutX="36.0" layoutY="295.0" text="Schema:">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Label>
-                                          <Text layoutX="353.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="benutzerverwaltung">
+                                          <Text layoutX="95.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" text="benutzerverwaltung">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Text>
-                                          <ImageView fitHeight="241.0" fitWidth="259.0" layoutX="297.0" layoutY="294.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@tabellen2.jpg" />
-                                             </image>
-                                          </ImageView>
-                                          <Label layoutX="36.0" layoutY="709.0" text="Kontaktdaten:">
+                                          <Label layoutX="36.0" layoutY="339.0" text="Kontaktdaten:">
                                              <font>
                                                 <Font name="System Bold" size="21.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="38.0" layoutY="740.0" text="Firma:">
+                                          <Label layoutX="38.0" layoutY="370.0" text="Firma:">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Label>
-                                          <Text layoutX="96.0" layoutY="755.0" strokeType="OUTSIDE" strokeWidth="0.0" text="iTWORKS! GmbH">
+                                          <Text layoutX="146.0" layoutY="385.0" strokeType="OUTSIDE" strokeWidth="0.0" text="iTWORKS! GmbH">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Text>
-                                          <Label layoutX="38.0" layoutY="760.0" text="Adresse:">
+                                          <Label layoutX="38.0" layoutY="390.0" text="Adresse:">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Label>
-                                          <Text layoutX="94.0" layoutY="775.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Theatiner Str. 14, 80605 München">
+                                          <Text layoutX="146.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Theatiner Str. 151, 80333 München">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Text>
-                                          <Label layoutX="38.0" layoutY="791.0" text="Kundensupport:">
+                                          <Label layoutX="38.0" layoutY="421.0" text="Kundensupport:">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Label>
-                                          <Text layoutX="146.0" layoutY="806.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Frau Nüket Tezcan">
+                                          <Text layoutX="146.0" layoutY="436.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Herr Job Bartelink">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Text>
-                                          <Label layoutX="38.0" layoutY="811.0" text="eMail:">
+                                          <Label layoutX="38.0" layoutY="441.0" text="eMail:">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Label>
-                                          <Text layoutX="146.0" layoutY="826.0" strokeType="OUTSIDE" strokeWidth="0.0" text="support@itworks.eu">
+                                          <Text layoutX="146.0" layoutY="456.0" strokeType="OUTSIDE" strokeWidth="0.0" text="support@itworks.com">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Text>
-                                          <Label layoutX="38.0" layoutY="831.0" text="Telefon:">
+                                          <Label layoutX="38.0" layoutY="461.0" text="Telefon:">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Label>
-                                          <Text layoutX="146.0" layoutY="846.0" strokeType="OUTSIDE" strokeWidth="0.0" text="089/9934-3220">
+                                          <Text layoutX="146.0" layoutY="476.0" strokeType="OUTSIDE" strokeWidth="0.0" text="+49 89 85794 51458">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -1791,6 +1782,9 @@
 
                               <AnchorPane fx:id="panebtnangebotübersicht" prefHeight="68.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
+                                 <Button fx:id="btnprintangebot" layoutX="240.0" layoutY="22.0" disable="true" mnemonicParsing="false" onAction="#action_drucken_angebot" prefHeight="25.0" prefWidth="60.0" text="Drucken" />
+                                 <Button fx:id="btnsendangebot" layoutX="150.0" layoutY="22.0" disable="true" mnemonicParsing="false" onAction="#action_versenden_angebot" prefHeight="25.0" prefWidth="80.0" text="Versenden" />
+                    
                                     <Button fx:id="btn_angebotstatusedit" layoutX="310.0" layoutY="22.0" mnemonicParsing="false" onAction="#action_editangebotstatus" prefHeight="25.0" prefWidth="153.0" text="Angebotstatus ändern" />
                                     <Button fx:id="btncreateorder" layoutX="471.0" layoutY="22.0" mnemonicParsing="false" onAction="#createorder" text="Auftrag erstellen" />
                                  </children>

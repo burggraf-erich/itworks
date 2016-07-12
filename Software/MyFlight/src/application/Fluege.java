@@ -21,19 +21,19 @@ public class Fluege {
 	private SimpleStringProperty tablecoldateabflug = null;
 	private SimpleStringProperty tablecoltimeabflug = null;
 	private SimpleStringProperty tablecolortabflug = null;
-	private SimpleFloatProperty  tablecolflugzeit = null;
+	private SimpleStringProperty  tablecolflugzeit = null;
 	private SimpleStringProperty tablecoltimeankunft = null;
 	private SimpleStringProperty tablecolortankunft = null;
 	private IntegerProperty tablecolanzahlpax = null;
 	
 	
 //Konstruktor für Instanzerzeugung 
-	public Fluege(String tablecoldateabflug, String tablecoltimeabflug, String tablecolortabflug , float tablecolflugzeit , String tablecoltimeankunft , String tablecolortankunft, Integer  tablecolanzahlpax) {
+	public Fluege(String tablecoldateabflug, String tablecoltimeabflug, String tablecolortabflug , String tablecolflugzeit , String tablecoltimeankunft , String tablecolortankunft, Integer  tablecolanzahlpax) {
      
 		this.tablecoldateabflug = new SimpleStringProperty(tablecoldateabflug);
 		this.tablecoltimeabflug = new SimpleStringProperty(tablecoltimeabflug);
 		this.tablecolortabflug = new SimpleStringProperty(tablecolortabflug);
-		this.tablecolflugzeit = new SimpleFloatProperty(tablecolflugzeit);
+		this.tablecolflugzeit = new SimpleStringProperty(tablecolflugzeit);
 		this.tablecoltimeankunft = new SimpleStringProperty(tablecoltimeankunft);
 		this.tablecolortankunft = new SimpleStringProperty(tablecolortankunft);
 		this.tablecolanzahlpax = new SimpleIntegerProperty(tablecolanzahlpax);
@@ -51,15 +51,15 @@ public int gettablecolanzahlpax() {
  public IntegerProperty tablecolanzahlpaxProperty() {
      return tablecolanzahlpax;
  }
- public Float gettablecolflugzeit() {
+ public String gettablecolflugzeit() {
 	   return tablecolflugzeit.get();
 	}
 
-	public void settablecolflugzeit(Float tablecolflugzeit) {
+	public void settablecolflugzeit(String tablecolflugzeit) {
 	   this.tablecolflugzeit.set(tablecolflugzeit);
 	}
 
-	public FloatProperty tablecolflugzeitProperty() {
+	public StringProperty tablecolflugzeitProperty() {
 	   return tablecolflugzeit;
 	   
 	}
