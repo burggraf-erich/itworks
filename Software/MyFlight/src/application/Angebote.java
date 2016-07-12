@@ -13,6 +13,7 @@ import java.time.LocalDate;
 public class Angebote {
 
 	private IntegerProperty Nummer = null;
+	private SimpleStringProperty Status = null;
 	private SimpleStringProperty Aart = null;
 	private SimpleStringProperty Kdgruppe = null;
 	private SimpleStringProperty Flgztyp = null;
@@ -22,9 +23,10 @@ public class Angebote {
 	private SimpleStringProperty Kdvname = null;
 	
 // Konstruktor für Instanzerzeugung 
-	public Angebote(Integer Nummer, String Aart, String Kdgruppe, String Flugztyp, String Datum_von, String Datum_bis, String Kdname, String Kdvname) {
+	public Angebote(Integer Nummer, String Status, String Aart, String Kdgruppe, String Flugztyp, String Datum_von, String Datum_bis, String Kdname, String Kdvname) {
         this.Nummer = new SimpleIntegerProperty(Nummer);
-          this.Aart = new SimpleStringProperty(Aart);
+        this.Status = new SimpleStringProperty(Status);
+        this.Aart = new SimpleStringProperty(Aart);
         this.Kdgruppe = new SimpleStringProperty(Kdgruppe);
         this.Flgztyp = new SimpleStringProperty(Flugztyp);
         this.Datum_von = new SimpleStringProperty(Datum_von);
@@ -53,6 +55,17 @@ public class Angebote {
 
     public StringProperty FlgztypProperty() {
         return Flgztyp;
+    }
+    public String getStatus() {
+        return Status.get();
+    }
+
+    public void setStatus(String Status) {
+        this.Status.set(Status);
+    }
+
+    public StringProperty StatusProperty() {
+        return Status;
     }
     
     public String getDatum_von() {
