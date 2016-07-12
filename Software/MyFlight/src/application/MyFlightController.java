@@ -1,5 +1,5 @@
 package application;
-// V2.30
+// V2.31
 
 
 import java.sql.*;
@@ -399,7 +399,9 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML Button btn_createoffer;
 	@FXML Button btncreateorder;
 	@FXML Button btnprint;
+	@FXML Button btnprintangebot;
 	@FXML Button btnsend;
+	@FXML Button btnsendangebot;
 	@FXML Button btncreatebill;
 	@FXML Button btn_save_order;
 	@FXML PasswordField pwf_password;
@@ -1064,8 +1066,8 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V2.30");
-		Version1.setText("V2.30");
+		Version.setText("V2.31");
+		Version1.setText("V2.31");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
@@ -1192,8 +1194,10 @@ public ObservableList<FHSuche> getFHData() {
 		//Buttons werden erst aktiv, wenn in der Tabelle ein Eintrag ausgewählt wurde
 		btncreateorder.disableProperty().bind(Bindings.isEmpty(angebotetabelle.getSelectionModel().getSelectedIndices()));
 	    btnprint.disableProperty().bind(Bindings.isEmpty(auftragtable.getSelectionModel().getSelectedIndices()));
-		btnsend.disableProperty().bind(Bindings.isEmpty(auftragtable.getSelectionModel().getSelectedIndices()));
+	    btnprintangebot.disableProperty().bind(Bindings.isEmpty(angebotetabelle.getSelectionModel().getSelectedIndices()));
+	    btnsend.disableProperty().bind(Bindings.isEmpty(auftragtable.getSelectionModel().getSelectedIndices()));
 	//	btncreatebill.disableProperty().bind(Bindings.isEmpty(auftragtable.getSelectionModel().getSelectedIndices()));
+		btnsendangebot.disableProperty().bind(Bindings.isEmpty(angebotetabelle.getSelectionModel().getSelectedIndices()));
 		angebotedit.disableProperty().bind(Bindings.isEmpty(auftragtable.getSelectionModel().getSelectedIndices()));
 		btn_changebillstatus.disableProperty().bind(Bindings.isEmpty(billtable.getSelectionModel().getSelectedIndices()));
 		btn_costtrackingedit.disableProperty().bind(Bindings.isEmpty(costbilltable.getSelectionModel().getSelectedIndices()));
@@ -3096,7 +3100,7 @@ public ObservableList<FHSuche> getFHData() {
 				// String Kunde = "Burggraf";
 				// int Nummer = 100302;
 				// String Datum = "10.06.2016";
-				Mainmail mail = new Mainmail(kundenanrede, Kunde, angebot_id, Datum, mailadresse);
+				Mainmail mail = new Mainmail(kundenanrede, Kunde, angebot_id, Datum, mailadresse, "Auftrag");
 
 			}
 			}
@@ -3189,7 +3193,7 @@ public ObservableList<FHSuche> getFHData() {
 				System.out.println(rs.getFloat(1));		
 				
 				
-				double chartzeit = Math.round(rs.getFloat(14) * 100)/ 100.0; 
+				double chartzeit = Math.round(rs.getFloat(1) * 100)/ 100.0; 
 				charterdauer.setText(Double.toString(chartzeit));
 				
 		//Flugzeit
@@ -3373,10 +3377,17 @@ public ObservableList<FHSuche> getFHData() {
 	
 		Document document = new Document(PageSize.A4);
 		document.setMargins(50f, 40f, 50f, 40f);
-		if (modus == "Auftrag") {
+		
+		switch (modus) {
+		case "Auftrag":
 			filename = System.getProperty("user.dir") + "/" + Integer.toString(angebot_id) + ".pdf";
-		} else {
+			break;
+		case "Angebot":
+			filename = System.getProperty("user.dir") + "/" + Integer.toString(angebot_id) + "angebot.pdf";
+			break;
+		default :
 			filename = System.getProperty("user.dir") + "/" + Integer.toString(angebot_id) + "m.pdf";
+			break;
 		}
 		PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(filename));
 		// nur für die Möglichkeit, dass wir einen Rahmen zeichnen können
@@ -3428,130 +3439,175 @@ public ObservableList<FHSuche> getFHData() {
 		document.add(p);
 		border.setActive(false);
 		// Parameter für Dokumenterstellung
-		
-	
-		// Daten für Auftrag erstellen einlesen
-		String sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, auftraege.auftraege_id FROM angebote INNER JOIN fluege inner join auftraege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID where auftraege.auftraege_id = '"+ angebot_id + "'";
-		final String hostname = "172.20.1.24"; 
-        final String port = "3306"; 
-        String dbname = "myflight";
-		String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
-		Connection conn = DriverManager.getConnection(url, user, password);
-	    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
-	    Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery(sql);
-		rs.next();
-	String AG = rs.getString(29);
-	AG = AG+" "+rs.getString(30);
-	String Typ=rs.getString(42);
-	String Kennzeichen =rs.getString(16);
-	String vorname = rs.getString(31);
-	String nachname = rs.getString(30);
-	String strasse = rs.getString(36);
-	String plz = rs.getString(38);
-	String ort = rs.getString(39);
-	
-	
-	 //artcharter.setText(rs.getString(4));
-		
-		// Create an instance of SimpleDateFormat used for formatting 
-		// the string representation of date (month/day/year)
-		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-		
-		// Using DateFormat format method we can create a string 
-		// representation of a date with the defined format.
-		String Beginndatum = df.format(rs.getObject(21));
-		
-		// Create an instance of SimpleDateFormat used for formatting 
-		// the string representation of date (month/day/year)
-		//DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-			      
-		// Using DateFormat format method we can create a string 
-		// representation of a date with the defined format.
-		
-		String Endedatum = df.format(rs.getObject(22));
-
-		
-		//Charterdauer
-		System.out.println(rs.getFloat(14));		
-		
-		
-		double chartzeit = Math.round(rs.getFloat(14) * 100)/ 100.0; 
-		String Charterdauer = Double.toString(chartzeit);
-		
-		//Flugzeit
-		System.out.println(rs.getFloat(15));		
-		
-		
-		int h = (int)rs.getFloat(15);
-		int min = (int)(Math.round((rs.getFloat(15)-(int)rs.getFloat(15))*60));
-		String Flugzeit = Integer.toString(h)+" h "+Integer.toString(min)+" min";
-		
-		
-		
-		
-		//Preis netto
-				System.out.println(rs.getInt(8));		
-				String Preisnetto = Integer.toString(rs.getInt(8))+" EUR";
-				int intpreisnetto = rs.getInt(8);
-				// Preis Brutto
-				System.out.println(rs.getInt(7));		
-				String Preisbrutto = Integer.toString(rs.getInt(7))+ " EUR";
-				int intpreisbrutto = rs.getInt(7);					
-		//Preis Mwst
-				int Preismwst = intpreisbrutto - intpreisnetto;
-				String Mwst = Integer.toString(Preismwst)+" EUR";
-
-				// Angebot_id ermitteln
-				sql = "select angebote.angebote_id from angebote inner join auftraege on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
-				stmt = conn.createStatement();
-				rs = stmt.executeQuery(sql);
-				rs.next();
-				int angebote_angebote_id = rs.getInt(1);
-		
-		//Abflugort
-		sql = "select flughafen_von.flughafenstadt from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on fluege.angebote_angebote_id = angebote.angebote_id and angebote.angebote_id='"+angebote_angebote_id+"'";
-		rs = stmt.executeQuery(sql);
-		rs.next();
-		String FlugAnfang = rs.getString(1);
-		System.out.println(rs.getString(1));
-						
-		//Ankunftort
-		sql = "select flughafen_bis.flughafenstadt from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on fluege.angebote_angebote_id = angebote.angebote_id and angebote.angebote_id='"+angebote_angebote_id+"'";
-		rs = stmt.executeQuery(sql);
-		rs.next();
-		String FlugEnde = rs.getString(1);
-						
-				
-		
-			
-		
-							
-						//String AG = "Erich";
-						//String Typ = "Dornier";
-						//String Kennzeichen = "120";
-						//String Beginndatum = "20.05.2016";
-						//String Endedatum = "01.06.2016";
-						//String FlugAnfang = "München";
-						//String FlugEnde = "New York";
-						String Zwischen1 = "";
-						String Zwischen2 = "";
-						String Zwischen3 = "";
-					//	String Charterdauer = "124:30 h";
-					//	String Flugzeit = "24:45";
-						//String Preisnetto = "1.450,00 EUR";
-						//String Mwst = "275,50 EUR";
-						//String Preisbrutto = "1.725,50 EUR";
-						
-						Chunk underline = new Chunk("                                                  ");
-
-		
+		String sql;
 		switch (modus) {
+		case "Angebot" :
+			// Daten für Auftrag erstellen einlesen
+			sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID where angebote.angebote_id = '"+ angebot_id + "'";
+			break;
+		default:
+			// Daten für Auftrag erstellen einlesen
+			sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, auftraege.auftraege_id FROM angebote INNER JOIN fluege inner join auftraege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID where auftraege.auftraege_id = '"+ angebot_id + "'";
+			break;
+		}
+			final String hostname = "172.20.1.24"; 
+	        final String port = "3306"; 
+	        String dbname = "myflight";
+			String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+			Connection conn = DriverManager.getConnection(url, user, password);
+		    if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+		    Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			rs.next();
+		String AG = rs.getString(29);
+		AG = AG+" "+rs.getString(30);
+		String Typ=rs.getString(42);
+		String Kennzeichen =rs.getString(16);
+		String vorname = rs.getString(31);
+		String nachname = rs.getString(30);
+		String strasse = rs.getString(36);
+		String plz = rs.getString(38);
+		String ort = rs.getString(39);
 		
-		case "Auftrag":
+		
+		 //artcharter.setText(rs.getString(4));
 			
+			// Create an instance of SimpleDateFormat used for formatting 
+			// the string representation of date (month/day/year)
+			DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+			
+			// Using DateFormat format method we can create a string 
+			// representation of a date with the defined format.
+			String Beginndatum = df.format(rs.getObject(21));
+			
+			// Create an instance of SimpleDateFormat used for formatting 
+			// the string representation of date (month/day/year)
+			//DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+				      
+			// Using DateFormat format method we can create a string 
+			// representation of a date with the defined format.
+			
+			String Endedatum = df.format(rs.getObject(22));
+
+			
+			//Charterdauer
+			System.out.println(rs.getFloat(14));		
+			
+			
+			double chartzeit = Math.round(rs.getFloat(14) * 100)/ 100.0; 
+			String Charterdauer = Double.toString(chartzeit);
+			
+			//Flugzeit
+			System.out.println(rs.getFloat(15));		
+			
+			
+			int h = (int)rs.getFloat(15);
+			int min = (int)(Math.round((rs.getFloat(15)-(int)rs.getFloat(15))*60));
+			String Flugzeit = Integer.toString(h)+" h "+Integer.toString(min)+" min";
+			
+			
+			
+			
+			//Preis netto
+					System.out.println(rs.getInt(8));		
+					String Preisnetto = Integer.toString(rs.getInt(8))+" EUR";
+					int intpreisnetto = rs.getInt(8);
+					// Preis Brutto
+					System.out.println(rs.getInt(7));		
+					String Preisbrutto = Integer.toString(rs.getInt(7))+ " EUR";
+					int intpreisbrutto = rs.getInt(7);					
+			//Preis Mwst
+					int Preismwst = intpreisbrutto - intpreisnetto;
+					String Mwst = Integer.toString(Preismwst)+" EUR";
+					int angebote_angebote_id;
+					switch (modus) {
+					case "Angebot" :
+						// Angebot_id ermitteln
+						angebote_angebote_id = angebot_id;
+						break;
+					default:
+						// Angebot_id ermitteln
+						sql = "select angebote.angebote_id from angebote inner join auftraege on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
+						stmt = conn.createStatement();
+						rs = stmt.executeQuery(sql);
+						rs.next();
+						angebote_angebote_id = rs.getInt(1);
+				
+						break;
+					}
+				
+			
+			//Abflugort
+			sql = "select flughafen_von.flughafenstadt from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on fluege.angebote_angebote_id = angebote.angebote_id and angebote.angebote_id='"+angebote_angebote_id+"'";
+			rs = stmt.executeQuery(sql);
+			rs.next();
+			String FlugAnfang = rs.getString(1);
+			System.out.println(rs.getString(1));
+							
+			//Ankunftort
+			sql = "select flughafen_bis.flughafenstadt from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on fluege.angebote_angebote_id = angebote.angebote_id and angebote.angebote_id='"+angebote_angebote_id+"'";
+			rs = stmt.executeQuery(sql);
+			rs.next();
+			String FlugEnde = rs.getString(1);
+							
+					
+			
+				
+			
+								
+							//String AG = "Erich";
+							//String Typ = "Dornier";
+							//String Kennzeichen = "120";
+							//String Beginndatum = "20.05.2016";
+							//String Endedatum = "01.06.2016";
+							//String FlugAnfang = "München";
+							//String FlugEnde = "New York";
+							String Zwischen1 = "";
+							String Zwischen2 = "";
+							String Zwischen3 = "";
+						//	String Charterdauer = "124:30 h";
+						//	String Flugzeit = "24:45";
+							//String Preisnetto = "1.450,00 EUR";
+							//String Mwst = "275,50 EUR";
+							//String Preisbrutto = "1.725,50 EUR";
+							
+							Chunk underline = new Chunk("                                                  ");
+			
+			switch (modus) {
+
+			case "Angebot":
+				p = new Paragraph(" ", styleText);
+				p.setAlignment(Element.ALIGN_CENTER);
+				// etwas abstand hinter der überschrift
+				p.setSpacingAfter(6f);
+				document.add(p);p = new Paragraph("Angebot", styleUeberschrift1);
+				p.setAlignment(Element.ALIGN_CENTER);
+				// etwas abstand hinter der überschrift
+				p.setSpacingAfter(6f);
+				document.add(p);
+				p = new Paragraph("für", styleText);
+				p.setAlignment(Element.ALIGN_CENTER);
+				// etwas abstand hinter der überschrift
+				p.setSpacingAfter(6f);
+				document.add(p);
+				p = new Paragraph(vorname+" "+nachname, styleUeberschrift1);
+				p.setAlignment(Element.ALIGN_CENTER);
+				// etwas abstand hinter der überschrift
+				p.setSpacingAfter(6f);
+				document.add(p);
+				p = new Paragraph("von", styleText);
+				p.setAlignment(Element.ALIGN_CENTER);
+				// etwas abstand hinter der überschrift
+				p.setSpacingAfter(6f);
+				document.add(p);
+				p = new Paragraph("HINOTORI Executive AG", styleUeberschrift1);
+				p.setAlignment(Element.ALIGN_CENTER);
+				// etwas abstand hinter der überschrift
+				p.setSpacingAfter(20f);
+				document.add(p);
+				break;
+			case "Auftrag":			
 				p = new Paragraph(" ", styleText);
 				p.setAlignment(Element.ALIGN_CENTER);
 				// etwas abstand hinter der überschrift
@@ -3576,12 +3632,22 @@ public ObservableList<FHSuche> getFHData() {
 				// etwas abstand hinter der überschrift
 				p.setSpacingAfter(6f);
 				document.add(p);
-				p = new Paragraph("Firma oder Person", styleUeberschrift1);
+				p = new Paragraph(vorname+" "+nachname, styleUeberschrift1);
 				p.setAlignment(Element.ALIGN_CENTER);
 				// etwas abstand hinter der überschrift
 				p.setSpacingAfter(20f);
 				document.add(p);
-				
+				break;
+			}
+			
+		
+
+			
+			
+										
+			if (modus=="Auftrag" || modus=="Angebot") {
+			
+
 				String[][] DATEN = new String[10][7];
 
 		
@@ -3859,73 +3925,71 @@ public ObservableList<FHSuche> getFHData() {
 				
 				// step 5
 				document.close();
-
+			}
+			else {
 				
-		break;		
-		default:
-
-			p = new Paragraph(" ", styleText);
-			p.setAlignment(Element.ALIGN_CENTER);
-			// etwas abstand hinter der überschrift
-			p.setSpacingAfter(6f);
-			document.add(p);
-			p = new Paragraph(" ", styleUeberschrift1);
-			p.setAlignment(Element.ALIGN_LEFT);
-			// etwas abstand hinter der überschrift
-			p.setSpacingAfter(6f);
-			document.add(p);
-			p = new Paragraph(vorname+" "+nachname, styleText);
-			p.setAlignment(Element.ALIGN_LEFT);
-			// etwas abstand hinter der überschrift
-			p.setSpacingAfter(6f);
-			document.add(p);
-			p = new Paragraph(strasse, styleText);
-			p.setAlignment(Element.ALIGN_LEFT);
-			// etwas abstand hinter der überschrift
-			p.setSpacingAfter(6f);
-			document.add(p);
-			p = new Paragraph(" ", styleText);
-			p.setAlignment(Element.ALIGN_LEFT);
-			// etwas abstand hinter der überschrift
-			p.setSpacingAfter(6f);
-			document.add(p);
-			p = new Paragraph(plz+" "+ort, styleText);
-			p.setAlignment(Element.ALIGN_LEFT);
-			// etwas abstand hinter der überschrift
-			p.setSpacingAfter(20f);
-			document.add(p);
-			p = new Paragraph(modus, styleUeberschrift1);
-			p.setAlignment(Element.ALIGN_LEFT);
-			// etwas abstand hinter der überschrift
-			p.setSpacingAfter(20f);
-			document.add(p);
-			p = new Paragraph("Sehr geehrte(r) "+AG+",", styleText);
-			p.setAlignment(Element.ALIGN_LEFT);
-			// etwas abstand hinter der überschrift
-			p.setSpacingAfter(6f);
-			document.add(p);
-			p = new Paragraph("nachdem Sie auf unsere Erinnerungen zur Begleichung unserer Rechnung nicht reagiert haben, mahnen wir Sie nun an, die Rechnung binnen 7 Tage zu begleichen. Andernfalls sehen wir uns gezwungen, gerichtliche Schritte gegen Sie einzuleiten. ", styleText);
-			p.setAlignment(Element.ALIGN_LEFT);
-			// etwas abstand hinter der überschrift
-			p.setSpacingAfter(6f);
-			document.add(p);
-			p = new Paragraph("Mit freundlichen Grüßen,", styleText);
-			p.setAlignment(Element.ALIGN_LEFT);
-			// etwas abstand hinter der überschrift
-			p.setSpacingAfter(6f);
-			document.add(p);
-			p = new Paragraph("HINOTORI Executive AG", styleUeberschrift1);
-			p.setAlignment(Element.ALIGN_LEFT);
-			// etwas abstand hinter der überschrift
-			p.setSpacingAfter(20f);
-			document.add(p);
-						
-										
-					// step 5
-					break;
+			
+		p = new Paragraph(" ", styleText);
+		p.setAlignment(Element.ALIGN_CENTER);
+		// etwas abstand hinter der überschrift
+		p.setSpacingAfter(6f);
+		document.add(p);
+		p = new Paragraph(" ", styleUeberschrift1);
+		p.setAlignment(Element.ALIGN_LEFT);
+		// etwas abstand hinter der überschrift
+		p.setSpacingAfter(6f);
+		document.add(p);
+		p = new Paragraph(vorname+" "+nachname, styleText);
+		p.setAlignment(Element.ALIGN_LEFT);
+		// etwas abstand hinter der überschrift
+		p.setSpacingAfter(6f);
+		document.add(p);
+		p = new Paragraph(strasse, styleText);
+		p.setAlignment(Element.ALIGN_LEFT);
+		// etwas abstand hinter der überschrift
+		p.setSpacingAfter(6f);
+		document.add(p);
+		p = new Paragraph(" ", styleText);
+		p.setAlignment(Element.ALIGN_LEFT);
+		// etwas abstand hinter der überschrift
+		p.setSpacingAfter(6f);
+		document.add(p);
+		p = new Paragraph(plz+" "+ort, styleText);
+		p.setAlignment(Element.ALIGN_LEFT);
+		// etwas abstand hinter der überschrift
+		p.setSpacingAfter(20f);
+		document.add(p);
+		p = new Paragraph(modus, styleUeberschrift1);
+		p.setAlignment(Element.ALIGN_LEFT);
+		// etwas abstand hinter der überschrift
+		p.setSpacingAfter(20f);
+		document.add(p);
+		p = new Paragraph("Sehr geehrte(r) "+AG+",", styleText);
+		p.setAlignment(Element.ALIGN_LEFT);
+		// etwas abstand hinter der überschrift
+		p.setSpacingAfter(6f);
+		document.add(p);
+		p = new Paragraph("nachdem Sie auf unsere Erinnerungen zur Begleichung unserer Rechnung nicht reagiert haben, mahnen wir Sie nun an, die Rechnung binnen 7 Tage zu begleichen. Andernfalls sehen wir uns gezwungen, gerichtliche Schritte gegen Sie einzuleiten. ", styleText);
+		p.setAlignment(Element.ALIGN_LEFT);
+		// etwas abstand hinter der überschrift
+		p.setSpacingAfter(6f);
+		document.add(p);
+		p = new Paragraph("Mit freundlichen Grüßen,", styleText);
+		p.setAlignment(Element.ALIGN_LEFT);
+		// etwas abstand hinter der überschrift
+		p.setSpacingAfter(6f);
+		document.add(p);
+		p = new Paragraph("HINOTORI Executive AG", styleUeberschrift1);
+		p.setAlignment(Element.ALIGN_LEFT);
+		// etwas abstand hinter der überschrift
+		p.setSpacingAfter(20f);
+		document.add(p);
+					
+									
+				// step 5
+			}
 		
-				
-		}
+		
 		document.close();
 
 		File file = new File(filename);
@@ -4270,7 +4334,7 @@ public ObservableList<FHSuche> getFHData() {
 						centerParagraph(mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "HINOTORI Executive AG (Auftragnehmer)"));
 						doBoldFormat(getFirstRunOfParagraph(getLastParagraph(mdp)));
 						centerParagraph(mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "und"));
-						centerParagraph(mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), "Firma oder Person"));
+						centerParagraph(mdp.addStyledParagraphOfText(styleUeberschrift1.getStyleId(), vorname+" "+nachname));
 						doBoldFormat(getFirstRunOfParagraph(getLastParagraph(mdp)));
 		
 		
@@ -4804,26 +4868,41 @@ public ObservableList<FHSuche> getFHData() {
 				return run;
 			}
 			
-			public void action_drucken() throws Exception {
-				int angebot_id = Nummerorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
+	public void action_drucken() throws Exception {
+		int angebot_id = Nummerorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
 
-				filename = System.getProperty("user.dir") + "/"+Integer.toString(angebot_id)+".pdf";
-				f = new File(filename);
+		filename = System.getProperty("user.dir") + "/" + Integer.toString(angebot_id) + ".pdf";
+		f = new File(filename);
 
-				
-				erzeugePdf(angebot_id, "Auftrag");
-				
-				try {
-					PDFPrinter druck = new PDFPrinter(f);
-					lbl_dbconnect.setText("Ausdruck gestartet");
-				} catch (Exception e) {
-					lbl_dbconnect.setText("Druckdatei nicht vorhanden");
-					e.printStackTrace();
-				}
-				
-				
-				}
-		
+		erzeugePdf(angebot_id, "Auftrag");
+
+		try {
+			PDFPrinter druck = new PDFPrinter(f);
+			lbl_dbconnect.setText("Ausdruck gestartet");
+		} catch (Exception e) {
+			lbl_dbconnect.setText("Druckdatei nicht vorhanden");
+			e.printStackTrace();
+		}
+
+	}
+	public void action_drucken_angebot() throws Exception {
+		int angebot_id = Nummer.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
+
+		filename = System.getProperty("user.dir") + "/" + Integer.toString(angebot_id) + "angebot.pdf";
+		f = new File(filename);
+
+		erzeugePdf(angebot_id, "Angebot");
+
+		try {
+			PDFPrinter druck = new PDFPrinter(f);
+			lbl_dbconnect.setText("Ausdruck gestartet");
+		} catch (Exception e) {
+			lbl_dbconnect.setText("Druckdatei nicht vorhanden");
+			e.printStackTrace();
+		}
+
+	}
+
 			public void action_versenden() throws IOException, URISyntaxException, SQLException {
 				int angebot_id = Nummerorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
 				
@@ -4874,7 +4953,7 @@ public ObservableList<FHSuche> getFHData() {
 			//String Kunde = "Burggraf";
 			// int Nummer = 100302;
 			//String Datum = "10.06.2016";
-			Mainmail mail = new Mainmail(kundenanrede,Kunde,angebot_id,Datum,mailadresse);
+			Mainmail mail = new Mainmail(kundenanrede,Kunde,angebot_id,Datum,mailadresse,"Auftrag");
 			
 				
 				
@@ -4884,6 +4963,74 @@ public ObservableList<FHSuche> getFHData() {
 			//	Mainmail mail = new Mainmail(Kunde,Nummer,Datum);
 				
 				}
+			
+			
+			public void action_versenden_angebot() throws IOException, URISyntaxException, SQLException {
+				int angebot_id = Nummer.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
+				
+				
+				// Kundenanrede
+				String sql = "select kunden.KundeAnrede from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
+						+ angebot_id + "'";
+				final String hostname = "172.20.1.24"; 
+		        final String port = "3306"; 
+		        String dbname = "myflight";
+				String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
+				conn = DriverManager.getConnection(url, user, password);
+				//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password);
+				
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);
+				rs.next();
+				System.out.println(rs.getString(1));
+				String kundenanrede = rs.getString(1);
+				
+			// Kundenname
+				sql = "select kunden.Kundename from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
+						+ angebot_id + "'";
+
+				stmt = conn.createStatement();
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				System.out.println(rs.getString(1));
+				String Kunde = rs.getString(1);
+			//Datum von
+				sql = "select angebote.angebotsdatum from angebote where angebote.angebote_id='"+angebot_id+"'";
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				// Create an instance of SimpleDateFormat used for formatting 
+				// the string representation of date (month/day/year)
+				DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+
+					      
+				// Using DateFormat format method we can create a string 
+				// representation of a date with the defined format.
+				String reportDate = df.format(rs.getObject(1));
+				System.out.println(reportDate);
+				String Datum = reportDate;
+			// Kundenmailadresse
+				sql = "select kunden.kundeemail from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
+						+ angebot_id + "'";
+
+				stmt = conn.createStatement();
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				System.out.println(rs.getString(1));
+				String mailadresse = rs.getString(1);			
+			
+			//String Kunde = "Burggraf";
+			// int Nummer = 100302;
+			//String Datum = "10.06.2016";
+			Mainmail mail = new Mainmail(kundenanrede,Kunde,angebot_id,Datum,mailadresse,"Angebot");
+			
+				
+				
+//				String Kunde = "Burggraf";
+//				int Nummer = 100302;
+//				String Datum = "10.06.2016";
+			//	Mainmail mail = new Mainmail(Kunde,Nummer,Datum);
+				
+				}			
 @FXML		public void saveorderchange() throws SQLException {
 					int angebot_id = Nummerorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
 					String orderchange = choiceorderstatus.getValue().toString();
@@ -9779,8 +9926,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 	set_allunvisible(false);
 	scroll_pane_konfig.setVisible(true);
 	apa_konfig.setVisible(true);
-	Versionsnr.setText("V2.30");
-	txa_history.setText("Formatierung Flugzeiten und Charterdauer \nAnpassung Konfiguration-Support");
+	Versionsnr.setText("V2.31");
+	txa_history.setText("V2.31\nDruck- und Versendefunktion für Angebote\n------------------------------------------------------------------------------------------\nV2.30\nFormatierung Flugzeiten und Charterdauer \nAnpassung Konfiguration-Support");
 	
 }
 
