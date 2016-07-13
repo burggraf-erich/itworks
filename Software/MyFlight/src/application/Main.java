@@ -18,7 +18,7 @@ public class Main extends Application {
         launch(args);
     }
     @Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) throws Exception {
     // behebt windows 10 Fehler für Combobox
     	System.setProperty("glass.accessible.force", "false");
 	// lädt MyFlight.fxml -datei 
