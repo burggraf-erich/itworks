@@ -10821,7 +10821,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			
 
 			
-
+//
 //=======
 @FXML public void action_konfig() {
 	set_allunvisible(false);
