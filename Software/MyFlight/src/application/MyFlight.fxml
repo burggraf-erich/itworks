@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
@@ -30,7 +39,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MyFlightController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MyFlightController">
 	<children>
   
       <SplitPane dividerPositions="0.2556390977443609" focusTraversable="false" layoutX="37.0" layoutY="48.0" prefHeight="552.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="48.0">
@@ -546,7 +555,7 @@
                                                 <Font name="System Bold" size="21.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id = "Versionsnr" layoutX="305.0" layoutY="23.0" text="V2.20">
+                                          <Label fx:id="Versionsnr" layoutX="305.0" layoutY="23.0" text="V2.20">
                                              <font>
                                                 <Font name="System Bold" size="21.0" />
                                              </font>
@@ -561,7 +570,7 @@
                                                 <Font size="14.0" />
                                              </font>
                                           </Label>
-                                          <TextArea  fx:id="txa_history" editable="false" layoutX="36.0" layoutY="73.0" prefHeight="107.0" prefWidth="523.0" />
+                                          <TextArea fx:id="txa_history" editable="false" layoutX="36.0" layoutY="73.0" prefHeight="107.0" prefWidth="523.0" />
                                           <Label layoutX="36.0" layoutY="236.0" text="HOST:">
                                              <font>
                                                 <Font size="14.0" />
@@ -859,9 +868,9 @@
                                        </font>
                                     </Label>
                                     <Label layoutX="13.0" layoutY="201.0" text="Anrede:" />
-                                    <Button fx:id="btn_searchcustid" contentDisplay="TOP" layoutX="375.0" layoutY="3.0" mnemonicParsing="false" onAction="#btn_searchcustid_click" prefHeight="10.0" prefWidth="133.0" text="Kunden auswählen" />
+                                    <Button fx:id="btn_searchcustid" contentDisplay="TOP" layoutX="301.0" layoutY="3.0" mnemonicParsing="false" onAction="#btn_searchcustid_click" prefHeight="10.0" prefWidth="133.0" text="Kunden auswählen" />
                                     <Label layoutX="15.0" layoutY="5.0" prefHeight="20.0" prefWidth="216.0" text="Bitte wählen Sie einen Kunden aus!" />
-                                    <Button fx:id="btn_setcust" layoutX="376.0" layoutY="31.0" mnemonicParsing="false" onAction="#btn_setcust_click" prefHeight="9.0" prefWidth="133.0" text="übernehmen" />
+                                    <Button fx:id="btn_setcust" layoutX="300.0" layoutY="31.0" mnemonicParsing="false" onAction="#btn_setcust_click" prefHeight="25.0" prefWidth="209.0" text="übernehmen" />
                                     <Label layoutX="15.0" layoutY="31.0" prefHeight="20.0" prefWidth="216.0" text="Wählen Sie anschließend übernehmen!" />
                                     <Separator layoutX="16.0" layoutY="60.0" prefHeight="2.0" prefWidth="493.0" />
                                     <TextField fx:id="txt_phone1" disable="true" editable="false" layoutX="87.0" layoutY="251.0" />
@@ -896,7 +905,6 @@
                                     <TextField fx:id="txt_pass" alignment="CENTER" disable="true" layoutX="141.0" layoutY="417.0" prefHeight="25.0" prefWidth="96.0" />
                                     <Button fx:id="btn_zw" disable="true" layoutX="359.0" layoutY="417.0" mnemonicParsing="false" onAction="#btn_zw_click" prefHeight="25.0" prefWidth="150.0" text="Zwischenstationen" />
                                     <Button fx:id="btn_sw" disable="true" layoutX="359.0" layoutY="445.0" mnemonicParsing="false" onAction="#btn_sw_click" prefHeight="25.0" prefWidth="150.0" text="Sonderwünsche" />
-                                    <TextArea fx:id="txa_bem" disable="true" layoutX="13.0" layoutY="444.0" prefHeight="35.0" prefWidth="223.0" promptText="Bemerkungen" />
                                     <Label layoutX="15.0" layoutY="385.0" text="Startzeit:" />
                                     <TextField fx:id="txt_startzeit_h" alignment="CENTER" disable="true" layoutX="88.0" layoutY="381.0" prefHeight="25.0" prefWidth="68.0" promptText="hh" />
                                     <Label layoutX="162.0" layoutY="385.0" text=":" />
@@ -909,6 +917,7 @@
                                     <Button fx:id="btn_startfh" disable="true" layoutX="214.0" layoutY="327.0" mnemonicParsing="false" onAction="#btn_startfh_click" prefHeight="25.0" prefWidth="20.0" text="..." />
                                     <Button fx:id="btn_zielfh" disable="true" layoutX="486.0" layoutY="327.0" mnemonicParsing="false" onAction="#btn_zielfh_click" prefHeight="25.0" prefWidth="20.0" text="..." />
                                     <TextField fx:id="txt_zielfh" disable="true" layoutX="360.0" layoutY="327.0" prefHeight="25.0" prefWidth="126.0" />
+                                    <Button fx:id="btn_offer_newcust" layoutX="437.0" layoutY="3.0" mnemonicParsing="false" onAction="#btn_offer_newcust_click" text="Neukunde" />
                                  </children>
    								</AnchorPane>
                               
@@ -1782,8 +1791,8 @@
 
                               <AnchorPane fx:id="panebtnangebotübersicht" prefHeight="68.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                 <Button fx:id="btnprintangebot" layoutX="240.0" layoutY="22.0" disable="true" mnemonicParsing="false" onAction="#action_drucken_angebot" prefHeight="25.0" prefWidth="60.0" text="Drucken" />
-                                 <Button fx:id="btnsendangebot" layoutX="150.0" layoutY="22.0" disable="true" mnemonicParsing="false" onAction="#action_versenden_angebot" prefHeight="25.0" prefWidth="80.0" text="Versenden" />
+                                 <Button fx:id="btnprintangebot" disable="true" layoutX="240.0" layoutY="22.0" mnemonicParsing="false" onAction="#action_drucken_angebot" prefHeight="25.0" prefWidth="60.0" text="Drucken" />
+                                 <Button fx:id="btnsendangebot" disable="true" layoutX="150.0" layoutY="22.0" mnemonicParsing="false" onAction="#action_versenden_angebot" prefHeight="25.0" prefWidth="80.0" text="Versenden" />
                     
                                     <Button fx:id="btn_angebotstatusedit" layoutX="310.0" layoutY="22.0" mnemonicParsing="false" onAction="#action_editangebotstatus" prefHeight="25.0" prefWidth="153.0" text="Angebotstatus ändern" />
                                     <Button fx:id="btncreateorder" layoutX="471.0" layoutY="22.0" mnemonicParsing="false" onAction="#createorder" text="Auftrag erstellen" />

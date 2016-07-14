@@ -240,10 +240,15 @@ public class MyFlightController {
 	private ObservableList<Personaldaten> personaldata = FXCollections.observableArrayList();
 	
 private ObservableList<FHSuche> FHData = FXCollections.observableArrayList();
+private ObservableList<termbearb> termData = FXCollections.observableArrayList();
 public ObservableList<FHSuche> getFHData() {
 
 		return FHData;
 	}
+public ObservableList<termbearb> gettermData() {
+
+	return termData;
+}
 	public ObservableList<Personaldaten> getpersonaldata() {
 		return personaldata;
 	}
@@ -285,6 +290,8 @@ public ObservableList<FHSuche> getFHData() {
 	String[] zw_an_m;
 	String[] zw_ab_h;
 	String[] zw_ab_m;
+	double[] zw_dauer;
+	double zw_dauer_end;
 	LocalDate[] zw_an;
 	LocalDate[] zw_ab;
 	
@@ -377,6 +384,9 @@ public ObservableList<FHSuche> getFHData() {
     
     int zwischenstop_zw = 0;
     
+    boolean fromzw = false;
+    String zwstartfh = null;
+    String zwzielfh = null;
     String CustState = null;
     
     boolean sonderw = false;
@@ -983,19 +993,19 @@ public ObservableList<FHSuche> getFHData() {
 	
 	
 	@FXML AnchorPane apa_term_bearb;
-	@FXML TableView tbl_term;
-	@FXML TableColumn col_term_mafz;
-	@FXML TableColumn col_term_art;
-	@FXML TableColumn col_term_startd;
-	@FXML TableColumn col_term_startz;
-	@FXML TableColumn col_term_endd;
-	@FXML TableColumn col_term_endzeit;
+	@FXML TableView<termbearb> tbl_term;
+	@FXML TableColumn<termbearb, Integer> col_term_mafz;
+	@FXML TableColumn<termbearb, String>  col_term_art;
+	@FXML TableColumn<termbearb, String>  col_term_startd;
+	@FXML TableColumn<termbearb, String>  col_term_startz;
+	@FXML TableColumn<termbearb, String>  col_term_endd;
+	@FXML TableColumn<termbearb, String>  col_term_endzeit;
 	@FXML RadioButton tgb_term_bearb_ma;
 	@FXML ToggleGroup tgg_term_bearb;
 	@FXML RadioButton tgb_term_bearb_fz;
 	@FXML DatePicker dpi_term_bearb_start;
 	@FXML DatePicker dpi_term_bearb_end;
-	@FXML ComboBox cbo_terms_bearb_mafz;
+	@FXML ComboBox cbo_term_bearb_mafz;
 	@FXML Button btn_term_bearb_search;
 	@FXML Button btn_term_bearb_delete;
 	@FXML Button btn_term_bearb_bearb;
@@ -1298,6 +1308,16 @@ public ObservableList<FHSuche> getFHData() {
 	     tbc_stadt.setCellValueFactory (cellData -> cellData.getValue().StadtProperty());
 	     tbc_land.setCellValueFactory (cellData -> cellData.getValue().LandProperty());
 		 tbl_fh.setItems(getFHData());
+		 
+		//Termin bearbeiten Suche
+		 col_term_mafz.setCellValueFactory (cellData -> cellData.getValue().idProperty().asObject());
+		 col_term_art.setCellValueFactory (cellData -> cellData.getValue().termartProperty());
+		 col_term_startd.setCellValueFactory (cellData -> cellData.getValue().startdProperty());
+		 col_term_startz.setCellValueFactory (cellData -> cellData.getValue().zieldProperty());
+		 col_term_endd.setCellValueFactory (cellData -> cellData.getValue().startzProperty());
+		 col_term_endzeit.setCellValueFactory (cellData -> cellData.getValue().zielzProperty());
+		
+		 tbl_term.setItems(gettermData());
 		
 			apa_login.setVisible(true);
 			apa_btn_login.setVisible(true);
@@ -1324,7 +1344,7 @@ public ObservableList<FHSuche> getFHData() {
 	        try 
 	        { 
 		    String url = "jdbc:mysql://"+new_host+":"+new_port+"/"+new_dbname;
-		    conn_new = DriverManager.getConnection(url, user, password); 
+		    conn = DriverManager.getConnection(url, user, password); 
 		    		    
 //		    if (firstLogon == true){
 //		    
@@ -1459,8 +1479,10 @@ public ObservableList<FHSuche> getFHData() {
 
 
 			}
+			
+			
 		}
- 
+		connectDB(); 
 	}
 
 	// private char[] substringBefore(Object setText, String string) {
@@ -1558,6 +1580,11 @@ public ObservableList<FHSuche> getFHData() {
 		apa_create_offer.setVisible(true);
 		apa_btn_createoffer.setVisible(true);
 		
+		txt_zielzeit_h.setEditable(false);
+		txt_zielzeit_m.setEditable(false);
+		dpi_zieldat.setDisable(true);
+		
+	
 		//cbo_salutation.getItems().addAll("Herr","Frau");
 		
 	}
@@ -7246,6 +7273,11 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				System.out.println("ZW klickt");
 				apa_zws_new.setVisible(true);
 				apa_btn_zws.setVisible(true);
+
+				dpi_zws_an.setDisable(true);
+				txt_zwsan_h.setEditable(false);
+				txt_zwsan_m.setEditable(false);
+
 			}
 
 			@FXML public void btn_sw_click() {
@@ -7370,7 +7402,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				FHSuche item = tbl_fh.getItems().get(row);
 				TableColumn col = pos.getTableColumn();
 				String data = (String) tbc_iata.getCellObservableValue(item).getValue();
-
+				
 				if (StartFH == true){
 
 					txt_startfh.setText(data);
@@ -7388,11 +7420,118 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 				
 				if (zwFH == true){
+
+					FHData.remove(0, FHData.size());
+					zwFH = false;
+					
+					
+					fromzw = true;
+					
+					if(arrayzw == 0){
+		    	
+			    	zwstartfh = txt_startfh.getText();
+					zwzielfh = data;
+					Str_startzeith = txt_startzeit_h.getText();
+			    	Str_startzeitm = txt_startzeit_m.getText();
+			    	startdate = dpi_startdat.getValue();
+			    	
+			    	
+					}
+//					else if(arrayzw==countzw-1){
+//						
+//						zwstartfh = FHzw[arrayzw];
+//						zwzielfh = txt_zielfh.getText();
+//						Str_startzeith = zw_ab_h[arrayzw-1];
+//				    	Str_startzeitm = zw_ab_m[arrayzw-1];
+//				    	startdate = zw_ab[arrayzw-1];
+//					}
+					else{
+					
+					zwstartfh = FHzw[arrayzw-1];
+					zwzielfh = data;
+					Str_startzeith = zw_ab_h[arrayzw-1];
+			    	Str_startzeitm = zw_ab_m[arrayzw-1];
+			    	startdate = zw_ab[arrayzw-1];
+					}
+				
+					
+					getEntfernung();
+					
+					
+					//Str_zielzeith = txt_startzeit_h.getText();
+			    	//Str_zielzeitm = txt_startzeit_m.getText();
+			    	zieldate = startdate;
+			    	
+			    	if(entfernung < 4000){speed=600;}
+			    	if(entfernung > 4000){speed=750;}
+					
+					double dauer = (entfernung/speed)*60;
+			    	int idauer = Double.valueOf(dauer).intValue();
+			    	
+			    	double szh = Double.parseDouble(Str_startzeith);
+			    	double szm = Double.parseDouble(Str_startzeitm);
+			    	
+			    	double szg = (szh * 60)+szm;
+			    	szg = szg + dauer;
+			    	double tage = 1440-szg;
+			    				    	
+			    	System.out.println(zieldate);
+			    	if(tage<0){
+			    		
+			    		System.out.println("ist drin");
+			    		zieldate = startdate.plusDays(1);
+			    	}
+			    	if(tage < -1440){
+			    		
+			    		
+			    		zieldate = startdate.plusDays(2);
+			    		
+			    	}
+			    	
+			    	startzeit = LocalTime.parse(Str_startzeith+":"+Str_startzeitm+":00");
+			    	zielzeit = startzeit.plusMinutes(idauer);
+			    	
+			    	String data6 = zielzeit.toString();
+			    	int pos_z2 = data6.indexOf(":");
+				    String zwanh  = data6.substring(0, pos_z2);
+			    	String zwanm = data6.substring(pos_z2+1,5);
+			    	
+	//		    	if(arrayzw==0){
+						
+			    		txt_zwsan_h.setText(zwanh);
+			    		txt_zwsan_m.setText(zwanm);
+			    		dpi_zws_an.setValue(zieldate);
+				    	zw_an_h[arrayzw] = zwanh;
+					    zw_an_m[arrayzw] = zwanm;
+					    zw_an[arrayzw] = zieldate;
+					    zw_dauer[arrayzw] = dauer;
+//					 }
+//			    	
+//			    	else if(arrayzw==countzw-1){
+//						
+//						
+//			    		txt_zwsan_h.setText(zwanh);
+//			    		txt_zwsan_m.setText(zwanm);
+//			    		dpi_zws_an.setValue(zieldate);
+//				    	zw_an_h[arrayzw] = zwanh;
+//					    zw_an_m[arrayzw] = zwanm;
+//					    zw_an[arrayzw] = zieldate;
+//					}
+//			    	else{
+//			    	txt_zwsan_h.setText(zwanh);
+//			    	txt_zwsan_m.setText(zwanm);
+//			    	dpi_zws_an.setValue(zieldate);
+//			    	zw_an_h[arrayzw+1] = zwanh;
+//				    zw_an_m[arrayzw+1] = zwanm;
+//				    zw_an[arrayzw+1] = zieldate;
+//			    	}
+			    	
+					
+						
 					set_allunvisible(false);
 					apa_zws_new.setVisible(true);
 					apa_btn_zws.setVisible(true);
-					FHData.remove(0, FHData.size());
-					zwFH = false;
+					
 				}
 				else{
 				StartFH = false;
@@ -8263,6 +8402,92 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 
 				
 						System.out.println(startdate);
+						System.out.println(charterart);
+						if(charterart.equals("Flug m Zwischenstops")){
+							
+							System.out.println("Zwischenstopp");
+							System.out.println(countzw);
+							
+							
+							for(int a = 0; a<countzw+1; a++)
+							{
+								System.out.println("Schleife " + a);
+							
+								if (a==0){
+									
+									startdate = dpi_startdat.getValue();
+									zieldate = zw_an[a];
+									
+									Str_startzeith = txt_startzeit_h.getText();
+							    	Str_startzeitm = txt_startzeit_m.getText();		
+							    	startzeit = LocalTime.parse(Str_startzeith+":"+Str_startzeitm+":00");
+							    										
+							    	Str_zielzeith = zw_an_h[a];
+							    	Str_zielzeitm = zw_an_m[a];
+							    	zielzeit = LocalTime.parse(Str_zielzeith+":"+Str_zielzeitm+":00");
+							    	
+							    	Str_StartFH =txt_startfh.getText();
+							    	Str_ZielFH = FHzw[a];
+							    	
+							    	dauerflug = (float) zw_dauer[a]/60;
+								
+								}
+								else if(a == countzw ){
+									
+									startdate = zw_ab[a-1];
+									zieldate = dpi_zieldat.getValue();
+									
+									Str_startzeith = zw_ab_h[a-1];
+							    	Str_startzeitm = zw_ab_m[a-1];		
+							    	startzeit = LocalTime.parse(Str_startzeith+":"+Str_startzeitm+":00");
+							    										
+							    	Str_zielzeith = txt_zielzeit_h.getText();
+							    	Str_zielzeitm = txt_zielzeit_m.getText();
+							    	zielzeit = LocalTime.parse(Str_zielzeith+":"+Str_zielzeitm+":00");
+							    	
+							    	Str_StartFH =FHzw[a-1];
+							    	Str_ZielFH = txt_zielfh.getText();
+							    	
+							    	dauerflug = (float) zw_dauer_end/60;
+																	
+								}
+								else{
+									
+									startdate = zw_ab[a-1];
+									zieldate = zw_an[a];
+									
+									Str_startzeith = zw_ab_h[a-1];
+							    	Str_startzeitm = zw_ab_m[a-1];		
+							    	startzeit = LocalTime.parse(Str_startzeith+":"+Str_startzeitm+":00");
+							    										
+							    	Str_zielzeith = zw_an_h[a];
+							    	Str_zielzeitm = zw_an_m[a];
+							    	zielzeit = LocalTime.parse(Str_zielzeith+":"+Str_zielzeitm+":00");
+							    	
+							    	Str_StartFH =FHzw[a-1];
+							    	Str_ZielFH = FHzw[a];
+							    	
+							    	dauerflug = (float) zw_dauer[a]/60;
+									
+								}
+								
+								statement.executeUpdate(
+										"INSERT INTO myflight.fluege " + "VALUES('"
+												+startdate+"','"
+												+zieldate+"','"
+												+startzeit+"','"
+												+zielzeit+"','"
+												+Str_StartFH+"','"
+												+Str_ZielFH+"','" 
+												+dauerflug+"','"
+												+AngeboteID+"')");
+						}	
+						
+						}	
+						else{
+							
+							System.out.println("Kein Zwischenstopp");
+							
 						statement.executeUpdate(
 								"INSERT INTO myflight.fluege " + "VALUES('"
 										+startdate+"','"
@@ -8276,14 +8501,53 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 						
 
 						}
-				
+						System.out.println("Termine setzen");
+						
+						statement.executeUpdate(
+								"INSERT INTO benutzerverwaltung.personal_termine_angebote " + "VALUES('Angebotstermin','"
+										+AngeboteID+"')");
+
+						statement.executeUpdate(
+								"INSERT INTO benutzerverwaltung.flugzeug_termine_angebote " + "VALUES('Angebotstermin','"
+										+bestFZ+"')");
+						
+						}
+			    	
+			    	
 					catch(Exception e){
 						System.err.println("Got an exception! "); 
 			            System.err.println(e.getMessage()); 
 						}
 				
-			    	
-			    }
+			    	}
+			    
+ 			
+			
+			
+			public void insertMA(String MA_ins){
+				
+		    	try { 
+
+					Statement statement = conn.createStatement();			
+					statement.executeUpdate(
+							"INSERT INTO myflight.fluege " + "VALUES('"
+									+startdate+"','"
+									+zieldate+"','"
+									+startzeit+"','"
+									+zielzeit+"','"
+									+Str_StartFH+"','"
+									+Str_ZielFH+"','" 
+									+dauerflug+"','"
+									+AngeboteID+"')");
+					
+					}
+			
+				catch(Exception e){
+					System.err.println("Got an exception! "); 
+		            System.err.println(e.getMessage()); 
+					}
+				
+			}
 			   
 
 			@FXML public void chb_getr_check() {
@@ -8737,7 +9001,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 					btn_startfh.setDisable(false);
 					btn_zielfh.setDisable(false);
 					dpi_startdat.setDisable(false);
-					dpi_zieldat.setDisable(false);
+					dpi_zieldat.setDisable(true);
 					txt_pass.setDisable(false);
 					txt_startzeit_h.setDisable(false);
 					txt_startzeit_m.setDisable(false);
@@ -9073,10 +9337,17 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			public void getEntfernung(){
 				
 
-				
+				if(fromzw == true){
+					
+					Str_StartFH = zwstartfh;
+					Str_ZielFH = zwzielfh;
+					
+				}
+				else{
 				Str_StartFH = txt_startfh.getText();
 				Str_ZielFH = txt_zielfh.getText();
-				
+				}
+				fromzw = false;
 			    try{
 			    	
 			    	Statement statement_start = conn.createStatement();
@@ -9148,6 +9419,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				zw_an_m = new String[countzw];
 				zw_ab_h = new String[countzw];
 				zw_ab_m = new String[countzw];
+				zw_dauer = new double[countzw];
 				zw_an = new LocalDate[countzw];
 				zw_ab = new LocalDate[countzw];
 
@@ -9162,7 +9434,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				txt_zwsan_m.setDisable(false);
 				txt_zwsab_h.setDisable(false);
 				txt_zwsab_m.setDisable(false);
-				dpi_zws_an.setDisable(false);
+				dpi_zws_an.setDisable(true);
 				dpi_zws_ab.setDisable(false);	
 				btn_zws_save.setDisable(false);
 			}
@@ -9174,14 +9446,20 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				System.out.println(txt_fh_zws.getText());
 				
 				FHzw[arrayzw] = txt_fh_zws.getText();
-				zw_an_h[arrayzw] = txt_zwsan_h.getText();
-				zw_an_m[arrayzw] = txt_zwsan_m.getText();
+				//zw_an_h[arrayzw] = txt_zwsan_h.getText();
+				//zw_an_m[arrayzw] = txt_zwsan_m.getText();
 				zw_ab_h[arrayzw] = txt_zwsab_h.getText();
 				zw_ab_m[arrayzw] = txt_zwsab_m.getText();
-				zw_an[arrayzw] = dpi_zws_an.getValue();
+				//zw_an[arrayzw] = dpi_zws_an.getValue();
 				zw_ab[arrayzw] = dpi_zws_ab.getValue();
 				
+				cbo_zws.setDisable(false);
 				
+				
+				
+				
+		    	
+												
 			}
 
 			@FXML public void btn_zws_ok_click() {
@@ -9191,6 +9469,71 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				set_allunvisible(false);
 				apa_create_offer.setVisible(true);
 				apa_btn_createoffer.setVisible(true);
+				
+				
+				fromzw = true;
+				
+				
+								
+					zwstartfh = FHzw[countzw-1];
+					zwzielfh = txt_zielfh.getText();
+					Str_startzeith = zw_ab_h[countzw-1];
+			    	Str_startzeitm = zw_ab_m[countzw-1];
+			    	startdate = zw_ab[countzw-1];
+				
+				
+				getEntfernung();
+				
+				
+				//Str_zielzeith = txt_startzeit_h.getText();
+		    	//Str_zielzeitm = txt_startzeit_m.getText();
+		    	zieldate = startdate;
+		    	
+		    	if(entfernung < 4000){speed=600;}
+		    	if(entfernung > 4000){speed=750;}
+				
+				double dauer = (entfernung/speed)*60;
+		    	int idauer = Double.valueOf(dauer).intValue();
+		    	
+		    	double szh = Double.parseDouble(Str_startzeith);
+		    	double szm = Double.parseDouble(Str_startzeitm);
+		    	
+		    	double szg = (szh * 60)+szm;
+		    	szg = szg + dauer;
+		    	double tage = 1440-szg;
+		    				    	
+		    	System.out.println(zieldate);
+		    	if(tage<0){
+		    		
+		    		System.out.println("ist drin");
+		    		zieldate = startdate.plusDays(1);
+		    	}
+		    	if(tage < -1440){
+		    		
+		    		
+		    		zieldate = startdate.plusDays(2);
+		    		
+		    	}
+		    	
+		    	startzeit = LocalTime.parse(Str_startzeith+":"+Str_startzeitm+":00");
+		    	zielzeit = startzeit.plusMinutes(idauer);
+		    	
+		    	String data6 = zielzeit.toString();
+		    	int pos_z2 = data6.indexOf(":");
+			    String zwanh  = data6.substring(0, pos_z2);
+		    	String zwanm = data6.substring(pos_z2+1,5);
+		    	
+	
+		    					
+					txt_zielzeit_h.setText(zwanh);
+					txt_zielzeit_m.setText(zwanm);
+					dpi_zieldat.setValue(zieldate);
+					zw_dauer_end = dauer;
+			    	//zw_an_h[arrayzw] = zwanh;
+				    //zw_an_m[arrayzw] = zwanm;
+				    //zw_an[arrayzw] = zieldate;
+				
+				
 				
 			}
 
@@ -9218,6 +9561,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				txt_zwsab_m.setText(zw_ab_m[arrayzw]);
 				dpi_zws_an.setValue(zw_an[arrayzw]);
 				dpi_zws_ab.setValue(zw_ab[arrayzw]);
+				
+				cbo_zws.setDisable(true);
 				
 			}
 			@FXML public void acc_cal_click() {
@@ -9709,7 +10054,14 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				cbo_cal_fz.setDisable(false);
 				
 			}
-			@FXML public void btn_newterm_cancel_click() {}
+			@FXML public void btn_newterm_cancel_click() {
+				
+				set_allunvisible(false);
+				
+				apa_calendar.setVisible(true);
+				apa_btn_term.setVisible(true);
+				
+			}
 			@FXML public void btn_newterm_save_click() {
 				
 				String sek = "59";
@@ -9791,6 +10143,12 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 					
 					
 				}
+				   
+					set_allunvisible(false);
+					
+					apa_calendar.setVisible(true);
+					apa_btn_term.setVisible(true);
+				    
 				    
 				}    
 				    
@@ -9920,8 +10278,27 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			@FXML public void btn_term_edit_click() {
 				
 				set_allunvisible(false);
-				apa_termn_bearb_btn.setVisible(false);
-				apa_term_bearb.setVisible(false);
+				apa_termn_bearb_btn.setVisible(true);
+				apa_term_bearb.setVisible(true);
+				
+				cbo_term_bearb_mafz.getItems().clear();
+				
+				try{
+			    	
+			    	Statement statement = conn.createStatement();
+			    	ResultSet rs = statement.executeQuery("SELECT * FROM myflight.personal");      
+			        while((rs != null) && (rs.next())){
+			        	
+			        	cbo_term_bearb_mafz.getItems().add(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3));
+		        }
+			       
+			        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
 				
 			}
 			@FXML public void chb_term_ma_click() {
@@ -10025,21 +10402,159 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			}
 			
 //<<<<<<< HEAD
-			@FXML public void tgb_term_bearb_ma_click() {}
-			@FXML public void tgb_term_bearb_fz_click() {}
-			@FXML public void btn_term_bearb_search_click() {}
+			@FXML public void tgb_term_bearb_ma_click() {
+				
+				lbl_term_bearb_mafz.setText("Mitarbeiter:");
+				col_term_mafz.setText("Mitarbeiter");
+				cbo_term_bearb_mafz.getItems().clear();
+				try{
+			    	
+			    	Statement statement = conn.createStatement();
+			    	ResultSet rs = statement.executeQuery("SELECT * FROM myflight.personal");      
+			        while((rs != null) && (rs.next())){
+			        	
+			        	cbo_term_bearb_mafz.getItems().add(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3));
+		        }
+			       
+			        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+			}
+			@FXML public void tgb_term_bearb_fz_click() {
+				
+				lbl_term_bearb_mafz.setText("Flugzeug:");
+				col_term_mafz.setText("Flugzeug");
+				cbo_term_bearb_mafz.getItems().clear();
+				
+				try{
+			    	
+			    	Statement statement = conn.createStatement();
+			    	ResultSet rs2 = statement.executeQuery("SELECT Distinct(Flugzeug_ID), FlugzeugHersteller, FlugzeugTyp  FROM myflight.flugzeuge join myflight.flugzeugtypen on Flugzeugtypen_Flugzeugtypen_ID=Flugzeugtypen_ID order by Flugzeug_ID ");      
+			        while((rs2 != null) && (rs2.next())){
+			        	
+			        	cbo_term_bearb_mafz.getItems().add(rs2.getInt(1) + " " + rs2.getString(2) + " " + rs2.getString(3));
+			        	
+		        }
+			        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				
+			}
+			@FXML public void btn_term_bearb_search_click() {
+
+			termData.remove(0, termData.size());	
+			String startd = dpi_term_bearb_start.getValue().toString();
+			String zield = dpi_term_bearb_end.getValue().toString();
+				
+
+				
+				String id = cbo_term_bearb_mafz.getValue().toString();
+				int pos2 = id.indexOf(" ");
+				int i_id =  Integer.parseInt(id.substring(0, pos2));
+				
+				String sql = "";
+				String sqlfz = "SELECT * FROM benutzerverwaltung.flugzeug_termine_reparatur where flugzeuge_Flugzeug_ID="+i_id+" and Datum_von='"+startd+"' and Datum_bis='"+zield+"'  union SELECT * FROM benutzerverwaltung.flugzeug_termine_wartung where flugzeuge_Flugzeug_ID= "+i_id+" and Datum_von='"+startd+"' and Datum_bis='"+zield+"'";
+				String sqlma = "SELECT * FROM benutzerverwaltung.personal_termine_krankheit where personal_Personal_ID="+i_id+" and Datum_von='"+startd+"' and Datum_bis='"+zield+"' union SELECT * FROM benutzerverwaltung.personal_termine_urlaub Where personal_Personal_ID="+i_id+" and Datum_von='"+startd+"' and Datum_bis='"+zield+"'";
+				
+				if(tgb_term_bearb_fz.isSelected()){sql = sqlfz;}
+				else{sql = sqlma;}
+				
+				try{
+			    	
+			    	Statement statement = conn.createStatement();
+			    	ResultSet rs = statement.executeQuery(sql);      
+			        while((rs != null) && (rs.next())){
+		        	
+			        	termData.add(new termbearb(rs.getInt(2), rs.getString(1), rs.getString(3), rs.getString(4),rs.getString(5),rs.getString(6)));
+			        	
+			         }
+			        
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				
+				
+				
+			}
 			@FXML public void btn_term_bearb_delete_click() {}
 			@FXML public void btn_term_bearb_bearb_click() {
 				
+				if(tgb_term_bearb_fz.isSelected()){lbl_term_1bearb_mafz.setText("Flugzeug:");}
+				else{lbl_term_1bearb_mafz.setText("Mitarbeiter:");}
+				
+				TablePosition pos = tbl_term.getSelectionModel().getSelectedCells().get(0);
+				int row = pos.getRow();
+				termbearb item = tbl_term.getItems().get(row);
+				TableColumn col = pos.getTableColumn();
+				Integer data = col_term_mafz.getCellObservableValue(item).getValue();
+				String data2 = col_term_art.getCellObservableValue(item).getValue();
+				String data3 = col_term_startd.getCellObservableValue(item).getValue();
+				String data4 = col_term_startz.getCellObservableValue(item).getValue();
+				String data5 = col_term_endd.getCellObservableValue(item).getValue();
+				String data6 = col_term_endzeit.getCellObservableValue(item).getValue();
+				
+				txt_term_1bearb_mafz.setText(data.toString());
+				txt_term_1bearb_art.setText(data2);
+				
+				LocalDate startd = LocalDate.parse(data3);
+				dpi_term_1bearb_startd.setValue(startd);
+
+				int pos_z = data4.indexOf(":");
+			    String szh = data4.substring(0, pos_z);
+			    String szm = data4.substring(pos_z+1,5);
+				txt_term_1bearb_startz_h.setText(szh);
+				txt_term_1bearb_startz_m.setText(szm);
+				
+				LocalDate endd = LocalDate.parse(data5);
+				dpi_term_1bearb_endd.setValue(endd);
+				
+				int pos_z2 = data6.indexOf(":");
+			    String zzh = data6.substring(0, pos_z2);
+			    String zzm = data6.substring(pos_z2+1,5);
+				txt_term_1bearb_endz_m.setText(zzm);
+				txt_term_1bearb_endz_h.setText(zzh);
+				
+
+				
 				set_allunvisible(false);
 
-				apa_term_1bearb.setVisible(false);
-				apa_term_1bearb_btn.setVisible(false);
+				apa_term_1bearb.setVisible(true);
+				apa_term_1bearb_btn.setVisible(true);
+								
+			}
+			@FXML public void btn_term_bearb_cancel_click() {
+				
+				set_allunvisible(false);
+				
+				apa_calendar.setVisible(true);
+				apa_btn_term.setVisible(true);
 				
 			}
-			@FXML public void btn_term_bearb_cancel_click() {}
-			@FXML public void btn_term_1bearb_save_click() {}
-			@FXML public void btn_term_1bearb_cancel_click() {}
+			@FXML public void btn_term_1bearb_save_click() {
+				
+				set_allunvisible(false);
+				apa_termn_bearb_btn.setVisible(true);
+				apa_term_bearb.setVisible(true);
+				
+			}
+			@FXML public void btn_term_1bearb_cancel_click() {
+				
+				set_allunvisible(false);
+				apa_termn_bearb_btn.setVisible(true);
+				apa_term_bearb.setVisible(true);
+				
+			}
 			@FXML public void cbo_profit_year_click() {
 			
 				year = Integer.parseInt(cbo_profit_year.getValue().toString());
