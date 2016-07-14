@@ -1,5 +1,5 @@
 package application;
-// V2.31
+// V.233
 
 
 import java.sql.*;
@@ -402,6 +402,8 @@ public ObservableList<termbearb> gettermData() {
 	String lizenz_string;
 	String position_string;
 	String gehalt_string;
+	String Flugzeit;
+	static String modus;
     
 //>>>>>>> branch 'master' of https://github.com/burggraf-erich/itworks.git
 	//Variablen für Kalender
@@ -530,7 +532,6 @@ public ObservableList<termbearb> gettermData() {
 	
 	@FXML ScrollPane scroll_pane_kundendaten;
 	
-	@FXML ScrollPane scroll_pane_konfig;
 	
 	@FXML Label lbl_dbconnect;
 	@FXML Label lbl_username;
@@ -582,6 +583,7 @@ public ObservableList<termbearb> gettermData() {
 	@FXML TextField txt_mail1;
 	@FXML TextField txt_prename1;
 	@FXML TextField txt_anrede1;
+	
 	@FXML ComboBox cbo_startfh;
 	@FXML DatePicker dpi_startdat;
 	@FXML ComboBox cbo_charterart;
@@ -1157,8 +1159,8 @@ public ObservableList<termbearb> gettermData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V2.31");
-		Version1.setText("V2.31");
+		Version.setText("V2.33");
+		Version1.setText("V2.33");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
@@ -1678,7 +1680,7 @@ public ObservableList<termbearb> gettermData() {
 		apa_term_1bearb.setVisible(false);
 		apa_term_1bearb_btn.setVisible(false);
 //=======
-		scroll_pane_konfig.setVisible(false);
+		
 		apa_konfig.setVisible(false);
 //>>>>>>> branch 'master' of https://github.com/burggraf-erich/itworks.git
 		
@@ -2463,9 +2465,8 @@ public ObservableList<termbearb> gettermData() {
 					System.out.println(i++ + " " + rs.getString(1) + " " + rs.getString(3) + " " + rs.getString(9) + " "
 							+ rs.getFloat(7) + " " + rs.getString(4) + " " + rs.getString(6));
 					
-					chartzeit = Math.round(rs.getFloat(7)/10000 * 100)/ 100.0; 
-					h = (int)chartzeit;
-					min = (int)(Math.round((chartzeit-(int)chartzeit)*100));
+					h = (int)rs.getFloat(7);
+					min = (int)(Math.round((rs.getFloat(7)-(int)rs.getFloat(7))*60));
 					Flugstunden = Integer.toString(h)+" h "+Integer.toString(min)+" min";
 					
 					
@@ -2961,11 +2962,11 @@ public ObservableList<termbearb> gettermData() {
 			System.out.println(i++ + " " + rs.getString(1) + " " + rs.getString(3) + " " + rs.getString(9) + " "
 					+ rs.getFloat(7) + " " + rs.getString(4) + " " + rs.getString(6));
 			
-			chartzeit = Math.round(rs.getFloat(7)/10000 * 100)/ 100.0; 
-			h = (int)chartzeit;
-			min = (int)(Math.round((chartzeit-(int)chartzeit)*100));
+			h = (int)rs.getFloat(7);
+			min = (int)(Math.round((rs.getFloat(7)-(int)rs.getFloat(7))*60));
 			Flugstunden = Integer.toString(h)+" h "+Integer.toString(min)+" min";
-			
+			System.out.println(rs.getFloat(7));
+			System.out.println(Flugstunden);
 			
 			
 			tablefluegedata.add(new Fluege(rs.getString(1), rs.getString(3), rs.getString(9), Flugstunden,
@@ -3127,7 +3128,13 @@ public ObservableList<termbearb> gettermData() {
 			}
 
 			if (AuswahlDokutyp == "Word") {
-				erzeugeWord(angebot_id, "Auftrag");
+				try {
+					erzeugeWord(angebot_id, "Auftrag") ;
+				}
+				catch (Exception e) {
+					lbl_dbconnect.setText("Es ist ein Fehler aufgetreten");
+					e.printStackTrace();
+				}
 
 			}
 			}
@@ -3421,9 +3428,8 @@ public ObservableList<termbearb> gettermData() {
 							+ rs.getFloat(7) + " " + rs.getString(4) + " " + rs.getString(6));
 					
 					
-					chartzeit = Math.round(rs.getFloat(7)/10000 * 100)/ 100.0; 
-					h = (int)chartzeit;
-					min = (int)(Math.round((chartzeit-(int)chartzeit)*100));
+					h = (int)rs.getFloat(7);
+					min = (int)(Math.round((rs.getFloat(7)-(int)rs.getFloat(7))*60));
 					Flugstunden = Integer.toString(h)+" h "+Integer.toString(min)+" min";
 					
 					tablefluegedata.add(new Fluege(rs.getString(1), rs.getString(3), rs.getString(9), Flugstunden,
@@ -3620,7 +3626,7 @@ public ObservableList<termbearb> gettermData() {
 			
 			int h = (int)rs.getFloat(15);
 			int min = (int)(Math.round((rs.getFloat(15)-(int)rs.getFloat(15))*60));
-			String Flugzeit = Integer.toString(h)+" h "+Integer.toString(min)+" min";
+			Flugzeit = Integer.toString(h)+" h "+Integer.toString(min)+" min";
 			
 			
 			
@@ -3807,16 +3813,15 @@ public ObservableList<termbearb> gettermData() {
 							+ rs.getFloat(7) + " " + rs.getString(4) + " " + rs.getString(6));
 					
 					
-					chartzeit = Math.round(rs.getFloat(7)/10000 * 100)/ 100.0; 
-					h = (int)chartzeit;
-					min = (int)(Math.round((chartzeit-(int)chartzeit)*100));
-					Flugzeit = Integer.toString(h)+" h "+Integer.toString(min)+" min";
+					h = (int)rs.getFloat(7);
+					min = (int)(Math.round((rs.getFloat(7)-(int)rs.getFloat(7))*60));
+					String tmpFlugzeit = Integer.toString(h)+" h "+Integer.toString(min)+" min";
 					
 					
 					DATEN[x][y] = rs.getString(1); y++;
 					DATEN[x][y] = rs.getString(3); y++;
 					DATEN[x][y] = rs.getString(9); y++;
-					DATEN[x][y] = Flugzeit; y++;
+					DATEN[x][y] = tmpFlugzeit; y++;
 					DATEN[x][y] = rs.getString(4); y++;
 					DATEN[x][y] = zielflughafen; y++;
 					DATEN[x][y] = Integer.toString(pax); x++;y=0;
@@ -3920,7 +3925,7 @@ public ObservableList<termbearb> gettermData() {
 				p.setLeading(15f);
 				document.add(p);
 		*/
-				addTable(document,angebot_id);
+				addTable(document,angebot_id,modus);
 
 				p = new Paragraph(" ", styleText);
 				p.setAlignment(Element.ALIGN_LEFT);
@@ -4122,10 +4127,10 @@ public ObservableList<termbearb> gettermData() {
 				return border;
 			}
 
-			private static void addTable(Document document, int angebot_id) throws DocumentException, SQLException {
+			private static void addTable(Document document, int angebot_id, String modus) throws DocumentException, SQLException {
 			
 			
-				document.add(getSampleTable(angebot_id));
+				document.add(getSampleTable(angebot_id, modus));
 			
 			}
 			
@@ -4137,8 +4142,8 @@ public ObservableList<termbearb> gettermData() {
 
 				
 			
-			private static PdfPTable getSampleTable(int angebot_id) throws DocumentException, SQLException {
-
+			private static PdfPTable getSampleTable(int angebot_id, String modus) throws DocumentException, SQLException {
+				
 				String AG = "Erich";
 				String Typ = "Dornier";
 				String Kennzeichen = "120";
@@ -4160,30 +4165,50 @@ public ObservableList<termbearb> gettermData() {
 				String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
 				conn = DriverManager.getConnection(url, user, password);
 				//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password)
+				int pax = 0;
+				int angebote_angebote_id = 0;
+				switch (modus) {
+				case "Auftrag" :
 				
 				// Flüge zum Angebot ermitteln
 				// Anzahl Passagiere ermitteln
 				String sql = "select angebote.pax from angebote inner join auftraege on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);
+				
 				rs.next();
-				int pax = rs.getInt(1);
+				pax = rs.getInt(1);
 				// Angebot_id ermitteln
 				sql = "select angebote.angebote_id from angebote inner join auftraege on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
 				stmt = conn.createStatement();
 				rs = stmt.executeQuery(sql);
 				rs.next();
-				int angebote_angebote_id = rs.getInt(1);
+				angebote_angebote_id = rs.getInt(1);
 				// Fluege ermitteln
+				break;
+				case "Angebot":
+					// Flüge zum Angebot ermitteln
+					// Anzahl Passagiere ermitteln
+					sql = "select angebote.pax from angebote where angebote.angebote_id='"+angebot_id+"'";
+					stmt = conn.createStatement();
+					rs = stmt.executeQuery(sql);
+					
+					rs.next();
+					pax = rs.getInt(1);
+					// Angebot_id ermitteln
+					angebote_angebote_id = angebot_id;
+					// Fluege ermitteln
+					break;
+				}
 				ResultSet rs1;
 				String zielflughafen = "";
 				String zwischenflughafen = "";
-				
+				Statement stmt = conn.createStatement();
 				int zaehler = 0;
 				Statement stmt1 = conn.createStatement();
-				sql = "select fluege.*, flughafen_von.FlughafenStadt from fluege left outer join flughafen_von on fluege.flughafen_von_FlughafenKuerzel = flughafen_von.FlughafenKuerzel where fluege.angebote_Angebote_ID ='"
+				String sql = "select fluege.*, flughafen_von.FlughafenStadt from fluege left outer join flughafen_von on fluege.flughafen_von_FlughafenKuerzel = flughafen_von.FlughafenKuerzel where fluege.angebote_Angebote_ID ='"
 						+angebote_angebote_id+ "'";
-				rs = stmt.executeQuery(sql);
+				ResultSet rs = stmt.executeQuery(sql);
 				
 				int i = 1;
 				// Testbeginn
@@ -4210,16 +4235,15 @@ public ObservableList<termbearb> gettermData() {
 					System.out.println(i++ + " " + rs.getString(1) + " " + rs.getString(3) + " " + rs.getString(9) + " "
 							+ rs.getFloat(7) + " " + rs.getString(4) + " " + rs.getString(6));
 		
-					double chartzeit = Math.round(rs.getFloat(7)/10000 * 100)/ 100.0; 
-					int h = (int)chartzeit;
-					int min = (int)(Math.round((chartzeit-(int)chartzeit)*100));
-					String Flugzeit = Integer.toString(h)+" h "+Integer.toString(min)+" min";
+					int h = (int)rs.getFloat(7);
+					int min = (int)(Math.round((rs.getFloat(7)-(int)rs.getFloat(7))*60));
+					String tmpFlugzeit = Integer.toString(h)+" h "+Integer.toString(min)+" min";
 					
 					
 					DATEN[x][y] = rs.getString(1); y++;
 					DATEN[x][y] = rs.getString(3); y++;
 					DATEN[x][y] = rs.getString(9); y++;
-					DATEN[x][y] = Flugzeit; y++;
+					DATEN[x][y] = tmpFlugzeit; y++;
 					DATEN[x][y] = rs.getString(4); y++;
 					DATEN[x][y] = zielflughafen; y++;
 					DATEN[x][y] = Integer.toString(pax); x++;y=0;
@@ -4307,11 +4331,11 @@ public ObservableList<termbearb> gettermData() {
 		//		 Set<String> styles = StyleDefinitionsPart.getKnownStyles().keySet();
 		//	 	System.out.println(Arrays.deepToString(styles.toArray()));
 
-				Style styleTitel = StyleDefinitionsPart.getKnownStyles().get(WORD_STYLE_TITLE);
+		Style styleTitel = StyleDefinitionsPart.getKnownStyles().get(WORD_STYLE_TITLE);
 				Style styleUeberschrift1 = StyleDefinitionsPart.getKnownStyles().get(WORD_STYLE_HEADING1);
 				Style styleUeberschrift2 = StyleDefinitionsPart.getKnownStyles().get(WORD_STYLE_HEADING2);
 				Style styleText = StyleDefinitionsPart.getKnownStyles().get(WORD_STYLE_NORMAL);
-				
+	
 				// under construction Style orgStyle = createStyle(StyleDefinitionsPart.getKnownStyles().get(WORD_STYLE_HEADING2), " ", 14, true, JcEnumeration.CENTER);
 				// Logo einfügen
 			
@@ -4377,7 +4401,7 @@ public ObservableList<termbearb> gettermData() {
 				
 				int h = (int)rs.getFloat(15);
 				int min = (int)(Math.round((rs.getFloat(15)-(int)rs.getFloat(15))*60));
-				String Flugzeit = Integer.toString(h)+" h "+Integer.toString(min)+" min";
+				Flugzeit = Integer.toString(h)+" h "+Integer.toString(min)+" min";
 				
 				//Preis netto
 				System.out.println(rs.getInt(8));		
@@ -4498,15 +4522,14 @@ public ObservableList<termbearb> gettermData() {
 									+ rs.getFloat(7) + " " + rs.getString(4) + " " + rs.getString(6));
 							
 							
-							chartzeit = Math.round(rs.getFloat(7)/10000 * 100)/ 100.0; 
-							h = (int)chartzeit;
-							min = (int)(Math.round((chartzeit-(int)chartzeit)*100));
-							Flugzeit = Integer.toString(h)+" h "+Integer.toString(min)+" min";
+							h = (int)rs.getFloat(7);
+							min = (int)(Math.round((rs.getFloat(7)-(int)rs.getFloat(7))*60));
+							String tmpFlugzeit = Integer.toString(h)+" h "+Integer.toString(min)+" min";
 							
 							DATEN[x][y] = rs.getString(1); y++;
 							DATEN[x][y] = rs.getString(3); y++;
 							DATEN[x][y] = rs.getString(9); y++;
-							DATEN[x][y] = Flugzeit; y++;
+							DATEN[x][y] = tmpFlugzeit; y++;
 							DATEN[x][y] = rs.getString(4); y++;
 							DATEN[x][y] = zielflughafen; y++;
 							DATEN[x][y] = Integer.toString(pax); x++;y=0;
@@ -4552,7 +4575,7 @@ public ObservableList<termbearb> gettermData() {
 							
 						
 				
-				addLogo1(mdp, wordMLPackage, Kennzeichen);
+			addLogo1(mdp, wordMLPackage, Kennzeichen);
 				mdp.addStyledParagraphOfText(styleUeberschrift2.getStyleId(), "Flugplan:");
 						
 				// das hier zeigt, wie ein ganzer Paragraph relativ einfach fett gemacht werden kann
@@ -4624,6 +4647,7 @@ public ObservableList<termbearb> gettermData() {
 					lbl_dbconnect.setText("Es ist ein Fehler aufgetreten");
 					e.printStackTrace();
 				}
+				
 			}
 
 			private static R getFirstRunOfParagraph(P lastParagraph) {
@@ -4804,16 +4828,15 @@ public ObservableList<termbearb> gettermData() {
 							+ rs.getFloat(7) + " " + rs.getString(4) + " " + rs.getString(6));
 					
 					
-					double chartzeit = Math.round(rs.getFloat(7)/10000 * 100)/ 100.0; 
-					int h = (int)chartzeit;
-					int min = (int)(Math.round((chartzeit-(int)chartzeit)*100));
-					String Flugzeit = Integer.toString(h)+" h "+Integer.toString(min)+" min";
+					int h = (int)rs.getFloat(7);
+					int min = (int)(Math.round((rs.getFloat(7)-(int)rs.getFloat(7))*60));
+					String tmpFlugzeit = Integer.toString(h)+" h "+Integer.toString(min)+" min";
 					
 					
 					DATEN[x][y] = rs.getString(1); y++;
 					DATEN[x][y] = rs.getString(3); y++;
 					DATEN[x][y] = rs.getString(9); y++;
-					DATEN[x][y] = Flugzeit; y++;
+					DATEN[x][y] = tmpFlugzeit; y++;
 					DATEN[x][y] = rs.getString(4); y++;
 					DATEN[x][y] = zielflughafen; y++;
 					DATEN[x][y] = Integer.toString(pax); x++;y=0;
@@ -10802,10 +10825,10 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 //=======
 @FXML public void action_konfig() {
 	set_allunvisible(false);
-	scroll_pane_konfig.setVisible(true);
+	
 	apa_konfig.setVisible(true);
-	Versionsnr.setText("V2.31");
-	txa_history.setText("V2.31\nDruck- und Versendefunktion für Angebote\n------------------------------------------------------------------------------------------\nV2.30\nFormatierung Flugzeiten und Charterdauer \nAnpassung Konfiguration-Support");
+	Versionsnr.setText("V2.33");
+	txa_history.setText("V2.33\nBugfix Druck Angebot \n------------------------------------------------------------------------------------------\nV2.32\nBugfix Flugzeit in h und min \n------------------------------------------------------------------------------------------\nV2.31\nDruck- und Versendefunktion für Angebote\n------------------------------------------------------------------------------------------\nV2.30\nFormatierung Flugzeiten und Charterdauer \nAnpassung Konfiguration-Support");
 	
 }
 //>>>>>>> branch 'master' of https://github.com/burggraf-erich/itworks.git

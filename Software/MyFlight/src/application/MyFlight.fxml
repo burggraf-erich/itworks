@@ -303,7 +303,7 @@
                                     <Button fx:id="btn_close_fh" layoutX="312.0" layoutY="117.0" mnemonicParsing="false" onAction="#btn_close_fh_click" prefHeight="25.0" prefWidth="105.0" text="schließen" />
                                  </children>
                               </AnchorPane>
-                            <AnchorPane fx:id="apa_login" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="587.0" visible="false">
+                            <AnchorPane fx:id="apa_login" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="573.0" visible="false">
                                  <children>
                                     <Label layoutX="149.0" layoutY="50.0" prefHeight="35.0" prefWidth="291.0" text="Willkommen bei MyFlight!">
                                        <font>
@@ -381,7 +381,7 @@
 
 
 
-                              <AnchorPane fx:id="apa_welcome" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="591.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="apa_welcome" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="573.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Label layoutX="149.0" layoutY="50.0" prefHeight="35.0" prefWidth="291.0" text="Willkommen bei MyFlight!">
                                        <font>
@@ -537,7 +537,7 @@
                               </ScrollPane>
  
  
-                              <AnchorPane fx:id="apa_charter" layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="apa_charter" layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="474.0" prefWidth="573.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Label prefHeight="35.0" prefWidth="200.0" text="Charterverwaltung">
                                        <font>
@@ -546,9 +546,7 @@
                                     </Label>
                                  </children>
                               </AnchorPane>
-                              <ScrollPane fx:id="scroll_pane_konfig" prefHeight="486.0" prefWidth="591.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <content>
-                                  <AnchorPane fx:id="apa_konfig" minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="573.0" visible="false">
+                              <AnchorPane fx:id="apa_konfig" minHeight="0.0" minWidth="0.0" prefHeight="474" prefWidth="573.0" visible="false">
                                        <children>
                                           <Label layoutX="36.0" layoutY="23.0" text="MyFlight - Versions-Nr.: ">
                                              <font>
@@ -669,8 +667,6 @@
                                           </Text>
                                        </children>
                                     </AnchorPane>
-                                </content>
-                              </ScrollPane>
                               <ScrollPane fx:id="scroll_pane_changeorder" prefHeight="481.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <content>
                                   <AnchorPane fx:id="auftragändernform" minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="573.0" visible="false">
