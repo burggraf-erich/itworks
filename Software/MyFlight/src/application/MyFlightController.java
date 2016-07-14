@@ -1,5 +1,5 @@
 package application;
-// V232
+// V.233
 
 
 import java.sql.*;
@@ -393,6 +393,7 @@ public ObservableList<FHSuche> getFHData() {
 	String position_string;
 	String gehalt_string;
 	String Flugzeit;
+	static String modus;
     
 //>>>>>>> branch 'master' of https://github.com/burggraf-erich/itworks.git
 	//Variablen für Kalender
@@ -521,7 +522,6 @@ public ObservableList<FHSuche> getFHData() {
 	
 	@FXML ScrollPane scroll_pane_kundendaten;
 	
-	@FXML ScrollPane scroll_pane_konfig;
 	
 	@FXML Label lbl_dbconnect;
 	@FXML Label lbl_username;
@@ -1149,8 +1149,8 @@ public ObservableList<FHSuche> getFHData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V232");
-		Version1.setText("V232");
+		Version.setText("V2.33");
+		Version1.setText("V2.33");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
@@ -1653,7 +1653,7 @@ public ObservableList<FHSuche> getFHData() {
 		apa_term_1bearb.setVisible(false);
 		apa_term_1bearb_btn.setVisible(false);
 //=======
-		scroll_pane_konfig.setVisible(false);
+		
 		apa_konfig.setVisible(false);
 //>>>>>>> branch 'master' of https://github.com/burggraf-erich/itworks.git
 		
@@ -3101,7 +3101,13 @@ public ObservableList<FHSuche> getFHData() {
 			}
 
 			if (AuswahlDokutyp == "Word") {
-				erzeugeWord(angebot_id, "Auftrag");
+				try {
+					erzeugeWord(angebot_id, "Auftrag") ;
+				}
+				catch (Exception e) {
+					lbl_dbconnect.setText("Es ist ein Fehler aufgetreten");
+					e.printStackTrace();
+				}
 
 			}
 			}
@@ -3892,7 +3898,7 @@ public ObservableList<FHSuche> getFHData() {
 				p.setLeading(15f);
 				document.add(p);
 		*/
-				addTable(document,angebot_id);
+				addTable(document,angebot_id,modus);
 
 				p = new Paragraph(" ", styleText);
 				p.setAlignment(Element.ALIGN_LEFT);
@@ -4094,10 +4100,10 @@ public ObservableList<FHSuche> getFHData() {
 				return border;
 			}
 
-			private static void addTable(Document document, int angebot_id) throws DocumentException, SQLException {
+			private static void addTable(Document document, int angebot_id, String modus) throws DocumentException, SQLException {
 			
 			
-				document.add(getSampleTable(angebot_id));
+				document.add(getSampleTable(angebot_id, modus));
 			
 			}
 			
@@ -4109,8 +4115,8 @@ public ObservableList<FHSuche> getFHData() {
 
 				
 			
-			private static PdfPTable getSampleTable(int angebot_id) throws DocumentException, SQLException {
-
+			private static PdfPTable getSampleTable(int angebot_id, String modus) throws DocumentException, SQLException {
+				
 				String AG = "Erich";
 				String Typ = "Dornier";
 				String Kennzeichen = "120";
@@ -4132,30 +4138,50 @@ public ObservableList<FHSuche> getFHData() {
 				String url = "jdbc:mysql://"+hostname+":"+port+"/"+dbname;
 				conn = DriverManager.getConnection(url, user, password);
 				//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password)
+				int pax = 0;
+				int angebote_angebote_id = 0;
+				switch (modus) {
+				case "Auftrag" :
 				
 				// Flüge zum Angebot ermitteln
 				// Anzahl Passagiere ermitteln
 				String sql = "select angebote.pax from angebote inner join auftraege on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);
+				
 				rs.next();
-				int pax = rs.getInt(1);
+				pax = rs.getInt(1);
 				// Angebot_id ermitteln
 				sql = "select angebote.angebote_id from angebote inner join auftraege on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
 				stmt = conn.createStatement();
 				rs = stmt.executeQuery(sql);
 				rs.next();
-				int angebote_angebote_id = rs.getInt(1);
+				angebote_angebote_id = rs.getInt(1);
 				// Fluege ermitteln
+				break;
+				case "Angebot":
+					// Flüge zum Angebot ermitteln
+					// Anzahl Passagiere ermitteln
+					sql = "select angebote.pax from angebote where angebote.angebote_id='"+angebot_id+"'";
+					stmt = conn.createStatement();
+					rs = stmt.executeQuery(sql);
+					
+					rs.next();
+					pax = rs.getInt(1);
+					// Angebot_id ermitteln
+					angebote_angebote_id = angebot_id;
+					// Fluege ermitteln
+					break;
+				}
 				ResultSet rs1;
 				String zielflughafen = "";
 				String zwischenflughafen = "";
-				
+				Statement stmt = conn.createStatement();
 				int zaehler = 0;
 				Statement stmt1 = conn.createStatement();
-				sql = "select fluege.*, flughafen_von.FlughafenStadt from fluege left outer join flughafen_von on fluege.flughafen_von_FlughafenKuerzel = flughafen_von.FlughafenKuerzel where fluege.angebote_Angebote_ID ='"
+				String sql = "select fluege.*, flughafen_von.FlughafenStadt from fluege left outer join flughafen_von on fluege.flughafen_von_FlughafenKuerzel = flughafen_von.FlughafenKuerzel where fluege.angebote_Angebote_ID ='"
 						+angebote_angebote_id+ "'";
-				rs = stmt.executeQuery(sql);
+				ResultSet rs = stmt.executeQuery(sql);
 				
 				int i = 1;
 				// Testbeginn
@@ -4278,11 +4304,11 @@ public ObservableList<FHSuche> getFHData() {
 		//		 Set<String> styles = StyleDefinitionsPart.getKnownStyles().keySet();
 		//	 	System.out.println(Arrays.deepToString(styles.toArray()));
 
-				Style styleTitel = StyleDefinitionsPart.getKnownStyles().get(WORD_STYLE_TITLE);
+		Style styleTitel = StyleDefinitionsPart.getKnownStyles().get(WORD_STYLE_TITLE);
 				Style styleUeberschrift1 = StyleDefinitionsPart.getKnownStyles().get(WORD_STYLE_HEADING1);
 				Style styleUeberschrift2 = StyleDefinitionsPart.getKnownStyles().get(WORD_STYLE_HEADING2);
 				Style styleText = StyleDefinitionsPart.getKnownStyles().get(WORD_STYLE_NORMAL);
-				
+	
 				// under construction Style orgStyle = createStyle(StyleDefinitionsPart.getKnownStyles().get(WORD_STYLE_HEADING2), " ", 14, true, JcEnumeration.CENTER);
 				// Logo einfügen
 			
@@ -4522,7 +4548,7 @@ public ObservableList<FHSuche> getFHData() {
 							
 						
 				
-				addLogo1(mdp, wordMLPackage, Kennzeichen);
+			addLogo1(mdp, wordMLPackage, Kennzeichen);
 				mdp.addStyledParagraphOfText(styleUeberschrift2.getStyleId(), "Flugplan:");
 						
 				// das hier zeigt, wie ein ganzer Paragraph relativ einfach fett gemacht werden kann
@@ -4594,6 +4620,7 @@ public ObservableList<FHSuche> getFHData() {
 					lbl_dbconnect.setText("Es ist ein Fehler aufgetreten");
 					e.printStackTrace();
 				}
+				
 			}
 
 			private static R getFirstRunOfParagraph(P lastParagraph) {
@@ -10283,10 +10310,10 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 //=======
 @FXML public void action_konfig() {
 	set_allunvisible(false);
-	scroll_pane_konfig.setVisible(true);
+	
 	apa_konfig.setVisible(true);
-	Versionsnr.setText("V232");
-	txa_history.setText("V2.32\nBugfix Flugzeit in h und min \n------------------------------------------------------------------------------------------\nV2.31\nDruck- und Versendefunktion für Angebote\n------------------------------------------------------------------------------------------\nV2.30\nFormatierung Flugzeiten und Charterdauer \nAnpassung Konfiguration-Support");
+	Versionsnr.setText("V2.33");
+	txa_history.setText("V2.33\nBugfix Druck Angebot \n------------------------------------------------------------------------------------------\nV2.32\nBugfix Flugzeit in h und min \n------------------------------------------------------------------------------------------\nV2.31\nDruck- und Versendefunktion für Angebote\n------------------------------------------------------------------------------------------\nV2.30\nFormatierung Flugzeiten und Charterdauer \nAnpassung Konfiguration-Support");
 	
 }
 //>>>>>>> branch 'master' of https://github.com/burggraf-erich/itworks.git
