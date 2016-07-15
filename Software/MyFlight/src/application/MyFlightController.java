@@ -1,5 +1,5 @@
 package application;
-// V.233
+// V2.34
 
 
 import java.sql.*;
@@ -1159,8 +1159,8 @@ public ObservableList<termbearb> gettermData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V2.33");
-		Version1.setText("V2.33");
+		Version.setText("V2.34");
+		Version1.setText("V2.34");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
@@ -10819,7 +10819,10 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 			}
 			
-
+@FXML public void btn_offer_newcust_click() {
+	// just do nothing
+	
+}
 			
 //
 //=======
@@ -10827,8 +10830,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 	set_allunvisible(false);
 	
 	apa_konfig.setVisible(true);
-	Versionsnr.setText("V2.33");
-	txa_history.setText("V2.33\nBugfix Druck Angebot \n------------------------------------------------------------------------------------------\nV2.32\nBugfix Flugzeit in h und min \n------------------------------------------------------------------------------------------\nV2.31\nDruck- und Versendefunktion für Angebote\n------------------------------------------------------------------------------------------\nV2.30\nFormatierung Flugzeiten und Charterdauer \nAnpassung Konfiguration-Support");
+	Versionsnr.setText("V2.34");
+	txa_history.setText("V2.34\nFlug mit Zwischenstationen\nTermine bearbeiten\nBugfix DBConnect\n------------------------------------------------------------------------------------------\nV2.33\nBugfix Druck Angebot \n------------------------------------------------------------------------------------------\nV2.32\nBugfix Flugzeit in h und min \n------------------------------------------------------------------------------------------\nV2.31\nDruck- und Versendefunktion für Angebote\n------------------------------------------------------------------------------------------\nV2.30\nFormatierung Flugzeiten und Charterdauer \nAnpassung Konfiguration-Support");
 	
 }
 //>>>>>>> branch 'master' of https://github.com/burggraf-erich/itworks.git
