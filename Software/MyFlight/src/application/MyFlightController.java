@@ -10132,6 +10132,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				int ss = 0;
 				int na = 0;
 				
+				
+				
 				LocalDate start = dpi_zuf_start.getValue();
 				LocalDate end = dpi_zufr_end.getValue();
 				
