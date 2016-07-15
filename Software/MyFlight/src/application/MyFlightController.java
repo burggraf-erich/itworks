@@ -10377,7 +10377,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 			}
 			@FXML public void btn_newterm_save_click() {
-				//TODO
+				//TODO 
 				tgb_term_ma.isSelected();
 				
 
