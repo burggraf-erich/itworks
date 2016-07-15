@@ -1525,7 +1525,7 @@
         										<String fx:value=" " />
     										</value>
     									</ComboBox>	
-                                    <RadioButton fx:id="tgb_term_ma" layoutX="17.0" layoutY="41.0" mnemonicParsing="false" onAction="#tgb_term_ma_click" selected="true" text="Mitarbeitertermin">
+                                    <RadioButton fx:id="tgb_term_ma" layoutX="17.0" layoutY="41.0" mnemonicParsing="false" onAction="#tgb_term_ma_click" selected="false" text="Mitarbeitertermin">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="tgg_term" />
                                        </toggleGroup>
@@ -1925,7 +1925,7 @@
                               <AnchorPane fx:id="apa_termnew_btn" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Button fx:id="btn_newterm_save" layoutX="511.0" layoutY="27.0" mnemonicParsing="false" onAction="#btn_newterm_save_click" text="speichern" />
-                                    <Button fx:id="btn_newterm_cancel" layoutX="432.0" layoutY="27.0" mnemonicParsing="false" onAction="#btn_newterm_cancel_click" text="abbrechen" />
+                                    <Button fx:id="btn_newterm_cancel" layoutX="432.0" layoutY="27.0" mnemonicParsing="false" onAction="#btn_newterm_cancel_click" text="Beenden" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane fx:id="apa_termn_bearb_btn" prefHeight="61.0" prefWidth="589.0" visible="false">

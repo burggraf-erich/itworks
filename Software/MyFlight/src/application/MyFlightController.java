@@ -5441,7 +5441,8 @@ public ObservableList<termbearb> gettermData() {
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");     
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				try{
 			    	
@@ -5455,7 +5456,8 @@ public ObservableList<termbearb> gettermData() {
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");    
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				cbo_cal_ma.setValue(" ");
 				cbo_cal_fz.setValue(" ");
@@ -6243,7 +6245,8 @@ public ObservableList<termbearb> gettermData() {
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");   
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 
 			    }
 					System.out.println("klick geht");
@@ -6274,7 +6277,8 @@ public ObservableList<termbearb> gettermData() {
 		    }
 		    catch(Exception e){
 		          e.printStackTrace();
-		          System.out.println("Error on Building Data");            
+		          System.out.println("Error on Building Data"); 
+		          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 		    }
 			
 	    	System.out.println("ID"+Str_cust_id_chosen);
@@ -7536,7 +7540,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 			}
 				
@@ -7604,7 +7609,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 			    
 				}
@@ -7629,7 +7635,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				String data = (String) tbc_iata.getCellObservableValue(item).getValue();
 				
 				if(data.equals("")){
-					lbl_dbconnect.setText("Bitte eine Spalte wählen!");
+					lbl_dbconnect.setText("Bitte eine Zeile wählen!");
 				}
 				
 				if (StartFH == true){
@@ -7847,7 +7853,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");    
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 		    	
 		    	AngeboteID = AngeboteID +1;
@@ -7868,7 +7875,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 		    	
 		    	try{
@@ -7886,7 +7894,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");   
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 		    	try{
 			    	
@@ -7902,7 +7911,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 		    	
 		    	
@@ -8095,7 +8105,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				    }
 				    catch(Exception e){
 				          e.printStackTrace();
-				          System.out.println("Error on Building Data");            
+				          System.out.println("Error on Building Data"); 
+				          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 				    }
 					
 					
@@ -8119,7 +8130,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 					    }
 					    catch(Exception e){
 					          e.printStackTrace();
-					          System.out.println("Error on Building Data");            
+					          System.out.println("Error on Building Data"); 
+					          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 					    }
 					
 					
@@ -8154,7 +8166,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 						    }
 						    catch(Exception e){
 						          e.printStackTrace();
-						          System.out.println("Error on Building Data");            
+						          System.out.println("Error on Building Data");  
+						          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 						    }
 					    	
 					    	
@@ -8178,7 +8191,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 						    }
 						    catch(Exception e){
 						          e.printStackTrace();
-						          System.out.println("Error on Building Data");            
+						          System.out.println("Error on Building Data"); 
+						          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");           
 						    }
 					    	
 					    }
@@ -8203,7 +8217,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 						    }
 						    catch(Exception e){
 						          e.printStackTrace();
-						          System.out.println("Error on Building Data");            
+						          System.out.println("Error on Building Data");    
+						          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 						    }
 					    	
 					    }
@@ -8228,7 +8243,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 						    }
 						    catch(Exception e){
 						          e.printStackTrace();
-						          System.out.println("Error on Building Data");            
+						          System.out.println("Error on Building Data");   
+						          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 						    }
 					    	
 					    }
@@ -8278,7 +8294,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				    }
 				    catch(Exception e){
 				          e.printStackTrace();
-				          System.out.println("Error on Building Data");            
+				          System.out.println("Error on Building Data");   
+				          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 				    }
 			    	
 			    	if(CustState.equals("PRE")){
@@ -8416,7 +8433,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				    }
 				    catch(Exception e){
 				          e.printStackTrace();
-				          System.out.println("Error on Building Data");            
+				          System.out.println("Error on Building Data"); 
+				          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 				    }
 			    	
 			    	if(CustState.equals("PRE")){
@@ -8510,7 +8528,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				    }
 				    catch(Exception e){
 				          e.printStackTrace();
-				          System.out.println("Error on Building Data");            
+				          System.out.println("Error on Building Data");      
+				          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 				    }
 			    	
 			    	if(CustState.equals("PRE")){
@@ -8602,7 +8621,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				    }
 				    catch(Exception e){
 				          e.printStackTrace();
-				          System.out.println("Error on Building Data");            
+				          System.out.println("Error on Building Data");   
+				          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 				    }
 			    	
 			    	if(CustState.equals("PRE")){
@@ -8778,7 +8798,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 
 						statement.executeUpdate(
 								"INSERT INTO benutzerverwaltung.flugzeug_termine_angebote " + "VALUES('Angebotstermin','"
-										+bestFZ+"')");
+										+AngeboteID+"')");
 						
 						}
 			    	
@@ -8980,7 +9000,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");  
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				
@@ -9001,7 +9022,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 			    
 			    
@@ -9033,7 +9055,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");     
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 			    
 			    
@@ -9056,7 +9079,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				    }
 				    catch(Exception e){
 				          e.printStackTrace();
-				          System.out.println("Error on Building Data");            
+				          System.out.println("Error on Building Data");   
+				          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 				    }
 			    	
 			    	
@@ -9091,7 +9115,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");    
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 
 			    }
 			    
@@ -9119,7 +9144,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				    }
 				    catch(Exception e){
 				          e.printStackTrace();
-				          System.out.println("Error on Building Data");            
+				          System.out.println("Error on Building Data"); 
+				          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 
 			    	
@@ -9168,7 +9194,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 			    
 			    
@@ -9192,7 +9219,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				    }
 				    catch(Exception e){
 				          e.printStackTrace();
-				          System.out.println("Error on Building Data");            
+				          System.out.println("Error on Building Data"); 
+				          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 				    }
 			    	
 			    	
@@ -9232,7 +9260,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");  
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 			    
 			    
@@ -9259,7 +9288,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				    }
 				    catch(Exception e){
 				          e.printStackTrace();
-				          System.out.println("Error on Building Data");            
+				          System.out.println("Error on Building Data");  
+				          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 		    }
 			    	
 			    	
@@ -9336,7 +9366,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");       
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 			    
 			    try{
@@ -9351,7 +9382,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");       
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 			    
 			    System.out.println(counter);
@@ -9372,7 +9404,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");   
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 			    
 			    for (int a=0; a<FZbelegt.length; a++){
@@ -9402,7 +9435,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }	
 			    	
 			    System.out.println("JETZT kommt das ARRAY für passendes " + alleFZ + " " + highpax);
@@ -9487,7 +9521,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 					     }
 					    catch(Exception e){
 					          e.printStackTrace();
-					          System.out.println("Error on Building Data");            
+					          System.out.println("Error on Building Data");    
+					          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 					    }	
 			    	
 
@@ -9527,7 +9562,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				    }
 				    catch(Exception e){
 				          e.printStackTrace();
-				          System.out.println("Error on Building Data");            
+				          System.out.println("Error on Building Data");   
+				          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 				    }	
 				    
 					String SQL_per_cop = "SELECT Distinct(Personal_ID),Position_Gehalt_Position FROM myflight.personal WHERE Position_Gehalt_Position ='First Officer' AND Personal_ID not in( SELECT  Distinct(personal_Personal_ID)FROM ( SELECT kra.personal_Personal_ID, kra.Datum_von, kra.Datum_bis FROM benutzerverwaltung.personal_termine_krankheit kra UNION SELECT ang.Captain, ang.Datum_von, ang.Datum_bis FROM benutzerverwaltung.personal_termine_angebote JOIN myflight.angebote ang ON benutzerverwaltung.personal_termine_angebote.angebote_Angebote_ID=ang.Angebote_ID UNION SELECT url.personal_Personal_ID, url.Datum_von, url.Datum_bis FROM benutzerverwaltung.personal_termine_urlaub url)dt join myflight.personal ON personal_Personal_ID=myflight.personal.Personal_ID WHERE Datum_von between '" + Start_offer + "' AND '" + Ziel_offer + "' OR Datum_bis between '" + Start_offer + "' AND '" + Ziel_offer + "' OR Datum_von < '"+Start_offer+"' and Datum_bis > '"+Ziel_offer+"')";
@@ -9546,7 +9582,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 					    }
 					    catch(Exception e){
 					          e.printStackTrace();
-					          System.out.println("Error on Building Data");            
+					          System.out.println("Error on Building Data");
+					          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 					    }	
 				    }
 				    
@@ -9571,7 +9608,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 					    }
 					    catch(Exception e){
 					          e.printStackTrace();
-					          System.out.println("Error on Building Data");            
+					          System.out.println("Error on Building Data"); 
+					          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 
 					    }	
 				    	
@@ -9592,7 +9630,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 					    }
 					    catch(Exception e){
 					          e.printStackTrace();
-					          System.out.println("Error on Building Data");            
+					          System.out.println("Error on Building Data"); 
+					          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 					    }	
 				    	
 				    	
@@ -9613,7 +9652,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 					    }
 					    catch(Exception e){
 					          e.printStackTrace();
-					          System.out.println("Error on Building Data");            
+					          System.out.println("Error on Building Data"); 
+					          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 					    }	
 
 				    	
@@ -9668,7 +9708,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 			    try{
@@ -9685,7 +9726,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");  
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }			    
 			    
 			    entfernung = (float) (Math.acos(Math.sin(startfhlat)*Math.sin(zielfhlat) + Math.cos(startfhlat)*Math.cos(zielfhlat)*Math.cos(zielfhlon - startfhlon))* 6371);
@@ -10016,7 +10058,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				if(z_id != 0){
 				z_id = z_id +1;
@@ -10033,13 +10076,15 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 									+pue+"','"
 									+pre+"','"
 									+heute+"')");
-					
+					lbl_dbconnect.setText("Kundenfeedback wurde erfasst!");
 					}
 			
 				catch(Exception e){
 					System.err.println("Got an exception! "); 
 		            System.err.println(e.getMessage()); 
 					}
+				
+				
 				
 				
 			}
@@ -10070,7 +10115,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				
@@ -10107,7 +10153,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				try{
@@ -10119,7 +10166,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");   
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				try{
@@ -10131,7 +10179,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				try{
@@ -10143,6 +10192,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    catch(Exception e){
 			          e.printStackTrace();
 			          System.out.println("Error on Building Data");            
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				try{
@@ -10154,7 +10204,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				try{
@@ -10166,7 +10217,9 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
+			          
 			    }
 				
 				
@@ -10211,6 +10264,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 									+agr+"','" 
 									+heute+"')");
 					
+					lbl_dbconnect.setText("Ablehnungsgrund wurde erfasst!");
+					
 					}
 			
 				catch(Exception e){
@@ -10237,8 +10292,10 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");   
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
+				
 				
 				
 				
@@ -10284,7 +10341,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				try{
@@ -10296,7 +10354,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				try{
@@ -10308,7 +10367,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				try{
@@ -10319,7 +10379,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    	}
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");  
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");          
 			    }
 				
 				try{
@@ -10331,7 +10392,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");  
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				
@@ -10378,10 +10440,10 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			}
 			@FXML public void btn_newterm_save_click() {
 				//TODO 
-				tgb_term_ma.isSelected();
+				
 				
 
-				    
+							    
 				
 				String sek = "59";
 				int FZid = 0;
@@ -10395,9 +10457,19 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 				if(tgb_term_ma.isSelected()){
 					
-					if(dpi_term_ma_start.getValue().toString().equals("") || dpi_term_ma_end.getValue().toString().equals("")|| cbo_term_ma.getValue().toString().equals("")||cbo_term_maart.getValue().toString().equals("") ) {
+					if(dpi_term_ma_start.getValue() == null || dpi_term_ma_end.getValue() == null || cbo_term_ma.getValue() == null || cbo_term_maart.getValue() == null ) {
 						lbl_dbconnect.setText("Bitte Pflichtfelder ausfüllen!");
 					}
+					else if(txt_term_ma_starth.getText().equals("") || txt_term_ma_startm.getText().equals("") || txt_term_ma_endh.getText().equals("") || txt_term_ma_endm.getText().equals("") ){
+						
+						lbl_dbconnect.setText("Bitte Pflichtfelder ausfüllen!");
+						
+					}
+					else if(dpi_term_ma_end.getValue().isBefore(dpi_term_ma_start.getValue())){
+						
+						lbl_dbconnect.setText("Ungültige(r) Wert(e) erfasst");
+					}
+					else{
 					
 					String MA = cbo_term_ma.getValue().toString();
 					int pos1 = MA.indexOf(" ");
@@ -10466,17 +10538,28 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 					
 				}
 				   
-					set_allunvisible(false);
-					
-					apa_calendar.setVisible(true);
-					apa_btn_term.setVisible(true);
+				    lbl_dbconnect.setText("Termin wurde erstellt");
 				    
 				    
 				}    
 				    
-				    
+				}    
 				
 				if(tgb_term_fz.isSelected()){
+					
+					if(dpi_term_fz_start.getValue() == null || dpi_term_fz_end.getValue() == null|| cbo_term_fz.getValue()== null||cbo_term_fzart.getValue()== null ) {
+						lbl_dbconnect.setText("Bitte Pflichtfelder ausfüllen!");
+					}
+					else if(txt_term_fz_starth.getText().equals("") || txt_term_fz_startm.getText().equals("") || txt_term_fz_endh.getText().equals("") || txt_term_fz_endm.getText().equals("") ){
+						
+						lbl_dbconnect.setText("Bitte Pflichtfelder ausfüllen!");
+						
+					}
+					else if(dpi_term_fz_end.getValue().isBefore(dpi_term_fz_start.getValue())){
+						
+						lbl_dbconnect.setText("Ungültige(r) Wert(e) erfasst");
+					}
+					else{
 					
 					String FZ = cbo_term_fz.getValue().toString();
 					int pos = FZ.indexOf(" ");
@@ -10539,12 +10622,15 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 							System.err.println("Got an exception! "); 
 				            System.err.println(e.getMessage()); 
 							}
+					    lbl_dbconnect.setText("Termin wurde erstellt");
 				
 				    }
 				    
 					
 					
 				}
+				    
+					}
 				
 				    }
 				    
@@ -10574,6 +10660,16 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				cbo_term_fz.getItems().clear();
 				cbo_term_fz.setValue(null);
 				
+				dpi_term_ma_start.setDisable(true);
+				dpi_term_ma_end.setDisable(true);
+				cbo_term_ma.setDisable(true);
+				txt_term_ma_starth.setDisable(true);
+				txt_term_ma_startm.setDisable(true);
+				txt_term_ma_endh.setDisable(true);
+				txt_term_ma_endm.setDisable(true);
+				chb_term_ma.setDisable(true);
+				cbo_term_maart.setDisable(true);
+				
 				try{
 			    	
 			    	Statement statement = conn.createStatement();
@@ -10591,7 +10687,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				
@@ -10618,7 +10715,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");  
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				
@@ -10742,7 +10840,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");    
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 			}
@@ -10765,13 +10864,22 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				
 			}
 			@FXML public void btn_term_bearb_search_click() {
-
+//TODO
+				
+			if(dpi_term_bearb_start.getValue() == null || dpi_term_bearb_end.getValue() == null || cbo_term_bearb_mafz.getValue() == null){
+				
+				lbl_dbconnect.setText("Pflichtfeld(er) füllen");
+				
+			}
+			else{	
+				
 			termData.remove(0, termData.size());	
 			String startd = dpi_term_bearb_start.getValue().toString();
 			String zield = dpi_term_bearb_end.getValue().toString();
@@ -10787,7 +10895,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				String sqlma = "SELECT * FROM benutzerverwaltung.personal_termine_krankheit where personal_Personal_ID="+i_id+" and Datum_von='"+startd+"' and Datum_bis='"+zield+"' union SELECT * FROM benutzerverwaltung.personal_termine_urlaub Where personal_Personal_ID="+i_id+" and Datum_von='"+startd+"' and Datum_bis='"+zield+"'";
 				
 				if(tgb_term_bearb_fz.isSelected()){sql = sqlfz;
-				System.out.println("FLugzeugsuche");}
+				System.out.println("Flugzeugsuche");}
 				else{sql = sqlma;}
 				
 				try{
@@ -10804,10 +10912,11 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
-				
+			}
 				
 				
 			}
@@ -10922,6 +11031,11 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				String data5 = col_term_endd.getCellObservableValue(item).getValue();
 				String data6 = col_term_endzeit.getCellObservableValue(item).getValue();
 				
+
+				if(data2.equals("")){
+					lbl_dbconnect.setText("Bitte eine Zeile wählen!");
+				}
+				else{				
 				txt_term_1bearb_mafz.setText(data.toString());
 				ori_id = data;
 				txt_term_1bearb_art.setText(data2);
@@ -10957,6 +11071,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 
 				apa_term_1bearb.setVisible(true);
 				apa_term_1bearb_btn.setVisible(true);
+				}
 								
 			}
 			@FXML public void btn_term_bearb_cancel_click() {
@@ -10970,6 +11085,13 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			@FXML public void btn_term_1bearb_save_click() {
 				
 
+				if(dpi_term_1bearb_startd.getValue()==null || dpi_term_1bearb_endd.getValue() == null || txt_term_1bearb_startz_h.getText().equals("") || txt_term_1bearb_startz_m.getText().equals("")|| txt_term_1bearb_endz_h.getText().equals("") || txt_term_1bearb_endz_m.getText().equals("")){
+				lbl_dbconnect.setText("Pflichtfeld(er) füllen");	
+				}
+				else if(dpi_term_1bearb_endd.getValue().isBefore(dpi_term_1bearb_startd.getValue())){
+				lbl_dbconnect.setText("Ungültige(r) Wert(e) erfasst");
+				}
+				else{			
 				
 				int i_id = Integer.parseInt(txt_term_1bearb_mafz.getText());
 				String startd = dpi_term_1bearb_startd.getValue().toString();
@@ -11056,11 +11178,12 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				
-				
+				}	
 			
 				
 			}
@@ -11100,7 +11223,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");   
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				
@@ -11131,7 +11255,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data"); 
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				getProfit();
@@ -11159,7 +11284,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				int profitdaten [][] = new int[countf][2];
@@ -11179,7 +11305,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");   
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				}
@@ -11260,7 +11387,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    }
 			    catch(Exception e){
 			          e.printStackTrace();
-			          System.out.println("Error on Building Data");            
+			          System.out.println("Error on Building Data");  
+			          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 			    }
 				
 				}
@@ -11306,7 +11434,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				    }
 				    catch(Exception e){
 				          e.printStackTrace();
-				          System.out.println("Error on Building Data");            
+				          System.out.println("Error on Building Data");    
+				          lbl_dbconnect.setText("technischer Fehler in Datenbankverbindung aufgetreten");
 				    }
 					
 					}
