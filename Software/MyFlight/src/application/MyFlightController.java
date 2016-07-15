@@ -392,10 +392,13 @@ public ObservableList<termbearb> gettermData() {
     
     boolean sonderw = false;
     
+    boolean cust_set =false;
+    
 //<<<<<<< HEAD
     LocalDate profityear = null;
     int year = 0;
     
+    boolean offer_new = false;
 	
 //=======
     String anrede;
@@ -416,6 +419,17 @@ public ObservableList<termbearb> gettermData() {
 	String sqlstat ="";	
 	String cal_fzid = "";
     String cal_maid = "";
+
+	String ori_startd = "";
+	String ori_zield ="";
+	String ori_szh ="";
+	String ori_szm ="";
+	String ori_zzh ="";
+	String ori_zzm ="";
+	String ori_art ="";
+	int ori_id = 0;
+
+    
 		
 	@FXML Button btn_close;
 	@FXML Button btn_login;
@@ -1495,7 +1509,7 @@ public ObservableList<termbearb> gettermData() {
 	}
 
 	// private char[] substringBefore(Object setText, String string) {
-	// TODO Auto-generated method stub
+	// 
 	// return null;
 	// }
 
@@ -1589,9 +1603,37 @@ public ObservableList<termbearb> gettermData() {
 		apa_create_offer.setVisible(true);
 		apa_btn_createoffer.setVisible(true);
 		
+		maskentitel.setVisible(true);
+		maskentitel.setText("Angebot erstellen");
+		
 		txt_zielzeit_h.setEditable(false);
 		txt_zielzeit_m.setEditable(false);
 		dpi_zieldat.setDisable(true);
+		
+		//@FXML TextField txt_test;
+		txt_phone1.setText("");
+		txt_companyname1.setText("");
+		txt_street1.setText("");
+		txt_place1.setText("");
+		txt_customerid1.setText("");
+		txt_homeext1.setText("");
+		txt_name1.setText("");
+		txt_mail1.setText("");
+		txt_prename1.setText("");
+		txt_anrede1.setText("");
+		dpi_startdat.setValue(null);
+		cbo_charterart.setValue("");
+		dpi_zieldat.setValue(null);
+		txt_pass.setText("");
+		txt_startzeit_h.setText("");
+		txt_startzeit_m.setText("");
+		txt_zielzeit_h.setText("");
+		txt_zielzeit_m.setText("");
+		txt_startfh.setText("");
+		txt_zielfh.setText("");
+		cust_set = false;
+		offer_new = true;
+		
 		
 	
 		//cbo_salutation.getItems().addAll("Herr","Frau");
@@ -1695,47 +1737,7 @@ public ObservableList<termbearb> gettermData() {
 
 	@FXML public void btn_createoffer_click(ActionEvent event) {
 		
-//		final String companyname = txt_companyname.getText();
-//		final String street = txt_street.getText();
-//		final String place = txt_place.getText();
-//		final String custid = txt_customerid.getText();
-//		final String prename = txt_prename.getText();
-//		final String name = txt_name.getText();
-//		final String phone = txt_phone.getText();
-//		final String mobile = txt_mobile.getText();
-//		final String email = txt_mail.getText();	
-//		int i = 0;
-//		String new_custID;
-//	
-//		
-//
-//		
-//		
-//		try { 
-			//statement.executeUpdate("INSERT INTO myflight.kunde " + "VALUES (123,"+name+","+prename+","+companyname+",1,"+phone+","+mobile+"," +email+",,,,)");
-			//i = statement.executeUpdate("SELECT * FROM myflight.kunde WHERE MAX(Kunde_ID)");
-			//a = statement.executeQuery("SELECT * FROM myflight.kunde WHERE MAX(Kunde_ID)");
-			
-//			Statement statement = conn.createStatement();
-//			ResultSet rs = statement.executeQuery("SELECT MAX(Kunde_ID) AS hoch FROM myflight.kunden");
-//			
-//			while (rs.next())
-//				{
-//				i = rs.getInt("hoch");
-//				}			
-//			statement.close();
-//			
-//			i = i+1;
-//			new_custID = Integer.toString(i);
-//			txt_customerid.setText(new_custID);
-//			
-//			}
-//		
-//		catch(Exception e){
-//			System.err.println("Got an exception! "); 
-//            System.err.println(e.getMessage()); 
-//			}
-//	
+
 	}
 
 	@FXML public void hlk_create_cust(ActionEvent event) {
@@ -5314,6 +5316,7 @@ public ObservableList<termbearb> gettermData() {
 
 	}
 	
+	
 	@FXML
 	public void action_editangebotstatus(ActionEvent event) throws Exception {
 		int angebot_id = Nummer.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
@@ -6218,7 +6221,7 @@ public ObservableList<termbearb> gettermData() {
 			}
 	
 			@FXML public void btn_setcust_click() {
-				
+				Str_cust_id_chosen=" ";
 				//String test = "init";
 				if(zwFH==true){
 					
@@ -6229,10 +6232,12 @@ public ObservableList<termbearb> gettermData() {
 				try{
 			    	
 			    	Statement statement = conn.createStatement();
-			    	ResultSet rs = statement.executeQuery("SELECT * FROM benutzerverwaltung.kunde_auswahl");      
+			    	ResultSet rs = statement.executeQuery("SELECT * FROM benutzerverwaltung.kunde_auswahl");  
+
 			        while((rs != null) && (rs.next())){
 
 			        	Str_cust_id_chosen =  rs.getString(1);
+			        	
 			        }
 			        
 			    }
@@ -6262,7 +6267,7 @@ public ObservableList<termbearb> gettermData() {
 					txt_homeext1.setText(Kunde_neu.getZusatz());
 					txt_anrede1.setText(Kunde_neu.getAnrede());
 					txt_place1.setText(Kunde_neu.getOrt());
-
+					cust_set = true;
 
 		        }
 		        
@@ -6271,6 +6276,12 @@ public ObservableList<termbearb> gettermData() {
 		          e.printStackTrace();
 		          System.out.println("Error on Building Data");            
 		    }
+			
+	    	System.out.println("ID"+Str_cust_id_chosen);
+			if(Str_cust_id_chosen.equals(" ")){
+				lbl_dbconnect.setText("Kein Kunde gewählt!");
+			}
+			
 		}
 	
 	
@@ -7489,16 +7500,18 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				dpi_zws_an.setDisable(true);
 				txt_zwsan_h.setEditable(false);
 				txt_zwsan_m.setEditable(false);
+				btn_zwscount.setDisable(false);
 
 			}
 
 			@FXML public void btn_sw_click() {
 	
+				
 				getEntfernung();
 				Start_offer = dpi_startdat.getValue();
 				Ziel_offer = dpi_zieldat.getValue();
 
-				if(txt_pass.getText().equals("")){System.out.println("Bitte Passagiere ausfüllen");} //TODO
+				if(txt_pass.getText().equals("")){lbl_dbconnect.setText("Passagierinformation Notwendig! ");}
 				else{
 					
 					set_allunvisible(false);
@@ -7574,7 +7587,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 				
 				if(where_set == false)
-				{System.out.println("min. 1 Feld");} //TODO
+				{ lbl_dbconnect.setText("Bitte min. 1 Feld ausfüllen");}
 	
 				else {where = "WHERE"  + filter;
 				
@@ -7614,6 +7627,10 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				FHSuche item = tbl_fh.getItems().get(row);
 				TableColumn col = pos.getTableColumn();
 				String data = (String) tbc_iata.getCellObservableValue(item).getValue();
+				
+				if(data.equals("")){
+					lbl_dbconnect.setText("Bitte eine Spalte wählen!");
+				}
 				
 				if (StartFH == true){
 
@@ -7794,7 +7811,24 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 
 			@FXML public void btn_create_offer() {//TODO 
 				
-
+				if(cust_set==false || txt_startfh.getText().equals("") || txt_zielfh.getText().equals("") || dpi_startdat.getValue().toString().equals("") || txt_startzeit_h.getText().equals("") ||txt_startzeit_m.getText().equals("") || txt_pass.getText().equals(""))              
+				{
+					lbl_dbconnect.setText("Bitte Pflichtfelder ausfüllen!");
+				}
+				
+				else if(txt_startfh.getText().equals(txt_zielfh.getText()) && !charterart.equals("Zeitcharter")){
+					lbl_dbconnect.setText("Start- und Zielflughafen gleich");
+				}
+				else if(offer_new == false){
+					lbl_dbconnect.setText("Angebot wurde bereits erstellt. Bitte neu erstellen!");
+				}
+				else if(dpi_startdat.getValue().isBefore(AngDatum)){
+					lbl_dbconnect.setText("Startdatum ist in der Vergangenheit");
+				}
+				else{
+				
+				
+				
 				Start_offer = dpi_startdat.getValue();
 				Ziel_offer = dpi_zieldat.getValue();
 				
@@ -8334,6 +8368,15 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    	System.out.println("Zielzeit: "+ zieldate);
 			    	System.out.println(zielzeit);
 			    	
+			    	String data6 = zielzeit.toString();
+			    	int pos_z2 = data6.indexOf(":");
+				    String anh  = data6.substring(0, pos_z2);
+			    	String anm = data6.substring(pos_z2+1,5);
+			    	
+			    	txt_zielzeit_h.setText(anh);
+			    	txt_zielzeit_m.setText(anm);
+			    	dpi_zieldat.setValue(zieldate);
+			    	
 			
 			    	
 			    	
@@ -8591,6 +8634,11 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 					startdate = dpi_startdat.getValue();
 				}
 				
+				if(dpi_zieldat.getValue().isBefore(dpi_startdat.getValue())){
+					lbl_dbconnect.setText("Ungültige(r) Wert(e) erfasst");
+				}
+				else{
+				
 			    	try { 
 
 						Statement statement = conn.createStatement();			
@@ -8742,7 +8790,28 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 			    	sonderw = false;
 			    	
-			    	}
+			    	
+			    	
+			    	try { 
+
+						Statement statement = conn.createStatement();			
+						statement.executeUpdate("DELETE FROM benutzerverwaltung.kunde_auswahl");
+						Str_cust_id_chosen = "";
+						}
+				
+					catch(Exception e){
+						System.err.println("Got an exception! "); 
+			            System.err.println(e.getMessage()); 
+						}
+			    	
+			    	
+			    	offer_new = false;
+			    	
+			    	lbl_dbconnect.setText("Angebot wurde erstellt!");
+						}
+					}
+			    	
+			   }
 			    
  			
 			
@@ -8861,15 +8930,26 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    apa_create_offer.setVisible(true);
 			    apa_btn_createoffer.setVisible(true);
 			    }
-			    else {System.out.println("nur zahlen");} //TODO
+			    else {lbl_dbconnect.setText("Ungültige(r) Wert(e) erfasst");}
 			    
 			    
-			    
+				
+
 				
 				
 			}
 
-			@FXML public void btn_sonder_stop_click() {}
+			@FXML public void btn_sonder_stop_click() {
+				
+				txa_getr.setText("");
+				txa_speisen.setText("");
+				
+				
+				set_allunvisible(false);
+			    apa_create_offer.setVisible(true);
+			    apa_btn_createoffer.setVisible(true);
+				
+			}
 			@FXML public void cbo_fz_click() {
 				
 				cbo_cap.setDisable(false);
@@ -9330,7 +9410,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    FZpass = alleFZ - counter;
 			
 			    System.out.println(FZpass + " wurden gefunden!!!!!");
-			    if(FZpass == 0){System.out.println(FZpass + " nichts frei");} //TODO
+			    if(FZpass == 0){lbl_dbconnect.setText("Kein passendes Flugzeug gefunden");}
 			    else{
 			    	
 			    	int[] A_FZpass = new int[FZpass];
@@ -9416,7 +9496,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    
 			    pax = pax + 1;
 			    if(pax>highpax){FZgefunden = true;
-			    System.out.println("nichts"); //TODO
+			    System.out.println("nichts"); 
 			    }
 			  
 			    
@@ -9633,9 +9713,12 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				cbo_zws.getItems().clear();
 				cbo_zws.setValue(null);
 				
-				 if (txt_countzws.getText().matches("[0-5]") || txt_countzws.getText() == ""){//TODO
+				 if (txt_countzws.getText().matches("[0-5]") || txt_countzws.getText() == ""){
 				 
 				countzw = Integer.valueOf(txt_countzws.getText());
+				 }
+				 else{
+					 lbl_dbconnect.setText("Ungültige(r) Wert(e) erfasst");
 				 }
 				 
 
@@ -9662,6 +9745,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				dpi_zws_an.setDisable(true);
 				dpi_zws_ab.setDisable(false);	
 				btn_zws_save.setDisable(false);
+				btn_zwscount.setDisable(true);
 			}
 
 			@FXML public void btn_zws_save_click() {
@@ -9763,7 +9847,12 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			}
 
 
-			@FXML public void btn_zws_stop_click() {}
+			@FXML public void btn_zws_stop_click() {
+				
+				set_allunvisible(false);
+				apa_create_offer.setVisible(true);
+				apa_btn_createoffer.setVisible(true);
+			}
 
 			@FXML public void cbo_zws_click() {
 				
@@ -10288,6 +10377,11 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 			}
 			@FXML public void btn_newterm_save_click() {
+				//TODO
+				tgb_term_ma.isSelected();
+				
+
+				    
 				
 				String sek = "59";
 				int FZid = 0;
@@ -10298,9 +10392,12 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				LocalDate d_end;
 				
 				
+				
 				if(tgb_term_ma.isSelected()){
 					
-					
+					if(dpi_term_ma_start.getValue().toString().equals("") || dpi_term_ma_end.getValue().toString().equals("")|| cbo_term_ma.getValue().toString().equals("")||cbo_term_maart.getValue().toString().equals("") ) {
+						lbl_dbconnect.setText("Bitte Pflichtfelder ausfüllen!");
+					}
 					
 					String MA = cbo_term_ma.getValue().toString();
 					int pos1 = MA.indexOf(" ");
@@ -10689,13 +10786,15 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				String sqlfz = "SELECT * FROM benutzerverwaltung.flugzeug_termine_reparatur where flugzeuge_Flugzeug_ID="+i_id+" and Datum_von='"+startd+"' and Datum_bis='"+zield+"'  union SELECT * FROM benutzerverwaltung.flugzeug_termine_wartung where flugzeuge_Flugzeug_ID= "+i_id+" and Datum_von='"+startd+"' and Datum_bis='"+zield+"'";
 				String sqlma = "SELECT * FROM benutzerverwaltung.personal_termine_krankheit where personal_Personal_ID="+i_id+" and Datum_von='"+startd+"' and Datum_bis='"+zield+"' union SELECT * FROM benutzerverwaltung.personal_termine_urlaub Where personal_Personal_ID="+i_id+" and Datum_von='"+startd+"' and Datum_bis='"+zield+"'";
 				
-				if(tgb_term_bearb_fz.isSelected()){sql = sqlfz;}
+				if(tgb_term_bearb_fz.isSelected()){sql = sqlfz;
+				System.out.println("FLugzeugsuche");}
 				else{sql = sqlma;}
 				
 				try{
 			    	
 			    	Statement statement = conn.createStatement();
-			    	ResultSet rs = statement.executeQuery(sql);      
+			    	ResultSet rs = statement.executeQuery(sql); 
+			    	System.out.println(sql);
 			        while((rs != null) && (rs.next())){
 		        	
 			        	termData.add(new termbearb(rs.getInt(2), rs.getString(1), rs.getString(3), rs.getString(4),rs.getString(5),rs.getString(6)));
@@ -10712,7 +10811,101 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 				
 			}
-			@FXML public void btn_term_bearb_delete_click() {}
+			@FXML public void btn_term_bearb_delete_click() {
+				
+								
+				TablePosition pos = tbl_term.getSelectionModel().getSelectedCells().get(0);
+				int row = pos.getRow();
+				termbearb item = tbl_term.getItems().get(row);
+				TableColumn col = pos.getTableColumn();
+				Integer data = col_term_mafz.getCellObservableValue(item).getValue();
+				String data2 = col_term_art.getCellObservableValue(item).getValue();
+				String data3 = col_term_startd.getCellObservableValue(item).getValue();
+				String data4 = col_term_startz.getCellObservableValue(item).getValue();
+				String data5 = col_term_endd.getCellObservableValue(item).getValue();
+				String data6 = col_term_endzeit.getCellObservableValue(item).getValue();
+				
+				
+				ori_id = data;
+				
+				ori_art = data2;
+				
+				LocalDate startd = LocalDate.parse(data3);
+				ori_startd = data3;
+
+				int pos_z = data4.indexOf(":");
+			    String szh = data4.substring(0, pos_z);
+			    String szm = data4.substring(pos_z+1,5);
+				ori_szh =szh;
+				ori_szm =szm;
+				
+				LocalDate endd = LocalDate.parse(data5);
+				ori_zield =data5;
+				
+				int pos_z2 = data6.indexOf(":");
+			    String zzh = data6.substring(0, pos_z2);
+			    String zzm = data6.substring(pos_z2+1,5);
+				ori_zzm =zzm;
+				ori_zzh =zzh;
+				
+			
+				int i_id = ori_id;
+				String art = ori_art;
+				String table = "";
+				String f_art = "";
+				String f_id = "";
+				
+				String ori_startz = ori_szh+":"+ori_szm+":00";
+				String ori_zielz = ori_zzh+":"+ori_zzm+":00";
+				
+				if(art.equals("Wartung") || art.equals("Reperatur")){
+					
+					table = "benutzerverwaltung.flugzeug_termine_"+art;
+					f_art ="flugzeug_terminarten_Flugzeug_Terminarten";
+					f_id = "flugzeuge_Flugzeug_ID";
+					
+				}
+				else{
+					table = "benutzerverwaltung.personal_termine_"+art;
+					f_art = "personal_terminarten_Personal_Terminarten";
+					f_id = "personal_Personal_ID";
+				}
+				
+				List<String> choices = new ArrayList<>();
+				choices.clear();
+				choices.add("Ja");
+				choices.add("Nein");
+
+				ChoiceDialog<String> dialog1 = new ChoiceDialog<>("Ja", choices);
+				dialog1.setTitle("Termin löschen");
+				dialog1.setHeaderText("Wollen Sie den Termin \nwirklich löschen?");
+				dialog1.setContentText("Auswahl:");
+
+				Optional<String> result1 = dialog1.showAndWait();
+				
+				result1.ifPresent(letter -> System.out.println("Your choice: " + letter));
+
+				if (result1.isPresent()) {
+					AuswahlDokutyp = result1.get();
+
+					if (AuswahlDokutyp == "Ja") {
+						try {
+							Statement statement = conn.createStatement();
+					    	
+							statement.executeUpdate("delete from "+table+" where " + f_art + " ='" + art +"' and " + f_id + "= " +  i_id + " and Datum_von=' " + ori_startd + "' and Datum_bis=' " + ori_zield + "' and Uhrzeit_von='" + ori_startz + "' and Uhrzeit_bis='" + ori_zielz+"'" );
+
+							lbl_dbconnect.setText("Termin wurde gelöscht");
+
+						} 
+						catch (SQLException sqle) {
+
+							lbl_dbconnect.setText("Datenbankverbindung fehlgeschlagen");
+							sqle.printStackTrace();
+						}
+				
+					}
+				}
+			}
 			@FXML public void btn_term_bearb_bearb_click() {
 				
 				if(tgb_term_bearb_fz.isSelected()){lbl_term_1bearb_mafz.setText("Flugzeug:");}
@@ -10730,25 +10923,33 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				String data6 = col_term_endzeit.getCellObservableValue(item).getValue();
 				
 				txt_term_1bearb_mafz.setText(data.toString());
+				ori_id = data;
 				txt_term_1bearb_art.setText(data2);
+				ori_art = data2;
 				
 				LocalDate startd = LocalDate.parse(data3);
 				dpi_term_1bearb_startd.setValue(startd);
+				ori_startd = data3;
 
 				int pos_z = data4.indexOf(":");
 			    String szh = data4.substring(0, pos_z);
 			    String szm = data4.substring(pos_z+1,5);
 				txt_term_1bearb_startz_h.setText(szh);
+				ori_szh =szh;
 				txt_term_1bearb_startz_m.setText(szm);
+				ori_szm =szm;
 				
 				LocalDate endd = LocalDate.parse(data5);
 				dpi_term_1bearb_endd.setValue(endd);
+				ori_zield =data5;
 				
 				int pos_z2 = data6.indexOf(":");
 			    String zzh = data6.substring(0, pos_z2);
 			    String zzm = data6.substring(pos_z2+1,5);
 				txt_term_1bearb_endz_m.setText(zzm);
+				ori_zzm =zzm;
 				txt_term_1bearb_endz_h.setText(zzh);
+				ori_zzh =zzh;
 				
 
 				
@@ -10768,9 +10969,99 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			}
 			@FXML public void btn_term_1bearb_save_click() {
 				
-				set_allunvisible(false);
-				apa_termn_bearb_btn.setVisible(true);
-				apa_term_bearb.setVisible(true);
+
+				
+				int i_id = Integer.parseInt(txt_term_1bearb_mafz.getText());
+				String startd = dpi_term_1bearb_startd.getValue().toString();
+				String zield = dpi_term_1bearb_endd.getValue().toString();
+				String art = txt_term_1bearb_art.getText();
+				String table = "";
+				String f_art = "";
+				String f_id = "";
+				String starth = txt_term_1bearb_startz_h.getText();
+				String startm = txt_term_1bearb_startz_m.getText();
+				String zielh = txt_term_1bearb_endz_h.getText();
+				String zielm = txt_term_1bearb_endz_m.getText();
+				LocalTime startz = LocalTime.parse("00:00:00");
+				LocalTime zielz = LocalTime.parse("00:00:00");
+//				LocalTime ori_startz = LocalTime.parse("00:00:00");
+//				LocalTime ori_zielz = LocalTime.parse("00:00:00");
+				startz = LocalTime.parse(starth+":"+startm+":00");
+				zielz = LocalTime.parse(zielh+":"+zielm+":00");
+//				ori_startz = LocalTime.parse(ori_szh+":"+ori_szm+":00");
+//				ori_zielz = LocalTime.parse(ori_zzh+":"+ori_zzm+":00");
+				String ori_startz = ori_szh+":"+ori_szm+":00";
+				String ori_zielz = ori_zzh+":"+ori_zzm+":00";
+				
+				if(art.equals("Wartung") || art.equals("Reperatur")){
+					
+					table = "benutzerverwaltung.flugzeug_termine_"+art;
+					f_art ="flugzeug_terminarten_Flugzeug_Terminarten";
+					f_id = "flugzeuge_Flugzeug_ID";
+					
+				}
+				else{
+					table = "benutzerverwaltung.personal_termine_"+art;
+					f_art = "personal_terminarten_Personal_Terminarten";
+					f_id = "personal_Personal_ID";
+				}
+				
+				
+				String sql = "";
+				String sqlfz = "SELECT * FROM benutzerverwaltung.flugzeug_termine_reparatur where flugzeuge_Flugzeug_ID="+i_id+" and Datum_von <='"+startd+"' and Datum_bis >='"+zield+"'  union SELECT * FROM benutzerverwaltung.flugzeug_termine_wartung where flugzeuge_Flugzeug_ID= "+i_id+" and Datum_von <='"+startd+"' and Datum_bis >='"+zield+"'";
+				String sqlma = "SELECT * FROM benutzerverwaltung.personal_termine_krankheit where personal_Personal_ID="+i_id+" and Datum_von <='"+startd+"' and Datum_bis >='"+zield+"' union SELECT * FROM benutzerverwaltung.personal_termine_urlaub Where personal_Personal_ID="+i_id+" and Datum_von <='"+startd+"' and Datum_bis >='"+zield+"'";
+				
+				if(tgb_term_bearb_fz.isSelected()){sql = sqlfz;}
+				else{sql = sqlma;}
+				
+				try{
+			    	
+			    	Statement statement = conn.createStatement();
+			    	Statement statement2 = conn.createStatement();
+			    	Statement statement3 = conn.createStatement();
+			    	ResultSet rs = statement.executeQuery(sql);      
+			        
+			    	System.out.println(rs);
+			    	if(!rs.next()){
+			    		
+			    		statement2.executeUpdate(			    		
+								"INSERT INTO " +table + " VALUES('"
+										+art+"',"
+										+i_id+",'"
+										+startd+"','"
+										+zield+"','"
+										+startz+"','"
+										+zielz+"')");
+							
+								
+							statement.executeUpdate("delete from "+table+" where " + f_art + " ='" + art +"' and " + f_id + "= " +  i_id + " and Datum_von=' " + ori_startd + "' and Datum_bis=' " + ori_zield + "' and Uhrzeit_von='" + ori_startz + "' and Uhrzeit_bis='" + ori_zielz+"'" );
+
+//							set_allunvisible(false);
+//							apa_termn_bearb_btn.setVisible(true);
+//							apa_term_bearb.setVisible(true);
+							lbl_dbconnect.setText("Termin wurde geändert");
+			    	}
+			    	
+			    	else{
+			    		
+			    		lbl_dbconnect.setText("Termin nicht verfügbar");
+			    		
+			    	
+//			    	while((rs != null) && (rs.next())){
+//		        	
+//			        	termData.add(new termbearb(rs.getInt(2), rs.getString(1), rs.getString(3), rs.getString(4),rs.getString(5),rs.getString(6)));
+//			        	
+//			         }
+			    	}
+			    }
+			    catch(Exception e){
+			          e.printStackTrace();
+			          System.out.println("Error on Building Data");            
+			    }
+				
+				
+				
+			
 				
 			}
 			@FXML public void btn_term_1bearb_cancel_click() {
@@ -10778,6 +11069,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				set_allunvisible(false);
 				apa_termn_bearb_btn.setVisible(true);
 				apa_term_bearb.setVisible(true);
+				
+				
 				
 			}
 			@FXML public void cbo_profit_year_click() {
