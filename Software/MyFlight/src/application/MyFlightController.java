@@ -1,5 +1,5 @@
 package application;
-// V2.35
+// V2.40
 
 
 import java.sql.*;
@@ -1166,8 +1166,8 @@ public ObservableList<termbearb> gettermData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V2.35");
-		Version1.setText("V2.35");
+		Version.setText("V2.40");
+		Version1.setText("V2.40");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
@@ -1500,7 +1500,7 @@ public ObservableList<termbearb> gettermData() {
 	// }
 
 	@FXML public void btn_close_click(ActionEvent event) {
-				
+		
 		System.exit(0);
 	}
 
@@ -2287,6 +2287,7 @@ public ObservableList<termbearb> gettermData() {
 		auftragändernform.setVisible(true);
 		ancpanebtn_changeorder.setVisible(true);
 		scroll_pane_changeorder.setVisible(true);
+		scroll_pane_changeorder.setVvalue(0);
 		maskentitel.setVisible(true);
 		maskentitel.setText("Auftragstatus ändern");
 		choiceorderstatus.setVisible(true);
@@ -11029,8 +11030,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 	set_allunvisible(false);
 	
 	apa_konfig.setVisible(true);
-	Versionsnr.setText("V2.35");
-	txa_history.setText("V2.35\nTerminverwaltung / Bugfixes Angebotserstellung\n------------------------------------------------------------------------------------------\nV2.34\nFlug mit Zwischenstationen\nTermine bearbeiten\nBugfix DBConnect\n------------------------------------------------------------------------------------------\nV2.33\nBugfix Druck Angebot \n------------------------------------------------------------------------------------------\nV2.32\nBugfix Flugzeit in h und min \n------------------------------------------------------------------------------------------\nV2.31\nDruck- und Versendefunktion für Angebote\n------------------------------------------------------------------------------------------\nV2.30\nFormatierung Flugzeiten und Charterdauer \nAnpassung Konfiguration-Support");
+	Versionsnr.setText("V2.40");
+	txa_history.setText("V2.40\nBugfix Word-Ausgabe\n------------------------------------------------------------------------------------------\nV2.35\nTerminverwaltung / Bugfixes Angebotserstellung\n------------------------------------------------------------------------------------------\nV2.34\nFlug mit Zwischenstationen\nTermine bearbeiten\nBugfix DBConnect\n------------------------------------------------------------------------------------------\nV2.33\nBugfix Druck Angebot \n------------------------------------------------------------------------------------------\nV2.32\nBugfix Flugzeit in h und min \n------------------------------------------------------------------------------------------\nV2.31\nDruck- und Versendefunktion für Angebote\n------------------------------------------------------------------------------------------\nV2.30\nFormatierung Flugzeiten und Charterdauer \nAnpassung Konfiguration-Support");
 	
 }
 //>>>>>>> branch 'master' of https://github.com/burggraf-erich/itworks.git
