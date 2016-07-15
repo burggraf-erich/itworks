@@ -10459,7 +10459,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 				
 				if(tgb_term_ma.isSelected()){
-					
+					System.out.println("drin term ma");
 					if(dpi_term_ma_start.getValue() == null || dpi_term_ma_end.getValue() == null || cbo_term_ma.getValue() == null || cbo_term_maart.getValue() == null ) {
 						lbl_dbconnect.setText("Bitte Pflichtfelder ausfüllen!");
 					}
@@ -10479,7 +10479,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				    MAid = Integer.parseInt(MA.substring(0, pos1));
 				    
 				    if(chb_term_ma.isSelected()){
-				    
+				    	System.out.println("drin chb term ma");
 				    	t_start = LocalTime.parse(txt_term_ma_starth.getText() + ":" + txt_term_ma_startm.getText());
 				    	t_end = LocalTime.parse(txt_term_ma_endh.getText() + ":" + txt_term_ma_endm.getText() + ":" + sek );
 				    	
@@ -10494,7 +10494,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				    d_end = dpi_term_ma_end.getValue();
 				    
 				    if(cbo_term_maart.getValue().toString().equals("Krankheit")){
-				    					    
+				    	System.out.println("vor Krank");				    
 				    try { 
 
 						Statement statement = conn.createStatement();			
@@ -10506,6 +10506,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 										+d_end+"','"
 										+t_start+"','"
 										+t_end+"')");
+					    lbl_dbconnect.setText("Termin wurde erstellt");
 
 						}
 				
@@ -10513,9 +10514,9 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 						System.err.println("Got an exception! "); 
 			            System.err.println(e.getMessage()); 
 						}
-				    
+				    }	
 				    if(cbo_term_maart.getValue().toString().equals("Urlaub")){
-					    
+				    	System.out.println("drin chb urlaub");   
 					    try { 
 
 							Statement statement = conn.createStatement();			
@@ -10528,6 +10529,10 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 											+t_start+"','"
 											+t_end+"')");
 
+							
+							System.out.println("Urlaub " +MAid+",'"	+d_start+"','"+d_end+"','"+t_start+"','"+t_end+"')");
+						    lbl_dbconnect.setText("Termin wurde erstellt");
+
 							}
 					
 						catch(Exception e){
@@ -10536,17 +10541,18 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 							}
 				
 				    }
-				    
+				    else{
+				    	System.out.println("Urlaub geht nicht");
+				    }
 					
 					
 				}
 				   
-				    lbl_dbconnect.setText("Termin wurde erstellt");
 				    
 				    
 				}    
 				    
-				}    
+			
 				
 				if(tgb_term_fz.isSelected()){
 					
@@ -10584,6 +10590,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				    d_start = dpi_term_fz_start.getValue();
 				    d_end = dpi_term_fz_end.getValue();
 				    
+				    
 				    if(cbo_term_fzart.getValue().toString().equals("Reparatur")){
 				    					    
 				    try { 
@@ -10597,14 +10604,15 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 										+d_end+"','"
 										+t_start+"','"
 										+t_end+"')");
-
+						lbl_dbconnect.setText("Termin wurde erstellt");
+						
 						}
 				
 					catch(Exception e){
 						System.err.println("Got an exception! "); 
 			            System.err.println(e.getMessage()); 
 						}
-				    
+				    }
 				    if(cbo_term_fzart.getValue().toString().equals("Wartung")){
 					    
 					    try { 
@@ -10618,15 +10626,15 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 											+d_end+"','"
 											+t_start+"','"
 											+t_end+"')");
-
+							lbl_dbconnect.setText("Termin wurde erstellt");
+							
 							}
 					
 						catch(Exception e){
 							System.err.println("Got an exception! "); 
 				            System.err.println(e.getMessage()); 
 							}
-					    lbl_dbconnect.setText("Termin wurde erstellt");
-				
+					    
 				    }
 				    
 					
@@ -10637,20 +10645,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 				    }
 				    
-					
-					
-				
-				
-			    
 
-			    
-			    
-			    
-			    
-				
-				
-				
-			}
 			@FXML public void btn_term_create_click() {
 				
 				set_allunvisible(false);
