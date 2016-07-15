@@ -1,5 +1,5 @@
 package application;
-// V2.41
+// V2.42
 
 
 import java.sql.*;
@@ -1180,8 +1180,8 @@ public ObservableList<termbearb> gettermData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V2.41");
-		Version1.setText("V2.41");
+		Version.setText("V2.42");
+		Version1.setText("V2.42");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
@@ -3189,7 +3189,7 @@ public ObservableList<termbearb> gettermData() {
 
 			if (AuswahlAktion == "Versenden") {
 				// Kundenanrede
-				sql = "select kunden.KundeAnrede from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
+				sql = "select kunden.KundeAnrede from kunden inner join angebote inner join auftraege on kunden.kunde_id=angebote.kunden_kunde_id and auftraege.angebote_angebote_id=angebote.angebote_id and auftraege.auftraege_id='"
 						+ angebot_id + "'";
 
 				// Statement stmt = conn.createStatement();
@@ -3199,7 +3199,7 @@ public ObservableList<termbearb> gettermData() {
 				String kundenanrede = rs.getString(1);
 
 				// Kundenname
-				sql = "select kunden.kundename from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id where angebote.angebote_id = '"
+				sql = "select kunden.kundename from kunden inner join angebote inner join auftraege on kunden.kunde_id=angebote.kunden_kunde_id and auftraege.angebote_angebote_id=angebote.angebote_id and auftraege.auftraege_id = '"
 						+ angebot_id + "'";
 
 				stmt = conn.createStatement();
@@ -3221,7 +3221,7 @@ public ObservableList<termbearb> gettermData() {
 				System.out.println(reportDate);
 				String Datum = reportDate;
 				// Kundenmailadresse
-				sql = "select kunden.kundeemail from kunden inner join angebote on kunden.kunde_id=angebote.kunden_kunde_id and angebote.angebote_id='"
+				sql = "select kunden.kundeemail from kunden inner join angebote inner join auftraege on kunden.kunde_id=angebote.kunden_kunde_id and auftraege.angebote_angebote_id=angebote.angebote_id and auftraege.auftraege_id='"
 						+ angebot_id + "'";
 
 				stmt = conn.createStatement();
@@ -11449,8 +11449,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 	set_allunvisible(false);
 	
 	apa_konfig.setVisible(true);
-	Versionsnr.setText("V2.41");
-	txa_history.setText("V2.41\nTerminerstellung\nFehlerbehandlungsroutine\n------------------------------------------------------------------------------------------\nV2.40\nBugfix Word-Ausgabe\n------------------------------------------------------------------------------------------\nV2.35\nTerminverwaltung / Bugfixes Angebotserstellung\n------------------------------------------------------------------------------------------\nV2.34\nFlug mit Zwischenstationen\nTermine bearbeiten\nBugfix DBConnect\n------------------------------------------------------------------------------------------\nV2.33\nBugfix Druck Angebot \n------------------------------------------------------------------------------------------\nV2.32\nBugfix Flugzeit in h und min \n------------------------------------------------------------------------------------------\nV2.31\nDruck- und Versendefunktion für Angebote\n------------------------------------------------------------------------------------------\nV2.30\nFormatierung Flugzeiten und Charterdauer \nAnpassung Konfiguration-Support");
+	Versionsnr.setText("V2.42");
+	txa_history.setText("V2.42\nBugfix Versenden bei Auftrag-Erstellung\n------------------------------------------------------------------------------------------\nV2.41\nTerminerstellung\nFehlerbehandlungsroutine\n------------------------------------------------------------------------------------------\nV2.40\nBugfix Word-Ausgabe\n------------------------------------------------------------------------------------------\nV2.35\nTerminverwaltung / Bugfixes Angebotserstellung\n------------------------------------------------------------------------------------------\nV2.34\nFlug mit Zwischenstationen\nTermine bearbeiten\nBugfix DBConnect\n------------------------------------------------------------------------------------------\nV2.33\nBugfix Druck Angebot \n------------------------------------------------------------------------------------------\nV2.32\nBugfix Flugzeit in h und min \n------------------------------------------------------------------------------------------\nV2.31\nDruck- und Versendefunktion für Angebote");
 	
 }
 //>>>>>>> branch 'master' of https://github.com/burggraf-erich/itworks.git
