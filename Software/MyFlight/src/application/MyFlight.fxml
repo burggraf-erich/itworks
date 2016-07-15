@@ -835,15 +835,15 @@
                                     <Label layoutX="14.0" layoutY="144.0" text="Ort:" />
 
 
-                                    <TextField fx:id="txt_companyname1" disable="true" layoutX="88.0" layoutY="86.0" />
-                                    <TextField fx:id="txt_street1" disable="true" layoutX="88.0" layoutY="113.0" />
+                                    <TextField fx:id="txt_companyname1" editable="false" layoutX="88.0" layoutY="86.0" />
+                                    <TextField fx:id="txt_street1" editable="false" layoutX="88.0" layoutY="113.0" />
 
-                                    <TextField fx:id="txt_place1" disable="true" layoutX="88.0" layoutY="140.0" />
-                                    <TextField fx:id="txt_customerid1" disable="true" layoutX="360.0" layoutY="86.0" prefHeight="25.0" prefWidth="149.0" />
+                                    <TextField fx:id="txt_place1" editable="false" layoutX="88.0" layoutY="140.0" />
+                                    <TextField fx:id="txt_customerid1" editable="false" layoutX="360.0" layoutY="86.0" prefHeight="25.0" prefWidth="149.0" />
                                     <Label layoutX="272.0" layoutY="117.0" text="Zusatz" />
 
                                     <Label layoutX="271.0" layoutY="90.0" text="Kundennummer:" />
-                                    <TextField fx:id="txt_homeext1" disable="true" layoutX="360.0" layoutY="113.0" prefHeight="25.0" prefWidth="149.0" />
+                                    <TextField fx:id="txt_homeext1" editable="false" layoutX="360.0" layoutY="113.0" prefHeight="25.0" prefWidth="149.0" />
                                     <Separator layoutX="14.0" layoutY="171.0" prefHeight="2.0" prefWidth="493.0" />
                                     <Label layoutX="270.0" layoutY="228.0" text="Name:" />
                                     <Label layoutX="271.0" layoutY="255.0" text="Email:" />
@@ -853,9 +853,9 @@
 
 
 
-                                    <TextField fx:id="txt_name1" disable="true" layoutX="359.0" layoutY="224.0" />
-                                    <TextField fx:id="txt_mail1" disable="true" layoutX="359.0" layoutY="251.0" />
-                                    <TextField fx:id="txt_prename1" disable="true" editable="false" layoutX="87.0" layoutY="224.0" />
+                                    <TextField fx:id="txt_name1" editable="false" layoutX="359.0" layoutY="224.0" />
+                                    <TextField fx:id="txt_mail1" editable="false" layoutX="359.0" layoutY="251.0" />
+                                    <TextField fx:id="txt_prename1" editable="false" layoutX="87.0" layoutY="224.0" />
                                     <Label layoutX="14.0" layoutY="255.0" text="Telefon:" />
                                     <Label layoutX="13.0" layoutY="228.0" text="Vorname:" />
                                     <Label layoutX="13.0" layoutY="174.0" text="Ansprechpartner:">
@@ -869,8 +869,8 @@
                                     <Button fx:id="btn_setcust" layoutX="300.0" layoutY="31.0" mnemonicParsing="false" onAction="#btn_setcust_click" prefHeight="25.0" prefWidth="209.0" text="übernehmen" />
                                     <Label layoutX="15.0" layoutY="31.0" prefHeight="20.0" prefWidth="216.0" text="Wählen Sie anschließend übernehmen!" />
                                     <Separator layoutX="16.0" layoutY="60.0" prefHeight="2.0" prefWidth="493.0" />
-                                    <TextField fx:id="txt_phone1" disable="true" editable="false" layoutX="87.0" layoutY="251.0" />
-                                    <TextField fx:id="txt_anrede1" disable="true" editable="false" layoutX="87.0" layoutY="197.0" />
+                                    <TextField fx:id="txt_phone1" editable="false" layoutX="87.0" layoutY="251.0" />
+                                    <TextField fx:id="txt_anrede1" editable="false" layoutX="87.0" layoutY="197.0" />
                                     <Separator layoutX="14.0" layoutY="282.0" prefHeight="2.0" prefWidth="493.0" />
                                     <Label layoutX="13.0" layoutY="284.0" text="Flugreise:">
                                        <font>
@@ -909,10 +909,10 @@
                                     <TextField fx:id="txt_zielzeit_h" alignment="CENTER" disable="true" layoutX="360.0" layoutY="381.0" prefHeight="25.0" prefWidth="68.0" promptText="hh" />
                                     <Label layoutX="272.0" layoutY="385.0" text="Zielzeit:" />
                                     <Label layoutX="434.0" layoutY="385.0" text=":" />
-                                    <TextField fx:id="txt_startfh" disable="true" layoutX="88.0" layoutY="327.0" prefHeight="25.0" prefWidth="126.0" />
+                                    <TextField fx:id="txt_startfh" editable="false" layoutX="88.0" layoutY="327.0" prefHeight="25.0" prefWidth="126.0" />
                                     <Button fx:id="btn_startfh" disable="true" layoutX="214.0" layoutY="327.0" mnemonicParsing="false" onAction="#btn_startfh_click" prefHeight="25.0" prefWidth="20.0" text="..." />
                                     <Button fx:id="btn_zielfh" disable="true" layoutX="486.0" layoutY="327.0" mnemonicParsing="false" onAction="#btn_zielfh_click" prefHeight="25.0" prefWidth="20.0" text="..." />
-                                    <TextField fx:id="txt_zielfh" disable="true" layoutX="360.0" layoutY="327.0" prefHeight="25.0" prefWidth="126.0" />
+                                    <TextField fx:id="txt_zielfh" editable="false" layoutX="360.0" layoutY="327.0" prefHeight="25.0" prefWidth="126.0" />
                                     <Button fx:id="btn_offer_newcust" layoutX="437.0" layoutY="3.0" mnemonicParsing="false" onAction="#btn_offer_newcust_click" text="Neukunde" />
                                  </children>
    								</AnchorPane>
@@ -1796,8 +1796,8 @@
                               </AnchorPane>
                               <AnchorPane fx:id="apa_btn_createoffer" layoutX="10.0" layoutY="10.0" prefHeight="68.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Button fx:id="btn_stop" disable="true" layoutX="397.0" layoutY="34.0" mnemonicParsing="false" text="Beenden" />
-                                    <Button fx:id="btn_createoffer" layoutX="464.0" layoutY="34.0" mnemonicParsing="false" onAction="#btn_createoffer_click" text="Angebot erstellen" />
+                                    <Button fx:id="btn_stop" disable="true" layoutX="392.0" layoutY="22.0" mnemonicParsing="false" text="Beenden" />
+                                    <Button fx:id="btn_createoffer" layoutX="459.0" layoutY="22.0" mnemonicParsing="false" onAction="#btn_createoffer_click" text="Angebot erstellen" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane fx:id="ancpanebtn_createorder" prefHeight="68.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -1936,7 +1936,7 @@
                               <AnchorPane fx:id="apa_term_1bearb_btn" prefHeight="61.0" prefWidth="589.0" visible="false">
                                  <children>
                                     <Button fx:id="btn_term_1bearb_save" layoutX="511.0" layoutY="27.0" mnemonicParsing="false" onAction="#btn_term_1bearb_save_click" text="speichern" />
-                                    <Button fx:id="btn_term_1bearb_cancel" layoutX="432.0" layoutY="27.0" mnemonicParsing="false" onAction="#btn_term_1bearb_cancel_click" text="abbrechen" />
+                                    <Button fx:id="btn_term_1bearb_cancel" layoutX="432.0" layoutY="27.0" mnemonicParsing="false" onAction="#btn_term_1bearb_cancel_click" text="Beenden" />
                                  </children>
                               </AnchorPane>
 
