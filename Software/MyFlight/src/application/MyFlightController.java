@@ -1,5 +1,5 @@
 package application;
-// V2.42
+// V2.43
 
 
 import java.sql.*;
@@ -1180,8 +1180,8 @@ public ObservableList<termbearb> gettermData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V2.42");
-		Version1.setText("V2.42");
+		Version.setText("V2.43");
+		Version1.setText("V2.43");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
@@ -11467,8 +11467,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 	set_allunvisible(false);
 	
 	apa_konfig.setVisible(true);
-	Versionsnr.setText("V2.42");
-	txa_history.setText("V2.42\nBugfix Versenden bei Auftrag-Erstellung\n------------------------------------------------------------------------------------------\nV2.41\nTerminerstellung\nFehlerbehandlungsroutine\n------------------------------------------------------------------------------------------\nV2.40\nBugfix Word-Ausgabe\n------------------------------------------------------------------------------------------\nV2.35\nTerminverwaltung / Bugfixes Angebotserstellung\n------------------------------------------------------------------------------------------\nV2.34\nFlug mit Zwischenstationen\nTermine bearbeiten\nBugfix DBConnect\n------------------------------------------------------------------------------------------\nV2.33\nBugfix Druck Angebot \n------------------------------------------------------------------------------------------\nV2.32\nBugfix Flugzeit in h und min \n------------------------------------------------------------------------------------------\nV2.31\nDruck- und Versendefunktion für Angebote");
+	Versionsnr.setText("V2.43");
+	txa_history.setText("V2.43\nBugfix finale Version\n------------------------------------------------------------------------------------------\nV2.42\nBugfix Versenden bei Auftrag-Erstellung\n------------------------------------------------------------------------------------------\nV2.41\nTerminerstellung\nFehlerbehandlungsroutine\n------------------------------------------------------------------------------------------\nV2.40\nBugfix Word-Ausgabe\n------------------------------------------------------------------------------------------\nV2.35\nTerminverwaltung / Bugfixes Angebotserstellung\n------------------------------------------------------------------------------------------\nV2.34\nFlug mit Zwischenstationen\nTermine bearbeiten\nBugfix DBConnect\n------------------------------------------------------------------------------------------\nV2.33\nBugfix Druck Angebot \n------------------------------------------------------------------------------------------\nV2.32\nBugfix Flugzeit in h und min");
 	
 }
 //>>>>>>> branch 'master' of https://github.com/burggraf-erich/itworks.git
