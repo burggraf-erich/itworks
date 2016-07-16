@@ -1,5 +1,5 @@
 package application;
-// V2.41
+// V2.42
 
 
 import java.sql.*;
@@ -9331,10 +9331,15 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 					btn_startfh.setDisable(false);
 					btn_zielfh.setDisable(false);
 					dpi_startdat.setDisable(false);
+					dpi_zieldat.setDisable(true);
 					txt_pass.setDisable(false);
 					txt_startzeit_h.setDisable(false);
 					txt_startzeit_m.setDisable(false);
 					btn_sw.setDisable(false);
+					txt_startzeit_h.setEditable(false);
+					txt_startzeit_m.setEditable(false);
+					txt_zielzeit_h.setEditable(false);
+					txt_zielzeit_m.setEditable(false);
 				}
 				
 				if(charterart.equals("Flug mit Zwischenstationen")){
@@ -9348,6 +9353,10 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 					txt_startzeit_m.setDisable(false);
 					txt_zielzeit_h.setDisable(false);
 					txt_zielzeit_m.setDisable(false);
+					txt_startzeit_h.setEditable(false);
+					txt_startzeit_m.setEditable(false);
+					txt_zielzeit_h.setEditable(false);
+					txt_zielzeit_m.setEditable(false);
 					btn_sw.setDisable(false);
 					btn_zw.setDisable(false);
 					
@@ -11207,11 +11216,15 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			}
 			@FXML public void cbo_profit_fz_click() {
 				
+				//Flugzeug ID herausfinden
 				String FZ = cbo_profit_fz.getValue().toString();
 				int pos = FZ.indexOf(" ");
 				int fzid =  Integer.parseInt(FZ.substring(0, pos));
+				
+				//Auswertungsjahr holen
 				year = Integer.parseInt(cbo_profit_year.getValue().toString());
 				
+				//Abfrage der Profit Tabellen 
 				try{
 			    	
 					Statement statement_rep = conn.createStatement();
