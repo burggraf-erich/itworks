@@ -9336,8 +9336,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 					txt_startzeit_h.setDisable(false);
 					txt_startzeit_m.setDisable(false);
 					btn_sw.setDisable(false);
-					txt_startzeit_h.setEditable(false);
-					txt_startzeit_m.setEditable(false);
+					txt_startzeit_h.setEditable(true);
+					txt_startzeit_m.setEditable(true);
 					txt_zielzeit_h.setEditable(false);
 					txt_zielzeit_m.setEditable(false);
 				}
@@ -9349,14 +9349,16 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 					dpi_startdat.setDisable(false);
 					dpi_zieldat.setDisable(true);
 					txt_pass.setDisable(false);
-					txt_startzeit_h.setDisable(false);
-					txt_startzeit_m.setDisable(false);
+					txt_startzeit_h.setDisable(true);
+					txt_startzeit_m.setDisable(true);
 					txt_zielzeit_h.setDisable(false);
 					txt_zielzeit_m.setDisable(false);
-					txt_startzeit_h.setEditable(false);
-					txt_startzeit_m.setEditable(false);
+					txt_startzeit_h.setEditable(true);
+					txt_startzeit_m.setEditable(true);
 					txt_zielzeit_h.setEditable(false);
 					txt_zielzeit_m.setEditable(false);
+					txt_startzeit_h.setDisable(false);
+					txt_startzeit_m.setDisable(false);
 					btn_sw.setDisable(false);
 					btn_zw.setDisable(false);
 					
