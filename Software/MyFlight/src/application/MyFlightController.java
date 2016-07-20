@@ -809,7 +809,6 @@ public ObservableList<termbearb> gettermData() {
 	@FXML TextField txt_companyname_new;
 	@FXML TextField txt_street_new;
 	@FXML TextField txt_place_new;
-	@FXML TextField txt_homenumber_new;
 	@FXML TextField txt_customerid_new;
 	@FXML TextField txt_homeext_new;
 	@FXML TextField txt_name_new;
@@ -1784,7 +1783,6 @@ public ObservableList<termbearb> gettermData() {
 		
 		final String companyname_new = txt_companyname_new.getText();
 		final String street_new = txt_street_new.getText();
-		final String homenumber_new = txt_homenumber_new.getText();
 		final String homeext_new = txt_homeext_new.getText();
 		final String place_new = txt_place_new.getText();
 		final String custid_new = txt_customerid_new.getText();
@@ -6853,8 +6851,7 @@ public ObservableList<termbearb> gettermData() {
 			if ((rs != null) && (rs.next())) {
 			
 				txt_street_new.setText(rs.getString(9));
-				txt_homenumber_new.setText(rs.getString(10));
-				//txt_homeext_new.setText(rs.getString(9));
+				txt_homeext_new.setText(rs.getString(10));
 				txt_place_new.setText(rs.getString(12));
 				txt_phone_new.setText(rs.getString(6));
 				txt_mobile_new.setText(rs.getString(7));
@@ -7050,6 +7047,7 @@ public void action_save_kundendatenedit(ActionEvent event) throws Exception {
 							+ "KundeVorname = '"+kdverwvname.getText()+"', "
 									+ "KundeFirmenname = '"+kdfirma.getText()+"', "
 											+ "KundeAdresse1 = '"+txt_street_new.getText()+"', "
+											+ "KundeAdresse2 = '"+txt_homeext_new.getText()+"', "
 											+ "Kundengruppen_Kundengruppen = '"+kdgruppe_string+"', "
 											+ "KundeTelefon ='"+txt_phone_new.getText()+"', "
 											+ "KundeHandy ='"+ txt_mobile_new.getText()+"', "
@@ -7327,8 +7325,7 @@ public void action_save_flugzieleedit(ActionEvent event) throws Exception {
 		//Felder für Maske Kundendaten belegen - Ende
 						
 					txt_street_new.setText("");
-					txt_homenumber_new.setText("");
-					//txt_homeext_new.setText(rs.getString(9));
+					txt_homeext_new.setText("");
 					txt_place_new.setText("");
 					txt_phone_new.setText("");
 					txt_mobile_new.setText("");
@@ -7466,6 +7463,10 @@ if (cbo_kdgruppe.getValue() != null &&
 !cbo_kdgruppe.getValue().toString().isEmpty()) {
 kdgruppe_string = cbo_kdgruppe.getValue().toString();
 }	
+if (cbo_salutation_new.getValue() != null && 
+!cbo_salutation_new.getValue().toString().isEmpty()) {
+anrede = cbo_salutation_new.getValue().toString();
+}
 
 if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgruppe_string=="") {
 	
@@ -7482,7 +7483,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			Connection conn = DriverManager.getConnection(url, user, password);
 			Statement stmt = conn.createStatement();
 					
-			stmt.executeUpdate("INSERT INTO kunden (Kunde_ID,KundeAnrede,KundenLand,KundeName,KundeVorname,KundeFirmenname,KundeAdresse1 ,Kundengruppen_Kundengruppen,KundeTelefon,KundeHandy,KundeEmail,KundePLZ,KundenOrt) values('"+Integer.parseInt(kdid.getText())+"', '"+ cbo_salutation_new.getValue().toString()+"', '"+txt_country_new.getText()+"', '"+ kdverwname.getText()+"', '"+kdverwvname.getText()+"', '"+kdfirma.getText()+"','"+txt_street_new.getText()+"', '"+kdgruppe_string+"', '"+txt_phone_new.getText()+"', '"+txt_mobile_new.getText()+"', '"+txt_mail_new.getText()+"', '"+txt_postcode_new.getText()+"', '"+txt_place_new.getText()+"')");
+			stmt.executeUpdate("INSERT INTO kunden (Kunde_ID,KundeAnrede,KundenLand,KundeName,KundeVorname,KundeFirmenname,KundeAdresse1,KundeAdresse2 ,Kundengruppen_Kundengruppen,KundeTelefon,KundeHandy,KundeEmail,KundePLZ,KundenOrt) values('"+Integer.parseInt(kdid.getText())+"', '"+ anrede+"', '"+txt_country_new.getText()+"', '"+ kdverwname.getText()+"', '"+kdverwvname.getText()+"', '"+kdfirma.getText()+"','"+txt_street_new.getText()+"', '"+txt_homeext_new.getText()+"', '"+kdgruppe_string+"', '"+txt_phone_new.getText()+"', '"+txt_mobile_new.getText()+"', '"+txt_mail_new.getText()+"', '"+txt_postcode_new.getText()+"', '"+txt_place_new.getText()+"')");
 		
 			
 			lbl_dbconnect.setText("Kundendaten gespeichert");

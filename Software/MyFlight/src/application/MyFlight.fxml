@@ -984,21 +984,27 @@
                                     <Label layoutX="272.0" layoutY="97.0" text="Postleitzahl:" />
                                     <TextField fx:id="kdfirma" layoutX="88.0" layoutY="41.0" />
                                     <TextField fx:id="txt_street_new" layoutX="88.0" layoutY="68.0" />
-                                    <TextField fx:id="txt_postcode_new" layoutX="361.0" layoutY="95.0" />
-                                    <TextField fx:id="txt_homenumber_new" layoutX="360.0" layoutY="68.0" prefHeight="25.0" prefWidth="34.0" />
+                                    <TextField fx:id="txt_place_new" layoutX="88.0" layoutY="95.0" />
+                                    <TextField fx:id="txt_country_new" layoutX="88.0" layoutY="122.0" prefHeight="25.0" prefWidth="149.0" />
                                     <TextField fx:id="kdid" disable="true" editable="false" layoutX="360.0" layoutY="41.0" prefHeight="25.0" prefWidth="150.0" />
-                                    <Label layoutX="407.0" layoutY="72.0" text="Zusatz:" />
-                                    <Label layoutX="272.0" layoutY="72.0" text="Hausnummer:" />
+                                    <TextField fx:id="txt_homeext_new" layoutX="360.0" layoutY="68.0" prefHeight="25.0" prefWidth="63.0" />
+                                    <TextField fx:id="txt_postcode_new" layoutX="360.0" layoutY="95.0" />
+                                    <ComboBox fx:id="cbo_salutation_new" layoutX="88.0" layoutY="198.0" prefHeight="25.0" prefWidth="149.0" visibleRowCount="2" />
+                                    <TextField fx:id="kdverwvname" layoutX="88.0" layoutY="225.0" /> 
+                                    <TextField fx:id="txt_phone_new" layoutX="88.0" layoutY="252.0" /> 
+                                    <TextField fx:id="txt_mail_new" layoutX="88.0" layoutY="279.0" />
+                                    <TextField fx:id="kdverwname" layoutX="360.0" layoutY="225.0" />
+                                    <TextField fx:id="txt_mobile_new" layoutX="360.0" layoutY="252.0" prefHeight="25.0" prefWidth="150.0" />
+                                    <ComboBox fx:id="cbo_kdgruppe" layoutX="360.0" layoutY="337.0" prefHeight="25.0" prefWidth="149.0" visibleRowCount="3" />                               
+                                    <Label layoutX="272.0" layoutY="72.0" text="Zusatz:" />
                                     <Label layoutX="271.0" layoutY="45.0" text="Kundennummer:" />
-                                    <TextField fx:id="txt_homeext_new" layoutX="446.0" layoutY="68.0" prefHeight="25.0" prefWidth="63.0" />
+ 
                                     <Separator layoutX="14.0" layoutY="164.0" prefHeight="2.0" prefWidth="493.0" />
                                     <Label layoutX="270.0" layoutY="229.0" text="Name:" />
                                     <Label layoutX="271.0" layoutY="256.0" text="Mobil:" />
-                                    <TextField fx:id="kdverwname" layoutX="359.0" layoutY="225.0" />
-                                    <TextField fx:id="txt_mobile_new" layoutX="359.0" layoutY="252.0" prefHeight="25.0" prefWidth="150.0" />
-                                    <TextField fx:id="txt_mail_new" layoutX="87.0" layoutY="279.0" />
-                                    <TextField fx:id="txt_phone_new" layoutX="87.0" layoutY="252.0" />
-                                    <TextField fx:id="kdverwvname" layoutX="87.0" layoutY="225.0" />
+
+
+ 
                                     <Label layoutX="13.0" layoutY="283.0" text="Email:" />
                                     <Label layoutX="14.0" layoutY="256.0" text="Telefon:" />
                                     <Label layoutX="13.0" layoutY="229.0" text="Vorname:" />
@@ -1007,14 +1013,14 @@
                                           <Font name="System Bold" size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="cbo_salutation_new" layoutX="88.0" layoutY="198.0" prefHeight="25.0" prefWidth="149.0" visibleRowCount="2" />
+
                                     <Label layoutX="13.0" layoutY="202.0" text="Anrede:" />
-                                    <TextField fx:id="txt_place_new" layoutX="88.0" layoutY="95.0" />
+
                                     <Label layoutX="15.0" layoutY="100.0" text="Ort:" />
                                     <Label layoutX="15.0" layoutY="126.0" text="Land:" />
-                                    <TextField fx:id="txt_country_new" layoutX="89.0" layoutY="122.0" prefHeight="25.0" prefWidth="149.0" />
+
                                     <Separator layoutX="14.0" layoutY="319.0" prefHeight="2.0" prefWidth="493.0" />
-                                    <ComboBox fx:id="cbo_kdgruppe" layoutX="359.0" layoutY="337.0" prefHeight="25.0" prefWidth="149.0" visibleRowCount="3" />
+     
                                     <Label layoutX="15.0" layoutY="341.0" text="Kundengruppe:  *" />
                                  </children>
                               </AnchorPane>      
@@ -1116,17 +1122,20 @@
                                     <TextField fx:id="pid" disable="true" editable="false" layoutX="110.0" layoutY="41.0" />
                                     <TextField fx:id="pname" layoutX="110.0" layoutY="68.0" />
                                     <TextField fx:id="pvname" layoutX="110.0" layoutY="95.0" />
-                                    <ComboBox fx:id="cbo_ppos" layoutX="138.0" layoutY="226.0" prefHeight="25.0" prefWidth="149.0" visibleRowCount="3" />
                                     <TextField fx:id="pstatus" layoutX="360.0" layoutY="41.0" prefHeight="25.0" prefWidth="150.0" />
+                                    <ComboBox fx:id="cbo_lizenz" layoutX="360.0" layoutY="70.0" prefHeight="25.0" prefWidth="149.0" visibleRowCount="5" />
+                                    <TextField fx:id="pflugzeugtyp" layoutX="360.0" layoutY="96.0" />                                                                        
+                                    <ComboBox fx:id="cbo_ppos" layoutX="138.0" layoutY="226.0" prefHeight="25.0" prefWidth="149.0" visibleRowCount="3" />
+                                    <ComboBox fx:id="cbo_gehalt" layoutX="138.0" layoutY="280.0" prefHeight="25.0" prefWidth="149.0" visibleRowCount="3" />
                                     <Label layoutX="17.0" layoutY="284.0" text="Gehalt: " />
                                     <Label layoutX="14.0" layoutY="230.0" text="Position: *" />
                                     <Label layoutX="269.0" layoutY="45.0" text="Status: *" />
-                                    <ComboBox fx:id="cbo_gehalt" layoutX="138.0" layoutY="280.0" prefHeight="25.0" prefWidth="149.0" visibleRowCount="3" />
+
                                     <Separator layoutX="14.0" layoutY="164.0" prefHeight="2.0" prefWidth="493.0" />
                                     <Label layoutX="269.0" layoutY="74.0" text="Lizenz:" />
-                                    <ComboBox fx:id="cbo_lizenz" layoutX="360.0" layoutY="70.0" prefHeight="25.0" prefWidth="149.0" visibleRowCount="5" />
+
                                     <Label layoutX="269.0" layoutY="100.0" text="Flugzeugtyp:" />
-                                    <TextField fx:id="pflugzeugtyp" layoutX="360.0" layoutY="96.0" />
+
                                  </children>
                               </AnchorPane>      
 
