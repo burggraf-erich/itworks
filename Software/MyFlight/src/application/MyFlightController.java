@@ -7819,7 +7819,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 
 			@FXML public void btn_create_offer() {//TODO 
 				
-				if(cust_set==false || txt_startfh.getText().equals("") || txt_zielfh.getText().equals("") || dpi_startdat.getValue().toString().equals("") || txt_startzeit_h.getText().equals("") ||txt_startzeit_m.getText().equals("") || txt_pass.getText().equals(""))              
+				if(cust_set==false || txt_startfh.getText().equals("") && !charterart.equals("Zeitcharter")|| txt_zielfh.getText().equals("") && !charterart.equals("Zeitcharter") || dpi_startdat.getValue().toString().equals("") || txt_startzeit_h.getText().equals("") ||txt_startzeit_m.getText().equals("") || txt_pass.getText().equals(""))              
 				{
 					lbl_dbconnect.setText("Bitte Pflichtfelder ausfüllen!");
 				}
@@ -7832,6 +7832,11 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				}
 				else if(dpi_startdat.getValue().isBefore(AngDatum)){
 					lbl_dbconnect.setText("Startdatum ist in der Vergangenheit");
+				}
+				else if (!txt_startzeit_h.getText().matches("[0-9]*") || txt_startzeit_h.getText().equals("")|| !txt_zielzeit_h.getText().matches("[0-9]*") || txt_zielzeit_h.getText().equals("") || !txt_startzeit_m.getText().matches("[0-9]*") || txt_startzeit_m.getText().equals("")|| !txt_zielzeit_m.getText().matches("[0-9]*") || txt_zielzeit_m.getText().equals("")){
+				
+					 lbl_dbconnect.setText("ungültige(r) Wert(e)!");
+					
 				}
 				else{
 				
@@ -8560,7 +8565,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 				
 				
-				if(charterart.equals("Flug mit Zwischenstationen")){			    	
+				if(charterart.equals("Flug m Zwischenstops")){			    	
 		    	   	
 			    	
 			    	
@@ -8659,9 +8664,38 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				if(dpi_zieldat.getValue().isBefore(dpi_startdat.getValue())){
 					lbl_dbconnect.setText("Ungültige(r) Wert(e) erfasst");
 				}
+				
+				
+				
 				else{
 				
-			    	try { 
+					if(charterart.equals("Zeitcharter")){
+						
+						startdate = dpi_startdat.getValue();
+						zieldate = dpi_zieldat.getValue();
+						
+						Str_startzeith = txt_startzeit_h.getText();
+				    	Str_startzeitm = txt_startzeit_m.getText();		
+				    	startzeit = LocalTime.parse(Str_startzeith+":"+Str_startzeitm+":00");
+				    										
+				    	Str_zielzeith = txt_zielzeit_h.getText();
+				    	Str_zielzeitm = txt_zielzeit_m.getText();
+				    	zielzeit = LocalTime.parse(Str_zielzeith+":"+Str_zielzeitm+":00");
+						
+					}
+					
+					
+					if (txt_zielzeit_h.getText().equals("") && charterart.equals("Zeitcharter") || txt_zielzeit_m.getText().equals("") && charterart.equals("Zeitcharter")){
+						 
+							 lbl_dbconnect.setText("ungültige(r) Wert(e)!");
+						 
+						 }
+
+					
+					else{
+					
+					
+					try { 
 
 						Statement statement = conn.createStatement();			
 						statement.executeUpdate(
@@ -8762,6 +8796,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 									
 								}
 								
+								if(!charterart.equals("Zeitcharter")){
 								statement.executeUpdate(
 										"INSERT INTO myflight.fluege " + "VALUES('"
 												+startdate+"','"
@@ -8772,13 +8807,15 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 												+Str_ZielFH+"','" 
 												+dauerflug+"','"
 												+AngeboteID+"')");
+								}
 						}	
 						
 						}	
 						else{
 							
 							System.out.println("Kein Zwischenstopp");
-							
+							System.out.println(charterart);
+						if(!charterart.equals("Zeitcharter")){	
 						statement.executeUpdate(
 								"INSERT INTO myflight.fluege " + "VALUES('"
 										+startdate+"','"
@@ -8789,7 +8826,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 										+Str_ZielFH+"','" 
 										+dauerflug+"','"
 										+AngeboteID+"')");
-						
+							}
 
 						}
 						System.out.println("Termine setzen");
@@ -8832,6 +8869,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    	lbl_dbconnect.setText("Angebot wurde erstellt!");
 						}
 					}
+				}
 			    	
 			   }
 			    
@@ -9323,6 +9361,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 					txt_zielzeit_h.setEditable(true);
 					txt_zielzeit_m.setEditable(true);
 					btn_sw.setDisable(false);
+					btn_startfh.setDisable(true);
+					btn_zielfh.setDisable(true);
 				}
 				
 				
