@@ -23,12 +23,11 @@ public class Angebote {
 	private SimpleStringProperty Kdvname = null;
 	
 // Konstruktor für Instanzerzeugung 
-	public Angebote(Integer Nummer, String Status, String Aart, String Kdgruppe, String Flugztyp, String Datum_von, String Datum_bis, String Kdname, String Kdvname) {
+	public Angebote(Integer Nummer, String Status, String Aart, String Kdgruppe, String Datum_von, String Datum_bis, String Kdname, String Kdvname) {
         this.Nummer = new SimpleIntegerProperty(Nummer);
         this.Status = new SimpleStringProperty(Status);
         this.Aart = new SimpleStringProperty(Aart);
         this.Kdgruppe = new SimpleStringProperty(Kdgruppe);
-        this.Flgztyp = new SimpleStringProperty(Flugztyp);
         this.Datum_von = new SimpleStringProperty(Datum_von);
         this.Datum_bis = new SimpleStringProperty(Datum_bis);
         this.Kdname = new SimpleStringProperty(Kdname);
@@ -45,17 +44,7 @@ public class Angebote {
     public IntegerProperty NummerProperty() {
         return Nummer;
     }
-    public String getFlgztyp() {
-        return Flgztyp.get();
-    }
 
-    public void setFlgztyp(String Flgztyp) {
-        this.Flgztyp.set(Flgztyp);
-    }
-
-    public StringProperty FlgztypProperty() {
-        return Flgztyp;
-    }
     public String getStatus() {
         return Status.get();
     }

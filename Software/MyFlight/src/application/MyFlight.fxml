@@ -418,7 +418,6 @@
                                                 <TableColumn fx:id="Kdname" prefWidth="75.0" text="Name" />
                                                 <TableColumn fx:id="Kdvname" prefWidth="75.0" text="Vorname" />
                                                 <TableColumn fx:id="Aart" prefWidth="75.0" text="Art" />
-                                                <TableColumn fx:id="Flgztyp" prefWidth="75.0" text="Flgz-Typ" />
                                                 <TableColumn fx:id="Beginn" prefWidth="75.0" text="Beginn-Datum" />
                                                 <TableColumn fx:id="Ende" prefWidth="75.0" text="Ende-Datum" />
                                             </columns>
@@ -773,16 +772,16 @@
                               </Text>
                               <Text layoutX="23.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Abflugort" />
                               <Text layoutX="209.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zielort" />
-                              <TextField fx:id="abflugort1" editable="false" layoutX="18.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="München" />
-                              <TextField fx:id="ankunftort1" editable="false" layoutX="201.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" text="New York" />
+                              <TextField fx:id="abflugort1" editable="false" layoutX="18.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0"  />
+                              <TextField fx:id="ankunftort1" editable="false" layoutX="201.0" layoutY="308.0" prefHeight="25.0" prefWidth="140.0" />
                               <Text layoutX="436.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Charterdauer" />
-                              <TextField fx:id="charterdauer" alignment="CENTER_RIGHT" editable="false" layoutX="432.0" layoutY="252.0" prefHeight="25.0" prefWidth="87.0" text="48 h">
+                              <TextField fx:id="charterdauer" alignment="CENTER_RIGHT" editable="false" layoutX="432.0" layoutY="252.0" prefHeight="25.0" prefWidth="87.0" >
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </TextField>
                               <Text layoutX="388.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Flugzeit" />
-                              <TextField fx:id="flugzeit" alignment="CENTER_RIGHT" editable="false" layoutX="387.0" layoutY="302.0" prefHeight="20.0" prefWidth="134.0" text="23:15 hh:mm">
+                              <TextField fx:id="flugzeit" alignment="CENTER_RIGHT" editable="false" layoutX="387.0" layoutY="302.0" prefHeight="20.0" prefWidth="134.0" >
                                  <font>
                                     <Font size="14.0" />
                                  </font>
