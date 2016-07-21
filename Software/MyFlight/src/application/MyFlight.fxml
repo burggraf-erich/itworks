@@ -1879,7 +1879,7 @@
 							     <AnchorPane fx:id="apa_btn_createoffer" layoutX="10.0" layoutY="10.0" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
 
-                                    <Button fx:id="btn_create_offer" defaultButton="true" layoutX="473.0" layoutY="35.0" mnemonicParsing="false" onAction="#btn_create_offer" text="Angebot erstellen" />
+                                    <Button fx:id="btn_create_offer" layoutX="464.0" layoutY="22.0" mnemonicParsing="false" onAction="#btn_create_offer" text="Angebot erstellen" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane fx:id="apa_btn_sonder" layoutX="10.0" layoutY="10.0" prefHeight="61.0" prefWidth="589.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
