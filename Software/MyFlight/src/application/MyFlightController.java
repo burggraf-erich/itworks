@@ -1,5 +1,5 @@
 package application;
-// V2.43
+// V2.46
 
 
 import java.sql.*;
@@ -809,7 +809,6 @@ public ObservableList<termbearb> gettermData() {
 	@FXML TextField txt_companyname_new;
 	@FXML TextField txt_street_new;
 	@FXML TextField txt_place_new;
-	@FXML TextField txt_homenumber_new;
 	@FXML TextField txt_customerid_new;
 	@FXML TextField txt_homeext_new;
 	@FXML TextField txt_name_new;
@@ -840,7 +839,6 @@ public ObservableList<termbearb> gettermData() {
 	@FXML	TableColumn<Angebote, String> Kdgruppe;
 	@FXML	TableColumn<Angebote, String> Kdvname;
 	@FXML	TableColumn<Angebote, String> Aart;
-	@FXML	TableColumn<Angebote, String> Flgztyp;
 	@FXML	TableColumn<Angebote, String>  Beginn;
 	@FXML	TableColumn<Angebote, String>  Ende;
 	
@@ -853,6 +851,10 @@ public ObservableList<termbearb> gettermData() {
 	@FXML	TableColumn<Aufträge, String> Beginnorder;
 	@FXML	TableColumn<Aufträge, String> Endeorder;
 	@FXML	TableColumn<Aufträge, Integer> billorder;
+	@FXML	TableColumn<Aufträge, String> Statusorder;
+	@FXML	TableColumn<Aufträge, String> Kdgruppeorder;
+	@FXML	TableColumn<Aufträge, String> Aartorder;
+	//@FXML	TableColumn<Aufträge, String> Datumorder;
 	
 	@FXML	TableView<Fluege> tablefluege;
 	@FXML	TableColumn<Fluege, String> tablecoldateabflug;
@@ -864,10 +866,8 @@ public ObservableList<termbearb> gettermData() {
 	@FXML	TableColumn<Fluege, Integer> tablecolanzahlpax;
 	
 	
-	//@FXML	TableColumn<Aufträge, String> Datumorder;
-	@FXML	TableColumn<Aufträge, String> Statusorder;
-	@FXML	TableColumn<Aufträge, String> Kdgruppeorder;
-	@FXML	TableColumn<Aufträge, String> Aartorder;
+	
+	
 
 	@FXML	TableView<Rechnungen> billtable;
 	@FXML	TableColumn<Rechnungen, Integer> Nummerbill;
@@ -1180,13 +1180,12 @@ public ObservableList<termbearb> gettermData() {
 	@FXML	
 	private void initialize() {
 
-		Version.setText("V2.43");
-		Version1.setText("V2.43");
+		Version.setText("V2.46");
+		Version1.setText("V2.46");
 
 		// Initialize the person table with the two columns.
 		Nummer.setCellValueFactory(cellData -> cellData.getValue().NummerProperty().asObject());
 		Status.setCellValueFactory(cellData -> cellData.getValue().StatusProperty());
-		Flgztyp.setCellValueFactory(cellData -> cellData.getValue().FlgztypProperty());
 		Beginn.setCellValueFactory(cellData -> cellData.getValue().Datum_vonProperty());
 		Ende.setCellValueFactory(cellData -> cellData.getValue().Datum_bisProperty());
 		Aart.setCellValueFactory(cellData -> cellData.getValue().AartProperty());
@@ -1564,7 +1563,8 @@ public ObservableList<termbearb> gettermData() {
 
 			
 //			ResultSet rs = stmt.executeQuery("SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID left outer join auftraege on auftraege.Angebote_Angebote_ID=angebote.Angebote_ID where auftraege.Angebote_Angebote_ID is null group by angebote.angebote_id");
-			ResultSet rs = stmt.executeQuery("SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID left outer join auftraege on auftraege.Angebote_Angebote_ID=angebote.Angebote_ID where auftraege.Angebote_Angebote_ID is null group by angebote.angebote_id");		
+			
+		    ResultSet rs = stmt.executeQuery("SELECT angebote.*, kunden.* FROM angebote INNER JOIN kunden on  angebote.kunden_kunde_id= kunden.kunde_id left outer join auftraege on auftraege.Angebote_Angebote_ID=angebote.Angebote_ID where auftraege.Angebote_Angebote_ID is null");		
 			angebotedata.remove(0, angebotedata.size());
 			int i = 1;
 			// Testbeginn
@@ -1572,9 +1572,9 @@ public ObservableList<termbearb> gettermData() {
 			 // Testende
 			
 			while ((rs != null) && (rs.next())) {
-				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(3) + " " +rs.getString(4) + " " + rs.getString(41) + " "
-						+ rs.getString(42) + " " + rs.getString(21) + " " + rs.getString(22) + " " + rs.getString(30) + " " + rs.getString(31));
-				angebotedata.add(new Angebote(rs.getInt(1), rs.getString(3), rs.getString(4), rs.getString(41), rs.getString(42), rs.getString(21),rs.getString(22), rs.getString(30), rs.getString(31)));
+				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(3) + " " +rs.getString(4) + " " + rs.getString(39) 
+						+ " " + rs.getString(21) + " " + rs.getString(22) + " " + rs.getString(28) + " " + rs.getString(29));
+				angebotedata.add(new Angebote(rs.getInt(1), rs.getString(3), rs.getString(4), rs.getString(39), rs.getString(21),rs.getString(22), rs.getString(28), rs.getString(29)));
 			}
 			
 			//wenn die Datenbank bei der Entwicklung leer ist
@@ -1784,7 +1784,6 @@ public ObservableList<termbearb> gettermData() {
 		
 		final String companyname_new = txt_companyname_new.getText();
 		final String street_new = txt_street_new.getText();
-		final String homenumber_new = txt_homenumber_new.getText();
 		final String homeext_new = txt_homeext_new.getText();
 		final String place_new = txt_place_new.getText();
 		final String custid_new = txt_customerid_new.getText();
@@ -1875,8 +1874,8 @@ public ObservableList<termbearb> gettermData() {
 			stmt_benutzerverwaltung = conn_benutzerverwaltung.createStatement();
 			
 			// Aufträge-übersicht abrufen
-			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.Rechnungen_ID FROM auftraege inner join angebote INNER JOIN fluege inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.angebote_id=fluege.angebote_Angebote_ID and angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID left outer join rechnungen on auftraege.Auftraege_ID=rechnungen.Auftraege_Auftraege_ID group by auftraege.auftraege_id");
-			
+	//		ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.Rechnungen_ID FROM auftraege inner join angebote INNER JOIN fluege inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.angebote_id=fluege.angebote_Angebote_ID and angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID left outer join rechnungen on auftraege.Auftraege_ID=rechnungen.Auftraege_Auftraege_ID group by auftraege.auftraege_id");
+			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.Rechnungen_ID FROM auftraege inner join angebote inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID left outer join rechnungen on auftraege.Auftraege_ID=rechnungen.Auftraege_Auftraege_ID group by auftraege.auftraege_id");
 			auftraegedata.remove(0, auftraegedata.size());
 			int i = 1;
 			// Testbeginn
@@ -1885,8 +1884,8 @@ public ObservableList<termbearb> gettermData() {
 			
 			while ((rs != null) && (rs.next())) {
 				System.out.println(i++ + " " + rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
-						+ rs.getString(8) + " " + rs.getString(45) + " " + rs.getString(34) + " " + rs.getString(35) + " " + rs.getString(46)+ " " + rs.getString(25)+ " " + rs.getString(26)+ " " + rs.getInt(47));
-				auftraegedata.add(new Aufträge(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(8), rs.getString(45),rs.getString(34), rs.getString(35), rs.getString(46), rs.getString(25), rs.getString(26), rs.getInt(47)));
+						+ rs.getString(8) + " " + rs.getString(43) + " " + rs.getString(32) + " " + rs.getString(33) + " " + rs.getString(44)+ " " + rs.getString(25)+ " " + rs.getString(26)+ " " + rs.getInt(45));
+				auftraegedata.add(new Aufträge(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(8), rs.getString(43),rs.getString(32), rs.getString(33), rs.getString(44), rs.getString(25), rs.getString(26), rs.getInt(45)));
 			}
 			
 			//wenn die Datenbank bei der Entwicklung leer ist
@@ -1979,8 +1978,8 @@ public ObservableList<termbearb> gettermData() {
 			
 			
 			// Rechnungen-übersicht abrufen
-			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id = angebote.angebote_id group by rechnungen.rechnungen_id");
-		
+	//		ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id = angebote.angebote_id group by rechnungen.rechnungen_id");
+			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id = angebote.angebote_id group by rechnungen.rechnungen_id");
 			
 			
 			
@@ -1991,9 +1990,9 @@ public ObservableList<termbearb> gettermData() {
 			 // Testende
 			
 			while ((rs != null) && (rs.next())) {
-				System.out.println(i++ + " " + rs.getInt(47) + " " + rs.getString(50) + " " + rs.getString(34) + " "
-						+ rs.getString(49) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(13)+ " " + rs.getString(45) );
-				billdata.add(new Rechnungen(rs.getInt(47), rs.getString(50), rs.getString(34), rs.getString(49), rs.getFloat(11), rs.getFloat(17), rs.getFloat(13), rs.getString(45)));
+				System.out.println(i++ + " " + rs.getInt(45) + " " + rs.getString(48) + " " + rs.getString(32) + " "
+						+ rs.getString(47) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(13)+ " " + rs.getString(43) );
+				billdata.add(new Rechnungen(rs.getInt(45), rs.getString(48), rs.getString(32), rs.getString(47), rs.getFloat(11), rs.getFloat(17), rs.getFloat(13), rs.getString(43)));
 			}
 						
 			
@@ -2079,8 +2078,8 @@ public ObservableList<termbearb> gettermData() {
 			// Rechnungen-übersicht abrufen, die noch nicht bezahlt sind
 			
 			// Rechnungen-übersicht abrufen
-			ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id = angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt' and rechnungen.Rechnungsstatus_Rechnungsstatus<>'erstellt'  group by rechnungen.rechnungen_id");
-		
+	//		ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id = angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt' and rechnungen.Rechnungsstatus_Rechnungsstatus<>'erstellt'  group by rechnungen.rechnungen_id");
+		    ResultSet rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id = angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt' and rechnungen.Rechnungsstatus_Rechnungsstatus<>'erstellt'  group by rechnungen.rechnungen_id");
 
 		
 			
@@ -2093,9 +2092,9 @@ public ObservableList<termbearb> gettermData() {
 			 // Testende
 			
 			while ((rs != null) && (rs.next())) {
-				System.out.println(i++ + " " + rs.getInt(47) + " " + rs.getString(50) + " " + rs.getString(34) + " " + rs.getString(49) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(13)+ " " + rs.getString(45) );
+				System.out.println(i++ + " " + rs.getInt(45) + " " + rs.getString(48) + " " + rs.getString(32) + " " + rs.getString(47) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(13)+ " " + rs.getString(43) );
 				
-				costbilldata.add(new RechnungenCost(rs.getInt(47), rs.getString(50), rs.getString(34), rs.getString(49), rs.getFloat(11), rs.getFloat(17), rs.getFloat(13), rs.getString(45)));
+				costbilldata.add(new RechnungenCost(rs.getInt(45), rs.getString(48), rs.getString(32), rs.getString(47), rs.getFloat(11), rs.getFloat(17), rs.getFloat(13), rs.getString(43)));
 		
 				
 		}
@@ -2200,8 +2199,8 @@ public ObservableList<termbearb> gettermData() {
 			
 			// Rechnungen-übersicht abrufen, deren Zahlungstermin überschritten ist
 			
-			rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt' and rechnungen.Rechnungsstatus_Rechnungsstatus<>'erstellt'  group by rechnungen.rechnungen_id");
-		
+		//rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt' and rechnungen.Rechnungsstatus_Rechnungsstatus<>'erstellt'  group by rechnungen.rechnungen_id");
+		  rs = stmt.executeQuery("SELECT auftraege.*, angebote.*, kunden.*, flugzeugtypen.flugzeugtyp, rechnungen.* FROM auftraege inner join angebote INNER JOIN kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id inner join rechnungen on rechnungen.auftraege_auftraege_id=auftraege.auftraege_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.rechnungsstatus_rechnungsstatus<>'bezahlt' and rechnungen.Rechnungsstatus_Rechnungsstatus<>'erstellt'  group by rechnungen.rechnungen_id");
 			
 				
 			costreminder_warnings_billdata.remove(0, costreminder_warnings_billdata.size());
@@ -2211,17 +2210,18 @@ public ObservableList<termbearb> gettermData() {
 			 // Testende
 			
 			while ((rs != null) && (rs.next())) {
-				System.out.println(i++ + " " + rs.getInt(47) + " " + rs.getString(50) + " " + rs.getString(34) + " " + rs.getString(49) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(52)+ " " + rs.getString(45) );
+				System.out.println(i++ + " " + rs.getInt(45) + " " + rs.getString(48) + " " + rs.getString(32) + " " + rs.getString(47) + " " + rs.getFloat(11)+ " " + rs.getFloat(17)+ " " + rs.getFloat(50)+ " " + rs.getString(43) );
 			
-				LocalDate zahlungstermin = rs.getDate(49).toLocalDate();
+				LocalDate zahlungstermin = rs.getDate(47).toLocalDate();
 				LocalDate mahnungstermin = zahlungstermin.plusDays(karenz_mahntage);
 				System.out.println(mahnungstermin.toString());
 				
 				
 				if(mahnungstermin.isBefore(tagheute))
 				{
-						
-				costreminder_warnings_billdata.add(new RechnungenCostreminder(rs.getInt(47), rs.getString(50), rs.getString(34), rs.getString(49), rs.getFloat(11), rs.getFloat(17), rs.getFloat(52), rs.getString(45)));
+				if (!rs.getString(43).equals("VIP")) {		
+				costreminder_warnings_billdata.add(new RechnungenCostreminder(rs.getInt(45), rs.getString(48), rs.getString(32), rs.getString(47), rs.getFloat(11), rs.getFloat(17), rs.getFloat(50), rs.getString(43)));
+				}
 				}
 			}
 		//	}
@@ -2315,6 +2315,7 @@ public ObservableList<termbearb> gettermData() {
 		
 		//angebote_id übernehmen
 		int auftrag_id = Nummerorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
+		String Angebotsart = Aartorder.getCellData(auftragtable.getSelectionModel().getSelectedIndex());
 		String sql = "select auftraege.Angebote_Angebote_ID from auftraege where auftraege.auftraege_id = '"+auftrag_id+"'";
 		ResultSet rs = stmt.executeQuery(sql);
 		rs.next();
@@ -2437,6 +2438,7 @@ public ObservableList<termbearb> gettermData() {
 				rs.next();
 				int pax = rs.getInt(1);
 
+				if (!Angebotsart.equals("Zeitcharter")) {	
 				// Fluege ermitteln
 				ResultSet rs1;
 				String zielflughafen = "";
@@ -2521,7 +2523,7 @@ public ObservableList<termbearb> gettermData() {
 				ankunftort1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));				
 	*/				
-						
+				} //endif		
 		//Preis netto
 				sql = "select angebote.angebotspreis_netto from angebote where angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
@@ -2845,23 +2847,45 @@ public ObservableList<termbearb> gettermData() {
 		
 		//angebote_id übernehmen
 		int angebot_id = Nummer.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
+		// Angebotsart übernehmen
+		String Angebotsart = Aart.getCellData(angebotetabelle.getSelectionModel().getSelectedIndex());
 		
 		// Daten für Auftrag erstellen einlesen
-				String sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID where angebote.angebote_id = '"+ angebot_id + "'";
-
-				
+		String sql = "";
+		switch (Angebotsart) {
+		case "Zeitcharter" :
+				sql = "SELECT angebote.*, kunden.*,flugzeugtypen.flugzeugtyp  FROM angebote INNER JOIN kunden on  angebote.kunden_kunde_id= kunden.kunde_id inner join flugzeuge inner join flugzeugtypen on angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID where angebote.angebote_id = '"+ angebot_id + "'";
+				break;
+		default :
+				sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID where angebote.angebote_id = '"+ angebot_id + "'";
+				break;
+		}		
 				ResultSet rs = stmt.executeQuery(sql);
 				rs.next();
+		switch (Angebotsart) {
+				case "Zeitcharter" :		
+					kdname1.setText(rs.getString(28));
+					System.out.println(rs.getString(28));
+
+					kdvname1.setText(rs.getString(29));
+						System.out.println(rs.getString(29));
+					flgztyp1.setText(rs.getString(40));
+						System.out.println(rs.getString(40));
+						break;
+				default :
 			kdname1.setText(rs.getString(30));
 			System.out.println(rs.getString(30));
 
 			kdvname1.setText(rs.getString(31));
 				System.out.println(rs.getString(31));
 
+			flgztyp1.setText(rs.getString(42));
+			System.out.println(rs.getString(42));
+				break;
+			}
 			artcharter1.setText(rs.getString(4));
 				System.out.println(rs.getString(4));
-			flgztyp1.setText(rs.getString(42));
-				System.out.println(rs.getString(42));
+
 			flgzkz1.setText(rs.getString(16));
 			int flgzid = rs.getInt(16);
 				System.out.println(rs.getString(16));
@@ -2933,15 +2957,22 @@ public ObservableList<termbearb> gettermData() {
 		rs = stmt.executeQuery(sql);
 		rs.next();
 		int pax = rs.getInt(1);
-
-		// Fluege ermitteln
-		ResultSet rs1;
+		
 		String zielflughafen = "";
 		String zwischenflughafen = "";
 		zwischenstop1.clear();
 		zwischenstop2.clear();
 		zwischenstop3.clear();
+		ankunftort1.clear();
 		int zaehler = 0;
+		tablefluegedata.remove(0, tablefluegedata.size());
+		
+		if (!Angebotsart.equals("Zeitcharter")) {
+		System.out.println("kein Zeitcharter");
+			// Fluege ermitteln
+		ResultSet rs1;
+		
+		
 		Statement stmt1 = conn.createStatement();
 		sql = "select fluege.*, flughafen_von.FlughafenStadt from fluege left outer join flughafen_von on fluege.flughafen_von_FlughafenKuerzel = flughafen_von.FlughafenKuerzel  where fluege.angebote_Angebote_ID ='"
 				+ angebot_id + "'";
@@ -3003,7 +3034,7 @@ public ObservableList<termbearb> gettermData() {
 			}
 
 		}
-				
+		} //endif	
 		//Preis netto
 				sql = "select angebote.angebotspreis_netto from angebote where angebote.angebote_id='"+angebot_id+"'";
 				rs = stmt.executeQuery(sql);
@@ -3023,8 +3054,9 @@ public ObservableList<termbearb> gettermData() {
 				System.out.println(Preismwst);		
 				preismwst1.setText(Integer.toString(Preismwst));
 				
-				
-			
+		abflugort1.clear();
+		
+		if (!Angebotsart.equals("Zeitcharter")) {	
 		//Abflugort
 				
 				sql = "select flughafen_von.flughafenstadt from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on fluege.angebote_Angebote_ID = angebote.angebote_id and angebote.angebote_id='"+angebot_id+"'";
@@ -3041,6 +3073,7 @@ public ObservableList<termbearb> gettermData() {
 		*/			
 
 				
+	}//endif
 	}
 
 	@FXML
@@ -3276,14 +3309,16 @@ public ObservableList<termbearb> gettermData() {
 		conn_benutzerverwaltung = DriverManager.getConnection(url, user, password);
 		stmt_benutzerverwaltung = conn_benutzerverwaltung.createStatement();		
 		
-		// angebote_id ermitteln
-		String sql = "select angebote.angebote_id from angebote inner join auftraege inner join rechnungen on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id = rechnungen.auftraege_auftraege_id where rechnungen.rechnungen_ID = '"+rechnung_id+"'";
+		// angebote_id ermitteln + Angebotsart
+		String sql = "select angebote.angebote_id, angebote.Chartertyp_Chartertyp from angebote inner join auftraege inner join rechnungen on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id = rechnungen.auftraege_auftraege_id where rechnungen.rechnungen_ID = '"+rechnung_id+"'";
 
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery(sql);
 		rs.next();
 		int angebot_id = rs.getInt(1);
 		System.out.println(rs.getInt(1));
+		String Angebotsart = rs.getString(2);
+		System.out.println(rs.getString(2));
 		
 		
 		// Kundenname
@@ -3399,14 +3434,19 @@ public ObservableList<termbearb> gettermData() {
 				rs.next();
 				int pax = rs.getInt(1);
 
-				// Fluege ermitteln
-				ResultSet rs1;
 				String zielflughafen = "";
 				String zwischenflughafen = "";
 				zwischenstop1.clear();
 				zwischenstop2.clear();
 				zwischenstop3.clear();
 				int zaehler = 0;
+				tablefluegedata.remove(0, tablefluegedata.size());
+				ankunftort1.clear();
+				abflugort1.clear();
+				
+				if (!Angebotsart.equals("Zeitcharter")) {	
+				// Fluege ermitteln
+				ResultSet rs1;
 				Statement stmt1 = conn.createStatement();
 				sql = "select fluege.*, flughafen_von.FlughafenStadt from fluege left outer join flughafen_von on fluege.flughafen_von_FlughafenKuerzel = flughafen_von.FlughafenKuerzel  where fluege.angebote_Angebote_ID ='"
 						+ angebot_id + "'";
@@ -3480,6 +3520,7 @@ public ObservableList<termbearb> gettermData() {
 				ankunftort1.setText(rs.getString(1));
 				System.out.println(rs.getString(1));	
 	*/			
+				} //endif
 		//Preis netto
 				sql = "select angebote.angebotspreis_netto from angebote inner join rechnungen inner join auftraege on auftraege.angebote_angebote_id=angebote.angebote_id and rechnungen.auftraege_auftraege_id=auftraege.auftraege_id where rechnungen.rechnungen_id='"+rechnung_id+"'";
 				rs = stmt.executeQuery(sql);
@@ -3575,11 +3616,11 @@ public ObservableList<termbearb> gettermData() {
 		switch (modus) {
 		case "Angebot" :
 			// Daten für Auftrag erstellen einlesen
-			sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN fluege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID where angebote.angebote_id = '"+ angebot_id + "'";
+			sql = "SELECT angebote.*, kunden.*, flugzeugtypen.flugzeugtyp FROM angebote INNER JOIN kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID where angebote.angebote_id = '"+ angebot_id + "'";
 			break;
 		default:
 			// Daten für Auftrag erstellen einlesen
-			sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, auftraege.auftraege_id FROM angebote INNER JOIN fluege inner join auftraege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID where auftraege.auftraege_id = '"+ angebot_id + "'";
+			sql = "SELECT angebote.*, kunden.*, flugzeugtypen.flugzeugtyp, auftraege.auftraege_id FROM angebote INNER JOIN auftraege inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID where auftraege.auftraege_id = '"+ angebot_id + "'";
 			break;
 		}
 			final String hostname = "172.20.1.24"; 
@@ -3591,15 +3632,15 @@ public ObservableList<termbearb> gettermData() {
 		    Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			rs.next();
-		String AG = rs.getString(29);
-		AG = AG+" "+rs.getString(30);
-		String Typ=rs.getString(42);
+		String AG = rs.getString(27);
+		AG = AG+" "+rs.getString(28);
+		String Typ=rs.getString(40);
 		String Kennzeichen =rs.getString(16);
-		String vorname = rs.getString(31);
-		String nachname = rs.getString(30);
-		String strasse = rs.getString(36);
-		String plz = rs.getString(38);
-		String ort = rs.getString(39);
+		String vorname = rs.getString(29);
+		String nachname = rs.getString(28);
+		String strasse = rs.getString(34);
+		String plz = rs.getString(36);
+		String ort = rs.getString(37);
 		
 		
 		 //artcharter.setText(rs.getString(4));
@@ -3653,37 +3694,46 @@ public ObservableList<termbearb> gettermData() {
 					int Preismwst = intpreisbrutto - intpreisnetto;
 					String Mwst = Integer.toString(Preismwst)+" EUR";
 					int angebote_angebote_id;
+					String Angebotsart = "";
 					switch (modus) {
 					case "Angebot" :
-						// Angebot_id ermitteln
+						// Angebot_id ermitteln & Angebotsart
 						angebote_angebote_id = angebot_id;
+						sql = "select angebote.angebote_id, angebote.Chartertyp_Chartertyp from angebote where angebote.angebote_id ='"+angebot_id+"'";
+						stmt = conn.createStatement();
+						rs = stmt.executeQuery(sql);
+						rs.next();
+						Angebotsart = rs.getString(2);
+						System.out.println(rs.getString(2));
 						break;
 					default:
-						// Angebot_id ermitteln
-						sql = "select angebote.angebote_id from angebote inner join auftraege on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
+						// Angebot_id ermitteln & Angebotsart
+						sql = "select angebote.angebote_id, angebote.Chartertyp_Chartertyp from angebote inner join auftraege on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
 						stmt = conn.createStatement();
 						rs = stmt.executeQuery(sql);
 						rs.next();
 						angebote_angebote_id = rs.getInt(1);
-				
+						Angebotsart = rs.getString(2);
+						System.out.println(rs.getString(2));
 						break;
 					}
-				
-			
+			String FlugAnfang = "";
+			String FlugEnde = "";
+			if (!Angebotsart.equals("Zeitcharter")) {	
 			//Abflugort
 			sql = "select flughafen_von.flughafenstadt from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on fluege.angebote_angebote_id = angebote.angebote_id and angebote.angebote_id='"+angebote_angebote_id+"'";
 			rs = stmt.executeQuery(sql);
 			rs.next();
-			String FlugAnfang = rs.getString(1);
+			FlugAnfang = rs.getString(1);
 			System.out.println(rs.getString(1));
 							
 			//Ankunftort
 			sql = "select flughafen_bis.flughafenstadt from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on fluege.angebote_angebote_id = angebote.angebote_id and angebote.angebote_id='"+angebote_angebote_id+"'";
 			rs = stmt.executeQuery(sql);
 			rs.next();
-			String FlugEnde = rs.getString(1);
+			FlugEnde = rs.getString(1);
 							
-					
+			} //endif		
 			
 				
 			
@@ -3781,9 +3831,9 @@ public ObservableList<termbearb> gettermData() {
 			
 
 				String[][] DATEN = new String[10][7];
-
+				int zaehler = 0;
 		
-				
+				if (!Angebotsart.equals("Zeitcharter")) {	
 				// Flüge zum Angebot ermitteln
 				
 				// Fluege ermitteln
@@ -3791,7 +3841,7 @@ public ObservableList<termbearb> gettermData() {
 				String zielflughafen = "";
 				String zwischenflughafen = "";
 				
-				int zaehler = 0;
+				
 				Statement stmt1 = conn.createStatement();
 				sql = "select fluege.*, flughafen_von.FlughafenStadt from fluege left outer join flughafen_von on fluege.flughafen_von_FlughafenKuerzel = flughafen_von.FlughafenKuerzel where fluege.angebote_Angebote_ID ='"
 						+angebote_angebote_id+ "'";
@@ -3859,11 +3909,20 @@ public ObservableList<termbearb> gettermData() {
 					}
 
 				}	
-
+				} //endif
 				
 				
 				switch (zaehler) {
 				
+				case 0: 
+					p = new Paragraph(
+							AG+" chartert das Luftfahrzeug "+Typ+" "+Kennzeichen+" für die Zeit vom "+Beginndatum+" zum "+Endedatum+".",styleText);
+					p.setAlignment(Element.ALIGN_JUSTIFIED);
+					// zeilenabstand kleiner wählen
+					p.setLeading(15f);
+					p.setSpacingAfter(20f);
+					document.add(p);
+					break;
 				case 1: 
 					p = new Paragraph(
 							AG+" chartert das Luftfahrzeug "+Typ+" "+Kennzeichen+" für die Zeit vom "+Beginndatum+" zum "+Endedatum+" zu einer Reise von "+FlugAnfang+" nach "+FlugEnde+".",styleText);
@@ -3901,12 +3960,13 @@ public ObservableList<termbearb> gettermData() {
 				document.add(p);
 				}
 				
+				if (!Angebotsart.equals("Zeitcharter")) {
 				p = new Paragraph("Flugplan:", styleUeberschrift2);
 				p.setAlignment(Element.ALIGN_LEFT);
 				// etwas abstand hinter der überschrift
 				//p.setSpacingAfter(6f);
 				document.add(p);
-
+				} // endif
 				//Flugzeugbild
 		//		sql = "select benutzerverwaltung.flugzeug_bilder.flugzeuge_Flugzeug_ID from benutzerverwaltung.flugzeug_bilder where benutzerverwaltung.flugzeug_bilder.flugzeuge_flugzeug_id = '"+Kennzeichen+"'";
 		//		rs = stmt_benutzerverwaltung.executeQuery(sql);
@@ -3935,8 +3995,9 @@ public ObservableList<termbearb> gettermData() {
 				p.setLeading(15f);
 				document.add(p);
 		*/
+				if (!Angebotsart.equals("Zeitcharter")) {
 				addTable(document,angebot_id,modus);
-
+				} // endif
 				p = new Paragraph(" ", styleText);
 				p.setAlignment(Element.ALIGN_LEFT);
 				// etwas abstand hinter dem Text
@@ -3954,7 +4015,13 @@ public ObservableList<termbearb> gettermData() {
 				// etwas abstand hinter dem Text
 				p.setSpacingAfter(15f);
 				document.add(p);
+				if (Angebotsart.equals("Zeitcharter")) {
+				p = new Paragraph();
+				p.add(new Chunk("Der Charterpreis setzt sich aus einem Fixpreisanteil und einem Flugpreisanteil zusammen. Der Flugpreisanteil basiert auf den verflogenen Flugstunden und entspricht der Triebwerkslaufzeit. Sie ist aus der Anzeige der Triebwerkslaufzeit im Cockpit ersichtlich.", styleText));
+				document.add(p);
+				p.setSpacingAfter(15f);
 				
+				}
 				p = new Paragraph();
 				p.setTabSettings(new TabSettings(35f));
 		        p.add(new Chunk("Davon Flugzeit (h/min): ", styleText));
@@ -4358,7 +4425,7 @@ public ObservableList<termbearb> gettermData() {
 				
 				// Parameter für Dokumenterstellung
 				
-				String sql = "SELECT angebote.*, fluege.datum_von, fluege.datum_bis, kunden.*, flugzeugtypen.flugzeugtyp, auftraege.auftraege_id FROM angebote INNER JOIN fluege inner join auftraege on angebote.angebote_id=fluege.angebote_Angebote_ID inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID where auftraege.auftraege_id = '"+ angebot_id + "'";
+				String sql = "SELECT angebote.*, kunden.*, flugzeugtypen.flugzeugtyp, auftraege.auftraege_id FROM angebote INNER JOIN auftraege inner join kunden inner join flugzeuge inner join flugzeugtypen on angebote.kunden_kunde_id= kunden.kunde_id and angebote.flugzeuge_Flugzeug_ID=flugzeuge.Flugzeug_ID and flugzeuge.Flugzeugtypen_Flugzeugtypen_ID=flugzeugtypen.Flugzeugtypen_ID and angebote.angebote_id=auftraege.Angebote_Angebote_ID where auftraege.auftraege_id = '"+ angebot_id + "'";
 				final String hostname = "172.20.1.24"; 
 		        final String port = "3306"; 
 		        String dbname = "myflight";
@@ -4368,15 +4435,15 @@ public ObservableList<termbearb> gettermData() {
 			   	Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);
 				rs.next();
-			String AG = rs.getString(29);
-			AG = AG+" "+rs.getString(30);
-			String Typ=rs.getString(42);
+			String AG = rs.getString(27);
+			AG = AG+" "+rs.getString(28);
+			String Typ=rs.getString(40);
 			String Kennzeichen =rs.getString(16);
-			String vorname = rs.getString(31);
-			String nachname = rs.getString(30);
-			String strasse = rs.getString(36);
-			String plz = rs.getString(38);
-			String ort = rs.getString(39);
+			String vorname = rs.getString(29);
+			String nachname = rs.getString(28);
+			String strasse = rs.getString(34);
+			String plz = rs.getString(36);
+			String ort = rs.getString(37);
 			
 			addLogo(mdp, wordMLPackage, Kennzeichen);
 			 //artcharter.setText(rs.getString(4));
@@ -4425,27 +4492,32 @@ public ObservableList<termbearb> gettermData() {
 				int Preismwst = intpreisbrutto - intpreisnetto;
 				String Mwst = Integer.toString(Preismwst)+" EUR";
 	
-				// Angebot_id ermitteln
-				sql = "select angebote.angebote_id from angebote inner join auftraege on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
+				// Angebot_id ermitteln & Angebotsart
+				sql = "select angebote.angebote_id,angebote.Chartertyp_Chartertyp from angebote inner join auftraege on auftraege.angebote_angebote_id = angebote.angebote_id and auftraege.auftraege_id='"+angebot_id+"'";
 				stmt = conn.createStatement();
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				int angebote_angebote_id = rs.getInt(1);
+				String Angebotsart = rs.getString(2);
+				System.out.println(rs.getString(2));
 		
-		//Abflugort
+				String FlugAnfang = "";
+				String FlugEnde = "";
+				if (!Angebotsart.equals("Zeitcharter")) {
+				//Abflugort
 		sql = "select flughafen_von.flughafenstadt from flughafen_von inner join fluege on flughafen_von.FlughafenKuerzel=fluege.flughafen_von_FlughafenKuerzel inner join angebote on fluege.angebote_angebote_id = angebote.angebote_id and angebote.angebote_id='"+angebote_angebote_id+"'";
 		rs = stmt.executeQuery(sql);
 		rs.next();
-		String FlugAnfang = rs.getString(1);
+		FlugAnfang = rs.getString(1);
 		System.out.println(rs.getString(1));
 						
 		//Ankunftort
 		sql = "select flughafen_bis.flughafenstadt from flughafen_bis inner join fluege on flughafen_bis.FlughafenKuerzel=fluege.flughafen_bis_FlughafenKuerzel inner join angebote on fluege.angebote_angebote_id = angebote.angebote_id and angebote.angebote_id='"+angebote_angebote_id+"'";
 		rs = stmt.executeQuery(sql);
 		rs.next();
-		String FlugEnde = rs.getString(1);
+		FlugEnde = rs.getString(1);
 					
-	
+				}
 								
 						
 				
@@ -4489,10 +4561,11 @@ public ObservableList<termbearb> gettermData() {
 		
 		
 						String[][] DATEN = new String[10][7];
-
+						int zaehler = 0;
 				
 						//if (conn.isClosed()) conn = DriverManager.getConnection(url, user, password)
 						
+						if (!Angebotsart.equals("Zeitcharter")) {
 						// Flüge zum Angebot ermitteln
 						
 						// Fluege ermitteln
@@ -4500,7 +4573,7 @@ public ObservableList<termbearb> gettermData() {
 						String zielflughafen = "";
 						String zwischenflughafen = "";
 						
-						int zaehler = 0;
+						zaehler = 0;
 						Statement stmt1 = conn.createStatement();
 						sql = "select fluege.*, flughafen_von.FlughafenStadt from fluege left outer join flughafen_von on fluege.flughafen_von_FlughafenKuerzel = flughafen_von.FlughafenKuerzel where fluege.angebote_Angebote_ID ='"
 								+angebote_angebote_id+ "'";
@@ -4567,9 +4640,12 @@ public ObservableList<termbearb> gettermData() {
 							}
 
 						}	
-						
+						} //endif
 						switch (zaehler) {
 						
+						case 0: 
+							mdp.addParagraphOfText(AG+" chartert das Luftfahrzeug "+Typ+" "+Kennzeichen+" für die Zeit vom "+Beginndatum+" zum "+Endedatum+".");
+							break;
 						case 1: 
 							mdp.addParagraphOfText(AG+" chartert das Luftfahrzeug "+Typ+" "+Kennzeichen+" für die Zeit vom "+Beginndatum+" zum "+Endedatum+" zu einer Reise von "+FlugAnfang+" nach "+FlugEnde+".");
 							break;
@@ -4586,8 +4662,9 @@ public ObservableList<termbearb> gettermData() {
 						
 				
 			addLogo1(mdp, wordMLPackage, Kennzeichen);
-				mdp.addStyledParagraphOfText(styleUeberschrift2.getStyleId(), "Flugplan:");
-						
+			if (!Angebotsart.equals("Zeitcharter")) {
+			mdp.addStyledParagraphOfText(styleUeberschrift2.getStyleId(), "Flugplan:");
+			}
 				// das hier zeigt, wie ein ganzer Paragraph relativ einfach fett gemacht werden kann
 				//mdp.addParagraphOfText("Fetter Text. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam.");
 				// hier nehme ich den letzten Paragraphen des Dokumentes (der zuletzt ins Dokument eingefügte Paragraph)
@@ -4598,10 +4675,16 @@ public ObservableList<termbearb> gettermData() {
 				// addMixedStyleParagraph(mdp);
 
 				// Tabelle
+				if (!Angebotsart.equals("Zeitcharter")) {
 				addTable(mdp, wordMLPackage, angebot_id);
-
+				}
 				mdp.addParagraphOfText("");
 				mdp.addParagraphOfText("Charterdauer insgesamt (Stunden): \t\t\t\t"+Charterdauer);
+				
+				if (Angebotsart.equals("Zeitcharter")) {
+					mdp.addParagraphOfText("Der Charterpreis setzt sich aus einem Fixpreisanteil und einem Flugpreisanteil zusammen. Der Flugpreisanteil basiert auf den verflogenen Flugstunden und entspricht der Triebwerkslaufzeit. Sie ist aus der Anzeige der Triebwerkslaufzeit im Cockpit ersichtlich.");
+					mdp.addParagraphOfText("");
+										}
 				
 				mdp.addParagraphOfText("Davon Flugzeit (h/min): \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+Flugzeit);
 				mdp.addParagraphOfText("");
@@ -5242,7 +5325,7 @@ public ObservableList<termbearb> gettermData() {
 			
 			 // ermittle Zahlungstermin
 	        GregorianCalendar target = new GregorianCalendar();
-	        target.add(GregorianCalendar.DAY_OF_MONTH, -14);
+	        target.add(GregorianCalendar.DAY_OF_MONTH, +14);
 	        String zahlungstermin = target.get(GregorianCalendar.YEAR)+ "-"+ (target.get(GregorianCalendar.MONTH) + 1) + "-"+target.get(GregorianCalendar.DAY_OF_MONTH);
 	        	       
 			
@@ -6853,8 +6936,7 @@ public ObservableList<termbearb> gettermData() {
 			if ((rs != null) && (rs.next())) {
 			
 				txt_street_new.setText(rs.getString(9));
-				txt_homenumber_new.setText(rs.getString(10));
-				//txt_homeext_new.setText(rs.getString(9));
+				txt_homeext_new.setText(rs.getString(10));
 				txt_place_new.setText(rs.getString(12));
 				txt_phone_new.setText(rs.getString(6));
 				txt_mobile_new.setText(rs.getString(7));
@@ -7050,6 +7132,7 @@ public void action_save_kundendatenedit(ActionEvent event) throws Exception {
 							+ "KundeVorname = '"+kdverwvname.getText()+"', "
 									+ "KundeFirmenname = '"+kdfirma.getText()+"', "
 											+ "KundeAdresse1 = '"+txt_street_new.getText()+"', "
+											+ "KundeAdresse2 = '"+txt_homeext_new.getText()+"', "
 											+ "Kundengruppen_Kundengruppen = '"+kdgruppe_string+"', "
 											+ "KundeTelefon ='"+txt_phone_new.getText()+"', "
 											+ "KundeHandy ='"+ txt_mobile_new.getText()+"', "
@@ -7327,8 +7410,7 @@ public void action_save_flugzieleedit(ActionEvent event) throws Exception {
 		//Felder für Maske Kundendaten belegen - Ende
 						
 					txt_street_new.setText("");
-					txt_homenumber_new.setText("");
-					//txt_homeext_new.setText(rs.getString(9));
+					txt_homeext_new.setText("");
 					txt_place_new.setText("");
 					txt_phone_new.setText("");
 					txt_mobile_new.setText("");
@@ -7466,6 +7548,10 @@ if (cbo_kdgruppe.getValue() != null &&
 !cbo_kdgruppe.getValue().toString().isEmpty()) {
 kdgruppe_string = cbo_kdgruppe.getValue().toString();
 }	
+if (cbo_salutation_new.getValue() != null && 
+!cbo_salutation_new.getValue().toString().isEmpty()) {
+anrede = cbo_salutation_new.getValue().toString();
+}
 
 if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgruppe_string=="") {
 	
@@ -7482,7 +7568,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			Connection conn = DriverManager.getConnection(url, user, password);
 			Statement stmt = conn.createStatement();
 					
-			stmt.executeUpdate("INSERT INTO kunden (Kunde_ID,KundeAnrede,KundenLand,KundeName,KundeVorname,KundeFirmenname,KundeAdresse1 ,Kundengruppen_Kundengruppen,KundeTelefon,KundeHandy,KundeEmail,KundePLZ,KundenOrt) values('"+Integer.parseInt(kdid.getText())+"', '"+ cbo_salutation_new.getValue().toString()+"', '"+txt_country_new.getText()+"', '"+ kdverwname.getText()+"', '"+kdverwvname.getText()+"', '"+kdfirma.getText()+"','"+txt_street_new.getText()+"', '"+kdgruppe_string+"', '"+txt_phone_new.getText()+"', '"+txt_mobile_new.getText()+"', '"+txt_mail_new.getText()+"', '"+txt_postcode_new.getText()+"', '"+txt_place_new.getText()+"')");
+			stmt.executeUpdate("INSERT INTO kunden (Kunde_ID,KundeAnrede,KundenLand,KundeName,KundeVorname,KundeFirmenname,KundeAdresse1,KundeAdresse2 ,Kundengruppen_Kundengruppen,KundeTelefon,KundeHandy,KundeEmail,KundePLZ,KundenOrt) values('"+Integer.parseInt(kdid.getText())+"', '"+ anrede+"', '"+txt_country_new.getText()+"', '"+ kdverwname.getText()+"', '"+kdverwvname.getText()+"', '"+kdfirma.getText()+"','"+txt_street_new.getText()+"', '"+txt_homeext_new.getText()+"', '"+kdgruppe_string+"', '"+txt_phone_new.getText()+"', '"+txt_mobile_new.getText()+"', '"+txt_mail_new.getText()+"', '"+txt_postcode_new.getText()+"', '"+txt_place_new.getText()+"')");
 		
 			
 			lbl_dbconnect.setText("Kundendaten gespeichert");
@@ -11509,8 +11595,8 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 	set_allunvisible(false);
 	
 	apa_konfig.setVisible(true);
-	Versionsnr.setText("V2.43");
-	txa_history.setText("V2.43\nBugfix finale Version\n------------------------------------------------------------------------------------------\nV2.42\nBugfix Versenden bei Auftrag-Erstellung\n------------------------------------------------------------------------------------------\nV2.41\nTerminerstellung\nFehlerbehandlungsroutine\n------------------------------------------------------------------------------------------\nV2.40\nBugfix Word-Ausgabe\n------------------------------------------------------------------------------------------\nV2.35\nTerminverwaltung / Bugfixes Angebotserstellung\n------------------------------------------------------------------------------------------\nV2.34\nFlug mit Zwischenstationen\nTermine bearbeiten\nBugfix DBConnect\n------------------------------------------------------------------------------------------\nV2.33\nBugfix Druck Angebot \n------------------------------------------------------------------------------------------\nV2.32\nBugfix Flugzeit in h und min");
+	Versionsnr.setText("V2.46");
+	txa_history.setText("V2.46\nBugfix VIP + Zahltermin\n------------------------------------------------------------------------------------------\nV2.45\nBugfix zeitcharter\n------------------------------------------------------------------------------------------\nV2.43\nBugfix Angebot\n------------------------------------------------------------------------------------------\nV2.42\nBugfix Versenden bei Auftrag-Erstellung\n------------------------------------------------------------------------------------------\nV2.41\nTerminerstellung\nFehlerbehandlungsroutine\n------------------------------------------------------------------------------------------\nV2.40\nBugfix Word-Ausgabe\n------------------------------------------------------------------------------------------\nV2.35\nTerminverwaltung / Bugfixes Angebotserstellung\n------------------------------------------------------------------------------------------\nV2.34\nFlug mit Zwischenstationen\nTermine bearbeiten\nBugfix DBConnect\n------------------------------------------------------------------------------------------\nV2.33\nBugfix Druck Angebot");
 	
 }
 //>>>>>>> branch 'master' of https://github.com/burggraf-erich/itworks.git
