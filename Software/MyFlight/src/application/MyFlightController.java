@@ -7919,10 +7919,13 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				else if(dpi_startdat.getValue().isBefore(AngDatum)){
 					lbl_dbconnect.setText("Startdatum ist in der Vergangenheit");
 				}
-				else if (!txt_startzeit_h.getText().matches("[0-9]*") || txt_startzeit_h.getText().equals("")|| !txt_zielzeit_h.getText().matches("[0-9]*") || !txt_zielzeit_h.getText().equals("") || !txt_startzeit_m.getText().matches("[0-9]*") || txt_startzeit_m.getText().equals("")|| !txt_zielzeit_m.getText().matches("[0-9]*") || !txt_zielzeit_m.getText().equals("")){
+				else if (!txt_startzeit_h.getText().matches("[0-9]*") || txt_startzeit_h.getText().equals("")|| !txt_zielzeit_h.getText().matches("[0-9]*")|| !txt_startzeit_m.getText().matches("[0-9]*") || txt_startzeit_m.getText().equals("")|| !txt_zielzeit_m.getText().matches("[0-9]*")){
 				
 					 lbl_dbconnect.setText("ungültige(r) Wert(e)!");
 					
+				}
+				else if(charterart.equals("Zeitcharter") && txt_zielzeit_h.getText().equals("")||charterart.equals("Zeitcharter") && txt_zielzeit_m.getText().equals("")){
+					lbl_dbconnect.setText("Bitte Pflichtfelder ausfüllen!");
 				}
 				else{
 				
