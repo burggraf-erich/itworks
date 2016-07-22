@@ -7929,7 +7929,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				}
 				else{
 				
-				// 
+				// a
 				
 				Start_offer = dpi_startdat.getValue();
 				Ziel_offer = dpi_zieldat.getValue();
