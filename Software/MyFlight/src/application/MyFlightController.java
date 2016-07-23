@@ -9162,6 +9162,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			@FXML public void cbo_cap_click() {
 				cbo_cop.getItems().clear();
 				cbo_cop.setValue(null);
+				cbo_cop.setDisable(true);
 				
 				String FZ = cbo_fz.getValue().toString();
 				
@@ -9221,6 +9222,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 				cbo_fa1.getItems().clear();
 				cbo_fa1.setValue(null);
+				cbo_fa1.setDisable(true);
 				
 				String FZ = cbo_fz.getValue().toString();
 				
@@ -9290,7 +9292,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 				cbo_fa3.getItems().clear();
 				cbo_fa3.setValue(null);
-				
+				cbo_fa3.setDisable(true);
 				String FZ = cbo_fz.getValue().toString();
 				String FA1 = cbo_fa1.getValue().toString();
 				String FA2 = cbo_fa2.getValue().toString();
@@ -9361,6 +9363,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 				
 				cbo_fa2.getItems().clear();
 				cbo_fa2.setValue(null);
+				cbo_fa2.setDisable(true);
 	
 				String FZ = cbo_fz.getValue().toString();
 				String FA1 = cbo_fa1.getValue().toString();
