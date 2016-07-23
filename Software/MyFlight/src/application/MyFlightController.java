@@ -9384,7 +9384,7 @@ if (kdid.getText().length()==0 || Integer.parseInt(kdid.getText())==0 || kdgrupp
 			    	ResultSet rs = statement_fa_zahl.executeQuery("SELECT * FROM myflight.flugzeugtypen WHERE FlugzeugHersteller ='"+hersteller+"' AND FlugzeugTyp ='"+typ+"'");      
 			        while((rs != null) && (rs.next())){
 			        	
-			        	//cbo_fz.setValue(rs.getString(3));
+			        	//cbo_fz.setValue(rs.getString(3)); ab
 			        	fa_zahl = rs.getInt(14);
 
 			        }
